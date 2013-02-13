@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="comment">
+		<field name="torrentid" type="hidden" default="" />
+
+		<field name="userid" type="hidden" default="" />
+
+		<field name="commentdate" type="calendar" format="%Y.%m.%d" label="COM_XBT_TRACKER_LABEL_COMMENTDATE" description="COM_XBT_TRACKER_LABEL_COMMENTDATE_DESCRIPTION" />
+
+		<field name="description" label="COM_XBT_TRACKER_COMMENT_DESCRIPTION" description="COM_XBT_TRACKER_COMMENT_DESCRIPTION_DESCRIPTION" type="editor" buttons="true" hide="article,readmore,pagebreak" width="100%" height="300px" filter="safehtml" required="true"/>
+
+		<field name="state" type="hidden" default="1" />
+
+	</fieldset>
+</form>

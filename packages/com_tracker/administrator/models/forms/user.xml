@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+
+		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" readonly="true" class="readonly" description="JGLOBAL_FIELD_ID_DESC" />
+
+		<field name="groupID" type="sql" label="COM_TRACKER_USER_GROUP" description="" query="SELECT id, name FROM #__tracker_groups WHERE state = 1" key_field="id" value_field="name"/>
+
+		<field name="countryID" type="sql" class="inputbox" label="COM_TRACKER_USER_COUNTRY" description="" query="SELECT id, name FROM #__tracker_countries WHERE state = 1 ORDER BY name" key_field="id" value_field="name"/>
+
+		<field name="downloaded" type="text" size="20" class="inputbox" label="COM_TRACKER_USER_DOWNLOADED" description="" filter="safehtml" />
+
+		<field name="uploaded" type="text" size="20" class="inputbox" label="COM_TRACKER_USER_UPLOADED" description="" filter="safehtml" />
+
+		<field name="exemption_type" type="list" default="0" label="COM_TRACKER_USER_EXEMPTION_TYPE" description="">
+			<option value="0">COM_TRACKER_USER_EXEMPTION_EXEMPT_ALL_RATIO</option>
+			<option value="1">COM_TRACKER_USER_EXEMPTION_USER_RULES</option>
+			<option value="2">COM_TRACKER_USER_EXEMPTION_GROUP_RULES</option>
+		</field>
+
+		<field name="minimum_ratio" type="text" size="5" class="inputbox" label="COM_TRACKER_USER_MINIMUM_RATIO" description="" filter="safehtml" />
+
+		<field name="can_leech" type="list" default="0" label="COM_TRACKER_USER_CAN_LEECH" description="">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="wait_time" type="text" size="10" class="inputbox" label="COM_TRACKER_USER_WAIT_TIME" description="" filter="safehtml" required="true"/>
+
+		<field name="peer_limit" type="text" size="10" class="inputbox" label="COM_TRACKER_USER_PEER_LIMIT" description="" filter="integer" required="true"/>
+
+		<field name="torrent_limit" type="text" size="10" class="inputbox" label="COM_TRACKER_USER_TORRENT_LIMIT" description="" filter="integer" required="true"/>
+
+		<field name="torrent_pass_version" type="text" size="5" class="inputbox" label="COM_TRACKER_USER_TORRENT_PASS_VERSION" description="" filter="integer" />
+
+		<field name="multiplier_type" type="list" default="0" label="COM_TRACKER_USER_MULTIPLIER_TYPE" description="">
+			<option value="0">COM_TRACKER_USER_MULTIPLIER_GROUP</option>
+			<option value="1">COM_TRACKER_USER_MULTIPLIER_USER</option>
+		</field>
+
+		<field name="download_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_USER_DOWNLOAD_MULTIPLIER" description="" required="true" />
+
+		<field name="upload_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_USER_UPLOAD_MULTIPLIER" description="" required="true" />
+
+		<field name="state" type="hidden" default="1" />
+	</fieldset>
+</form>

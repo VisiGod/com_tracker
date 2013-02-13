@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="2.5" method="upgrade">
+	<packagename>tracker</packagename>
+	<name>com_tracker</name>
+	<creationDate>2012-03-17</creationDate>
+	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<license>GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl.html</license>
+	<author>Hugo Carvalho</author>
+	<authorEmail>visigod@visigod.com</authorEmail>
+	<authorUrl>http://www.visigod.com</authorUrl>
+	<description>A Frontend for XBT Tracker</description>
+	<version>2.5.10</version>
+	<url>http://www.visigod.com</url>
+	<packager>Hugo Carvalho</packager>
+	<packagerurl>http://www.visigod.com</packagerurl>
+	<description>XBT Tracker Frontend</description>
+	<files folder="packages">
+		<file folder="com_tracker" type="component" id="com_tracker">com_tracker</file>
+<!--
+		<file folder="mod_xbt_tracker_latest" type="module" client="site" id="mod_xbt_tracker_latest">mod_xbt_tracker_latest</file>
+		<file folder="mod_xbt_tracker_stats" type="module" client="site" id="mod_xbt_tracker_stats">mod_xbt_tracker_stats</file>
+		<file folder="plg_trackersystem" type="plugin" id="trackersystem" group="system">plg_trackersystem</file>
+-->
+		<file folder="plg_jcomments" type="plugin" id="com_tracker" group="system">plg_jcomments</file>
+	</files>
+</extension>

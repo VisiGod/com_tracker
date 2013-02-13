@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="fid" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" readonly="true" class="readonly" description="JGLOBAL_FIELD_ID_DESC" />
+
+		<field name="name" type="text" size="40" class="inputbox" label="COM_TRACKER_TORRENT_NAME" description="" required="true" filter="safehtml" />
+
+		<field name="alias" type="text" size="40" class="inputbox" label="COM_TRACKER_TORRENT_ALIAS" description="" required="true" filter="safehtml" />
+		
+		<field name="filename" type="text" size="50" class="inputbox" label="COM_TRACKER_TORRENT_FILENAME" description="" required="true" filter="safehtml" />
+
+		<field name="description" type="editor" buttons="true" height="400" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_TORRENT_DESCRIPTION" description=""	/>
+
+		<field name="categoryID" type="category" extension="com_tracker" label="JCATEGORY" description="" />
+		
+		<field name="uploader" type="user" label="COM_TRACKER_TORRENT_UPLOADER" description="" />
+
+		<field name="uploader_anonymous" type="list" default="0" label="COM_TRACKER_TORRENT_UPLOADER_ANONYMOUS" description="">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="forum_post" type="text" size="5" class="inputbox" label="COM_TRACKER_TORRENT_FORUM_POST" description="" filter="integer" />
+
+		<field name="info_post" type="text" size="5" class="inputbox" label="COM_TRACKER_TORRENT_INFO_POST" description="" filter="integer" />
+
+		<field name="download_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_TORRENT_DOWNLOAD_MULTIPLIER" description="" filter="integer" />
+		
+		<field name="upload_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_TORRENT_UPLOAD_MULTIPLIER" description="" filter="integer" />
+
+		<field name="licenseID" type="sql" default="10" label="COM_TRACKER_TORRENT_LICENSE" description="" query="SELECT id, shortname FROM #__tracker_licenses WHERE state = 1" key_field="id" value_field="shortname" />
+
+		<field name="image_file" type="media" size="30" default="" label="COM_TRACKER_TORRENT_IMAGE_FILE" description="" directory="../images/" exclude="" stripext="" />
+
+		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+
+		<field name="state" type="hidden" default="1" />
+
+	</fieldset>
+</form>

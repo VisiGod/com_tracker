@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" readonly="true" class="readonly" description="JGLOBAL_FIELD_ID_DESC" />
+
+		<field name="uid" type="user" label="COM_TRACKER_DONATION_UID" description="" />
+
+		<field name="ratio" type="text" size="40" class="inputbox" label="COM_TRACKER_DONATION_RATIO" description="" default="1" required="true" />
+
+		<field name="donated" type="text" size="40" class="inputbox" label="COM_TRACKER_DONATION_DONATED" description="" required="true" />
+
+		<field name="donation_date" type="calendar" class="inputbox" required="true" label="COM_TRACKER_DONATION_DONATION_DATE" description="" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+
+		<field name="credited" type="hidden" size="20" label="COM_TRACKER_DONATION_CREDITED" description="" />
+
+		<field name="created_time" type="calendar" label="JGLOBAL_CREATED_DATE" description="" class="inputbox" size="22" format="%Y-%m-%d" filter="user_utc" />
+
+		<field name="created_user_id" type="user" label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="JGLOBAL_FIELD_CREATED_BY_DESC" />
+
+		<field name="comments" type="editor" buttons="true" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_DONATION_COMMENTS" description=""	/>
+
+		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+
+		<field name="state" type="hidden" default="1" />
+
+	</fieldset>
+</form>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>com_tracker</name>
+	<creationDate>2012-08-20</creationDate>
+	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<license>GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<author>Hugo Carvalho</author>
+	<authorEmail>visigod@visigod.com</authorEmail>
+	<authorUrl>http://www.visigod.com</authorUrl>
+	<version>2.5.10</version>
+	<description>A Frontend for XBT Tracker</description>
+
+	<scriptfile>installscript.php</scriptfile>	<!-- Runs on install/uninstall/update; -->
+
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>tracker.php</filename>
+		<filename>controller.php</filename>
+		<filename>router.php</filename>
+		<folder>assets</folder>
+		<folder>helpers</folder>
+		<folder>views</folder>
+		<folder>models</folder>
+		<folder>controllers</folder>
+	</files>
+
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_tracker.ini</language>
+	</languages>
+
+	<!-- Media files -->
+	<media destination="com_tracker" folder="media">
+		<folder>images</folder>
+		<folder>flags</folder>
+		<filename>index.html</filename>
+	</media>
+
+	<administration>
+		<menu img="../media/com_tracker/images/logo-16x16.png" alt="XBT Tracker Frontend">COM_TRACKER_MENU_TITLE</menu>
+		<files folder="administrator">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>tracker.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>images</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="administrator">
+			<language tag="en-GB">language/en-GB.com_tracker.ini</language>
+			<language tag="en-GB">language/en-GB.com_tracker.sys.ini</language>
+		</languages>
+	</administration>
+
+	<modules>
+		<module folder="modules" module="mod_xbt_tracker_latest" name="xbt_tracker_latest" />
+		<module folder="modules" module="mod_xbt_tracker_stats" name="xbt_tracker_stats" />
+	</modules>
+	
+	<plugins>
+		<plugin folder="plugins/system" plugin="trackersystem" name="System - Tracker System" group="system" />
+	</plugins>
+
+	<updateservers>
+		<server type="extension" priority="1" name="XBT Tracker Frontend Updates"><![CDATA[http://www.visigod.com/update.com_tracker.xml]]></server>
+	</updateservers>
+</extension>
+

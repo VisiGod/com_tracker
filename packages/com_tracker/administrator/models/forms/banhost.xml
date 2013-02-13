@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="id" type="hidden" default="0" />
+
+		<field name="created_time" type="text" label="JGLOBAL_CREATED_DATE" class="readonly" filter="unset" readonly="true" />
+
+		<field name="created_user_id" type="user" label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="JGLOBAL_FIELD_CREATED_BY_DESC" />
+
+		<field name="comment" type="editor" buttons="true" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_BANHOST_COMMENT" description=""	/> 
+
+		<field name="begin" type="ipaddress" size="15" class="inputbox" label="COM_TRACKER_BANHOST_BEGIN" description="" required="true" />
+
+		<field name="end" type="ipaddress" size="15" class="inputbox" label="COM_TRACKER_BANHOST_END" description="" required="true" />
+
+		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+	</fieldset>
+</form>

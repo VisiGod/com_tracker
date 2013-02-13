@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5" client="site" method="upgrade">
+	<name>XBT Tracker Frontend - Latest Torrents</name>
+	<creationDate>2012-03-08</creationDate>
+	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<author>Hugo Carvalho</author>
+	<authorEmail>visigod@visigod.com</authorEmail>
+	<authorUrl>http://www.visigod.com</authorUrl>
+	<description>MOD_XBT_TRACKER_LATEST</description>
+	<version>2.5.0.0</version>
+
+	<files>
+		<filename module="mod_xbt_tracker_latest">mod_xbt_tracker_latest.php</filename>
+		<filename>helper.php</filename>
+		<filename>mod_xbt_tracker_latest.xml</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_latest.ini</language>
+		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_latest.sys.ini</language>
+	</languages>
+		
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="catid" type="category" extension="com_tracker" multiple="true" size="10" default="" label="JCATEGORY" description="MOD_XBT_TRACKER_LATEST_CATEGORY_DESCRIPTION" >
+					<option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
+				<field name="count" type="text" default="5" filter="integer" label="MOD_XBT_TRACKER_LATEST_COUNT_LABEL" description="MOD_XBT_TRACKER_LATEST_COUNT_DESCRIPTION" />
+				<field name="ordering" type="list" default="published" label="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_LABEL" description="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_DESCRIPTION">
+					<option value="added">MOD_XBT_TRACKER_LATEST_ADDED</option>
+					<option value="leechers">MOD_XBT_TRACKER_LATEST_LEECHERS</option>
+					<option value="seeders">MOD_XBT_TRACKER_LATEST_SEEDERS</option>
+					<option value="peers">MOD_XBT_TRACKER_LATEST_PEERS</option>
+					<option value="completed">MOD_XBT_TRACKER_LATEST_COMPLETED</option>
+					<option value="size">MOD_XBT_TRACKER_LATEST_SIZE</option>
+					<option value="name">MOD_XBT_TRACKER_LATEST_NAME</option>
+					<option value="filename">MOD_XBT_TRACKER_LATEST_FILENAME</option>
+				</field>
+				<field name="ordering_direction" type="list" default="published" label="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_DIRECTION_LABEL" description="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_DIRECTION_DESCRIPTION">
+					<option value="asc">MOD_XBT_TRACKER_LATEST_ASCENDING</option>
+					<option value="desc">MOD_XBT_TRACKER_LATEST_DESCENDING</option>
+				</field>
+			</fieldset>
+
+			<fieldset name="fields">
+				<field name="name_field" type="list" default="1" label="MOD_XBT_TRACKER_FIELD_NAME_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_NAME_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="name_field_length" type="text" size="3" default="10" filter="integer" label="MOD_XBT_TRACKER_FIELD_NAME_FIELD_LENGTH_LABEL" description="MOD_XBT_TRACKER_FIELD_NAME_FIELD_LENGTH_DESCRIPTION" />
+				<field name="filename_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_FILENAME_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_FILENAME_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="filename_field_length" type="text" size="3" default="10" filter="integer" label="MOD_XBT_TRACKER_FIELD_FILENAME_FIELD_LENGTH_LABEL" description="MOD_XBT_TRACKER_FIELD_FILENAME_FIELD_LENGTH_DESCRIPTION" />
+				<field name="description_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_DESCRIPTION_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_DESCRIPTION_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="size_field" type="list" default="1" label="MOD_XBT_TRACKER_FIELD_SIZE_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_SIZE_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="added_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_ADDED_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_ADDED_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="leechers_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_LEECHERS_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_LEECHERS_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="seeders_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_SEEDERS_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_SEEDERS_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="completed_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_COMPLETED_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_COMPLETED_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="numfiles_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_NUMFILES_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_NUMFILES_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="forum_post_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_FORUM_POST_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_FORUM_POST_FIELD_FORUM_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="info_post_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_INFO_POST_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_INFO_POST_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="download_multiplier_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_DOWNLOAD_MULTIPLIER_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_DOWNLOAD_MULTIPLIER_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="upload_multiplier_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_UPLOAD_MULTIPLIER_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_UPLOAD_MULTIPLIER_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="license_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_LICENSE_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_LICENSE_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="image_file_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_IMAGE_FILE_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_IMAGE_FILE_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="torrent_owner_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_TORRENT_OWNER_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_TORRENT_OWNER_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="torrent_category_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_TORRENT_CATEGORY_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_TORRENT_CATEGORY_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="category_image_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_CATEGORY_IMAGE_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_CATEGORY_IMAGE_FIELD_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="download_button" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_DOWNLOAD_BUTTON_LABEL" description="MOD_XBT_TRACKER_FIELD_DOWNLOAD_BUTTON_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+				<field name="owncache" type="list" default="1" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC" >
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field name="cache_time" type="text" default="900" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>COM_TRACKER_SYSPLUGIN_PLUGIN_NAME</name>
+	<creationDate>2012-02-12</creationDate>
+	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<author>Hugo Carvalho</author>
+	<authorEmail>visigod@visigod.com</authorEmail>
+	<authorUrl>http://www.visigod.com</authorUrl>
+	<version>2.5.0</version>
+	<description>COM_TRACKER_SYSPLUGIN_PLUGIN_DESCRIPTION</description>
+	<files>
+		<filename plugin="trackersystem">trackersystem.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_trackersystem.ini</language>
+		<language tag="en-GB">en-GB.plg_system_trackersystem.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="COM_TRACKER_SYSPLUGIN_RATIO_HEADER">
+				<field name="ratio_plugin" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_RATIO_PLUGIN" description="COM_TRACKER_SYSPLUGIN_RATIO_PLUGIN_DESCRIPTION">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="ratio_timeframe" type="text" default="3600" label="COM_TRACKER_SYSPLUGIN_TIMEFRAME" description="COM_TRACKER_SYSPLUGIN_RATIO_TIMEFRAME_DESCRIPTION" size="6" />
+				<field name="ratio_mindownload" type="text" default="5" label="COM_TRACKER_SYSPLUGIN_RATIO_MINIMUM_DOWNLOADED" description="COM_TRACKER_SYSPLUGIN_RATIO_MINIMUM_DOWNLOADED_DESCRIPTION" size="6" />
+				<field name="ratio_globalratio" type="text" default="1" label="COM_TRACKER_SYSPLUGIN_RATIO_GLOBAL_RATIO" description="COM_TRACKER_SYSPLUGIN_RATIO_GLOBAL_RATIO_DESCRIPTION" size="6" />
+				<field name="ratio_last_update" type="hidden" default="" />
+			</fieldset>
+			<fieldset name="COM_TRACKER_SYSPLUGIN_ANNOUNCE_HEADER">
+				<field name="announce_plugin" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_ANNOUNCE_PLUGIN" description="COM_TRACKER_SYSPLUGIN_ANNOUNCE_PLUGIN_DESCRIPTION">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="announce_timeframe" type="text" default="3600" label="COM_TRACKER_SYSPLUGIN_TIMEFRAME" description="COM_TRACKER_SYSPLUGIN_ANNOUNCE_TIMEFRAME_DESCRIPTION" size="6" />
+				<field name="announce_last_update" type="hidden" default="" />
+			</fieldset>
+			<fieldset name="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_HEADER">
+				<field name="forum_plugin" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN" description="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN_DESCRIPTION">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="forumgroup_timeframe" type="text" default="3600" label="COM_TRACKER_SYSPLUGIN_TIMEFRAME" description="COM_TRACKER_SYSPLUGIN_FORUMGROUP_TIMEFRAME_DESCRIPTION" size="6" />
+				<field name="forumgroup_last_update" type="hidden" default="" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

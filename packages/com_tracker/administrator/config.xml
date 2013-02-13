@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="xbttracker" label="COM_TRACKER_OPTIONS_XBTTRACKER" >
+
+		<field name="torrent_multiplier" type="list" default="0" label="COM_TRACKER_OPTIONS_XBTTRACKER_TORRENT_MULTIPLIER" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="peer_banning" type="list" default="0" label="COM_TRACKER_OPTIONS_XBTTRACKER_PEER_BANNING" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="host_banning" type="list" default="0" label="COM_TRACKER_OPTIONS_XBTTRACKER_HOST_BANNING" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="peer_speed" type="list" default="0" label="COM_TRACKER_OPTIONS_XBTTRACKER_PEER_SPEED" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset name="component" label="COM_TRACKER_OPTIONS_COMPONENT" >
+
+		<field name="enable_donations" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_DONATIONS" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="enable_countries" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_COUNTRIES" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="enable_licenses" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_LICENSES" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="allow_upload_anonymous" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_UPLOAD_ANONYMOUS" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="make_private" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_MAKE_PRIVATE" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="tag_in_torrent" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_TAG_IN_TORRENT" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="welcome_gigs" type="text" default="0" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_WELCOME_GIGS" size="5" />
+
+		<field name="comment_only_leecher" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_COMMENTS_ONLY_LEECHER" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="use_image_file" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_USE_IMAGE_FILE" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="category_image_size" type="text" default="36" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_CATEGORY_IMAGE_SIZE" size="5" />
+
+		<field name="trackers_address" type="text" default="" label="COM_TRACKER_OPTIONS_COMPONENT_TRACKERS_ADDRESS" size="60" />
+
+		<field name="donation_ratio" type="text" default="2.5" label="COM_TRACKER_OPTIONS_COMPONENT_DONATION_RATIO" size="5" />
+
+		<field name="torrent_dir" type="text" default="torrents/" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_DIR" size="20" />
+
+		<field name="max_torrent_size" type="text" default="1048576" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_MAX_TORRENT_SIZE" />
+
+		<field name="progress_bar_size" type="text" default="50" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_PROGRESS_BAR_SIZE" size="3" />
+
+		<field name="image_width" type="text" default="150" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_IMAGE_WIDTH" size="5" />
+
+		<field type="spacer" name="defaults_space" hr="true" />
+
+		<field name="base_group" type="sql" default="3" label="COM_TRACKER_OPTIONS_COMPONENT_BASE_GROUP" query="SELECT id, name FROM #__tracker_groups WHERE state = 1 ORDER BY name" key_field="id" value_field="name" />
+
+		<field name="defaultcountry" type="sql" default="171" label="COM_TRACKER_OPTIONS_COMPONENT_BASE_COUNTRY" query="SELECT id, name FROM #__tracker_countries WHERE state = 1 ORDER BY name ASC" key_field="id" value_field="name" />
+
+		<field type="spacer" name="allow_guest_space" hr="true" />
+
+		<field name="allow_guest" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_GUEST" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="guest_user" type="sql" default="" label="COM_TRACKER_OPTIONS_COMPONENT_GUEST_USER" query="SELECT id, name FROM #__users ORDER BY name ASC" key_field="id" value_field="name" />
+
+		<field type="spacer" name="forum_post_space" hr="true" />
+
+		<field name="forum_post_id" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_FORUM_POST_ID" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="forum_post_url" type="text" default="http://forum.site.com/index.php?showtopic=" label="COM_TRACKER_OPTIONS_COMPONENT_FORUM_POST_URL" size="50" />
+
+		<field type="spacer" name="info_post_space" hr="true" />
+
+		<field name="torrent_information" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_INFORMATION" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="info_post_description" type="text" default="Torrent Information" label="COM_TRACKER_OPTIONS_COMPONENT_INFO_POST_DESCRIPTION" size="50" />
+
+		<field name="info_post_url" type="text" default="http://www.site.com/index.php?info=" label="COM_TRACKER_OPTIONS_COMPONENT_INFO_POST_URL" size="50" />
+
+	</fieldset>
+
+	<fieldset name="comments" label="COM_TRACKER_OPTIONS_COMMENTS" >
+		<field name="enable_comments" type="list" default="1" label="COM_TRACKER_OPTIONS_COMMENTS_ENABLE_COMMENTS" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
+		<field name="comment_system" type="list" default="0" label="COM_TRACKER_OPTIONS_COMMENTS_SYSTEM" >
+			<option value="jcomments">COM_TRACKER_OPTIONS_COMMENTS_JCOMMENTS</option>
+<!-- 
+			<option value="1">COM_TRACKER_OPTIONS_COMMENTS_INTENSEDEBATE</option>
+			<option value="2">COM_TRACKER_OPTIONS_COMMENTS_DISQUS</option>
+			<option value="3">COM_TRACKER_OPTIONS_COMMENTS_FACEBOOK</option>
+			<option value="3">COM_TRACKER_OPTIONS_COMMENTS_LIVEFYRE</option>
+-->
+		</field>
+		
+	</fieldset>
+
+	<fieldset name="forum" label="COM_TRACKER_OPTIONS_FORUM" >
+
+		<field name="forum_integration" type="list" default="0" label="COM_TRACKER_OPTIONS_FORUM_INTEGRATION" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="forum_db_server" type="text" default="localhost" label="COM_TRACKER_OPTIONS_FORUM_DB_SERVER" />
+
+		<field name="forum_db_port" type="text" default="3306" filter="integer" label="COM_TRACKER_OPTIONS_FORUM_DB_PORT" />
+
+		<field name="forum_database" type="text" default="forum_database" label="COM_TRACKER_OPTIONS_FORUM_DB_DATABASE" />
+
+		<field name="forum_db_user" type="text" default="forum_user" label="COM_TRACKER_OPTIONS_FORUM_DB_USER" />
+
+		<field name="forum_db_password" type="text" default="forum_pass" label="COM_TRACKER_OPTIONS_FORUM_DB_PASS" />
+
+		<field name="forum_tableprefix" type="text" default="prefix_" label="COM_TRACKER_OPTIONS_FORUM_DB_PREFIX" />
+
+		<field name="forum_member_tablename" type="text" default="members" label="COM_TRACKER_OPTIONS_FORUM_MEMBER_TBL" />
+
+		<field name="forum_group_tablename" type="text" default="groups" label="COM_TRACKER_OPTIONS_FORUM_GROUP_TBL" />
+
+		<field name="forum_name_field" type="text" default="name" label="COM_TRACKER_OPTIONS_FORUM_NAME_FIELD" />
+
+		<field name="forum_id_field" type="text" default="user_id" label="COM_TRACKER_OPTIONS_FORUM_ID_FIELD" />
+
+		<field name="forum_group_field" type="text" default="mgroup" label="COM_TRACKER_OPTIONS_FORUM_GROUP_FIELD" />
+
+		<field name="forum_posts_field" type="text" default="posts" label="COM_TRACKER_OPTIONS_FORUM_POST_FIELD" />
+
+		<field name="forum_group_id_field" type="text" default="g_id" label="COM_TRACKER_OPTIONS_FORUM_GROUP_ID_FIELD" />
+
+		<field name="forum_group_name_field" type="text" default="g_title" label="COM_TRACKER_OPTIONS_FORUM_GROUP_NAME_FIELD" />
+
+	</fieldset>
+</config>
