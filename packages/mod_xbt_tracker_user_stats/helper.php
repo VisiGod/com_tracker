@@ -32,7 +32,10 @@ class modXBTTrackerUserStats {
 
 		// Select the required fields from the table.
 		if ($params->get('downloaded') || $params->get('ratio')) $query->select('tu.downloaded');
-		if ($params->get('uploaded') || $params->get('ratio')) $query->select('tu.uploaded');
+		if ($params->get('uploaded') || $params->get('ratio')) {
+			if ($appParams->get('enable_donations')) $query->select('SUM(COALESCE(td.credited,0) * 1048576) as credited, SUM(tu.uploaded + credited) as uploaded');
+			else $query->select('tu.uploaded');
+		}
 		if ($params->get('can_leech')) $query->select('tu.can_leech');
 		if ($params->get('wait_time')) $query->select('tu.wait_time');
 		if ($params->get('peer_limit')) $query->select('tu.peer_limit');
@@ -62,6 +65,12 @@ class modXBTTrackerUserStats {
 			$query->join('LEFT', '`#__tracker_countries` AS tc ON tc.id = tu.countryID');
 		}
 
+		// Join over the donations if we're using them
+		if ($appParams->get('enable_donations')) {
+			if ($params->get('donations')) $query->select('SUM(td.donated) as donated');
+			$query->join('LEFT', '`#__tracker_donations` AS td ON td.uid = tu.id');
+			$query->where('td.state = 1');
+		}
 		$query->where('tu.id = '.$user->id);
 		$db->setQuery($query);
 		

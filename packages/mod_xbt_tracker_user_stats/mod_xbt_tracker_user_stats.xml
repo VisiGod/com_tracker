@@ -61,9 +61,12 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="default_ratio" type="text" size="5" default="0.5" label="MOD_TRACKER_USER_STATS_DEFAULT_RATIO" description="MOD_TRACKER_USER_STATS_DEFAULT_RATIO_DESCRIPTION" filter="float" />
 				<field name="good_ratio_image" type="media" directory="tracker/ratios" default="images/tracker/ratios/good_ratio.png" preview="true" hide_none="1" label="MOD_TRACKER_USER_STATS_GOOD_RATIO_IMAGE" />
 				<field name="bad_ratio_image" type="media" directory="tracker/ratios" default="images/tracker/ratios/bad_ratio.png" preview="true" hide_none="1" label="MOD_TRACKER_USER_STATS_BAD_RATIO_IMAGE" />
+				<field name="donations" type="list" default="1" label="MOD_TRACKER_USER_STATS_DONATIONS" description="MOD_TRACKER_USER_STATS_DONATIONS_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 				<field name="can_leech" type="list" default="0" label="MOD_TRACKER_USER_STATS_CAN_LEECH" description="MOD_TRACKER_USER_STATS_CAN_LEECH_DESCRIPTION">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

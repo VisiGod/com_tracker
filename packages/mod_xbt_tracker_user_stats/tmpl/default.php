@@ -13,8 +13,6 @@ jimport( 'joomla.html.parameter' );
 $user	= JFactory::getUser();
 $appParams = $app->getParams('com_tracker');
 
-
-
 if ($user->get('guest')) {
 	?>
 	<div id="container">
@@ -74,7 +72,7 @@ $document->addStyleDeclaration( $style );
 			}
 
 			if ($params->get('uploaded')) {
-				echo '<div>';
+				echo '<div style="margin-bottom: 2px;">';
 				echo '<div style="float: left;display:inline-block; vertical-align:middle;"><img id="'.$user_stats->uploaded.'" alt="'.$user_stats->uploaded.'" src="'.JURI::base().$params->get('uploaded_image').'" width="16px" /></div>';
 				echo '<div style="margin-left: 2px;float: left;display:inline-block; vertical-align:middle;">'.JText::_('MOD_TRACKER_USER_STATS_UPLOADED_TEXT').'</div>';
 				echo '<div style="float: right;display:inline-block; vertical-align:middle;"><span style="color:green">'.TrackerHelper::make_size($user_stats->uploaded).'</span></div>';
@@ -82,7 +80,7 @@ $document->addStyleDeclaration( $style );
 			}
 			
 			if ($params->get('downloaded')) {
-				echo '<div>';
+				echo '<div style="margin-bottom: 2px;">';
 				echo '<div style="float: left;display:inline-block; vertical-align:middle;"><img id="'.$user_stats->downloaded.'" alt="'.$user_stats->downloaded.'" src="'.JURI::base().$params->get('downloaded_image').'" width="16px" /></div>';
 				echo '<div style="margin-left: 2px;float: left;display:inline-block; vertical-align:middle;">'.JText::_('MOD_TRACKER_USER_STATS_DOWNLOADED_TEXT').'</div>';
 				echo '<div style="float: right;display:inline-block; vertical-align:middle;"><span style="color:red">'.TrackerHelper::make_size($user_stats->downloaded).'</span></div>';
@@ -90,7 +88,7 @@ $document->addStyleDeclaration( $style );
 			}
 
 			if ($params->get('ratio')) {
-				echo '<div>';
+				echo '<div style="margin-bottom: 2px;">';
 				if ( TrackerHelper::make_ratio($user_stats->downloaded, $user_stats->uploaded, 1) >= $user_stats->minimum_ratio)
 					echo '<div style="float: left;display:inline-block; vertical-align:middle;"><img id="ratio" alt="'.JText::_('MOD_TRACKER_USER_STATS_RATIO_TEXT').'" src="'.JURI::base().$params->get('good_ratio_image').'" width="16px" /></div>';
 				else echo '<div style="float: left;display:inline-block; vertical-align:middle;"><img id="ratio" alt="'.JText::_('MOD_TRACKER_USER_STATS_RATIO_TEXT').'" src="'.JURI::base().$params->get('bad_ratio_image').'" width="16px" /></div>';
@@ -105,6 +103,14 @@ $document->addStyleDeclaration( $style );
 			}
 		
 
+			if ($appParams->get('enable_donations') && $params->get('donations')) {
+				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_DONATIONS_TEXT');
+				echo JText::_('MOD_TRACKER_USER_STATS_DONATIONS_CURRENCY');
+				echo $user_stats->donated ? $user_stats->donated : '0';
+				echo '</div>';
+			}
+			
+			
 			if ($params->get('can_leech')) {
 				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_CAN_LEECH_TEXT');
 				echo $user_stats->can_leech ? JText::_('JYES') : JText::_('JNO');
