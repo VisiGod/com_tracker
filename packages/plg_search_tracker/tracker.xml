@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="search" method="upgrade">
+	<name>PLG_SEARCH_TRACKER_PLUGIN_NAME</name>
+	<creationDate>2013-03-28</creationDate>
+	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<author>Hugo Carvalho</author>
+	<authorEmail>visigod@visigod.com</authorEmail>
+	<authorUrl>http://www.visigod.com</authorUrl>
+	<version>2.5.0</version>
+	<description>PLG_SEARCH_TRACKER_PLUGIN_DESCRIPTION</description>
+	<files>
+		<filename plugin="tracker">tracker.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_search_tracker.ini</language>
+		<language tag="en-GB">en-GB.plg_search_tracker.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="search_limit" type="text" default="50" description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC" label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL" size="5" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>
