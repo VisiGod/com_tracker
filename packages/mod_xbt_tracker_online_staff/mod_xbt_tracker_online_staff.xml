@@ -28,7 +28,6 @@
 		<fields name="params">
 			<fieldset name="basic" label="MOD_XBT_TRACKER_ONLINE_STAFF_MODULE_CONFIG">
 				<field name="usergroups" type="sql" default="0" label="MOD_XBT_TRACKER_ONLINE_STAFF_USERGROUPS" description="MOD_XBT_TRACKER_ONLINE_STAFF_USERGROUPS_DESCRIPTION" multiple="multiple" query="SELECT id, name FROM #__tracker_groups WHERE state = 1" key_field="id" value_field="name" />
-				<field name="max_session_time" type="text" default="3600" label="MOD_XBT_TRACKER_ONLINE_STAFF_MAX_SESSION_TIME" description="MOD_XBT_TRACKER_ONLINE_STAFF_MAX_SESSION_TIME_DESCRIPTION" filter="integer" />
 				<field name="group_order" type="list" default="1" label="MOD_XBT_TRACKER_ONLINE_STAFF_GROUP_ORDER" description="MOD_XBT_TRACKER_ONLINE_STAFF_GROUP_ORDER_DESCRIPTION">
 					<option value="ordering">MOD_XBT_TRACKER_ONLINE_STAFF_ORDER_GROUP_ORDERING</option>
 					<option value="name">MOD_XBT_TRACKER_ONLINE_STAFF_ORDER_GROUP_NAME</option>
