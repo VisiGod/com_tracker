@@ -17,7 +17,7 @@ abstract class TrackerHelper {
 
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_CONTROL_PANEL'), 'index.php?option=com_tracker', $submenu == 'trackerpanel');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_TORRENTS'), 'index.php?option=com_tracker&view=torrents', $submenu == 'torrents');
-		JSubMenuHelper::addEntry(JText::_('JCATEGORIES'), 'index.php?option=com_categories&extension=com_tracker', $submenu == 'categories');
+		JSubMenuHelper::addEntry(JText::_('JCATEGORIES'), 'index.php?option=com_categories&view=categories&extension=com_tracker', $submenu == 'categories');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_USERS'), 'index.php?option=com_tracker&view=users', $submenu == 'users');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_GROUPS'), 'index.php?option=com_tracker&view=groups', $submenu == 'groups');
 		if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') JSubMenuHelper::addEntry(JText::_('COM_TRACKER_COMMENTS'), 'index.php?option=com_tracker&view=comments',  $submenu == 'comments');

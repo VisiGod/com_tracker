@@ -111,7 +111,7 @@ class TrackerModelTorrents extends JModelList {
 		// Filter by a single category
 		$filteredCategoryId = $this->getState('filter.category_id');
 		if (is_numeric($filteredCategoryId) && ($filteredCategoryId != 0)) {
-			$query->where('t.categoryID = '.(int) $filteredCategoryId);
+			$query->where('(c.id = '.(int) $filteredCategoryId.' OR c.parent_id = '.(int) $filteredCategoryId.')');
 		}
 
 		//**********************************************************************************************************
