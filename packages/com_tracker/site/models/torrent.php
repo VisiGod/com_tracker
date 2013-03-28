@@ -30,8 +30,7 @@ class TrackerModelTorrent extends JModelItem {
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		// TODO: Tune these values based on other permissions.
-		$user		= JFactory::getUser();
+		$user = JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_tracker')) &&  (!$user->authorise('core.edit', 'com_tracker'))){
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
@@ -85,7 +84,6 @@ class TrackerModelTorrent extends JModelItem {
 
 		// End the query with the torrent ID
 		$query->where('t.fid = ' . (int) $pk);
-
 		$db->setQuery($query);
 		$data = $db->loadObject();
 
@@ -98,7 +96,6 @@ class TrackerModelTorrent extends JModelItem {
 		$query->select('tf.filename, tf.size');
 		$query->from('#__tracker_files_in_torrents AS tf');
 		$query->where('tf.torrentID = ' . (int) $pk);
-
 		$db->setQuery($query);
 		$data->torrent_files = $db->loadObjectList();
 
@@ -106,21 +103,16 @@ class TrackerModelTorrent extends JModelItem {
 		$query->clear();
 		$query->select('u.id, u.name');
 		$query->from('#__users AS u');
-
 		$query->join('LEFT', '#__tracker_users AS tu on tu.id = u.id');
-
 		$query->select('fu.active, fu.left, fu.downloaded, fu.uploaded, fu.mtime');
 		// Peer speed mod
 		if ($params->get('peer_speed') == 1) $query->select('fu.down_rate, fu.up_rate');
 		$query->join('LEFT', '#__tracker_files_users AS fu on fu.uid = u.id');
-		
 		$query->select('tc.name as countryname, tc.image as countryimage');
 		$query->join('LEFT', '#__tracker_countries AS tc ON tc.id = tu.countryID');
-
 		$query->where('fu.fid = ' . (int) $pk);
 		$query->where('fu.active = 1');
 		$query->order('fu.left ASC');
-
 		$db->setQuery($query);
 		$data->peers = $db->loadObjectList();
 
@@ -128,19 +120,14 @@ class TrackerModelTorrent extends JModelItem {
 		$query->clear();
 		$query->select('u.id, u.name');
 		$query->from('#__users AS u');
-
 		$query->join('LEFT', '#__tracker_users AS tu on tu.id = u.id');
-		
 		$query->select('fu.fid, fu.downloaded, fu.uploaded, fu.mtime');
 		$query->join('LEFT', '#__tracker_files_users AS fu on fu.uid = u.id');
-
 		$query->select('tc.name as countryname, tc.image as countryimage');
 		$query->join('LEFT', '#__tracker_countries AS tc ON tc.id = tu.countryID');
-
 		$query->where('fu.fid = ' . (int) $pk);
 		$query->where('fu.left = 0');
 		$query->order('fu.mtime ASC');
-
 		$db->setQuery( $query );
 		$data->snatchers = $db->loadObjectList();
 
@@ -148,32 +135,66 @@ class TrackerModelTorrent extends JModelItem {
 		$query->clear();
 		$query->select('u.id, u.name');
 		$query->from('#__users AS u');
-
 		$query->join('LEFT', '#__tracker_users AS tu on tu.id = u.id');
-		
 		$query->select('fu.active as active, fu.left, fu.downloaded as downloaded, fu.uploaded as uploaded, fu.mtime as mtime');
 		$query->join('LEFT', '#__tracker_files_users AS fu on fu.uid = u.id');
-
 		$query->select('tc.name as countryname, tc.image as countryimage');
 		$query->join('LEFT', '#__tracker_countries AS tc ON tc.id = tu.countryID');
-
 		$query->where('fu.fid = ' . (int) $pk);
 		$query->where('fu.active = 0');
 		$query->where('fu.uploaded = 0');
 		$query->where('fu.downloaded > 0');
 		$query->where('fu.left = 0');
 		$query->order('fu.mtime DESC');
-
 		$db->setQuery( $query );
 		$data->hitrunners = $db->loadObjectList();
 
 		// Get the default country and flagpic
 		$query->clear();
-		$query->select('tc.name as default_country_name, tc.image as default_country_image');
+		$query->select('tc.name as name, tc.image as image');
 		$query->from('#__tracker_countries AS tc');
 		$query->where('tc.id = '.$params->get('defaultcountry'));
 		$db->setQuery( $query );
 		$data->default_country = $db->loadObjectList();
+
+		// Get the torrent thanks
+		if ($params->get('enable_thankyou') == 1) {
+			$query->clear();
+			$query->select('u.username as thanker, ttt.uid as thankerid,  ttt.created_time as thankstime');
+			$query->from('#__tracker_torrent_thanks AS ttt');
+			$query->join('LEFT', '#__users AS u on u.id = ttt.uid');
+			$query->join('LEFT', '#__tracker_torrents AS tt on tt.fid = ttt.torrentID');
+			$query->where('ttt.torrentID = '.(int) $pk);
+			$query->where('ttt.state = 1');
+			$db->setQuery( $query );
+			$data->thankyous = $db->loadObjectList();
+		}
+		
+		// Get the torrent reseed requests
+		if ($params->get('enable_reseedrequest') == 1) {
+			$query->clear();
+			$query->select('u.username as requester,  trr.created_time as requested_time');
+			$query->from('#__tracker_reseed_request AS trr');
+			$query->join('LEFT', '#__users AS u on u.id = trr.requester');
+			$query->join('LEFT', '#__tracker_torrents AS tt on tt.fid = trr.fid');
+			$query->where('trr.fid = '.(int) $pk);
+			$query->where('trr.state = 1');
+			$db->setQuery( $query );
+			$data->reseeds = $db->loadObjectList();
+		}
+
+		// Get the torrent reports
+		if ($params->get('enable_reporttorrent') == 1) {
+			$query->clear();
+			$query->select('trt.reporter as reporter, trt.created_time as requested_time');
+			$query->from('#__tracker_reported_torrents AS trt');
+			$query->join('LEFT', '#__users AS u on u.id = trt.reporter');
+			$query->join('LEFT', '#__tracker_torrents AS tt on tt.fid = trt.fid');
+			$query->where('trt.fid = '.(int) $pk);
+			$query->where('trt.state = 1');
+			$db->setQuery( $query );
+			$data->reports = $db->loadObjectList();
+		}
 
 		###############################################################################################################################
 		##### Torrent Comments #####
@@ -223,7 +244,7 @@ class TrackerModelTorrent extends JModelItem {
 		$user =& JFactory::getUser();
 		$config = new JConfig();
 
-		if (($user->get('guest') && $this->get('allow_guest') == 0) || !TrackerHelper::user_permissions('download_torrents', $user->id)) {
+		if (($user->get('guest') && $params->get('allow_guest') == 0) || !TrackerHelper::user_permissions('download_torrents', $user->id)) {
 			echo "<script> alert(\"".JText::_( "COM_TRACKER_USER_CANNOT_DOWNLOAD_TORRENT" )."\"); window.history.go(-1);</script>\n";
 			return;
 	 	}
@@ -315,34 +336,166 @@ class TrackerModelTorrent extends JModelItem {
 		// Put some comment in the torrent
 		$torrent->comment('Torrent downloaded from '.$config->sitename);
 
-		// Put the site name in a Tag before the torrent filename
-		if ($params->get('tag_in_torrent') == 1) $torrent->name('['.$config->sitename.']'.$row->name);
-		else $torrent->name($row->name);
-
-		// And we send the torrent to the user...
-		$torrent->send();
+		// If we have tags enabled, put the site name in a Tag and send the torrent filename
+		if ($params->get('tag_in_torrent') == 1) $torrent->send('['.$config->sitename.']'.$row->name.'.torrent');
+		// Or we send the original torrent file without any tag
+		else $torrent->send();
 	}
 
+	function thanks() {
+		$app = JFactory::getApplication();
+		$torrent_id = $this->getState('torrent.id');
+		
+		$db = $this->getDbo();
+		$user =& JFactory::getUser();
+		$config = new JConfig();
+		
+		// Insert the thank you into the table
+		$query = $db->getQuery(true);
+		$query->insert('#__tracker_torrent_thanks');
+		$query->set('torrentID = '.$db->quote($torrent_id));
+		$query->set('uid = '.$db->quote($user->id));
+		$query->set('created_time = '.$db->quote(date("Y-m-d H:i:s")));
+		$query->set('ordering = '.TrackerHelper::getLastOrder('tracker_torrent_thanks'));
+		$query->set('state = 1');
+		$db->setQuery($query);
+		if (!$db->query()) $app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_THANKS_NOK'), 'error');
+		else $app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_THANKS_OK'), 'message');
+	}
 
+	function reseed() {
+		$app = JFactory::getApplication();
+		$torrent_id = $this->getState('torrent.id');
+
+		$db = $this->getDbo();
+		$user =& JFactory::getUser();
+		$config	= JFactory::getConfig();
+	
+		// Insert the thank you into the table
+		$query = $db->getQuery(true);
+		$query->insert('#__tracker_reseed_request');
+		$query->set('fid = '.$db->quote($torrent_id));
+		$query->set('requester = '.$db->quote($user->id));
+		$query->set('created_time = '.$db->quote(date("Y-m-d H:i:s")));
+		$query->set('ordering = '.TrackerHelper::getLastOrder('tracker_reseed_request'));
+		$query->set('state = 1');
+		$db->setQuery($query);
+		if (!$db->query()) $app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_RESEED_REQUEST_NOK'), 'error');
+
+		// all is good. we've inserted the request on the db. let's spam...errr... mail the uploader or uploaders
+		$query->clear();
+		$query->select('tt.fid, tt.name, u.name as uploader, u.email as uploader_email');
+		$query->from('#__tracker_torrents as tt');
+		$query->join('LEFT', '#__users as u on u.id = tt.uploader');
+		$query->where('tt.fid = ' . (int) $torrent_id);
+		$db->setQuery($query);
+		$torrent = $db->loadObject();
+		
+		$emailSubject	= JText::sprintf(
+				'COM_TRACKER_RESEED_REQUEST_EMAIL_SUBJECT',
+				$torrent->name
+		);
+		
+		$emailBody	= JText::sprintf(
+				'COM_TRACKER_RESEED_REQUEST_EMAIL_BODY',
+				$torrent->uploader,
+				$user->name, 
+				$torrent->name,
+				JUri::base().'index.php?option=com_tracker&task=torrent.download&id='.$torrent->fid,
+				$config->get('fromname'),
+				$config->get('sitename')
+		);
+		
+		JFactory::getMailer()->sendMail($config->get('mailfrom'), $config->get('fromname'), $torrent->uploader_email, $emailSubject, $emailBody);
+		$app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_RESEED_REQUEST_OK'), 'message');
+	}
+
+	function reported() {
+		$app = JFactory::getApplication();
+		$db = $this->getDbo();
+		$user =& JFactory::getUser();
+		$config	= JFactory::getConfig();
+		
+		$report['comments']		= $_POST['jform']['comments'];
+		$report['reporter']		= $_POST['jform']['reporter'];
+		$report['reporter_name']= $_POST['jform']['reporter_name'];
+		$report['fid']			= $_POST['jform']['fid'];
+		$report['report_type']	= $_POST['report_type'];
+
+		// Insert the thank you into the table
+		$query = $db->getQuery(true);
+		$query->insert('#__tracker_reported_torrents');
+		$query->set('fid = '.$db->quote((int)$_POST['jform']['fid']));
+		$query->set('reporter = '.$db->quote((int)$_POST['jform']['reporter']));
+		$query->set('report_type = '.$db->quote($_POST['report_type']));
+		$query->set('comments = '.$db->quote($_POST['jform']['comments']));
+		$query->set('created_time = '.$db->quote(date("Y-m-d H:i:s")));
+		$query->set('ordering = '.TrackerHelper::getLastOrder('tracker_reported_torrents'));
+		$query->set('state = 1');
+		$db->setQuery($query);
+		if (!$db->query()) $app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_REPORT_TORRENT_NOK'), 'error');
+
+		// all is good. we've inserted the report on the db. let's send an email to the administrator
+		$query->clear();
+		$query->select('tt.fid, tt.name, u.name as uploader');
+		$query->from('#__tracker_torrents as tt');
+		$query->join('LEFT', '#__users as u on u.id = tt.uploader');
+		$query->where('tt.fid = ' . (int)$_POST['jform']['fid']);
+		$db->setQuery($query);
+		$torrent = $db->loadObject();
+		
+		$emailSubject	= JText::sprintf(
+				'COM_TRACKER_REPORT_TORRENT_EMAIL_SUBJECT',
+				$torrent->name,
+				$report['report_type']
+		);
+		
+		// get all admin users
+		$query = 'SELECT name, email, sendEmail, id FROM #__users WHERE sendEmail=1';
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
+		
+		foreach( $rows as $row ) {
+			$emailBody	= JText::sprintf(
+				'COM_TRACKER_REPORT_TORRENT_EMAIL_BODY',
+				$row->name,
+				$report['reporter_name'],
+				$torrent->name,
+				$report['report_type'],
+				$report['comments'],
+				JUri::base().'index.php?option=com_tracker&view=torrent&id='.$report['fid'],
+				$config->get('fromname'),
+				$config->get('sitename')
+			);
+			$email = JFactory::getMailer()->sendMail($config->get('mailfrom'), $config->get('fromname'), $row->email, $emailSubject, $emailBody);
+			
+			// Check for an error.
+			if ($email !== true) {
+				$this->setError(JText::_('COM_TRACKER_TORRENT_REPORT_NOTIFY_SEND_MAIL_FAILED'));
+				return false;
+			}
+		}
+		$app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$report['fid']), JText::_('COM_TRACKER_TORRENT_REPORT_OK'), 'message');
+	}
+	
 	function uploaded() {
-
-		$db 		=& JFactory::getDBO();
+		$db 	=& JFactory::getDBO();
 		$user 	=& JFactory::getUser();
 		$params =& JComponentHelper::getParams( 'com_tracker' );
-		$app		= JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Let's start to play with it
-		$temp_torrent['name']				= $_POST['jform']['name'];
+		$temp_torrent['name']		= $_POST['jform']['name'];
 		$temp_torrent['categoryID']	= $_POST['jform']['categoryID'];
-		$temp_torrent['description']	= $_POST['jform']['description'];
+		$temp_torrent['description']= $_POST['jform']['description'];
 		if ($params->get('enable_licenses') == 1) $licenseID = $_POST['jform']['licenseID'];
-			else $licenseID = 0;
+		else $licenseID = 0;
 		if ($params->get('forum_post_id') == 1) $forum_post = $_POST['jform']['forum_post'];
-			else $forum_post = 0;
+		else $forum_post = 0;
 		if ($params->get('torrent_information') == 1) $info_post = $_POST['jform']['info_post'];
-			else $info_post = 0;
+		else $info_post = 0;
 		if ($params->get('allow_upload_anonymous') == 1) $uploader_anonymous = $_POST['jform']['uploader_anonymous'];
-			else $uploader_anonymous = 0;
+		else $uploader_anonymous = 0;
 
 		// ------------------------------------------------------------------------------------------------------------------------
 		// Let's take care of the .torrent file first

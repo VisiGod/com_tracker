@@ -26,8 +26,8 @@ PRIMARY KEY (`id`)
 
 CREATE TABLE IF NOT EXISTS `#__tracker_countries` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,
-`name` VARCHAR(50) NOT NULL,
-`image` VARCHAR(35) NOT NULL,
+`name` VARCHAR(255) NOT NULL,
+`image` VARCHAR(255) NOT NULL,
 `ordering` INT(11) NOT NULL,
 `state` TINYINT(1) NOT NULL DEFAULT '1',
 PRIMARY KEY (`id`)
@@ -60,13 +60,43 @@ UNIQUE KEY (`begin`,`end`)
 CREATE TABLE IF NOT EXISTS `#__tracker_donations` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,
 `uid` INT(11) UNSIGNED NOT NULL,
-`ratio` FLOAT NOT NULL DEFAULT '0',
-`donated` float NOT NULL DEFAULT '0',
+`ratio` FLOAT(11,2) NOT NULL DEFAULT '0',
+`donated` float(11,2) NOT NULL DEFAULT '0',
 `donation_date` DATE DEFAULT NULL,
-`credited` float NOT NULL DEFAULT '0',
+`credited` float(11,2) NOT NULL DEFAULT '0',
 `created_time` DATETIME DEFAULT NULL,
 `created_user_id` INT(10) UNSIGNED NOT NULL,
 `comments` VARCHAR(255) DEFAULT NULL,
+`ordering` INT(11) NOT NULL,
+`state` TINYINT(1) NOT NULL DEFAULT '1',
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `#__tracker_filetypes` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(50) NOT NULL,
+`image` VARCHAR(255) NOT NULL,
+`ordering` INT(11) NOT NULL,
+`state` TINYINT(1) NOT NULL DEFAULT '1',
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `#__tracker_reported_torrents` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`fid` INT(11) UNSIGNED NOT NULL,
+`reporter` INT(11) UNSIGNED NOT NULL,
+`comments` VARCHAR(255) DEFAULT NULL,
+`created_time` DATETIME DEFAULT NULL,
+`ordering` INT(11) NOT NULL,
+`state` TINYINT(1) NOT NULL DEFAULT '1',
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `#__tracker_reseed_request` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`fid` INT(11) UNSIGNED NOT NULL,
+`requester` INT(11) UNSIGNED NOT NULL,
+`created_time` DATETIME DEFAULT NULL,
 `ordering` INT(11) NOT NULL,
 `state` TINYINT(1) NOT NULL DEFAULT '1',
 PRIMARY KEY (`id`)
@@ -93,14 +123,25 @@ CREATE TABLE IF NOT EXISTS `#__tracker_torrents` (
 `uploader_anonymous` TINYINT(1) NOT NULL DEFAULT '0',
 `forum_post` INT(11) UNSIGNED NOT NULL DEFAULT '0',
 `info_post` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-`download_multiplier` INT(11) NOT NULL DEFAULT '1',
-`upload_multiplier` INT(11) NOT NULL DEFAULT '1',
+`download_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
+`upload_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
 `licenseID` INT(11) NOT NULL,
 `image_file` VARCHAR(255) NOT NULL,
 `ordering` INT(11) NOT NULL,
 `state` TINYINT(1) NOT NULL DEFAULT '1',
 PRIMARY KEY (`fid`),
 UNIQUE KEY (`info_hash`)
+);
+
+CREATE TABLE IF NOT EXISTS `#__tracker_torrent_thanks` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`torrentID` INT(11) UNSIGNED NOT NULL,
+`uid` INT(11) UNSIGNED NOT NULL,
+`created_time` DATETIME DEFAULT NULL,
+`ordering` INT(11) NOT NULL,
+`state` TINYINT(1) NOT NULL DEFAULT '1',
+PRIMARY KEY (`id`),
+UNIQUE KEY (`torrentID`,`uid`)
 );
 
 CREATE TABLE IF NOT EXISTS `#__tracker_files_in_torrents` (
@@ -154,15 +195,15 @@ CREATE TABLE IF NOT EXISTS `#__tracker_users` (
 `downloaded` BIGINT(20) DEFAULT '0',
 `uploaded` BIGINT(20) DEFAULT '0',
 `exemption_type` TINYINT(4) NOT NULL DEFAULT '2',
-`minimum_ratio` FLOAT NOT NULL DEFAULT '1',
+`minimum_ratio` FLOAT(11,2) NOT NULL DEFAULT '1',
 `can_leech` TINYINT(1) NOT NULL DEFAULT '0',
 `wait_time` INT(11) NOT NULL DEFAULT '0',
 `peer_limit` INT(11) NOT NULL DEFAULT '1',
 `torrent_limit` INT(11) NOT NULL DEFAULT '1',
 `torrent_pass_version` INT(11) NOT NULL DEFAULT '1',
 `multiplier_type` TINYINT(1) NOT NULL DEFAULT '0',
-`download_multiplier` FLOAT NOT NULL DEFAULT '1',
-`upload_multiplier` FLOAT NOT NULL DEFAULT '1',
+`download_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
+`upload_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
 `ordering` INT(11) NOT NULL,
 PRIMARY KEY (`id`)
 );
@@ -179,9 +220,9 @@ CREATE TABLE IF NOT EXISTS `#__tracker_groups` (
 `wait_time` INT(11) NOT NULL DEFAULT '0',
 `peer_limit` INT(11) NOT NULL DEFAULT '0',
 `torrent_limit` INT(11) NOT NULL DEFAULT '0',
-`minimum_ratio` FLOAT NOT NULL DEFAULT '1',
-`download_multiplier` FLOAT NOT NULL DEFAULT '1',
-`upload_multiplier` FLOAT NOT NULL DEFAULT '1',
+`minimum_ratio` FLOAT(11,2) NOT NULL DEFAULT '1',
+`download_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
+`upload_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
 `view_comments` TINYINT(1) NOT NULL DEFAULT '1',
 `write_comments` TINYINT(1) NOT NULL DEFAULT '0',
 `edit_comments` TINYINT(1) NOT NULL DEFAULT '0',

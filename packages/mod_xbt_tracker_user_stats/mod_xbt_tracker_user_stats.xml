@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5" client="site" method="upgrade">
+	<name>XBT Tracker Frontend - User Statistics</name>
+	<creationDate>2013-03-25</creationDate>
+	<copyright>Copyright (C) 2007 - 2013 Hugo Carvalho and Jb MartinN. All rights reserved.</copyright>
+	<license>GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl.html</license>
+	<author>Hugo Carvalho and Psylodesign</author>
+	<authorEmail>visigod@visigod.com and psylodesign@share-on-underground.com</authorEmail>
+	<authorUrl>http://www.visigod.com and http://share-on-underground.com</authorUrl>
+	<description>MOD_XBT_TRACKER_USER_STATS</description>
+	<version>2.5.1</version>
+
+	<files>
+		<filename module="mod_xbt_tracker_user_stats">mod_xbt_tracker_user_stats.php</filename>
+		<filename>helper.php</filename>
+		<filename>mod_xbt_tracker_user_stats.xml</filename>
+		<filename>index.html</filename>
+		<folder>tmpl</folder>
+	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_user_stats.ini</language>
+		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_user_stats.sys.ini</language>
+	</languages>
+		
+	<config>
+		<fields name="params">
+			<fieldset name="fields">
+				<field name="name" type="list" default="1" label="MOD_TRACKER_USER_STATS_NAME" description="MOD_TRACKER_USER_STATS_NAME_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="registration" type="list" default="1" label="MOD_TRACKER_USER_STATS_REGISTRATION" description="MOD_TRACKER_USER_STATS_REGISTRATION_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="group" type="list" default="1" label="MOD_TRACKER_USER_STATS_GROUP" description="MOD_TRACKER_USER_STATS_GROUP_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="country" type="list" default="0" label="MOD_TRACKER_USER_STATS_COUNTRY" description="MOD_TRACKER_USER_STATS_COUNTRY_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="country_flag" type="list" default="0" label="MOD_TRACKER_USER_STATS_COUNTRY_FLAG" description="MOD_TRACKER_USER_STATS_COUNTRY_FLAG_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="downloaded" type="list" default="1" label="MOD_TRACKER_USER_STATS_DOWNLOADED" description="MOD_TRACKER_USER_STATS_DOWNLOADED_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="downloaded_image" type="media" directory="tracker/ratios" default="images/tracker/ratios/download.png" preview="true" hide_none="1" label="MOD_TRACKER_USER_STATS_DOWNLOAD_IMAGE" />
+				<!--  imagem para downloaded -->
+				<field name="uploaded" type="list" default="1" label="MOD_TRACKER_USER_STATS_UPLOADED" description="MOD_TRACKER_USER_STATS_UPLOADED_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="uploaded_image" type="media" directory="tracker/ratios" default="images/tracker/ratios/upload.png" preview="true" hide_none="1" label="MOD_TRACKER_USER_STATS_UPLOAD_IMAGE" />
+				<field name="ratio" type="list" default="1" label="MOD_TRACKER_USER_STATS_RATIO" description="MOD_TRACKER_USER_STATS_RATIO_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="default_ratio" type="text" size="5" default="0.5" label="MOD_TRACKER_USER_STATS_DEFAULT_RATIO" description="MOD_TRACKER_USER_STATS_DEFAULT_RATIO_DESCRIPTION" filter="float" />
+				<field name="good_ratio_image" type="media" directory="tracker/ratios" default="images/tracker/ratios/good_ratio.png" preview="true" hide_none="1" label="MOD_TRACKER_USER_STATS_GOOD_RATIO_IMAGE" />
+				<field name="bad_ratio_image" type="media" directory="tracker/ratios" default="images/tracker/ratios/bad_ratio.png" preview="true" hide_none="1" label="MOD_TRACKER_USER_STATS_BAD_RATIO_IMAGE" />
+				<field name="can_leech" type="list" default="0" label="MOD_TRACKER_USER_STATS_CAN_LEECH" description="MOD_TRACKER_USER_STATS_CAN_LEECH_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="wait_time" type="list" default="0" label="MOD_TRACKER_USER_STATS_WAIT_TIME" description="MOD_TRACKER_USER_STATS_WAIT_TIME_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="peer_limit" type="list" default="0" label="MOD_TRACKER_USER_STATS_PEER_LIMIT" description="MOD_TRACKER_USER_STATS_PEER_LIMIT_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="torrent_limit" type="list" default="0" label="MOD_TRACKER_USER_STATS_TORRENT_LIMIT" description="MOD_TRACKER_USER_STATS_TORRENT_LIMIT_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="multiplier_type" type="list" default="0" label="MOD_TRACKER_USER_STATS_MULTIPLIER_TYPE" description="MOD_TRACKER_USER_STATS_MULTIPLIER_TYPE_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="download_multiplier" type="list" default="0" label="MOD_TRACKER_USER_STATS_DOWNLOAD_MULTIPLIER" description="MOD_TRACKER_USER_STATS_DOWNLOAD_MULTIPLIER_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="upload_multiplier" type="list" default="0" label="MOD_TRACKER_USER_STATS_UPLOAD_MULTIPLIER" description="MOD_TRACKER_USER_STATS_UPLOAD_MULTIPLIER_DESCRIPTION">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+				<field name="owncache" type="list" default="1" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC" >
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field name="cache_time" type="text" default="900" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

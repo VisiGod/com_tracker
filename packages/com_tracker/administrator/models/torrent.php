@@ -50,14 +50,45 @@ class TrackerModelTorrent extends JModelAdmin {
 		$query->set($db->quoteName('flags') . ' = 1');
 		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
 		$db->setQuery($query);
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			$this->setError($db->getErrorMsg());
+		try {
+			$result = $db->query();
+		} catch (Exception $e) {
 			return false;
 		}
-			
+
+		//Delete the torrent thanks
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_torrent_thanks'));
+		$query->where($db->quoteName('torrentID') . ' IN (' . implode(',', $itemIds) . ')');
+		$db->setQuery($query);
+		try {
+			$result = $db->query();
+		} catch (Exception $e) {
+			return false;
+		}
+
+		// Delete the reported torrent
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_reported_torrents'));
+		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
+		$db->setQuery($query);
+		try {
+			$result = $db->query();
+		} catch (Exception $e) {
+			return false;
+		}
+
+		// Delete the reseed requested torrent
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_reseed_request'));
+		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
+		$db->setQuery($query);
+		try {
+			$result = $db->query();
+		} catch (Exception $e) {
+			return false;
+		}
+		
 		return true;
 	}
 }

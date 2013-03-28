@@ -1,10 +1,10 @@
 <?php
 /**
- * @version			2.5.0
- * @package			Joomla
+ * @version		2.5.0
+ * @package		Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
- * @license			GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2007 - 2013 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -52,10 +52,10 @@ Follow no ratio rules = 2
 			// Get all the users that have a low ratio but are exempt from the group ratio
 			// (check the user ratio)
 			$query->select('u.id');
-			$query->from($db->quoteName('#__users').' AS u');
+			$query->from($db->quoteName('#__tracker_users').' AS u');
 			$query->join('LEFT', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
-			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) < IFNULL(u.minratio,1)');
-			$query->where('u.exemption = 1');
+			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) < IFNULL(u.minimum_ratio,1)');
+			$query->where('u.exemption_type = 1');
 			$query->where('u.can_leech = 1');
 			$query->where('u.downloaded >= '.(int)$mindownload);
 			$db->setQuery($query);
@@ -64,7 +64,7 @@ Follow no ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear();
-				$query->update($db->quoteName('#__users'));
+				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 0');
 				$query->where('id IN ( '.$uids.' )');
 				$db->setquery( $query );
@@ -75,11 +75,11 @@ Follow no ratio rules = 2
 			// (check the group ratio)
 			$query->clear();
 			$query->select('u.id');
-			$query->from($db->quoteName('#__users').' AS u');
-			$query->join('LEFT', $db->quoteName('#__tracker_users_level').' AS ul on ul.id = u.id_level');
+			$query->from($db->quoteName('#__tracker_users').' AS u');
+			$query->join('LEFT', $db->quoteName('#__tracker_users_level').' AS ul on ul.id = u.groupID');
 			$query->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
-			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) < IFNULL(ul.minratio,1)');
-			$query->where('u.exemption = 0');
+			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) < IFNULL(ul.minimum_ratio,1)');
+			$query->where('u.exemption_type = 0');
 			$query->where('u.can_leech = 1');
 			$query->where('u.downloaded >= '.(int)$mindownload);
 			$db->setQuery($query);
@@ -88,7 +88,7 @@ Follow no ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear();
-				$query->update($db->quoteName('#__users'));
+				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 0');
 				$query->where('id IN ( '.$uids.' )');
 				$db->setquery( $query );
@@ -102,10 +102,10 @@ Follow no ratio rules = 2
 			// (check the user ratio)
 			$query->clear();
 			$query->select('u.id');
-			$query->from($db->quoteName('#__users').' AS u');
+			$query->from($db->quoteName('#__tracker_users').' AS u');
 			$query->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
-			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(u.minratio,1)');
-			$query->where('u.exemption = 1');
+			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(u.minimum_ratio,1)');
+			$query->where('u.exemption_type = 1');
 			$query->where('u.can_leech = 0');
 			$query->where('u.downloaded >= '.(int)$mindownload);
 			$db->setquery( $query );
@@ -114,7 +114,7 @@ Follow no ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear();
-				$query->update($db->quoteName('#__users'));
+				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 1');
 				$query->where('id IN ( '.$uids.' )');
 				$db->setquery( $query );
@@ -125,11 +125,11 @@ Follow no ratio rules = 2
 			// (check the group ratio)
 			$query->clear();
 			$query->select('u.id');
-			$query->from($db->quoteName('#__users').' AS u');
-			$query->join('LEFT', $db->quoteName('#__tracker_users_level').' AS ul on ul.id = u.id_level');
+			$query->from($db->quoteName('#__tracker_users').' AS u');
+			$query->join('LEFT', $db->quoteName('#__tracker_users_level').' AS ul on ul.id = u.groupID');
 			$query->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
-			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(ul.minratio,0)');
-			$query->where('u.exemption = 0');
+			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(ul.minimum_ratio,0)');
+			$query->where('u.exemption_type = 0');
 			$query->where('u.can_leech = 0');
 			$query->where('u.downloaded >= '.(int)$mindownload);
 			$db->setquery( $query );
@@ -138,7 +138,7 @@ Follow no ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear();
-				$query->update($db->quoteName('#__users'));
+				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 1');
 				$query->where('id IN ( '.$uids.' )');
 				$db->setquery( $query );
@@ -151,7 +151,7 @@ Follow no ratio rules = 2
 			// Get all the users that dont follow ratio
 			$query->clear();
 			$query->select('id');
-			$query->from($db->quoteName('#__users'));
+			$query->from($db->quoteName('#__tracker_users'));
 			$query->where('exemption = 2');
 			$db->setquery( $query );
 			if ($row = $db->loadResultArray()) {
@@ -159,7 +159,7 @@ Follow no ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear();
-				$query->update($db->quoteName('#__users'));
+				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 1');
 				$query->where('id IN ( '.$uids.' )');
 				$db->setquery( $query );
@@ -199,17 +199,17 @@ Follow no ratio rules = 2
 		// Forum Groups - START
 		if ($this->params->get('forum_plugin') && (($forumgroup_last_update + $forumgroup_timeframe) < time() ) && $forum_integration == 1) {
 			$joomla_config = new JConfig();
-			$joomla_dbprefix 				= $joomla_config->dbprefix;
-			$forum_db_server 				= $component_params->get( 'forum_db_server', 'localhost' );
-			$forum_db_port 					= $component_params->get( 'forum_db_port', 3306 );
-			$forum_database 				= $component_params->get( 'forum_database', '' );
-			$forum_db_user 					= $component_params->get( 'forum_db_user', '' );
-			$forum_db_password 			= $component_params->get( 'forum_db_password', '' );
-			$forum_tableprefix 			= $component_params->get( 'forum_tableprefix', '' );
+			$joomla_dbprefix 		= $joomla_config->dbprefix;
+			$forum_db_server 		= $component_params->get( 'forum_db_server', 'localhost' );
+			$forum_db_port 			= $component_params->get( 'forum_db_port', 3306 );
+			$forum_database 		= $component_params->get( 'forum_database', '' );
+			$forum_db_user 			= $component_params->get( 'forum_db_user', '' );
+			$forum_db_password 		= $component_params->get( 'forum_db_password', '' );
+			$forum_tableprefix 		= $component_params->get( 'forum_tableprefix', '' );
 			$forum_member_tablename = $component_params->get( 'forum_member_tablename', '' );
-			$forum_name_field 			= $component_params->get( 'forum_name_field', '' );
-			$forum_id_field 				= $component_params->get( 'forum_id_field', '' );
-			$forum_group_field 			= $component_params->get( 'forum_group_field', '' );
+			$forum_name_field 		= $component_params->get( 'forum_name_field', '' );
+			$forum_id_field 		= $component_params->get( 'forum_id_field', '' );
+			$forum_group_field 		= $component_params->get( 'forum_group_field', '' );
 
 			$option = array(); 											//prevent problems
 			$option['host'] 	= $forum_db_server.':'.$forum_db_port;	// Database host
@@ -250,10 +250,11 @@ Follow no ratio rules = 2
 				// Get all the users that have a different group in the site and in the forum
 				$query->clear();
 				$query->select('DISTINCT(u.id)');
-				$query->from($db->quoteName('#__users').' AS u');
-				$query->join('LEFT', $db->quoteName('#__temp_users_check').' AS fmt ON u.username = fmt.name');
-				$query->where('u.id_level <> fmt.ugroup');
-				$query->where('u.exemption = 0');
+				$query->from($db->quoteName('#__tracker_users').' AS u');
+				$query->join('LEFT', $db->quoteName('#__temp_users_check').' AS fmt');
+				$query->join('LEFT', $db->quoteName('#__users').' AS ju ON ju.username = fmt.name');
+				$query->where('u.groupID <> fmt.ugroup');
+				$query->where('u.exemption_type = 0');
 				$db->setquery( $query );
 				$changed_forum_users_id = $db->loadResultArray();
 
@@ -263,14 +264,14 @@ Follow no ratio rules = 2
 					$uids = implode( ',', $changed_forum_users_id );
 					$query->clear();
 
-					$query  = 'UPDATE '.$db->quoteName('#__users').' AS u ';
-					$query .= 'LEFT JOIN #__temp_users_check AS fmt ON u.username = fmt.name ';
-					$query .= 'LEFT JOIN #__tracker_users_level AS ul ON ul.id = fmt.ugroup ';
-					$query .= 'SET u.id_level = fmt.ugroup, ';
+					$query  = 'UPDATE '.$db->quoteName('#__tracker_users').' AS u ';
+					$query .= 'LEFT JOIN #__temp_users_check AS fmt';
+					$query .= 'LEFT JOIN #__tracker_groups AS ul ON ul.id = fmt.ugroup ';
+					$query .= 'SET u.groupID = fmt.ugroup, ';
 					$query .= 'u.wait_time = ul.wait_time, ';
-					$query .= 'u.peers_limit = ul.peers_limit, ';
-					$query .= 'u.torrents_limit = ul.torrents_limit, ';
-					$query .= 'u.minratio = ul.minratio, ';
+					$query .= 'u.peer_limit = ul.peer_limit, ';
+					$query .= 'u.torrent_limit = ul.torrent_limit, ';
+					$query .= 'u.minimum_ratio = ul.minimum_ratio, ';
 					$query .= 'u.can_leech = ul.can_leech ';
 					$query .= 'WHERE u.id IN ( '.$uids.' )';
 /*
@@ -280,11 +281,11 @@ Follow no ratio rules = 2
 					$query->update($db->quoteName('#__users') . ' AS u');
 					$query->join('LEFT', $db->quoteName('#__temp_users_check') . ' AS fmt ON u.username = fmt.name');
 					$query->join('LEFT', $db->quoteName('#__tracker_users_level') . ' AS ul ON ul.id = fmt.ugroup');
-					$query->set('u.id_level = fmt.ugroup');
+					$query->set('u.groupID = fmt.ugroup');
 					$query->set('u.wait_time = ul.wait_time');
-					$query->set('u.peers_limit = ul.peers_limit');
-					$query->set('u.torrents_limit = ul.torrents_limit');
-					$query->set('u.minratio = ul.minratio');
+					$query->set('u.peer_limit = ul.peer_limit');
+					$query->set('u.torrent_limit = ul.torrent_limit');
+					$query->set('u.minimum_ratio = ul.minimum_ratio');
 					$query->set('u.can_leech = ul.can_leech');
 					$query->where('u.id IN ( '.$uids.' )');
 */
@@ -304,23 +305,23 @@ Follow no ratio rules = 2
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Updates the users without groups - START
 		$query	= $db->getQuery(true);
-		$query->select('download_multiplier, upload_multiplier, can_leech, wait_time, peers_limit, torrents_limit, minratio');
-		$query->from($db->quoteName('#__tracker_users_level'));
+		$query->select('download_multiplier, upload_multiplier, can_leech, wait_time, peer_limit, torrent_limit, minimum_ratio');
+		$query->from($db->quoteName('#__tracker_groups'));
 		$query->where('id = '.$component_params->get('base_group'));
 		$db->setQuery($query);
 		
 		if ($result = $db->loadObject()) {
 			$query->clear();
-			$query->update($db->quoteName('#__users'));
+			$query->update($db->quoteName('#__tracker_users'));
 			$query->set('download_multiplier = '.$result->download_multiplier);
 			$query->set('upload_multiplier = '.$result->upload_multiplier);
 			$query->set('can_leech = '.$result->can_leech);
 			$query->set('wait_time = '.$result->wait_time);
-			$query->set('peers_limit = '.$result->peers_limit);
-			$query->set('torrents_limit = '.$result->torrents_limit);
-			$query->set('minratio = '.$result->minratio);
-			$query->set('id_level = '.$component_params->get('base_group'));
-			$query->where('id_level = 0');
+			$query->set('peer_limit = '.$result->peer_limit);
+			$query->set('torrent_limit = '.$result->torrent_limit);
+			$query->set('minimum_ratio = '.$result->minimum_ratio);
+			$query->set('groupID = '.$component_params->get('base_group'));
+			$query->where('groupID = 0');
 			$query->where('block = 0');
 			$db->setQuery($query);
 			$db->query();

@@ -14,7 +14,7 @@ jimport('joomla.application.component.helper');
 jimport( 'joomla.html.parameter' );
 
 if ($this->user->guest && $this->params->get('allow_guest')) :
-	$this->user->load($this->params->get('guest_user'));
+	$this->user->id = $this->params->get('guest_user');
 endif;
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -39,6 +39,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</div>
 
 <!-- TODO: Dropdown for licenses -->
+<!-- TODO: Dropdown for torrent type (with peers, without peers, etc) -->
 
 	</fieldset>
 
@@ -47,7 +48,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<table class="adminlist" style="width:100%;">
 		<thead>
 			<tr>
-				<th width="1%" align='center'><?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_NAME', 't.name', $listDirn, $listOrder); ?></th>
+				<th width="93%" align='center'><?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_NAME', 't.name', $listDirn, $listOrder); ?></th>
+				<th width="1%">&nbsp;</th>
 				<th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'JCATEGORY', 'c.title', $listDirn, $listOrder); ?>&nbsp;</th>
 				<th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_SIZE', 't.size', $listDirn, $listOrder); ?></th>
 				<th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_CREATED_TIME', 't.created_time', $listDirn, $listOrder); ?></th>
@@ -71,23 +73,28 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			$category_params = new JParameter( $item->category_params );
 			?>
 			<tr class="row<?php echo $i % 2; ?>" style="width:90%;">
-				<td width="1%">
+				<td width="92%">
 					<a href="<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&id=".(int)$item->fid); ?>">
 					<?php echo $this->escape(str_replace('_', ' ', $item->name)); ?>
 					</a>
 				</td>
-				<td width="1%" align="center">
+				<td width="1%" align="right" nowrap>
+					<?php if ($this->params->get('enable_torrent_type')) {
+						echo TrackerHelper::checkTorrentType((int)$item->fid);
+					} ?>
+				</td>
+				<td width="1%" align="center" nowrap>
 					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DS.$category_params->get('image'))) { ?>
 						<img id="image<?php echo $item->fid;?>" alt="<?php echo $item->torrent_category; ?>" src="<?php echo JUri::root(true).DS.$category_params->get('image'); ?>" width="36" />
 					<?php }
 						else echo '&nbsp;'.$item->torrent_category.'&nbsp;';
-						?>
+					?>
 				</td>
-				<td align="right" nowrap>&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</td>
-				<td align="right" nowrap>&nbsp;<?php echo date('Y.m.d', strtotime($item->created_time));?>&nbsp;</td>
-				<td align="center" nowrap>&nbsp;<?php echo $item->leechers;?>&nbsp;</td>
-				<td align="center" nowrap>&nbsp;<?php echo $item->seeders;?>&nbsp;</td>
-				<td align="center" nowrap>&nbsp;<?php echo $item->completed;?>&nbsp;</td>
+				<td width="1%" align="right" nowrap>&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</td>
+				<td width="1%" align="right" nowrap>&nbsp;<?php echo date('Y.m.d', strtotime($item->created_time));?>&nbsp;</td>
+				<td width="1%" align="center" nowrap>&nbsp;<?php echo $item->leechers;?>&nbsp;</td>
+				<td width="1%" align="center" nowrap>&nbsp;<?php echo $item->seeders;?>&nbsp;</td>
+				<td width="1%" align="center" nowrap>&nbsp;<?php echo $item->completed;?>&nbsp;</td>
 
 				<td align="right" nowrap>&nbsp;
 				<?php 
@@ -108,6 +115,56 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</tbody>
 	</table>
 
+	<?php if ($this->params->get('enable_torrent_type') && (
+			$this->params->get('enable_torrent_type_new') ||
+			$this->params->get('enable_torrent_type_top') ||
+			$this->params->get('enable_torrent_type_hot') ||
+			$this->params->get('enable_torrent_type_semifree') ||
+			$this->params->get('enable_torrent_type_free') 
+			)) { ?>
+	<br />
+	<div>
+		<div><h2><?php echo JText::_( 'COM_TRACKER_LEGEND' );?>:</h2></div>
+		<br />
+		<?php if ($this->params->get('enable_torrent_type_new')) { ?>
+		<div>
+			<img src="<?php echo JURI::base().$this->params->get('torrent_type_new_image');?>" border="0" />
+			&nbsp;-&nbsp;
+			<?php echo JText::sprintf($this->params->get('torrent_type_new_text'), $this->params->get('torrent_type_new_value')); ?>
+		</div>
+		<?php } ?>
+		<?php if ($this->params->get('enable_torrent_type_top')) { ?>
+		<div>
+			<img src="<?php echo JURI::base().$this->params->get('torrent_type_top_image');?>" border="0" />
+			&nbsp;-&nbsp;
+			<?php echo JText::sprintf($this->params->get('torrent_type_top_text'), $this->params->get('torrent_type_top_value')); ?>
+		</div>
+		<?php } ?>
+		<?php if ($this->params->get('enable_torrent_type_hot')) { ?>
+		<div>
+			<img src="<?php echo JURI::base().$this->params->get('torrent_type_hot_image');?>" border="0" />
+			&nbsp;-&nbsp;
+			<?php echo JText::sprintf($this->params->get('torrent_type_hot_text'), $this->params->get('torrent_type_hot_value')); ?>
+		</div>
+		<?php } ?>
+		<?php if ($this->params->get('enable_torrent_type_semifree')) { ?>
+		<div>
+			<img src="<?php echo JURI::base().$this->params->get('torrent_type_semifree_image');?>" border="0" />
+			&nbsp;-&nbsp;
+			<?php echo JText::sprintf($this->params->get('torrent_type_semifree_text'), $this->params->get('torrent_type_semifree_value')); ?>
+		</div>
+		<?php } ?>
+		<?php if ($this->params->get('enable_torrent_type_free')) { ?>
+		<div>
+			<img src="<?php echo JURI::base().$this->params->get('torrent_type_free_image');?>" border="0" />
+			&nbsp;-&nbsp;
+			<?php echo $this->params->get('torrent_type_free_text');?>
+		</div>
+		<?php } ?>
+		
+	</div>
+	<?php } ?>
+	
 	<div class="pagination">
 			<?php echo $this->pagination->getLimitBox(); ?>
 			<?php echo $this->pagination->getPagesCounter(); ?>

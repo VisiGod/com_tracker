@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="report">
+		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" readonly="true" class="readonly" description="JGLOBAL_FIELD_ID_DESC" />
+
+		<field name="fid" type="text" default="" label="COM_TRACKER_TORRENT" readonly="true" class="readonly" />
+
+		<field name="reporter" type="user" label="COM_TRACKER_REPORT_REPORTER" />
+
+		<field name="report_type" type="text" default="" label="COM_TRACKER_REPORT_TYPE" />
+
+		<field name="comments" type="editor" label="COM_TRACKER_COMMENTS" width="100%" height="330" buttons="false" filter="safehtml" required="true"/>
+
+		<field name="created_time" type="calendar" format="%Y.%m.%d" label="COM_TRACKER_TORRENT_CREATED_TIME" description="" filter="safehtml" />
+
+		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+
+		<field name="state" type="hidden" default="1" />
+	</fieldset>
+</form>

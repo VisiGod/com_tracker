@@ -50,7 +50,7 @@ class TrackerViewSetting extends JView {
 		if (!isset($item['log_scrape']))								$item['log_scrape'] 		= 0;
 		if (!isset($item['offline_message']))					$item['offline_message'] 		= '';
 		if (!isset($item['pid_file']))									$item['pid_file'] 		= 'xbt_tracker.pid';
-		if (!isset($item['query_log']))								$item['query_log'] 		= 0;
+		if (!isset($item['query_log']))								$item['query_log'] 		= 'xbt_tracker_query.log';;
 		if (!isset($item['read_config_interval'])) 		$item['read_config_interval'] 		= 180;
 		if (!isset($item['read_db_interval']))					$item['read_db_interval'] 		= 300;
 
@@ -93,7 +93,7 @@ class TrackerViewSetting extends JView {
 		$item['log_scrape'] 							= JHTML::_('select.booleanlist',  'log_scrape', 'class="inputbox" size="1"', $item['log_scrape'] );
 		$item['offline_message'] 					= $item['offline_message'];
 	  $item['pid_file'] 								= $item['pid_file'];
-		$item['query_log'] 								= JHTML::_('select.booleanlist',  'query_log', 'class="inputbox" size="1"', $item['query_log'] );
+		$item['query_log'] 								= $item['query_log'];
 	  $item['read_config_interval'] 		= (int) $item['read_config_interval'];
 	  $item['read_db_interval'] 				= (int) $item['read_db_interval'];
 	  $item['redirect_url'] 						= $item['redirect_url'];

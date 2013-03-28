@@ -73,7 +73,7 @@ class TrackerModelSetting extends JModelAdmin {
 		$settings['log_scrape'] 							= (int)$data['log_scrape'];
 		$settings['offline_message'] 					= addslashes($data['offline_message']);
 		$settings['pid_file'] 								= $data['pid_file'];
-		$settings['query_log'] 								= (int)$data['query_log'];
+		$settings['query_log'] 								= $data['query_log'];
 		$settings['read_config_interval'] 		= (int)$data['read_config_interval'];
 		$settings['read_db_interval'] 				= (int)$data['read_db_interval'];
 		$settings['redirect_url'] 						= $data['redirect_url'];

@@ -12,6 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.model');
 
 JModel::addIncludePath(JPATH_SITE.'/components/com_tracker/models', 'TrackerModel');
+require_once JPATH_ADMINISTRATOR.'/components/com_tracker/helpers/tracker.php';
 
 abstract class modXbtTrackerLatestHelper {
 
@@ -24,27 +25,27 @@ abstract class modXbtTrackerLatestHelper {
 
 		$categoryId = $params->get('catid', array());
 		$count = $params->get('count', 5);
-		$ordering = $params->get('ordering', 'added');
+		$ordering = $params->get('ordering', 'created_time');
 		$ordering_direction = $params->get('ordering_direction', 'desc');
 
 		// Select the required fields from the table.
 		$query->clear();
 		$query->select('a.*');
-		$query->from('`#__tracker_files` AS a');
+		$query->from('`#__tracker_torrents` AS a');
 		$query->where('a.flags <> 1');
 
 		// Join over the user who added the torrent
 		$query->select('u.username AS torrent_owner');
-		$query->join('LEFT', '`#__users` AS u ON u.id = a.owner');
+		$query->join('LEFT', '`#__users` AS u ON u.id = a.uploader');
 
 		// Join over the torrent category
 		$query->select('c.title AS torrent_category, c.params as category_params');
-		$query->join('LEFT', '`#__categories` AS c ON c.id = a.category');
+		$query->join('LEFT', '`#__categories` AS c ON c.id = a.categoryID');
 
-		if ($appParams->get('use_licenses')) {
+		if ($appParams->get('enable_licenses')) {
 			// Join over the torrent license
 			$query->select('l.shortname AS torrent_license');
-			$query->join('LEFT', '`#__tracker_licenses` AS l ON l.id = a.license');
+			$query->join('LEFT', '`#__tracker_licenses` AS l ON l.id = a.licenseID');
 		}
 
 		if ($categoryId[0]) {

@@ -43,9 +43,9 @@
 
 		<field name="minimum_ratio" type="text" size="5" class="inputbox" label="COM_TRACKER_GROUP_MINIMUM_RATIO" description="" required="true" filter="safehtml" /> 
 
-		<field name="download_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_GROUP_DOWNLOAD_MULTIPLIER" description="" required="true" filter="safehtml" /> 
+		<field name="download_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_GROUP_DOWNLOAD_MULTIPLIER" required="true" /> 
 
-		<field name="upload_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_GROUP_UPLOAD_MULTIPLIER" description="" required="true" filter="safehtml" /> 
+		<field name="upload_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_GROUP_UPLOAD_MULTIPLIER" required="true" /> 
 
 		<field  name="view_comments" type="list" label="COM_TRACKER_GROUP_VIEW_COMMENTS" description="" class="inputbox" size="1" default="1">
 			<option value="1">JYES</option>

@@ -13,9 +13,11 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
-
+<label style="align: center;">
+	<b>You can check the list <a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" target="_blank">here</a></b>
+</label>
 <form	action="<?php	echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int)	$this->item->id);	?>"	method="post"	name="adminForm" id="banclient-form"	class="form-validate">
-	<div class="width-60 fltlft">
+	<div class="width-90 fltlft">
 		<fieldset	class="adminform">
 			<legend><?php	echo JText::_('COM_TRACKER_BANCLIENTS');	?></legend>
 			<ul	class="adminformlist">

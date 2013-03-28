@@ -71,6 +71,27 @@ class TrackerModelUserpanel extends JModelItem {
 				$user_profile->country_info = $db->loadNextObject();
 			}
 
+			if ($params->get('enable_thankyou')) {
+				// Get the number of times the user was thanked
+				$query->clear();
+				$query->select('COUNT(u.id) as total_thanks');
+				$query->from('`#__tracker_torrent_thanks` AS ttt');
+				$query->join('LEFT', '`#__tracker_torrents` AS tt ON tt.fid = ttt.torrentID');
+				$query->join('LEFT', '`#__users` AS u ON u.id = tt.uploader');
+				$query->where('u.id = ' . (int)$user_profile->id);
+				$db->setQuery( $query );
+				$user_profile->total_thanks = $db->loadResult();
+
+				// Get the number of thanks the user gave
+				$query->clear();
+				$query->select('COUNT(uid) as thanker');
+				$query->from('#__tracker_torrent_thanks');
+				$query->where('uid = ' . (int)$user_profile->id);
+				$db->setQuery( $query );
+				$user_profile->thanker = $db->loadResult();
+				
+			}
+			
 			// Get the user last IP and tracker activity
 			$query->clear();
 			$query->select('ipa, mtime');
@@ -224,11 +245,11 @@ class TrackerModelUserpanel extends JModelItem {
 
 		return $user_profile;
 	}
-/*
+
 	function resetpassversion() {
-		$app			= JFactory::getApplication();
-		$user 		= JFactory::getUser();
-		$session  = JFactory::getSession();
+		$app	= JFactory::getApplication();
+		$user	= JFactory::getUser();
+		$session= JFactory::getSession();
 
 		$user_browsing = (int)$session->get('user')->id;
 		$user_to_reset = (int)$this->getState('userpasskey.id');
@@ -259,5 +280,5 @@ class TrackerModelUserpanel extends JModelItem {
 
 		$app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel'), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
 	}
-*/
+
 }

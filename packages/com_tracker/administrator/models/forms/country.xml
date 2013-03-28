@@ -5,7 +5,7 @@
 
 		<field name="name" type="text" size="40" class="inputbox" label="COM_TRACKER_COUNTRY_NAME" description="" required="true" filter="safehtml" />
 
-		<field name="image" type="imagelist" default="" label="COM_TRACKER_COUNTRY_IMAGE" description="" directory="/media/com_tracker/flags/" exclude="" stripext="" />
+		<field name="image" type="media" label="COM_TRACKER_COUNTRY_IMAGE" directory="tracker/flags" preview="true" />
 
 		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 

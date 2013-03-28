@@ -80,8 +80,8 @@ class TrackerModelTorrents extends JModelList {
 
 	protected function getListQuery() {
 		$params = JComponentHelper::getParams('com_tracker');
-		$db			= $this->getDbo();
-		$query		= $db->getQuery(true);
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
 
 		$query->select(

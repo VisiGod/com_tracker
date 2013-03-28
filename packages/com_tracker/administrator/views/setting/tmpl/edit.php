@@ -92,7 +92,7 @@ JHtml::_('behavior.formvalidation');
 						</tr>
 						<tr>
 							<td class="key" nowrap><label for="query_log" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_QUERY_LOG' ); ?></b></label></td>
-							<td><?php echo $this->item['query_log']; ?></td>
+							<td>&nbsp;&nbsp;<input type="text" name="query_log" id="query_log" class="inputbox" size="20" value="<?php echo $this->item['query_log']; ?>" /></td>
 						</tr>	
 						<tr>
 							<td class="key" nowrap><label for="read_config_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_CONFIG_INTERVAL' ); ?></b></label></td>

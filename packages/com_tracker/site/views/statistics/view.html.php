@@ -41,8 +41,7 @@ class TrackerViewStatistics extends JView {
 		}
 		
 		if ($noaccess) {
-			JError::raiseNotice(500, JText::_( 'COM_TRACKER_STATISTICS_NO_GUEST' ));
-			return false;
+			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
 		$this->assignRef('state',		$state);

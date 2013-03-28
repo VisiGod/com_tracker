@@ -197,4 +197,111 @@ class TrackerModelUtilities extends JModelList {
 		}
 		return true;
 	}
+
+	function enable_free_leech() {
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		
+		// Create the temporary table that will have the old torrent multiplier values
+		$query  = 'CREATE TABLE IF NOT EXISTS #__tracker_torrents_freeleech (';
+		$query .= 'fid INT(11) UNSIGNED NOT NULL,';
+		$query .= 'download_multiplier FLOAT(11,2) NOT NULL,';
+		$query .= 'PRIMARY KEY (fid) );';
+		$db->setQuery((string)$query);
+		// Check if we have an error and output it
+		try {
+			$db->query();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_CREATE_TEMP_TABLE'));
+			return false;
+		}
+		
+		// If table already exists (wonder why it should but we never know...) we'll truncate it
+		$query = 'TRUNCATE TABLE #__tracker_torrents_freeleech;';
+		$db->setQuery((string)$query);
+		// Check if we have an error and output it
+		try {
+			$db->query();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_TRUNCATE_TEMP_TABLE'));
+			return false;
+		}
+		
+		// Now we fetch the torrent id, download and upload multiplier from the original torrents table
+		$query = $db->getQuery(true);
+		$query->select('fid AS fid, download_multiplier AS download_multiplier');
+		$query->from('#__tracker_torrents');
+		$db->setQuery((string)$query);
+		// Check if we have an error and output it
+		try {
+			$old_values = $db->loadAssocList();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_GET_OLD_VALUES'));
+			return false;
+		}
+
+		// Insert the old multipliers into the temporary table
+		$query->clear();
+		$query->insert($db->quoteName('#__tracker_torrents_freeleech'));
+		foreach ($old_values as $old_value) {
+			$query->values(implode(',', $old_value));
+		}
+		$db->setQuery((string)$query);
+		// Check if we have an error and output it
+		try {
+			$db->query();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_ADD_VALUES_TEMP_TABLE'));
+			return false;
+		}
+		
+		// All is good for now. We have the old multipliers saved. Let's update the torrents with multipliers = 0
+		$query->clear();
+		$query->update('#__tracker_torrents');
+		$query->set('download_multiplier = 0');
+		$query->set('flags = 2');
+		$db->setQuery((string)$query);
+		// Check if we have an error and output it
+		try {
+			$db->query();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_ALTER_TORRENTS_TABLE'));
+			return false;
+		}
+		
+		// Update the component parameter to know that freeleech is on
+		TrackerHelper::update_parameter('freeleech', '1');
+		return true;
+	}
+	
+	function disable_free_leech() {
+		$db = JFactory::getDBO();
+
+		$query  = $db->getQuery(true);
+		$query  = "UPDATE #__tracker_torrents as tt ";
+		$query .= "JOIN #__tracker_torrents_freeleech as fl on tt.fid = fl.fid ";
+		$query .= "SET tt.download_multiplier = fl.download_multiplier, tt.flags = 2";
+		$db->setQuery((string)$query);
+		try {
+			$db->query();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_SET_ORIGINAL_VALUES'));
+			return false;
+		}
+		
+		// Finally we delete the temporary table
+		$query = 'DROP TABLE IF EXISTS #__tracker_torrents_freeleech';
+		$db->setQuery((string)$query);
+		// Check if we have an error and output it
+		try {
+			$db->query();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_DELETE_TEMP_TABLE'));
+			return false;
+		}
+		
+		TrackerHelper::update_parameter('freeleech', '0');
+		return true;
+	}
+
 }

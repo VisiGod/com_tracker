@@ -2,13 +2,15 @@
 <extension type="module" version="2.5" client="site" method="upgrade">
 	<name>XBT Tracker Frontend - Tracker Statistics</name>
 	<creationDate>2012-03-15</creationDate>
-	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com).
+		All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt
+	</license>
 	<author>Hugo Carvalho</author>
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
 	<description>MOD_XBT_TRACKER_STATS</description>
-	<version>2.5.0.0</version>
+	<version>2.5.1</version>
 
 	<files>
 		<filename module="mod_xbt_tracker_stats">mod_xbt_tracker_stats.php</filename>
@@ -23,135 +25,218 @@
 		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_stats.ini</language>
 		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_stats.sys.ini</language>
 	</languages>
-		
+
 	<config addfieldpath="/modules/mod_xbt_tracker_stats/elements">
 		<fields name="params">
 			<fieldset name="basic" label="MOD_XBT_TRACKER_STATS_CHOOSE_STATS">
 				<!-- Statistics Permissions -->
-				<field type="spacer" name="MOD_XBT_TRACKER_STATS_GUEST_LABEL" hr="false" />
+				<field type="spacer" name="MOD_XBT_TRACKER_STATS_PERMISSIONS" hr="false" />
 				<field name="allow_guests" type="list" default="0" label="MOD_XBT_TRACKER_STATS_ALLOW_GUESTS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="usergroups" type="customsql" default="" label="MOD_XBT_TRACKER_STATS_USERGROUPS" multiple="multiple" query="SELECT `id`, `level` FROM `#__tracker_users_level` WHERE `state` = 1" key_field="id" value_field="level" />
+				<field name="usergroups" type="sql" default="0" label="MOD_XBT_TRACKER_STATS_USERGROUPS" multiple="multiple" query="SELECT id, name FROM #__tracker_groups WHERE state = 1" key_field="id" value_field="name" />
 				<!-- Transferred Data -->
 				<field type="spacer" name="transferred_data_space" hr="true" />
-				<field type="spacer" name="MOD_XBT_TRACKER_STATS_GENERAL_STATS_LABEL" hr="false" />
-				<field name="number_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TORRENTS">
+				<field type="spacer" name="MOD_XBT_TRACKER_STATS_GENERAL_STATS"
+					hr="false" />
+				<field name="number_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TORRENTS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_files" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_FILES">
+				<field name="number_files" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_FILES">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="total_seeders" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_SEEDERS">
+				<field name="total_seeders" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_SEEDERS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="total_leechers" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_LEECHERS">
+				<field name="total_leechers" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_LEECHERS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="total_completed" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
+				<field name="total_completed" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="bytes_shared" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_SHARED">
+				<field name="bytes_shared" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_SHARED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="bytes_transfered" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_TRANSFERED">
+				<field name="download_speed" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_DOWNLOAD_SPEED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="bytes_downloaded" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_DOWNLOADED">
+				<field name="upload_speed" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_UPLOAD_SPEED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="bytes_uploaded" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_UPLOADED">
+				<field name="bytes_transfered" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_TRANSFERED">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="bytes_downloaded" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_DOWNLOADED">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="bytes_uploaded" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_BYTES_UPLOADED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 				<!-- Top User -->
 				<field type="spacer" name="top_users_space" hr="true" />
-				<field type="spacer" name="MOD_XBT_TRACKER_STATS_TOP_USERS_LABEL" hr="false" />
-				<field name="top_downloaders" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_TOP_DOWNLOADERS">
+				<field type="spacer" name="MOD_XBT_TRACKER_STATS_TOP_USERS" hr="false" />
+				<field name="top_downloaders" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_TOP_DOWNLOADERS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_top_downloaders" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_DOWNLOADERS" filter="integer" />
-				<field name="top_uploaders" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_TOP_UPLOADERS">
+				<field name="number_top_downloaders" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_DOWNLOADERS"
+					filter="integer" />
+				<field name="top_uploaders" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_TOP_UPLOADERS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_top_uploaders" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_UPLOADERS" filter="integer" />
-				<field name="top_sharers" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_TOP_RATIO">
+				<field name="number_top_uploaders" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_UPLOADERS"
+					filter="integer" />
+				<field name="top_sharers" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_TOP_RATIO">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_top_sharers" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_SHARERS" filter="integer" />
-				<field name="worst_sharers" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_WORST_RATIO">
+				<field name="number_top_sharers" type="text" size="3" default="5"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_SHARERS" filter="integer" />
+				<field name="worst_sharers" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_WORST_RATIO">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_worst_sharers" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_SHARERS" filter="integer" />
+				<field name="number_worst_sharers" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_SHARERS"
+					filter="integer" />
+				<field name="top_thanked" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_TOP_THANKED">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="number_top_thanked" type="text" size="3" default="5"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_THANKED" filter="integer" />
+				<field name="top_thanker" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_TOP_THANKER">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="number_top_thanker" type="text" size="3" default="5"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_TOP_THANKER" filter="integer" />
 				<!-- Top Torrents -->
 				<field type="spacer" name="top_torrents_space" hr="true" />
-				<field type="spacer" name="MOD_XBT_TRACKER_STATS_TOP_TORRENTS_LABEL" hr="false" />
-				<field name="most_active_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_MOST_ACTIVE">
+				<field type="spacer" name="MOD_XBT_TRACKER_STATS_TOP_TORRENTS" hr="false" />
+				<field name="most_active_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_MOST_ACTIVE">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_most_active_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_ACTIVE_TORRENTS" filter="integer" />
-				<field name="most_seeded_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_MOST_SEEDED">
+				<field name="number_most_active_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_ACTIVE_TORRENTS"
+					filter="integer" />
+				<field name="most_seeded_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_MOST_SEEDED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_most_seeded_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_SEEDED_TORRENTS" filter="integer" />
-				<field name="most_leeched_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_MOST_LEECHED">
+				<field name="number_most_seeded_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_SEEDED_TORRENTS"
+					filter="integer" />
+				<field name="most_leeched_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_MOST_LEECHED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_most_leeched_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_LEECHED_TORRENTS" filter="integer" />
-				<field name="most_completed_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
+				<field name="number_most_leeched_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_LEECHED_TORRENTS"
+					filter="integer" />
+				<field name="most_completed_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_most_completed_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_COMPLETED_TORRENTS" filter="integer" />
+				<field name="number_most_completed_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_COMPLETED_TORRENTS"
+					filter="integer" />
+				<field name="most_thanked_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_MOST_THANKED_TORRENTS">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="number_most_thanked_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_MOST_THANKED_TORRENTS"
+					filter="integer" />
 				<!-- Worst Torrents -->
 				<field type="spacer" name="worst_torrents_space" hr="true" />
-				<field type="spacer" name="MOD_XBT_TRACKER_STATS_WORST_TORRENTS_LABEL" hr="false" />
-				<field name="worst_active_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_WORST_ACTIVE">
+				<field type="spacer" name="MOD_XBT_TRACKER_STATS_WORST_TORRENTS"
+					hr="false" />
+				<field name="worst_active_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_WORST_ACTIVE">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_worst_active_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_ACTIVE_TORRENTS" filter="integer" />
-				<field name="worst_seeded_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_WORST_SEEDED">
+				<field name="number_worst_active_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_ACTIVE_TORRENTS"
+					filter="integer" />
+				<field name="worst_seeded_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_WORST_SEEDED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_worst_seeded_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_SEEDED_TORRENTS" filter="integer" />
-				<field name="worst_leeched_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_WORST_LEECHED">
+				<field name="number_worst_seeded_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_SEEDED_TORRENTS"
+					filter="integer" />
+				<field name="worst_leeched_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_WORST_LEECHED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_worst_leeched_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_LEECHED_TORRENTS" filter="integer" />
-				<field name="worst_completed_torrents" type="list" default="1" label="MOD_XBT_TRACKER_STATS_SHOW_WORST_COMPLETED">
+				<field name="number_worst_leeched_torrents" type="text" size="3"
+					default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_LEECHED_TORRENTS"
+					filter="integer" />
+				<field name="worst_completed_torrents" type="list" default="1"
+					label="MOD_XBT_TRACKER_STATS_SHOW_WORST_COMPLETED">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				<field name="number_worst_completed_torrents" type="text" size="3" default="5" label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_COMPLETED_TORRENTS" filter="integer" />
+				<field name="number_worst_completed_torrents" type="text"
+					size="3" default="5"
+					label="MOD_XBT_TRACKER_STATS_SHOW_NUMBER_WORST_COMPLETED_TORRENTS"
+					filter="integer" />
 			</fieldset>
 
 			<fieldset name="advanced">
-				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				<field name="cache" type="list" default="1" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="moduleclass_sfx" type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field name="cache" type="list" default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-				<field name="cache_time" type="text" default="900" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field name="cache_time" type="text" default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 				<field name="cachemode" type="hidden" default="static">
 					<option value="static"></option>
 				</field>

@@ -4,7 +4,11 @@ DROP TABLE `#__tracker_countries`;
 DROP TABLE `#__tracker_deny_from_clients`;
 DROP TABLE `#__tracker_deny_from_hosts`;
 DROP TABLE `#__tracker_donations`;
+DROP TABLE `#__tracker_filetypes`;
+DROP TABLE `#__tracker_reported_torrents`;
+DROP TABLE `#__tracker_reseed_request`;
 DROP TABLE `#__tracker_torrents`;
+DROP TABLE `#__tracker_torrent_thanks`;
 DROP TABLE `#__tracker_files_in_torrents`;
 DROP TABLE `#__tracker_files_users`;
 DROP TABLE `#__tracker_licenses`;
@@ -12,4 +16,3 @@ DROP TABLE `#__tracker_scrape_log`;
 DROP TABLE `#__tracker_users`;
 DROP TABLE `#__tracker_groups`;
 DROP TABLE `xbt_config`;
-

@@ -32,6 +32,11 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
+		<div class="filter-select fltrt">
+			<label>
+				<b>You can check the list <a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" target="_blank">here</a></b>
+			</label>
+		</div>
 	</fieldset>
 	<div class="clr"> </div>
 

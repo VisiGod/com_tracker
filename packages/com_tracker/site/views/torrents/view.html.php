@@ -25,10 +25,10 @@ class TrackerViewTorrents extends JViewLegacy {
 		JRequest::setVar('start',$limitstart,'get','true');
 		
 		// Initialise variables
-		$state			= $this->get('State');
-		$items			= $this->get('Items');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
-		$params			= $app->getParams();
+		$params		= $app->getParams();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -36,13 +36,12 @@ class TrackerViewTorrents extends JViewLegacy {
 			return false;
 		}
 
-		if ($user->get('guest') && $this->get('allow_guest') == 0) {
+		if ($user->get('guest') && ($params->get('allow_guest') == 0)) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
-		if ($user->get('guest') && $this->get('allow_guest') == 1) {
-			$user = JUser::getTable('user', 'TrackerTable');
-			$user->load($this->get('guest_user'));
+		if ($user->get('guest') && $params->get('allow_guest') == 1) {
+			$user->id = $params->get('guest_user');
 		}
 
 		$this->assignRef('state', $state);

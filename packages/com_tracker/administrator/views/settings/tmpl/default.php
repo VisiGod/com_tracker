@@ -101,7 +101,7 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 						</tr>
 						<tr>
 							<td class="key" nowrap><label for="query_log" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_QUERY_LOG' ); ?></b></label></td>
-							<td><?php echo $this->items['query_log'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
+							<td><?php echo $this->items['query_log']; ?></td>
 						</tr>	
 						<tr>
 							<td class="key" nowrap><label for="read_config_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_CONFIG_INTERVAL' ); ?></b></label></td>

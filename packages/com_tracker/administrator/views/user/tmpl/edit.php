@@ -15,6 +15,40 @@ JHtml::_('behavior.formvalidation');
 $params =& JComponentHelper::getParams( 'com_tracker' );
 
 ?>
+<script type="text/javascript">
+function changedownloaded() {
+	var addRemoveDownloadDropDown = document.adminForm.addRemoveDownload;
+	var addRemoveDownload = addRemoveDownloadDropDown.options[addRemoveDownloadDropDown.selectedIndex].value;
+
+	var valueDownload = document.adminForm.valueDownload.value;
+
+	var unitDownloadDropDown = document.adminForm.unitDownload;
+	var unitDownload = unitDownloadDropDown.options[unitDownloadDropDown.selectedIndex].value;
+
+	var currentDownload = Number(document.adminForm.jform_downloaded.value);
+	var totalDownload = Number(valueDownload * unitDownload);
+
+	if (addRemoveDownload == "add") document.adminForm.jform_downloaded.value = currentDownload + totalDownload;
+	if (addRemoveDownload == "remove") document.adminForm.jform_downloaded.value = currentDownload - totalDownload;
+}
+
+function changeuploaded() {
+	var addRemoveUploadDropDown = document.adminForm.addRemoveUpload;
+	var addRemoveUpload = addRemoveUploadDropDown.options[addRemoveUploadDropDown.selectedIndex].value;
+
+	var valueUpload = document.adminForm.valueUpload.value;
+
+	var unitUploadDropDown = document.adminForm.unitUpload;
+	var unitUpload = unitUploadDropDown.options[unitUploadDropDown.selectedIndex].value;
+
+	var currentUpload = Number(document.adminForm.jform_uploaded.value);
+	var totalUpload = Number(valueUpload * unitUpload);
+
+	if (addRemoveUpload == "add") document.adminForm.jform_uploaded.value = currentUpload + totalUpload;
+	if (addRemoveUpload == "remove") document.adminForm.jform_uploaded.value = currentUpload - totalUpload;
+}
+
+</script>
 
 <form	action="<?php	echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int)	$this->item->id);	?>"	method="post"	name="adminForm" id="user-form"	class="form-validate">
 	<div class="width-50 fltlft">
@@ -67,18 +101,35 @@ $params =& JComponentHelper::getParams( 'com_tracker' );
 				<li>
 					<?php	echo $this->form->getLabel('downloaded'); ?>
 					<input type="text" name="jform[downloaded]" id="jform_downloaded" value="<?php echo $this->item->downloaded;?>" class="inputbox" size="20"/>
-<!--
-					<input type='button' id='add1G' name='add1G' onclick='javascript: changedownloaded(1073741824);' value='+1G'/>
-					<input type='button' id='remove1G' name='remove1G' onclick='javascript: changedownloaded(-1073741824);' value='-1G'/>
--->
+					<select id="addRemoveDownload">
+						<option value="add"><?php echo JText::_( 'COM_TRACKER_ADD' );?></option>
+						<option value="remove"><?php echo JText::_( 'COM_TRACKER_REMOVE' );?></option>
+					</select>
+					<input type="text" id="valueDownload" size="5" />
+					<select id="unitDownload">
+						<option value="1024"><?php echo JText::_( 'COM_TRACKER_KILOBYTES' );?></option>
+						<option value="1048576"><?php echo JText::_( 'COM_TRACKER_MEGABYTES' );?></option>
+						<option value="1073741824"><?php echo JText::_( 'COM_TRACKER_GIGABYTES' );?></option>
+						<option value="1099511627776"><?php echo JText::_( 'COM_TRACKER_TERABYTES' );?></option>
+					</select>
+					<input type='button' id='changeDownloaded' name='changeDownloaded' onclick='javascript: changedownloaded();' value='<?php echo JText::_( 'COM_TRACKER_USER_CHANGE_DOWNLOADED' );?>' />
 				</li>
 				<li>
 					<?php	echo $this->form->getLabel('uploaded'); ?>
 					<input type="text" name="jform[uploaded]" id="jform_uploaded" value="<?php echo $this->item->uploaded;?>" class="inputbox" size="20"/>
-<!--
-					<input type='button' name='add1G' onclick='javascript: changeuploaded(1073741824);' value='+1G'/>
-					<input type='button' name='remove1G' onclick='javascript: changeuploaded(-1073741824);' value='-1G'/>
--->
+					<select id="addRemoveUpload">
+						<option value="add"><?php echo JText::_( 'COM_TRACKER_ADD' );?></option>
+						<option value="remove"><?php echo JText::_( 'COM_TRACKER_REMOVE' );?></option>
+					</select>
+					<input type="text" id="valueUpload" size="5" />
+					<select id="unitUpload">
+						<option value="1024"><?php echo JText::_( 'COM_TRACKER_KILOBYTES' );?></option>
+						<option value="1048576"><?php echo JText::_( 'COM_TRACKER_MEGABYTES' );?></option>
+						<option value="1073741824"><?php echo JText::_( 'COM_TRACKER_GIGABYTES' );?></option>
+						<option value="1099511627776"><?php echo JText::_( 'COM_TRACKER_TERABYTES' );?></option>
+					</select>
+					<input type='button' id='changeUploaded' name='changeUploaded' onclick='javascript: changeuploaded();' value='<?php echo JText::_( 'COM_TRACKER_USER_CHANGE_UPLOADED' );?>' />
+
 				</li>
 				<?php if ($params->get('enable_donations')) { ?>
 				<li>

@@ -28,8 +28,14 @@ $tab_options = array(
 
 <div style="font-size: medium; margin-left:35px; wrap:nowrap;">
 	<span style="display:inline-block; vertical-align:middle"><b><?php echo JText::_( 'COM_TRACKER_DETAILS_FOR' ); ?>:</b>&nbsp;<i><?php echo $this->item->name;?></i>&nbsp;&nbsp;&nbsp;</span>
-	<?php if ($this->params->get('enable_countries')) {?>
-	<span style="display:inline-block; vertical-align:middle"><img id="<?php echo $this->item->country_info->name; ?>" alt="<?php echo $this->item->country_info->name; ?>" src="<?php echo JURI::base().'media/com_tracker/flags/'.$this->item->country_info->image; ?>" width="32" /></span>
+	<?php if ($this->params->get('enable_countries')) {
+			if (empty($item->country_info->name)) {
+				$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+				$this->item->country_info->name = $item->default_country->name; 
+				$this->item->country_info->image = $item->default_country->image;
+			}
+	?>
+	<span style="display:inline-block; vertical-align:middle"><img id="<?php echo $this->item->country_info->name; ?>" alt="<?php echo $this->item->country_info->name; ?>" src="<?php echo JURI::base().$this->item->country_info->image; ?>" width="32" /></span>
 	<?php } ?>
 </div>
 <?php echo JHtml::_('tabs.start', 'user_details_start', $tab_options); ?>
@@ -91,21 +97,21 @@ $tab_options = array(
 				<td class="row1" width="1%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_LIMIT' ); ?>:</b></td>
 				<td class="row0" width="98%" nowrap align="left">&nbsp;<?php echo $this->item->tracker_info->torrent_limit ? JText::_( 'COM_TRACKER_TORRENT_LIMIT_START' ).$this->item->tracker_info->torrent_limit.JText::_( 'COM_TRACKER_TORRENT_LIMIT_END' ) : JText::_( 'COM_TRACKER_NO_TORRENT_LIMIT' )  ;?></td>
 			</tr>
-				<?php if ($this->params->get('torrent_multiplier') == 1) { ?>
-						<tr>
-							<td class="row1" width="1%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER' ); ?>:</b></td>
-							<td class="row0" width="98%" nowrap align="left">&nbsp;<?php echo $this->item->tracker_info->download_multiplier.'   '.JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER_DESCRIPTION' );?></td>
-						</tr>
-						<tr>
-							<td class="row1" width="1%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOAD_MULTIPLIER' ); ?>:</b></td>
-							<td class="row0" width="98%" nowrap align="left">&nbsp;<?php echo $this->item->tracker_info->upload_multiplier.'   '.JText::_( 'COM_TRACKER_UPLOAD_MULTIPLIER_DESCRIPTION' );?></td>
-						</tr>
-				<?php }
-					} else { ?>
-			<tr>
-				<td class="row1" align="right"><b><?php echo '&nbsp;'.JText::_( 'COM_TRACKER_USER_CAN_DOWNLOAD' ); ?>:</b></td>
-				<td class="row0" align="left"><?php echo '&nbsp;'.JText::_( 'COM_TRACKER_USER_CANNOT_DOWNLOAD' ); ?></td>
-			</tr>
+			<?php if ($this->params->get('torrent_multiplier') == 1) { ?>
+				<tr>
+					<td class="row1" width="1%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER' ); ?>:</b></td>
+					<td class="row0" width="98%" nowrap align="left">&nbsp;<?php echo $this->item->tracker_info->download_multiplier.'   '.JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER_DESCRIPTION' );?></td>
+				</tr>
+				<tr>
+					<td class="row1" width="1%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOAD_MULTIPLIER' ); ?>:</b></td>
+					<td class="row0" width="98%" nowrap align="left">&nbsp;<?php echo $this->item->tracker_info->upload_multiplier.'   '.JText::_( 'COM_TRACKER_UPLOAD_MULTIPLIER_DESCRIPTION' );?></td>
+				</tr>
+			<?php }
+				} else { ?>
+				<tr>
+					<td class="row1" align="right"><b><?php echo '&nbsp;'.JText::_( 'COM_TRACKER_USER_CAN_DOWNLOAD' ); ?>:</b></td>
+					<td class="row0" align="left"><?php echo '&nbsp;'.JText::_( 'COM_TRACKER_USER_CANNOT_DOWNLOAD' ); ?></td>
+				</tr>
 				<?php }
 			}
 			if (((TrackerHelper::user_permissions('edit_torrents', $this->session->get('user')->id, 1)) || $this->session->get('user')->id == $this->item->id) && $this->item->user_donations->donated) { ?>
@@ -118,6 +124,20 @@ $tab_options = array(
 					?>
 				</td>
 			</tr>
+			
+			<!-- Show the Thanks related info -->
+			<?php if ($this->params->get('enable_thankyou') == 1) { ?>
+			<tr>
+				<td class="row1" align="right"><b><?php echo '&nbsp;'.JText::_( 'COM_TRACKER_USER_THANKS_RECEIVED' ); ?>:</b></td>
+				<td class="row0" align="left"><?php echo '&nbsp;'.$this->item->total_thanks.'&nbsp;'.JText::_( 'COM_TRACKER_USER_THANKS' ); ?></td>
+			</tr>
+			
+			<tr>
+				<td class="row1" align="right"><b><?php echo '&nbsp;'.JText::_( 'COM_TRACKER_USER_THANKS_GIVEN' ); ?>:</b></td>
+				<td class="row0" align="left"><?php echo '&nbsp;'.$this->item->thanker.'&nbsp;'.JText::_( 'COM_TRACKER_USER_THANKS' ); ?></td>
+			</tr>
+			<?php } ?>
+			
 			<?php }
 			if ($this->session->get('user')->id == $this->item->id) {?>
 			<tr>

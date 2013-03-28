@@ -15,7 +15,7 @@ function quickiconButton( $link, $image, $text ) {
 	$lang		=& JFactory::getLanguage();
 	?>
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
-	<div class="icon"><a href="<?php echo $link; ?>"> <?php echo JHTML::_('image.site',	$image, '../media/com_tracker/images/', NULL, NULL, $text );?>
+	<div class="icon"><a href="<?php echo $link; ?>"> <?php echo JHTML::_('image.site',	$image, 'components/com_tracker/images/panel/', NULL, NULL, $text );?>
 	<span><?php echo $text; ?></span></a></div>
 	</div>
 <?php } ?>
@@ -87,7 +87,7 @@ function quickiconButton( $link, $image, $text ) {
 			</tr>
 			<tr>
 				<td class="key" align="right"><?php echo JText::_( 'COM_TRACKER_CONTROL_PANEL_FLAGS_ICONS' );?></td>
-				<td align="left">&nbsp;&nbsp;<a href="http://kristo1594.deviantart.com/" target="_blank">Kristo1594</a></td>
+				<td align="left">&nbsp;&nbsp;<a href="http://kampongboy92.deviantart.com/" target="_blank">kampongboy92</a></td>
 			</tr>
 			<tr>
 				<td class="key" align="right"><?php echo JText::_( 'COM_TRACKER_CONTROL_PANEL_ICONS' );?></td>
@@ -101,12 +101,16 @@ function quickiconButton( $link, $image, $text ) {
 		quickiconButton( 'index.php?option=com_categories&amp;extension=com_tracker', 'category-48x48.png', JText::_( 'JCATEGORIES' ) );
 		quickiconButton( 'index.php?option=com_tracker&amp;view=users', 'tuser-48x48.png', JText::_( 'COM_TRACKER_USERS' ) );
 		quickiconButton( 'index.php?option=com_tracker&amp;view=groups', 'group-48x48.png', JText::_( 'COM_TRACKER_GROUPS' ) );
-		if ($params->get('enable_comments')) quickiconButton( 'index.php?option=com_tracker&amp;view=comments', 'comments-48x48.png', JText::_( 'COM_TRACKER_COMMENTS' ) );
+		if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') quickiconButton( 'index.php?option=com_tracker&amp;view=comments', 'comments-48x48.png', JText::_( 'COM_TRACKER_COMMENTS' ) );
 		if ($params->get('enable_donations')) quickiconButton( 'index.php?option=com_tracker&amp;view=donations', 'donations-48x48.png', JText::_( 'COM_TRACKER_DONATIONS' ) );
 		if ($params->get('enable_licenses')) quickiconButton( 'index.php?option=com_tracker&amp;view=licenses', 'licenses-48x48.png', JText::_( 'COM_TRACKER_LICENSES' ) );
 		if ($params->get('enable_countries')) quickiconButton( 'index.php?option=com_tracker&amp;view=countries', 'countries-48x48.png', JText::_( 'COM_TRACKER_COUNTRIES' ) );
 		if ($params->get('peer_banning')) quickiconButton( 'index.php?option=com_tracker&amp;view=banclients', 'clientban-48x48.png', JText::_( 'COM_TRACKER_BANCLIENTS' ) );
 		if ($params->get('host_banning')) quickiconButton( 'index.php?option=com_tracker&amp;view=banhosts', 'ipban-48x48.png', JText::_( 'COM_TRACKER_BANHOSTS' ) );
+		if ($params->get('enable_thankyou')) quickiconButton( 'index.php?option=com_tracker&amp;view=thankyous', 'thankyou-48x48.png', JText::_( 'COM_TRACKER_THANKYOUS' ) );
+		if ($params->get('enable_filetypes')) quickiconButton( 'index.php?option=com_tracker&amp;view=filetypes', 'filetype-48x48.png', JText::_( 'COM_TRACKER_FILETYPES' ) );
+		if ($params->get('enable_reseedrequest')) quickiconButton( 'index.php?option=com_tracker&amp;view=reseeds', 'reseed-48x48.png', JText::_( 'COM_TRACKER_RESEEDS' ) );
+		if ($params->get('enable_reporttorrent')) quickiconButton( 'index.php?option=com_tracker&amp;view=reports', 'report-48x48.png', JText::_( 'COM_TRACKER_REPORTS' ) );
 		quickiconButton( 'index.php?option=com_tracker&amp;view=settings', 'settings-48x48.png', JText::_( 'COM_TRACKER_SETTINGS' ) );
 		quickiconButton( 'index.php?option=com_tracker&amp;view=utilities', 'utilities-48x48.png', JText::_( 'COM_TRACKER_UTILITIES' ) );
 		?>

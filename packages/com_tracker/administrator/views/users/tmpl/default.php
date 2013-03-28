@@ -135,7 +135,7 @@ $params =& JComponentHelper::getParams( 'com_tracker' );
 				<?php if ($params->get('enable_countries')) { ?>
 					<td align="center" nowrap>
 						<?php if ($item->countryName) {?>
-							<div class="icon"><?php echo JHTML::_('image.site',	$item->countryImage, '../media/com_tracker/flags/', NULL, NULL, $item->countryName );?></div>
+							<div class="icon"><?php echo '<img id="flag'.$item->countryImage.'" alt="'.$item->countryName.'" src="'.JUri::root().$item->countryImage.'" width="36" />'; ?></div>
 						<?php } else echo JText::_( 'COM_TRACKER_NONE' );?>
 					</td>
 				<?php } ?>

@@ -12,8 +12,9 @@ defined('_JEXEC') or die('Restricted Access');
 
 // load tooltip behavior
 JHtml::_('behavior.tooltip');
-?>
 
+$params =& JComponentHelper::getParams( 'com_tracker' );
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<div class="width-40 fltlft">
 		<fieldset class="adminform">
@@ -51,16 +52,15 @@ JHtml::_('behavior.tooltip');
 				<li><?php echo $this->form->getLabel('download_torrents'); ?><?php echo $this->form->getInput('download_torrents'); ?></li>
 
 				<li><?php echo $this->form->getLabel('can_leech'); ?><?php echo $this->form->getInput('can_leech'); ?></li>
-
 			</ul>
 		</fieldset>
 	</div>
-
+	
+	<?php if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') {?>
 	<div class="width-30 fltlft">
 		<fieldset class="adminform">
 			<legend><?php	echo JText::_('COM_TRACKER_COMMENTS');	?></legend>
 			<ul class="adminformlist">
-				
 				<li><?php echo $this->form->getLabel('view_comments'); ?><?php echo $this->form->getInput('view_comments'); ?></li>
 
 				<li><?php echo $this->form->getLabel('write_comments'); ?><?php echo $this->form->getInput('write_comments'); ?></li>
@@ -70,10 +70,10 @@ JHtml::_('behavior.tooltip');
 				<li><?php echo $this->form->getLabel('delete_comments'); ?><?php echo $this->form->getInput('delete_comments'); ?></li>
 
 				<li><?php echo $this->form->getLabel('autopublish_comments'); ?><?php echo $this->form->getInput('autopublish_comments'); ?></li>
-
 			</ul>
 		</fieldset>
 	</div>
+	<?php } ?>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

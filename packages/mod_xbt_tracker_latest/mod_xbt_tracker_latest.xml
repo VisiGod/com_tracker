@@ -30,8 +30,8 @@
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 				<field name="count" type="text" default="5" filter="integer" label="MOD_XBT_TRACKER_LATEST_COUNT_LABEL" description="MOD_XBT_TRACKER_LATEST_COUNT_DESCRIPTION" />
-				<field name="ordering" type="list" default="published" label="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_LABEL" description="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_DESCRIPTION">
-					<option value="added">MOD_XBT_TRACKER_LATEST_ADDED</option>
+				<field name="ordering" type="list" default="published" label="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_LABEL" description="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_DESCRIPTION">
+					<option value="created_time">MOD_XBT_TRACKER_LATEST_CREATED_TIME</option>
 					<option value="leechers">MOD_XBT_TRACKER_LATEST_LEECHERS</option>
 					<option value="seeders">MOD_XBT_TRACKER_LATEST_SEEDERS</option>
 					<option value="peers">MOD_XBT_TRACKER_LATEST_PEERS</option>
@@ -40,7 +40,7 @@
 					<option value="name">MOD_XBT_TRACKER_LATEST_NAME</option>
 					<option value="filename">MOD_XBT_TRACKER_LATEST_FILENAME</option>
 				</field>
-				<field name="ordering_direction" type="list" default="published" label="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_DIRECTION_LABEL" description="MOD_XBT_TRACKER_LATEST_ADDED_ORDERING_DIRECTION_DESCRIPTION">
+				<field name="ordering_direction" type="list" default="published" label="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_DIRECTION_LABEL" description="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_DIRECTION_DESCRIPTION">
 					<option value="asc">MOD_XBT_TRACKER_LATEST_ASCENDING</option>
 					<option value="desc">MOD_XBT_TRACKER_LATEST_DESCENDING</option>
 				</field>
@@ -65,7 +65,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="added_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_ADDED_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_ADDED_FIELD_DESCRIPTION">
+				<field name="created_time_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_CREATED_TIME_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_CREATED_TIME_FIELD_DESCRIPTION">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -81,7 +81,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="numfiles_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_NUMFILES_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_NUMFILES_FIELD_DESCRIPTION">
+				<field name="number_files_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_NUMBER_FILES_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_NUMBER_FILES_FIELD_DESCRIPTION">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

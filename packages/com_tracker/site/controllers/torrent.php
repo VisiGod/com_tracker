@@ -44,6 +44,35 @@ class TrackerControllerTorrent extends JControllerForm {
 		}
 	}
 
+	function thanks() {
+		$id = JRequest::getInt('id', 0);
+	
+		if ($id) {
+			$model = $this->getModel('Torrent','TrackerModel',array('ignore_request'=>true));
+			$model->setState('torrent.id',$id);
+			$model->thanks();
+		}
+	}
+
+	function reseed() {
+		$id = JRequest::getInt('id', 0);
+	
+		if ($id) {
+			$model = $this->getModel('Torrent','TrackerModel',array('ignore_request'=>true));
+			$model->setState('torrent.id',$id);
+			$model->reseed();
+		}
+	}
+
+	function reported() {
+		$app	= JFactory::getApplication();
+		$model = $this->getModel('Torrent','TrackerModel',array('ignore_request'=>true));
+	
+		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$app->setUserState('com_tracker.reported.torrent.data', $data);
+		$model->reported();
+	}
+	
 	function uploaded() {
 		$app	= JFactory::getApplication();
 		$model = $this->getModel('Torrent','TrackerModel',array('ignore_request'=>true));
@@ -53,6 +82,7 @@ class TrackerControllerTorrent extends JControllerForm {
 		$model->uploaded();
 	}
 
+	
 /*
 	function commented() {
 		$app	= JFactory::getApplication();

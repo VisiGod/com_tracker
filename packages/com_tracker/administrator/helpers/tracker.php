@@ -20,28 +20,36 @@ abstract class TrackerHelper {
 		JSubMenuHelper::addEntry(JText::_('JCATEGORIES'), 'index.php?option=com_categories&extension=com_tracker', $submenu == 'categories');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_USERS'), 'index.php?option=com_tracker&view=users', $submenu == 'users');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_GROUPS'), 'index.php?option=com_tracker&view=groups', $submenu == 'groups');
-		if ($params->get('enable_comments')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_COMMENTS'), 'index.php?option=com_tracker&view=comments',  $submenu == 'comments');
+		if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') JSubMenuHelper::addEntry(JText::_('COM_TRACKER_COMMENTS'), 'index.php?option=com_tracker&view=comments',  $submenu == 'comments');
 		if ($params->get('enable_donations')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_DONATIONS'), 'index.php?option=com_tracker&view=donations',  $submenu == 'donations');
 		if ($params->get('enable_licenses')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_LICENSES'), 'index.php?option=com_tracker&view=licenses', $submenu == 'licenses');
 		if ($params->get('enable_countries')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_COUNTRIES'), 'index.php?option=com_tracker&view=countries', $submenu == 'countries');
 		if ($params->get('peer_banning')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_BANCLIENTS'), 'index.php?option=com_tracker&view=banclients', $submenu == 'banclients');
 		if ($params->get('host_banning')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_BANHOSTS'), 'index.php?option=com_tracker&view=banhosts', $submenu == 'banhosts');
+		if ($params->get('enable_thankyou')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_THANKYOUS'), 'index.php?option=com_tracker&view=thankyous', $submenu == 'thankyous');
+		if ($params->get('enable_filetypes')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_FILETYPES'), 'index.php?option=com_tracker&view=filetypes', $submenu == 'filetypes');
+		if ($params->get('enable_reseedrequest')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_RESEEDS'), 'index.php?option=com_tracker&view=reseeds', $submenu == 'reseeds');
+		if ($params->get('enable_reporttorrent')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_REPORTS'), 'index.php?option=com_tracker&view=reports', $submenu == 'reports');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_SETTINGS'), 'index.php?option=com_tracker&view=settings', $submenu == 'settings');
 		JSubMenuHelper::addEntry( JText::_('COM_TRACKER_UTILITIES'), 'index.php?option=com_tracker&view=utilities', $submenu == 'utilities');
 		// set some global property
 		$document = JFactory::getDocument();
-		$document->addStyleDeclaration('.icon-48-trackerpanel {background-image: url(../media/com_tracker/images/logo-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-torrents {background-image: url(../media/com_tracker/images/torrent-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-users {background-image: url(../media/com_tracker/images/tuser-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-groups {background-image: url(../media/com_tracker/images/group-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-comments {background-image: url(../media/com_tracker/images/comments-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-donations {background-image: url(../media/com_tracker/images/donations-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-licenses {background-image: url(../media/com_tracker/images/licenses-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-countries {background-image: url(../media/com_tracker/images/countries-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-clientban {background-image: url(../media/com_tracker/images/clientban-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-ipban {background-image: url(../media/com_tracker/images/ipban-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-settings {background-image: url(../media/com_tracker/images/settings-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-utilities {background-image: url(../media/com_tracker/images/utilities-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-trackerpanel {background-image: url(components/com_tracker/images/panel/logo-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-torrents {background-image: url(components/com_tracker/images/panel/torrent-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-users {background-image: url(components/com_tracker/images/panel/tuser-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-groups {background-image: url(components/com_tracker/images/panel/group-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-comments {background-image: url(components/com_tracker/images/panel/comments-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-donations {background-image: url(components/com_tracker/images/panel/donations-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-licenses {background-image: url(components/com_tracker/images/panel/licenses-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-countries {background-image: url(components/com_tracker/images/panel/countries-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-clientban {background-image: url(components/com_tracker/images/panel/clientban-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-ipban {background-image: url(components/com_tracker/images/panel/ipban-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-thankyou {background-image: url(components/com_tracker/images/panel/thankyou-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-filetype {background-image: url(components/com_tracker/images/panel/filetype-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-reseed {background-image: url(components/com_tracker/images/panel/reseed-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-report {background-image: url(components/com_tracker/images/panel/report-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-settings {background-image: url(components/com_tracker/images/panel/settings-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-utilities {background-image: url(components/com_tracker/images/panel/utilities-48x48.png);}');
 	}
 
 	public static function getActions($Id = 0, $Asset = NULL) {
@@ -70,12 +78,21 @@ abstract class TrackerHelper {
 		else return number_format($bytes / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABYTES' );
 	}
 
-	public static function make_ratio($downloaded,$uploaded) {
+	public static function make_speed($bits) {
+		if ($bits < 1000 * 1024) return number_format($bits / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBITS' );
+		elseif ($bits < 1000 * 1048576) return number_format($bits / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABITS' );
+		elseif ($bits < 1000 * 1073741824) return number_format($bits / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABTIS' );
+		else return number_format($bits / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABITS' );
+	}
+	
+	public static function make_ratio($downloaded, $uploaded, $clean='0') {
 		if ($downloaded > 0 && $uploaded > 0) {
-			$temp_ratio = number_format(($uploaded/$downloaded), 3, ',', ' ');
+			$temp_ratio = number_format(($uploaded/$downloaded), 3, '.', ' ');
+			if ($clean = 1) return $temp_ratio;
 			if ($temp_ratio < 1 ) return "<font color='red'><b>".$temp_ratio."</b></font>";
 			else return "<font color='blue'><b>".$temp_ratio."</b></font>";
 		}
+		elseif ($clean = 1) return 0;
 		elseif ($downloaded < 1 && $uploaded > 0) return '<b>'.JText::_( 'COM_TRACKER_SEED' ).'</b>';
 		elseif ($downloaded < 1 && $uploaded < 1) return JText::_( 'COM_TRACKER_NONE' );
 		elseif ($downloaded > 0 && $uploaded < 1) return '<b>'.JText::_( 'COM_TRACKER_LEECH' ).'</b>';
@@ -359,8 +376,15 @@ abstract class TrackerHelper {
 	function get_new_users() { // Insert new users into the tracker_users table
 		$db 	= &JFactory::getDBO();
 		$params = JComponentHelper::getParams('com_tracker');
-
 		$query	= $db->getQuery(true);
+		
+		$query->select('minimum_ratio, download_torrents, wait_time, peer_limit, torrent_limit, download_multiplier, upload_multiplier');
+		$query->from('#__tracker_groups');
+		$query->where('id = '.(int)$params->get('base_group'));
+		$db->setQuery($query);
+		$base_group = $db->loadAssoc();
+		
+		$query->clear();
 		$query->select('u.id as id');
 		$query->from('#__users as u');
 		$query->join('LEFT', '`#__tracker_users` AS tu ON u.id = tu.id');
@@ -379,20 +403,20 @@ abstract class TrackerHelper {
 			$query->set('downloaded = 0');
 			$query->set('uploaded = '.($params->get('welcome_gigs') * 1073741824));
 			$query->set('exemption_type = 2');
-			$query->set('minimum_ratio = 1');
-			$query->set('can_leech = 0');
-			$query->set('wait_time = 1');
-			$query->set('peer_limit = 1');
-			$query->set('torrent_limit = 1');
+			$query->set('minimum_ratio = '.$base_group['minimum_ratio']);
+			$query->set('can_leech = '.(int)$base_group['download_torrents']);
+			$query->set('wait_time = '.(int)$base_group['wait_time']);
+			$query->set('peer_limit = '.(int)$base_group['peer_limit']);
+			$query->set('torrent_limit = '.(int)$base_group['torrent_limit']);
 			$query->set('torrent_pass_version = 1');
 			$query->set('multiplier_type = 0');
-			$query->set('download_multiplier = 1');
-			$query->set('upload_multiplier = 1');
+			$query->set('download_multiplier = '.$base_group['download_multiplier']);
+			$query->set('upload_multiplier = '.$base_group['upload_multiplier']);
 			$query->set('ordering = '.(int)$newuser['id']);
 			$db->setQuery($query);
 			$db->query();
 		}
-		
+
 	}
 
 	function make_wait_time($difference, $long) {
@@ -445,6 +469,158 @@ abstract class TrackerHelper {
 			}
 		}
 	}
+
+	function checkThanks($userID, $torrentID) {
+		$db 	= &JFactory::getDBO();
+		
+		$query	= $db->getQuery(true);
+		$query->select('uid');
+		$query->from('#__tracker_torrent_thanks');
+		$query->where('uid ='.(int)$userID);
+		$query->where('torrentID ='.(int)$torrentID);
+		$db->setQuery($query);
+		if ($db->loadResult()) return 0;
+		else return $userID;
+	}
+
+	function getLastOrder($tablename) { // Get the last ordering from the table we choose
+
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT MAX(ordering) FROM #__'.$tablename);
+		$max = $db->loadResult();
+
+		return $max+1;
+
+	}
+
+	function update_parameter($name, $value) { // Update a parameter value by name 
+		// retrieve existing params
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT params FROM #__extensions WHERE name = "com_tracker"');
+		$params = json_decode( $db->loadResult(), true );
+	
+		// change the parameter value 
+		$params[$name] = $value;
+	
+		// store the combined result
+		$paramsString = json_encode( $params );
+		$db->setQuery('UPDATE #__extensions SET params = ' .$db->quote( $paramsString ) .' WHERE name = "com_tracker"' );
+		$db->query();
+	}
+
+	function getFileImage($filename) {	// echos the filetype of the image
+		$extension = JFile::getExt($filename);
+		
+		$filetype_imagelink = JURI::base().'/images/tracker/filetypes/'.$extension.'.png';
+		$filetype_imagepath = $_SERVER['DOCUMENT_ROOT'].JUri::root(true).'/images/tracker/filetypes/'.$extension.'.png';
+		
+		if (is_file($filetype_imagepath)) echo '<img id="'.$filename.'" alt="'.$filename.'" src="'.$filetype_imagelink.'" width="60" />';
+		else echo '<img id="'.$filename.'" alt="'.$filename.'" src="'.JUri::root(true).'/images/tracker/filetypes/default.png'.'" width="60" />';
+	}
+
+	function checkReseedRequest($userID, $torrentID) {
+		$db 	= &JFactory::getDBO();
+	
+		$query	= $db->getQuery(true);
+		$query->select('requester');
+		$query->from('#__tracker_reseed_request');
+		$query->where('requester ='.(int)$userID);
+		$query->where('fid ='.(int)$torrentID);
+		$db->setQuery($query);
+		if ($db->loadResult()) return 0;
+		else return $userID;
+	}
+
+	function getCountryDetails($countryID) {
+		$db 	= &JFactory::getDBO();
+		
+		$query	= $db->getQuery(true);
+		$query->select('name, image');
+		$query->from('#__tracker_countries');
+		$query->where('id ='.(int)$countryID);
+		$db->setQuery($query);
+		try {
+			$default_country = $db->loadNextObject();
+		} catch (Exception $e) {
+			$this->setError(JText::_( 'COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'));
+			return false;
+		}
+		return $default_country;
+	}
+
+	function checkReportedTorrent($userID, $torrentID) {
+		$db 	= &JFactory::getDBO();
+	
+		$query	= $db->getQuery(true);
+		$query->select('reporter');
+		$query->from('#__tracker_reported_torrents');
+		$query->where('reporter ='.(int)$userID);
+		$query->where('fid ='.(int)$torrentID);
+		$db->setQuery($query);
+		if ($db->loadResult()) return 0;
+		else return $userID;
+	}
+
+	function checkTorrentType($torrentID) {
+		$db 	= &JFactory::getDBO();
+		
+		$query	= $db->getQuery(true);
+		$query->select('download_multiplier, created_time, seeders');
+		$query->from('#__tracker_torrents');
+		$query->where('fid ='.(int)$torrentID);
+		$db->setQuery($query);
+		$torrent_type = $db->loadNextObject();
+		
+		// Check if torrent is free
+		if ($this->params->get('enable_torrent_type_free')) {
+			if ($torrent_type->download_multiplier == 0)
+				echo '<img id="'.$torrentID.'free" alt="'.JText::_('COM_TRACKER_FREE').'" src="'.JURI::base().$this->params->get('torrent_type_free_image').'" />';
+		}
+
+		// Check if torrent is semi-free
+		if ($this->params->get('enable_torrent_type_semifree')) {
+			if ($torrent_type->download_multiplier <= $this->params->get('torrent_type_semifree_value') && $torrent_type->download_multiplier > 0)
+				echo '<img id="'.$torrentID.'semifree" alt="'.JText::_('COM_TRACKER_SEMIFREE').'" src="'.JURI::base().$this->params->get('torrent_type_semifree_image').'" />';
+		}
+
+		// Check if torrent is new
+		if ($this->params->get('enable_torrent_type_new')) {
+			if ((date("U") - strtotime($torrent_type->created_time)) < ($this->params->get('torrent_type_new_value') * 3600))
+				echo '<img id="'.$torrentID.'new" alt="'.JText::_('COM_TRACKER_NEW').'" src="'.JURI::base().$this->params->get('torrent_type_new_image').'" />';
+		}
+
+		// Now for the messy part. We need to check if top or hot isn't used and return only what's used
+		// Or if both are used we need to compare the values to see which one we check first
+		
+		// If we're using only top value and not using hot value
+		if ($this->params->get('enable_torrent_type_top') && !$this->params->get('enable_torrent_type_hot')) {
+			if ($torrent_type->seeders >= $this->params->get('torrent_type_top_value'))
+				echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$this->params->get('torrent_type_top_image').'" />';
+		}
+		
+		//But if we're only using hot value and not using top value
+		if ($this->params->get('enable_torrent_type_hot') && !$this->params->get('enable_torrent_type_top')) {
+			if ($torrent_type->seeders >= $this->params->get('torrent_type_hot_value'))
+				echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$this->params->get('torrent_type_hot_image').'" />';
+		}
+
+		// To finish the mess, we're using both values (top and hot) and we need to check which one is bigger
+		if ($this->params->get('enable_torrent_type_hot') && $this->params->get('enable_torrent_type_top')) {
+			// If top value > hot value, we check top first
+			if ($this->params->get('torrent_type_top_value') > $this->params->get('torrent_type_hot_value')) {
+				if ($torrent_type->seeders >= $this->params->get('torrent_type_top_value'))
+					echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$this->params->get('torrent_type_top_image').'" />';
+				elseif ($torrent_type->seeders >= $this->params->get('torrent_type_hot_value'))
+					echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$this->params->get('torrent_type_hot_image').'" />';
+			} else { // Or we check hot first
+				if ($torrent_type->seeders >= $this->params->get('torrent_type_hot_value'))
+					echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$this->params->get('torrent_type_hot_image').'" />';
+				elseif ($torrent_type->seeders >= $this->params->get('torrent_type_top_value'))
+					echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$this->params->get('torrent_type_top_image').'" />';
+			}
+		}
+	}
+
 
 // ########################################################################################################################################
 /*

@@ -22,10 +22,8 @@ class TrackerControllerUtilities extends JControllerAdmin {
 	}
 
 	public function clearannounce() {
-		// Get the model.
 		$model = $this->getModel();
 
-		// Clear the extra record from the announce table
 		if (!$model->clearannounce()) JError::raiseWarning(500, $model->getError());
 		else $this->setMessage(JText::_( 'COM_TRACKER_UTILITY_OPTIMIZE_TABLES_ANNOUNCE_LOG_OPTIMIZED'));
 
@@ -33,10 +31,8 @@ class TrackerControllerUtilities extends JControllerAdmin {
 	}
 
 	public function optimizetables() {
-		// Get the model.
 		$model = $this->getModel();
 
-		// Clear the extra record from the announce table
 		if (!$model->optimizetables()) JError::raiseWarning(500, $model->getError());
 		else $this->setMessage(JText::_( 'COM_TRACKER_UTILITY_OPTIMIZE_TABLES_TABLES_WERE_OPTIMIZED'));
 
@@ -44,14 +40,30 @@ class TrackerControllerUtilities extends JControllerAdmin {
 	}
 
 	public function importgroups() {
-		// Get the model.
 		$model = $this->getModel();
 
-		// Clear the extra record from the announce table
 		if (!$model->importgroups()) JError::raiseWarning(500, $model->getError());
 		else $this->setMessage(JText::_( 'COM_TRACKER_UTILITY_OPTIMIZE_TABLES_GROUPS_IMPORTED'));
 
 		$this->setRedirect('index.php?option=com_tracker&view=utilities');
 	}
+	
+	public function enable_free_leech() {
+		$model = $this->getModel();
+	
+		if (!$model->enable_free_leech()) JError::raiseWarning(500, $model->getError());
+		else $this->setMessage(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_ENABLED'));
+	
+		$this->setRedirect('index.php?option=com_tracker&view=utilities');
+	}
 
+	public function disable_free_leech() {
+		$model = $this->getModel();
+	
+		if (!$model->disable_free_leech()) JError::raiseWarning(500, $model->getError());
+		else $this->setMessage(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_DISABLED'));
+	
+		$this->setRedirect('index.php?option=com_tracker&view=utilities');
+	}
+	
 }

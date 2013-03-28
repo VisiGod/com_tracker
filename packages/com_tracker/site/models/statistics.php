@@ -57,6 +57,18 @@ class TrackerModelStatistics extends JModelItem {
 			$total_torrents->total_transferred = $db->loadObject();
 		}
 		
+		// If we have peer speed we get some speed stats
+		if ($params->get('peer_speed')) {
+			// Get the total downloaded and uploaded
+			$query->clear();
+			$query->select('SUM(down_rate) AS download_rate');
+			$query->select('SUM(up_rate) AS upload_rate');
+			$query->from('#__tracker_files_users');
+			$db->setQuery($query);
+			$total_torrents->total_speed = $db->loadObject();
+		}
+		
+		// User stats
 		if ($params->get('top_downloaders') && $params->get('number_top_downloaders')) {
 			// Get the top downloaders
 			$query->clear();
@@ -115,6 +127,42 @@ class TrackerModelStatistics extends JModelItem {
 			$total_torrents->worst_sharers = $db->loadObjectList();
 		} else $total_torrents->worst_sharers = 0;
 
+		// ---------------------------------------------
+		if ($params->get('top_thanked') && $params->get('number_top_thanked')) {
+			// Get the top thanked users
+			$query->clear();
+			$query->select('u.id as uid, u.name, tg.name as usergroup, c.image as countryImage');
+			$query->select('c.name as countryName, ttt.torrentID, COUNT(u.id) as total_thanks');
+			$query->from('`#__tracker_torrent_thanks` AS ttt');
+			$query->join('LEFT', '`#__tracker_torrents` AS tt ON tt.fid = ttt.torrentID');
+			$query->join('LEFT', '`#__users` AS u ON u.id = tt.uploader');
+			$query->join('LEFT', '`#__tracker_users` AS tu ON tu.id = u.id');
+			$query->join('LEFT', '`#__tracker_groups` AS tg ON tg.id = tu.groupID');
+			$query->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID');
+			$query->group('u.id');
+			$query->order('COUNT(u.id) DESC LIMIT 0,'.$params->get('number_top_thanked', 5));
+			$db->setQuery( $query );
+			$total_torrents->top_thanked = $db->loadObjectList();
+		} else $total_torrents->top_thanked = 0;
+
+		if ($params->get('top_thanker') && $params->get('number_top_thanker')) {
+			// Get the top thankers
+			$query->clear();
+			$query->select('u.id as uid, u.name, COUNT(tt.uid) as thanker');
+			$query->select('tg.name as usergroup, c.image as countryImage, c.name as countryName');
+			$query->from('#__users AS u');
+			$query->join('LEFT', '`#__tracker_users` AS tu ON tu.id = u.id');
+			$query->join('LEFT', '`#__tracker_groups` AS tg ON tg.id = tu.groupID');
+			$query->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID');
+			$query->join('LEFT', '`#__tracker_torrent_thanks` AS tt ON tt.uid = u.id');
+			$query->group('tt.uid');
+			$query->having('COUNT(tt.uid) > 0');
+			$query->order('COUNT(tt.uid) DESC LIMIT 0,'.$params->get('number_top_thanker', 5));
+			$db->setQuery( $query );
+			$total_torrents->top_thanker = $db->loadObjectList();
+		} else $total_torrents->top_thanker = 0;
+		
+		// Torrents stats
 		if ($params->get('most_active_torrents') && $params->get('number_most_active_torrents')) {
 			// Get the top active torrent
 			$query->clear();
@@ -169,6 +217,21 @@ class TrackerModelStatistics extends JModelItem {
 			$db->setQuery( $query );
 			$total_torrents->most_completed_torrents = $db->loadObjectList();
 		} else $total_torrents->most_completed_torrents = 0;
+
+		if ($params->get('most_thanked_torrents') && $params->get('number_most_thanked_torrents')) {
+			// Get the top thanked torrents
+			$query->clear();
+			$query->select('t.fid, t.name, t.size, t.created_time, t.leechers, t.seeders, t.completed');
+			$query->select('c.params as cat_params, c.title as cat_title, COUNT(tt.torrentID) as total_thanks');
+			$query->from('#__tracker_torrents AS t');
+			$query->join('LEFT', '`#__tracker_torrent_thanks` AS tt ON tt.torrentID = t.fid');
+			$query->join('LEFT', '`#__categories` AS c ON c.id = t.categoryID');
+			$query->group('tt.torrentID');
+			$query->having('COUNT(tt.torrentID) > 0');
+			$query->order('COUNT(tt.torrentID) DESC LIMIT 0,'.$params->get('number_most_thanked_torrents', 5));
+			$db->setQuery( $query );
+			$total_torrents->top_thanked_torrents = $db->loadObjectList();
+		} else $total_torrents->top_thanked_torrents = 0;
 
 		if ($params->get('worst_active_torrents') && $params->get('number_worst_active_torrents')) {
 			// Get the worst active torrent

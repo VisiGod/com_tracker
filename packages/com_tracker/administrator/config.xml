@@ -41,6 +41,85 @@
 			<option value="1">JYES</option>
 		</field>
 
+		<field name="enable_filetypes" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_FILETYPES" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="enable_thankyou" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_THANKYOU" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="enable_reseedrequest" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_RESEED_REQUEST" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="enable_reporttorrent" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_REPORT_TORRENT" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="freeleech" type="hidden" default="0" />
+
+		<field type="spacer" name="spacer0" hr="true" />
+		
+		<field name="enable_torrent_type" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_TORRENT_TYPE" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
+		<field name="enable_torrent_type_new" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_TORRENT_TYPE_NEW" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="torrent_type_new_image" type="media" directory="tracker/torrenttype" default="images/tracker/torrenttype/new.png" preview="true" hide_none="1" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_NEW_IMAGE" />
+		<field name="torrent_type_new_text" type="text" filter="raw" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_NEW_TEXT" default="The torrent was uploaded in the last %s hours" size="50" />
+		<field name="torrent_type_new_value" type="text" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_NEW_VALUE" default="24" size="5" />
+		
+		<field name="enable_torrent_type_top" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_TORRENT_TYPE_TOP" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="torrent_type_top_image" type="media" directory="tracker/torrenttype" default="images/tracker/torrenttype/top.png" preview="true" hide_none="1" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_TOP_IMAGE" />
+		<field name="torrent_type_top_text" type="text" filter="raw" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_TOP_TEXT" default="The torrent has %s or more seeders" size="50" />
+		<field name="torrent_type_top_value" type="text" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_TOP_VALUE" default="3" size="5" />
+		
+		<field name="enable_torrent_type_hot" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_TORRENT_TYPE_HOT" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="torrent_type_hot_image" type="media" directory="tracker/torrenttype" default="images/tracker/torrenttype/hot.png" preview="true" hide_none="1" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_HOT_IMAGE" />
+		<field name="torrent_type_hot_text" type="text" filter="raw" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_HOT_TEXT" default="The torrent has %s or more seeders" size="50" />
+		<field name="torrent_type_hot_value" type="text" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_HOT_VALUE" default="5" size="5" />
+
+		<field name="enable_torrent_type_semifree" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_TORRENT_TYPE_SEMIFREE" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="torrent_type_semifree_image" type="media" directory="tracker/torrenttype" default="images/tracker/torrenttype/semifree.png" preview="true" hide_none="1" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_SEMIFREE_IMAGE" />
+		<field name="torrent_type_semifree_text" type="text" filter="raw" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_SEMIFREE_TEXT" default="The torrent is in semi free leech mode" size="50" />
+		<field name="torrent_type_semifree_value" type="text" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_SEMIFREE_VALUE" default="0.5" size="5" />
+
+		<field name="enable_torrent_type_free" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_TORRENT_TYPE_FREE" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="torrent_type_free_image" type="media" directory="tracker/torrenttype" default="images/tracker/torrenttype/free.png" preview="true" hide_none="1" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_FREE_IMAGE" />
+		<field name="torrent_type_free_text" type="text" filter="raw" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_TYPE_FREE_TEXT" default="The torrent is in free leech mode" size="50" />
+		
+		<field type="spacer" name="spacer1" hr="true" />
+
+		<field name="allow_guest" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_GUEST" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="guest_user" type="sql" default="" label="COM_TRACKER_OPTIONS_COMPONENT_GUEST_USER" query="SELECT id, name FROM #__users ORDER BY name ASC" key_field="id" value_field="name" />
+
+		<field type="spacer" name="spacer2" hr="true" />
+
 		<field name="allow_upload_anonymous" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_UPLOAD_ANONYMOUS" >
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -57,11 +136,6 @@
 		</field>
 
 		<field name="welcome_gigs" type="text" default="0" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_WELCOME_GIGS" size="5" />
-
-		<field name="comment_only_leecher" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_COMMENTS_ONLY_LEECHER" >
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
 
 		<field name="use_image_file" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_USE_IMAGE_FILE" >
 			<option value="0">JNO</option>
@@ -82,22 +156,13 @@
 
 		<field name="image_width" type="text" default="150" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_IMAGE_WIDTH" size="5" />
 
-		<field type="spacer" name="defaults_space" hr="true" />
+		<field type="spacer" name="spacer3" hr="true" />
 
 		<field name="base_group" type="sql" default="3" label="COM_TRACKER_OPTIONS_COMPONENT_BASE_GROUP" query="SELECT id, name FROM #__tracker_groups WHERE state = 1 ORDER BY name" key_field="id" value_field="name" />
 
-		<field name="defaultcountry" type="sql" default="171" label="COM_TRACKER_OPTIONS_COMPONENT_BASE_COUNTRY" query="SELECT id, name FROM #__tracker_countries WHERE state = 1 ORDER BY name ASC" key_field="id" value_field="name" />
+		<field name="defaultcountry" type="sql" default="170" label="COM_TRACKER_OPTIONS_COMPONENT_BASE_COUNTRY" query="SELECT id, name FROM #__tracker_countries WHERE state = 1 ORDER BY name ASC" key_field="id" value_field="name" />
 
-		<field type="spacer" name="allow_guest_space" hr="true" />
-
-		<field name="allow_guest" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_GUEST" >
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field name="guest_user" type="sql" default="" label="COM_TRACKER_OPTIONS_COMPONENT_GUEST_USER" query="SELECT id, name FROM #__users ORDER BY name ASC" key_field="id" value_field="name" />
-
-		<field type="spacer" name="forum_post_space" hr="true" />
+		<field type="spacer" name="spacer4" hr="true" />
 
 		<field name="forum_post_id" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_FORUM_POST_ID" >
 			<option value="0">JNO</option>
@@ -106,7 +171,7 @@
 
 		<field name="forum_post_url" type="text" default="http://forum.site.com/index.php?showtopic=" label="COM_TRACKER_OPTIONS_COMPONENT_FORUM_POST_URL" size="50" />
 
-		<field type="spacer" name="info_post_space" hr="true" />
+		<field type="spacer" name="spacer5" hr="true" />
 
 		<field name="torrent_information" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_INFORMATION" >
 			<option value="0">JNO</option>
@@ -127,6 +192,7 @@
 		
 		<field name="comment_system" type="list" default="0" label="COM_TRACKER_OPTIONS_COMMENTS_SYSTEM" >
 			<option value="jcomments">COM_TRACKER_OPTIONS_COMMENTS_JCOMMENTS</option>
+			<option value="internal">COM_TRACKER_OPTIONS_COMMENTS_INTERNAL</option>
 <!-- 
 			<option value="1">COM_TRACKER_OPTIONS_COMMENTS_INTENSEDEBATE</option>
 			<option value="2">COM_TRACKER_OPTIONS_COMMENTS_DISQUS</option>
@@ -134,7 +200,11 @@
 			<option value="3">COM_TRACKER_OPTIONS_COMMENTS_LIVEFYRE</option>
 -->
 		</field>
-		
+
+		<field name="comment_only_leecher" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_COMMENTS_ONLY_LEECHER" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 	</fieldset>
 
 	<fieldset name="forum" label="COM_TRACKER_OPTIONS_FORUM" >
@@ -173,4 +243,5 @@
 		<field name="forum_group_name_field" type="text" default="g_title" label="COM_TRACKER_OPTIONS_FORUM_GROUP_NAME_FIELD" />
 
 	</fieldset>
+
 </config>

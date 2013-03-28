@@ -91,7 +91,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				</td>
 
 				<td>
-					<?php echo '<img id="flag'.$item->id.'" alt="'.$item->name.'" src="'.JUri::root(true).'/media/com_tracker/flags/'.$item->image.'" width="36" />'; ?>
+					<?php echo '<img id="flag'.$item->id.'" alt="'.$item->name.'" src="'.JUri::root().$item->image.'" width="36" />'; ?>
 				</td>
 
 				<td class="order">

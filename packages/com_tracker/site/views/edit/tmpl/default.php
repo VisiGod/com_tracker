@@ -72,7 +72,7 @@ $params =& JComponentHelper::getParams( 'com_tracker' );
 		</tr>
 		<?php if ($params->get('torrent_multiplier') == 1) {?>
 		<tr>
-			<td class="row1" nowrap style="width:1%;" align="right"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_MULTIPLIER' );?></b>&nbsp;</td>
+			<td class="row1" nowrap style="width:1%;" align="right"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER' );?></b>&nbsp;</td>
 			<td class="row0" style="width:98%;">
 				<?php
 					if (TrackerHelper::user_permissions('edit_torrents', $user->id))
@@ -82,7 +82,7 @@ $params =& JComponentHelper::getParams( 'com_tracker' );
 			</td>
 		</tr>
 		<tr>
-			<td class="row1" nowrap style="width:1%;" align="right"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_UPLOAD_MULTIPLIER' );?></b>&nbsp;</td>
+			<td class="row1" nowrap style="width:1%;" align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOAD_MULTIPLIER' );?></b>&nbsp;</td>
 			<td class="row0" style="width:98%;">
 				<?php
 					if (TrackerHelper::user_permissions('edit_torrents', $user->id))

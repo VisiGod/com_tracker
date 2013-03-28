@@ -48,7 +48,7 @@ $params =& JComponentHelper::getParams( 'com_tracker' );
 					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
 				</th>
 
-				<th width="1%" class="nowrap"><?php echo JHtml::_('grid.sort',	'COM_TRACKER_GROUP_NAME', 'a.name', $listDirn, $listOrder); ?></th>
+				<th width="10%"><?php echo JHtml::_('grid.sort',	'COM_TRACKER_GROUP_NAME', 'a.name', $listDirn, $listOrder); ?></th>
 
 				<th class='middle'><?php echo JHtml::_('grid.sort',	'COM_TRACKER_GROUP_VIEW_TORRENTS', 'a.view_torrents', $listDirn, $listOrder); ?></th>
 
@@ -62,7 +62,7 @@ $params =& JComponentHelper::getParams( 'com_tracker' );
 
 				<th class='middle'><?php echo JHtml::_('grid.sort',	'COM_TRACKER_GROUP_CAN_LEECH', 'a.can_leech', $listDirn, $listOrder); ?></th>
 
-				<?php if ($params->get('enable_comments')) {?>
+				<?php if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') {?>
 
 				<th class='middle'><?php echo JHtml::_('grid.sort',	'COM_TRACKER_GROUP_VIEW_COMMENTS', 'a.view_comments', $listDirn, $listOrder); ?></th>
 
@@ -134,7 +134,7 @@ $params =& JComponentHelper::getParams( 'com_tracker' );
 				<td class="center"><?php echo JHtml::_('grid.boolean', $i, $item->upload_torrents, 'groups.upload_torrents', 'groups.no_upload_torrents'); ?></td>
 				<td class="center"><?php echo JHtml::_('grid.boolean', $i, $item->download_torrents, 'groups.download_torrents', 'groups.no_download_torrents'); ?></td>
 				<td class="center"><?php echo JHtml::_('grid.boolean', $i, $item->can_leech, 'groups.can_leech', 'groups.no_can_leech'); ?></td>
-				<?php if ($params->get('enable_comments')) {?>
+				<?php if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') {?>
 					<td class="center"><?php echo JHtml::_('grid.boolean', $i, $item->view_comments, 'groups.view_comments', 'groups.no_view_comments'); ?></td>
 					<td class="center"><?php echo JHtml::_('grid.boolean', $i, $item->write_comments, 'groups.write_comments', 'groups.no_write_comments'); ?></td>
 					<td class="center"><?php echo JHtml::_('grid.boolean', $i, $item->edit_comments, 'groups.edit_comments', 'groups.no_edit_comments'); ?></td>

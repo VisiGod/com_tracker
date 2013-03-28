@@ -41,6 +41,14 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field name="download_speed" type="list" default="1" label="COM_TRACKER_STATS_SHOW_DOWNLOAD_SPEED">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="upload_speed" type="list" default="1" label="COM_TRACKER_STATS_SHOW_UPLOAD_SPEED">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 			<field name="bytes_transfered" type="list" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_TRANSFERED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -76,6 +84,16 @@
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_worst_sharers" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_WORST_SHARERS" filter="integer" />
+			<field name="top_thanked" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKED">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="number_top_thanked" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_THANKED" filter="integer" />
+			<field name="top_thanker" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKER">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="number_top_thanker" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_THANKER" filter="integer" />
 			<!-- Top Torrents -->
 			<field type="spacer" name="top_torrents_space" hr="true" />
 			<field type="spacer" name="COM_TRACKER_STATS_TOP_TORRENTS" hr="false" />
@@ -99,6 +117,11 @@
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_most_completed_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_MOST_COMPLETED_TORRENTS" filter="integer" />
+			<field name="most_thanked_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_MOST_THANKED_TORRENTS">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="number_most_thanked_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_MOST_THANKED_TORRENTS" filter="integer" />
 			<!-- Worst Torrents -->
 			<field type="spacer" name="worst_torrents_space" hr="true" />
 			<field type="spacer" name="COM_TRACKER_STATS_WORST_TORRENTS" hr="false" />
