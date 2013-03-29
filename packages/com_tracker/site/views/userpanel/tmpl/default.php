@@ -71,7 +71,7 @@ $tab_options = array(
 			<td class="row1" align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?>:</b></td>
 			<td class="row0" align="left">
 				<?php
-					if ($this->params->get('enable_donations')) $this->item->tracker_info->uploaded = $this->item->tracker_info->uploaded + ($this->item->user_donations->credited * 1048576);
+					if ($this->params->get('enable_donations')) $this->item->tracker_info->uploaded = ($this->item->tracker_info->uploaded + ($this->item->user_donations->credited * 1048576));
 					echo '&nbsp;'.TrackerHelper::make_size($this->item->tracker_info->uploaded)."&nbsp;(".TrackerHelper::traffic_per_day($this->item->tracker_info->uploaded, $this->item->id)."/".JText::_( 'COM_TRACKER_DAY' ).")";
 				?>
 			</td>
