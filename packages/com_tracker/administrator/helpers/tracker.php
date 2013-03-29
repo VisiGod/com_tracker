@@ -87,7 +87,7 @@ abstract class TrackerHelper {
 	
 	public static function make_ratio($downloaded, $uploaded, $clean='0') {
 		if ($downloaded > 0 && $uploaded > 0) {
-			$temp_ratio = number_format(($uploaded/$downloaded), 3, '.', ' ');
+			$temp_ratio = number_format(($uploaded/$downloaded), 2, '.', ' ');
 			if ($clean = 1) return $temp_ratio;
 			if ($temp_ratio < 1 ) return "<font color='red'><b>".$temp_ratio."</b></font>";
 			else return "<font color='blue'><b>".$temp_ratio."</b></font>";

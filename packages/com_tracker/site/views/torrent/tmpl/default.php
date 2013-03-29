@@ -345,7 +345,8 @@ $tab_options = array(
 				src="<?php echo JURI::base().$this->peer->countryimage; ?>"
 				width="32" />
 			</td>
-			<td width="10%" nowrap align="left"><?php
+			<td width="10%" nowrap align="left">
+				<?php
 					$user_progress = number_format(100-(($this->peer->left*100)/$this->item->size), 2, ',', ' ');
 					echo "&nbsp;".TrackerHelper::get_percent_completed_image($user_progress)."&nbsp;".$user_progress."&nbsp;%";	
 				?>

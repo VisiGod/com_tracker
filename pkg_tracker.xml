@@ -21,5 +21,6 @@
 		<file folder="mod_xbt_tracker_user_stats" type="module" client="site" id="mod_xbt_tracker_user_stats">mod_xbt_tracker_user_stats</file>
 		<file folder="mod_xbt_tracker_online_staff" type="module" client="site" id="mod_xbt_tracker_online_staff">mod_xbt_tracker_online_staff</file>
 		<file folder="plg_trackersystem" type="plugin" id="trackersystem" group="system">plg_trackersystem</file>
+		<file folder="plg_search_tracker" type="plugin" id="tracker" group="search">plg_search_tracker</file>
 	</files>
 </extension>

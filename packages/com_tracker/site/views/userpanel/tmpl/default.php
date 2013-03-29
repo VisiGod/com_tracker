@@ -82,7 +82,7 @@ $tab_options = array(
 		</tr>
 		<tr>
 			<td class="row1" align="right"><b><?php echo JText::_( 'COM_TRACKER_RATIO' ); ?>:</b></td>
-			<td class="row0" align="left">&nbsp;<?php echo TrackerHelper::get_ratio((($this->item->user_donations->credited * 1073741824) + $this->item->tracker_info->uploaded),$this->item->tracker_info->downloaded);?></td>
+			<td class="row0" align="left">&nbsp;<?php echo TrackerHelper::get_ratio(($this->item->tracker_info->uploaded),$this->item->tracker_info->downloaded);?></td>
 		</tr>
 		<tr>
 			<td class="row1" align="right"><b><?php echo JText::_( 'COM_TRACKER_GROUP' ); ?>:</b></td>
