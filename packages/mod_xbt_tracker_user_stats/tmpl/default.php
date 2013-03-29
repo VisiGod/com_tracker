@@ -43,6 +43,7 @@ if ($user->get('guest')) {
 			}
 
 			if ($params->get('uploaded')) {
+				if ($appParams->get('enable_donations')) $user_stats->uploaded = $user_stats->uploaded + ($user_stats->credited * 1048576);
 				echo '<div style="margin-bottom: 2px;">';
 				echo '<div style="float: left;display:inline-block; vertical-align:middle;"><img id="'.$user_stats->uploaded.'" alt="'.$user_stats->uploaded.'" src="'.JURI::base().$params->get('uploaded_image').'" width="16px" /></div>';
 				echo '<div style="margin-left: 2px;float: left;display:inline-block; vertical-align:middle;">'.JText::_('MOD_TRACKER_USER_STATS_UPLOADED_TEXT').'</div>';
