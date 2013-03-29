@@ -33,7 +33,7 @@ class modXBTTrackerUserStats {
 		// Select the required fields from the table.
 		if ($params->get('downloaded') || $params->get('ratio')) $query->select('tu.downloaded');
 		if ($params->get('uploaded') || $params->get('ratio')) {
-			if ($appParams->get('enable_donations')) $query->select('SUM(COALESCE(td.credited,0) * 1048576) as credited, SUM(tu.uploaded + credited) as uploaded');
+			if ($appParams->get('enable_donations')) $query->select('IF (SUM(td.credited) IS NULL, 0, SUM(td.credited * 1048576)) as credited, SUM(tu.uploaded + credited) as uploaded');
 			else $query->select('tu.uploaded');
 		}
 		if ($params->get('can_leech')) $query->select('tu.can_leech');
