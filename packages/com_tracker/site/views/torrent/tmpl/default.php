@@ -223,18 +223,16 @@ $tab_options = array(
 			<?php } ?>
 		</tr>
 
-		<?php if (($this->item->forum_post && $params->get('forum_post_id')) || ($this->item->info_post && $params->get('torrent_information')) ||
-				 ($params->get('enable_reporttorrent'))
-			 	 ) { ?>
+		<?php if ($params->get('forum_post_id') || $params->get('torrent_information') || $params->get('enable_reporttorrent')) { ?>
 		<tr>
 			<!--  Forum post ID -->
-			<?php if ($this->item->forum_post && $params->get('forum_post_id')) { ?>
+			<?php if ($params->get('forum_post_id')) { ?>
 				<td align="center" class="row1" width="50%">
 					<b><a href="<?php echo htmlspecialchars($params->get('forum_post_url').$this->item->forum_post);?>" target="_blank"><?php echo JText::_( 'COM_TRACKER_TORRENT_FORUM_POST' );?></a></b>
 				</td>
 			<?php } ?>
 			<!-- Torrent information page -->
-			<?php if ($this->item->info_post && $params->get('torrent_information')) { ?>
+			<?php if ($params->get('torrent_information')) { ?>
 				<td align="center" class="row1" width="50%">
 					<b><a href="<?php echo htmlspecialchars($params->get('info_post_url').$this->item->info_post);?>" target="_blank"><?php echo $params->get('info_post_description');?></a></b>
 				</td>
