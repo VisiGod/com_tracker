@@ -66,7 +66,7 @@ class modXBTTrackerUserStats {
 		if ($appParams->get('enable_donations')) {
 			if ($params->get('donations')) {
 				$query->select('SUM(td.donated) as donated');
-				$query->join('LEFT', '`#__tracker_donations` AS td ON td.uid = tu.');
+				$query->join('LEFT', '`#__tracker_donations` AS td ON td.uid = tu.id');
 			}
 			$query->select('SUM(ifnull((SELECT SUM(credited) FROM `#__tracker_donations` WHERE state = 1 AND uid = tu.id), 0)) as credited');
 		}

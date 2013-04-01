@@ -30,14 +30,13 @@ class TrackerControllerUser extends JControllerForm {
 		}
 	}
 
-
-	function resetpasskey() {
+	function resetpassversion() {
 		$id = JRequest::getInt('id', 0);
 
 		if ($id) {
 			$model = $this->getModel('Userpanel','TrackerModel',array('ignore_request'=>true));
 			$model->setState('userpasskey.id',$id);
-			$model->resetpasskey();
+			$model->resetpassversion();
 		}
 	}
 

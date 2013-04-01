@@ -262,16 +262,11 @@ class TrackerModelUserpanel extends JModelItem {
 			echo "<script> alert('".JText::_( 'COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OTHER_USER' )."'); window.history.go(-1);</script>\n";
 		}
 
-		$user = JUser::getTable('user', 'TrackerTable');
-		$user->load($user_to_reset);
-		
-		$new_torrent_pass = md5($user->username.time().$user->password);
-
-		$db 		=& JFactory::getDBO();
+		$db 	=& JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->update('#__users');
-		$query->set('torrent_pass = '.$db->quote($new_torrent_pass));
-		$query->where('id = ' . (int) $user->id);
+		$query->update('#__tracker_users');
+		$query->set('torrent_pass_version = torrent_pass_version + 1');
+		$query->where('id = ' . (int) $user_to_reset);
 
 		$db->setQuery($query);
 		if (!$db->query()) {
