@@ -164,7 +164,7 @@ class com_trackerInstallerScript {
 			$query .= "(238, 'Zambia', 'images/tracker/flags/Zambia.png', 238, 1), (239, 'Zimbabwe', 'images/tracker/flags/Zimbabwe.png', 239, 1) ";
 			$db->setQuery($query);
 			$db->query();
-			
+
 			//Insert the default user group
 			$query	= $db->getQuery(true);
 			$query->insert('#__tracker_groups');
