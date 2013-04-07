@@ -90,7 +90,7 @@ class com_trackerInstallerScript {
 			$query .= "(16, 'Bahrain', 'images/tracker/flags/Bahrain.png', 16, 1), (17, 'Bangladesh', 'images/tracker/flags/Bangladesh.png', 17, 1), (18, 'Barbados', 'images/tracker/flags/Barbados.png', 18, 1), ";
 			$query .= "(19, 'Belarus', 'images/tracker/flags/Belarus.png', 19, 1), (20, 'Belgium', 'images/tracker/flags/Belgium.png', 20, 1), (21, 'Belize', 'images/tracker/flags/Belize.png', 21, 1), ";
 			$query .= "(22, 'Benin', 'images/tracker/flags/Benin.png', 22, 1), (23, 'Bermuda', 'images/tracker/flags/Bermuda.png', 23, 1), (24, 'Bhutan', 'images/tracker/flags/Bhutan.png', 24, 1), ";
-			$query .= "(25, 'Bolivia', 'images/tracker/flags/Bolivia.png', 25, 1), (26, 'Bosnia and Herzegovina', 'images/tracker/flags/Bosnia.and.Herzegovina.png', 26, 1), (27, 'Bostswana', 'images/tracker/flags/Bostswana.png', 27, 1), ";
+			$query .= "(25, 'Bolivia', 'images/tracker/flags/Bolivia.png', 25, 1), (26, 'Bosnia and Herzegovina', 'images/tracker/flags/Bosnia.and.Herzegovina.png', 26, 1), (27, 'Botswana', 'images/tracker/flags/Botswana.png', 27, 1), ";
 			$query .= "(28, 'Bouvet Island', 'images/tracker/flags/Bouvet.Island.png', 28, 1), (29, 'Brazil', 'images/tracker/flags/Brazil.png', 29, 1), (30, 'British Indian Ocean Territory', 'images/tracker/flags/British.Indian.Ocean.Territory.png', 30, 1), ";
 			$query .= "(31, 'British Virgin Islands', 'images/tracker/flags/British.Virgin.Islands.png', 31, 1), (32, 'Brunei', 'images/tracker/flags/Brunei.png', 32, 1), (33, 'Bulgaria', 'images/tracker/flags/Bulgaria.png', 33, 1), ";
 			$query .= "(34, 'Burkina Faso', 'images/tracker/flags/Burkina.Faso.png', 34, 1), (35, 'Burma', 'images/tracker/flags/Burma.png', 35, 1), (36, 'Burundi', 'images/tracker/flags/Burundi.png', 36, 1), ";
@@ -139,7 +139,7 @@ class com_trackerInstallerScript {
 			$query .= "(163, 'Panama', 'images/tracker/flags/Panama.png', 163, 1), (164, 'Papua New Guinea', 'images/tracker/flags/Papua.New.Guinea.png', 164, 1), (165, 'Paraguay', 'images/tracker/flags/Paraguay.png', 165, 1), ";
 			$query .= "(166, 'Peru', 'images/tracker/flags/Peru.png', 166, 1), (167, 'Philippines', 'images/tracker/flags/Philippines.png', 167, 1), (168, 'Pitcairn Islands', 'images/tracker/flags/Pitcairn.Islands.png', 168, 1), ";
 			$query .= "(169, 'Poland', 'images/tracker/flags/Poland.png', 169, 1), (170, 'Portugal', 'images/tracker/flags/Portugal.png', 170, 1), (171, 'Puerto Rico', 'images/tracker/flags/Puerto.Rico.png', 171, 1), ";
-			$query .= "(172, 'Qatar', 'images/tracker/flags/Qatar.png', 172, 1), (173, 'Republic of the Congo', 'images/tracker/flags/Republic.of.the.Congo.png', 173, 1), (174, '[resized]', 'images/tracker/flags/[resized]', 174, 1), ";
+			$query .= "(172, 'Qatar', 'images/tracker/flags/Qatar.png', 172, 1), (173, 'Republic of the Congo', 'images/tracker/flags/Republic.of.the.Congo.png', 173, 1), ";
 			$query .= "(175, 'Romania', 'images/tracker/flags/Romania.png', 175, 1), (176, 'Russia', 'images/tracker/flags/Russia.png', 176, 1), (177, 'Rwanda', 'images/tracker/flags/Rwanda.png', 177, 1), ";
 			$query .= "(178, 'Saint Helena', 'images/tracker/flags/Saint.Helena.png', 178, 1), (179, 'Saint Kitts and Nevis', 'images/tracker/flags/Saint.Kitts.and.Nevis.png', 179, 1), (180, 'Saint Lucia', 'images/tracker/flags/Saint.Lucia.png', 180, 1), ";
 			$query .= "(181, 'Saint Pierre and Miquelon', 'images/tracker/flags/Saint.Pierre.and.Miquelon.png', 181, 1), (182, 'Saint Vincent', 'images/tracker/flags/Saint.Vincent.png', 182, 1), (183, 'Samoa', 'images/tracker/flags/Samoa.png', 183, 1), ";
