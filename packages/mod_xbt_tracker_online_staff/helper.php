@@ -35,7 +35,7 @@ class modXbtTrackerOnlineStaffHelper {
 		elseif ($params->get('group_order') == 'name') $query->order('tg.name ASC');
 		else $query->order('tg.id ASC');
 		// User ordering
-		if ($params->get('user_order') == 'ordering') $query->order('u.ordering ASC');
+		if ($params->get('user_order') == 'ordering') $query->order('tu.ordering ASC');
 		elseif ($params->get('user_order') == 'name') $query->order('u.name ASC');
 		elseif ($params->get('user_order') == 'id') $query->order('u.id ASC');
 		else $query->order('s.time DESC');
