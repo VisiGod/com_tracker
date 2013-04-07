@@ -29,10 +29,10 @@ $tab_options = array(
 <div style="font-size: medium; margin-left:35px; wrap:nowrap;">
 	<span style="display:inline-block; vertical-align:middle"><b><?php echo JText::_( 'COM_TRACKER_DETAILS_FOR' ); ?>:</b>&nbsp;<i><?php echo $this->item->name;?></i>&nbsp;&nbsp;&nbsp;</span>
 	<?php if ($this->params->get('enable_countries')) {
-			if (empty($item->country_info->name)) {
-				$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
-				$this->item->country_info->name = $item->default_country->name; 
-				$this->item->country_info->image = $item->default_country->image;
+			if (empty($this->item->country_info->name)) {
+				$this->item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+				$this->item->country_info->name = $this->item->default_country->name; 
+				$this->item->country_info->image = $this->item->default_country->image;
 			}
 	?>
 	<span style="display:inline-block; vertical-align:middle"><img id="<?php echo $this->item->country_info->name; ?>" alt="<?php echo $this->item->country_info->name; ?>" src="<?php echo JURI::base().$this->item->country_info->image; ?>" width="32" /></span>
