@@ -109,7 +109,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</a>
 					</td>
 				<?php } ?>
-					
+				<?php
+				// experiment for Psylo to have number of thanks in torrent listing 
+				if ($this->params->get('enable_thankyou')) {
+					/*
+					if (!$item->thanks) $item->thanks = 0;
+					echo '<td width="1%" align="center">'.$item->thanks.'</td>';
+					*/
+				}
+				?>
 			</tr>
 			<?php endforeach; ?>
 		</tbody>

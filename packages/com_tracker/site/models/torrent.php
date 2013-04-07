@@ -497,6 +497,9 @@ class TrackerModelTorrent extends JModelItem {
 		if ($params->get('allow_upload_anonymous') == 1) $uploader_anonymous = $_POST['jform']['uploader_anonymous'];
 		else $uploader_anonymous = 0;
 
+		if ($params->get('freeleech') == 1) $download_multiplier = 0;
+		else $download_multiplier = 1;
+		
 		// ------------------------------------------------------------------------------------------------------------------------
 		// Let's take care of the .torrent file first
 		$temp_torrent['filename'] = $_FILES['jform']['name']['filename'];
@@ -598,6 +601,8 @@ class TrackerModelTorrent extends JModelItem {
 		$query->set('forum_post = '.$db->quote($forum_post));
 		$query->set('info_post = '.$db->quote($info_post));
 		$query->set('licenseID = '.$db->quote($licenseID));
+		$query->set('upload_multiplier = 1');
+		$query->set('download_multiplier = '.$db->quote($download_multiplier));
 		// Need to insert image file of the torrent
 		$query->set('state = 1');
 		$db->setQuery($query);
@@ -621,6 +626,19 @@ class TrackerModelTorrent extends JModelItem {
 			$query->set('torrentID = '.$db->quote($torrent_id));
 			$query->set('filename = '.$db->quote($filename));
 			$query->set('size = '.$db->quote($filesize));
+			$db->setQuery( $query );
+			if (!$db->query()) {
+				JError::raiseError(500, $db->getErrorMsg());
+			}
+		}
+		
+		// If we're in freeleech we need to add the record of the new torrent to the freeleech table
+		if ($params->get('freeleech') == 1) {
+			$query->clear();
+			$query = $db->getQuery(true);
+			$query->insert('#__tracker_torrents_freeleech');
+			$query->set('fid = '.$db->quote($torrent_id));
+			$query->set('download_multiplier = 1');
 			$db->setQuery( $query );
 			if (!$db->query()) {
 				JError::raiseError(500, $db->getErrorMsg());

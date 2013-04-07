@@ -106,6 +106,11 @@ class TrackerModelTorrents extends JModelList {
 			$query->select('l.shortname AS torrent_license');
 			$query->join('LEFT', '`#__tracker_licenses` AS l ON l.id = t.licenseID');
 		}
+		
+		// experiment for Psylo to have number of thanks in torrent listing
+		if ($params->get('enable_thankyou')) {
+			$query->select('(select count(id) FROM `#__tracker_torrent_thanks` where torrentID = t.fid) as thanks ');
+		}
 
 		//**********************************************************************************************************
 		// Filter by a single category

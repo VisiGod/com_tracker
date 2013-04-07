@@ -100,13 +100,12 @@ class TrackerModelEdit extends JModelItem {
 		else $uploader_anonymous = 0;
 		
 		// If we're using the multiplier mod 
-		if ($params->get('torrent_multiplier') == 1) {
-			$torrent_download_multiplier 	= $_POST['download_multiplier'];
-			$torrent_upload_multiplier 		= $_POST['upload_multiplier'];
-		} else {
-			$torrent_download_multiplier 	= 1;
-			$torrent_upload_multiplier 		= 1;
-		}
+		if ($params->get('torrent_multiplier') == 1) $torrent_upload_multiplier = $_POST['upload_multiplier'];
+		else $torrent_upload_multiplier = 1;
+		
+		// If we're in freeleech
+		if ($params->get('freeleech') == 1) $torrent_download_multiplier = 0;
+		else $torrent_download_multiplier = $_POST['download_multiplier'];
 		
 		// If we're using the Forum Post
 		if ($params->get('forum_post_id') == 1) $torrent_forum_post = $_POST['forum_post'];
@@ -158,12 +157,26 @@ class TrackerModelEdit extends JModelItem {
 		$query->set('upload_multiplier = '.$db->quote($torrent_upload_multiplier));
 		$query->set('forum_post = '.$db->quote($torrent_forum_post));
 		$query->set('info_post = '.$db->quote($torrent_info_post));
+		$query->set('flags = 2');
 		$query->where('fid = ' . (int) $torrent_fid);
 
 		$db->setQuery($query);
 		if (!$db->query()) {
 			JError::raiseError(500, $db->getErrorMsg());
 			$upload_error = $upload_error + 1;
+		}
+		
+		// If we're in freeleech we need to edit the record of the torrent in the freeleech table
+		if ($params->get('freeleech') == 1) {
+			$query->clear();
+			$query = $db->getQuery(true);
+			$query->update('#__tracker_torrents_freeleech');
+			$query->set('download_multiplier = '.$_POST['download_multiplier']);
+			$query->where('fid = ' . (int) $torrent_fid);
+			$db->setQuery( $query );
+			if (!$db->query()) {
+				JError::raiseError(500, $db->getErrorMsg());
+			}
 		}
 
 /* Need to implement torrent image
