@@ -85,31 +85,15 @@ class TrackerModelEdit extends JModelItem {
 		$torrent['filename'] 	= $_POST['filename'];
 		$torrent['description'] = $_POST['description'];
 		$torrent['categoryID'] 	= (int)$_POST['categoryID'];
-
-		// If we're using Licenses
-		if ($params->get('enable_licenses') == 1) $torrent['licenseID'] = (int)$_POST['licenseID'];
-		else $torrent['licenseID'] = 0;
-		
-		// IF we're allowing anonymous uploaders names
-		if ($params->get('allow_upload_anonymous') == 1) $uploader['anonymous'] = (int)$_POST['uploader_anonymous'];
-		else $uploader['anonymous'] = 0;
-		
-		// If we're using the multiplier mod 
-		if ($params->get('torrent_multiplier') == 1) $torrent['upload_multiplier'] = (float)$_POST['upload_multiplier'];
-		else $torrent['upload_multiplier'] = 1;
+		$torrent['licenseID'] 	= (int)$_POST['licenseID'];
+		$uploader['anonymous'] 	= (int)$_POST['uploader_anonymous'];
+		$torrent['upload_multiplier'] = (float)$_POST['upload_multiplier'];
+		$torrent['forum_post'] = (int)$_POST['forum_post'];
+		$torrent['info_post'] = (int)$_POST['info_post'];
 		
 		// If we're in freeleech
-		if ($params->get('torrent_multiplier') == 1 && $params->get('freeleech') == 1) $torrent['download_multiplier'] = 0;
-		else if ($params->get('torrent_multiplier') == 1 && $params->get('freeleech') == 0) $torrent['download_multiplier'] = (float)$_POST['download_multiplier'];
-		else $torrent['download_multiplier'] = 1;
-		
-		// If we're using the Forum Post
-		if ($params->get('forum_post_id') == 1) $torrent['forum_post'] = (int)$_POST['forum_post'];
-		else $torrent['forum_post'] = 0;
-
-		// If we're using the Torrent Information
-		if ($params->get('torrent_information') == 1) $torrent['info_post'] = (int)$_POST['info_post'];
-		else $torrent['info_post'] = 0;
+		if ($params->get('freeleech') == 1) $torrent['download_multiplier'] = 0;
+		else $torrent['download_multiplier'] = (float)$_POST['download_multiplier'];
 
 		// ------------------------------------------------------------------------------------------------------------------------
 		if ($params->get('use_image_file') == 1) {
@@ -178,7 +162,7 @@ class TrackerModelEdit extends JModelItem {
 				$torrent['image_file'] = "";
 			}
 		} else {
-			$torrent['image_file'] = "";
+			$torrent['image_file'] = $_POST['image_file'];
 		}
 			
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

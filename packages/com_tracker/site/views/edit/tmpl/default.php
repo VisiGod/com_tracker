@@ -82,6 +82,8 @@ $(document).ready(function(){
 			<span style="width:1%;">
 				<?php echo JHTML::_('select.genericlist', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'licenseID', 'class="inputbox"', 'value', 'text', $this->item->licenseID); ?>
 			</span>
+			<?php } else { ?>
+			<input type="hidden" name="licenseID" value="<?php echo $this->item->licenseID; ?>" />
 			<?php } ?>
 
 			<?php if ($params->get('allow_upload_anonymous') == 1) { ?>
@@ -97,6 +99,8 @@ $(document).ready(function(){
 					echo JHTML::_('select.genericlist', $options, 'uploader_anonymous', 'class="inputbox"', 'value', 'text', $this->item->uploader_anonymous);
 				?>
 			</span>
+			<?php } else { ?>
+			<input type="hidden" name="uploader_anonymous" value="<?php echo $this->item->uploader_anonymous; ?>" />
 			<?php } ?>
 		</div>
 		<div style="clear: both;"><br /></div>
@@ -132,6 +136,8 @@ $(document).ready(function(){
 		<?php } ?>
 		</div>
 		<div style="clear: both;"><br /></div>
+		<?php } else { ?>
+		<input type="hidden" name="image_file" value="<?php echo $this->item->image_file; ?>" />
 		<?php } ?>
 
 		<?php if ($params->get('forum_post_id') == 1 || $params->get('torrent_information') == 1) { ?>
@@ -147,6 +153,9 @@ $(document).ready(function(){
 			<?php } ?>
 		</div>
 		<div style="clear: both;"><br /></div>
+		<?php } else { ?>
+		<input type="hidden" name="forum_post" value="<?php echo $this->item->forum_post; ?>" />
+		<input type="hidden" name="info_post" value="<?php echo $this->item->info_post; ?>" />
 		<?php } ?>
 
 		<?php if ($params->get('torrent_multiplier') == 1) {?>
@@ -156,7 +165,10 @@ $(document).ready(function(){
 			<?php
 				if (TrackerHelper::user_permissions('edit_torrents', $user->id))
 					echo '<input type="text" style="text-align:right;" id="download_multiplier" name="download_multiplier" class="inputbox" size="10" value="'.$this->item->download_multiplier.'" />';
-				else echo $this->item->download_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );
+				else {
+					echo $this->item->download_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );
+					echo '<input type="hidden" name="download_multiplier" value="'.$this->item->download_multiplier.'" />';
+				}
 			?>
 			</span>
 			<span>&nbsp;&nbsp;&nbsp;</span>
@@ -165,11 +177,17 @@ $(document).ready(function(){
 			<?php
 				if (TrackerHelper::user_permissions('edit_torrents', $user->id))
 					echo '<input type="text" style="text-align:right;" id="upload_multiplier" name="upload_multiplier" class="inputbox" size="10" value="'.$this->item->upload_multiplier.'" />';
-				else echo $this->item->upload_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );
+				else {
+					echo $this->item->upload_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );
+					echo '<input type="hidden" name="upload_multiplier" value="'.$this->item->upload_multiplier.'" />';
+				}
 			?>
 			</span>
 		</div>
 		<div style="clear: both;"><br /></div>
+		<?php } else { ?>
+		<input type="hidden" name="download_multiplier" value="<?php echo $this->item->download_multiplier; ?>" />
+		<input type="hidden" name="upload_multiplier" value="<?php echo $this->item->upload_multiplier; ?>" />
 		<?php } ?>			
 
 		<div>
