@@ -15,15 +15,4 @@ jimport('joomla.application.component.controllerform');
 class TrackerControllerUser extends JControllerForm {
 
 	protected $text_prefix = 'COM_TRACKER_USER';
-/*
-	function resetpasskey() {
-		$id = JRequest::getInt('id', 0);
-
-		if ($id) {
-			$model = $this->getModel('Userpanel','TrackerModel',array('ignore_request'=>true));
-			$model->setState('userpasskey.id',$id);
-			$model->resetpasskey();
-		}
-	}
-*/
 }

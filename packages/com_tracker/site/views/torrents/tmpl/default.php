@@ -19,32 +19,47 @@ endif;
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
-
+/*
+echo "<pre>";
+print_r($this->state);
+echo "</pre>";
+*/
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
-		<div class="filter-search fltlft">
+		<div style="float: left;">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('Search'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
-		<div class="filter-category">
+		<?php if ($this->params->get('tl_category')) { ?>
+		<div style="float: right;">
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_tracker'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 		</div>
+		<?php } ?>
 
-<!-- TODO: Dropdown for licenses -->
+		<?php if ($this->params->get('tl_license')) { ?>
+		<div style="float: right; margin-right: 3px;">
+			<select name="filter_license_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_TRACKER_SELECT_LICENSE');?></option>
+				<?php echo JHTML::_('select.options', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'value', 'text', $this->state->get('filter.license_id')); ?>
+			</select>
+		</div>
+		<?php } ?>
+		
 <!-- TODO: Dropdown for torrent type (with peers, without peers, etc) -->
 
 	</fieldset>
 
 	<div class="clr"> </div>
 
+	
 	<table class="adminlist" style="width:100%;">
 		<thead>
 			<tr>
@@ -112,10 +127,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php
 				// experiment for Psylo to have number of thanks in torrent listing 
 				if ($this->params->get('enable_thankyou')) {
-					/*
-					if (!$item->thanks) $item->thanks = 0;
-					echo '<td width="1%" align="center">'.$item->thanks.'</td>';
-					*/
+					
+					//if (!$item->thanks) $item->thanks = 0;
+					//echo '<td width="1%" align="center">'.$item->thanks.'</td>';
+					
 				}
 				?>
 			</tr>
@@ -172,7 +187,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		
 	</div>
 	<?php } ?>
-	
+
 	<div class="pagination">
 			<?php echo $this->pagination->getLimitBox(); ?>
 			<?php echo $this->pagination->getPagesCounter(); ?>

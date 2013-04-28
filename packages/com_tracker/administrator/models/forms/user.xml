@@ -38,9 +38,9 @@
 			<option value="1">COM_TRACKER_USER_MULTIPLIER_USER</option>
 		</field>
 
-		<field name="download_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_DOWNLOAD_MULTIPLIER" required="true" />
+		<field name="download_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_DOWNLOAD_MULTIPLIER" />
 
-		<field name="upload_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_UPLOAD_MULTIPLIER" required="true" />
+		<field name="upload_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_UPLOAD_MULTIPLIER" />
 
 		<field name="state" type="hidden" default="1" />
 	</fieldset>

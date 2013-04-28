@@ -19,9 +19,9 @@ class plgSystemTrackerSystem extends JPlugin {
 # exemption levels - Tracker Ratio related #
 ############################################
 
-Follow group ratio rules = 0
+Follow no ratio rules = 0
 Follow user ratio rules = 1
-Follow no ratio rules = 2
+Follow group ratio rules = 2
 */
 	function onAfterInitialise() {
 		$db = JFactory::getDBO();
@@ -76,10 +76,10 @@ Follow no ratio rules = 2
 			$query->clear();
 			$query->select('u.id');
 			$query->from($db->quoteName('#__tracker_users').' AS u');
-			$query->join('LEFT', $db->quoteName('#__tracker_users_level').' AS ul on ul.id = u.groupID');
+			$query->join('LEFT', $db->quoteName('#__tracker_groups').' AS ug on ug.id = u.groupID');
 			$query->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
-			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) < IFNULL(ul.minimum_ratio,1)');
-			$query->where('u.exemption_type = 0');
+			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) < IFNULL(ug.minimum_ratio,1)');
+			$query->where('u.exemption_type = 2');
 			$query->where('u.can_leech = 1');
 			$query->where('u.downloaded >= '.(int)$mindownload);
 			$db->setQuery($query);
@@ -126,10 +126,10 @@ Follow no ratio rules = 2
 			$query->clear();
 			$query->select('u.id');
 			$query->from($db->quoteName('#__tracker_users').' AS u');
-			$query->join('LEFT', $db->quoteName('#__tracker_users_level').' AS ul on ul.id = u.groupID');
+			$query->join('LEFT', $db->quoteName('#__tracker_groups').' AS ug on ug.id = u.groupID');
 			$query->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
-			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(ul.minimum_ratio,0)');
-			$query->where('u.exemption_type = 0');
+			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(ug.minimum_ratio,0)');
+			$query->where('u.exemption_type = 2');
 			$query->where('u.can_leech = 0');
 			$query->where('u.downloaded >= '.(int)$mindownload);
 			$db->setquery( $query );
@@ -152,7 +152,7 @@ Follow no ratio rules = 2
 			$query->clear();
 			$query->select('id');
 			$query->from($db->quoteName('#__tracker_users'));
-			$query->where('exemption = 2');
+			$query->where('exemption_type = 0');
 			$db->setquery( $query );
 			if ($row = $db->loadResultArray()) {
 				// Allow download from the users that dont need to follow any ratio rules
@@ -280,13 +280,13 @@ Follow no ratio rules = 2
 //
 					$query->update($db->quoteName('#__users') . ' AS u');
 					$query->join('LEFT', $db->quoteName('#__temp_users_check') . ' AS fmt ON u.username = fmt.name');
-					$query->join('LEFT', $db->quoteName('#__tracker_users_level') . ' AS ul ON ul.id = fmt.ugroup');
+					$query->join('LEFT', $db->quoteName('#__tracker_groups') . ' AS ug ON ug.id = fmt.ugroup');
 					$query->set('u.groupID = fmt.ugroup');
-					$query->set('u.wait_time = ul.wait_time');
-					$query->set('u.peer_limit = ul.peer_limit');
-					$query->set('u.torrent_limit = ul.torrent_limit');
-					$query->set('u.minimum_ratio = ul.minimum_ratio');
-					$query->set('u.can_leech = ul.can_leech');
+					$query->set('u.wait_time = ug.wait_time');
+					$query->set('u.peer_limit = ug.peer_limit');
+					$query->set('u.torrent_limit = ug.torrent_limit');
+					$query->set('u.minimum_ratio = ug.minimum_ratio');
+					$query->set('u.can_leech = ug.can_leech');
 					$query->where('u.id IN ( '.$uids.' )');
 */
 					$db->setquery( $query );
@@ -309,7 +309,6 @@ Follow no ratio rules = 2
 		$query->from($db->quoteName('#__tracker_groups'));
 		$query->where('id = '.$component_params->get('base_group'));
 		$db->setQuery($query);
-		
 		if ($result = $db->loadObject()) {
 			$query->clear();
 			$query->update($db->quoteName('#__tracker_users'));
@@ -322,7 +321,6 @@ Follow no ratio rules = 2
 			$query->set('minimum_ratio = '.$result->minimum_ratio);
 			$query->set('groupID = '.$component_params->get('base_group'));
 			$query->where('groupID = 0');
-			$query->where('block = 0');
 			$db->setQuery($query);
 			$db->query();
 		}

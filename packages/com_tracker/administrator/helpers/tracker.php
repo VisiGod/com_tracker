@@ -621,6 +621,25 @@ abstract class TrackerHelper {
 		}
 	}
 
+	function is_image($path) {
+		$a = getimagesize($path);
+		$image_type = $a[2];
+
+		if(in_array($image_type , array(IMAGETYPE_GIF , IMAGETYPE_JPEG ,IMAGETYPE_PNG , IMAGETYPE_BMP))) return true;
+		return false;
+	}
+
+	function SelectList($table, $value, $text, $state) {
+		$db 	= &JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select($value.' as value');
+		$query->select($text.' as text');
+		$query->from('`#__tracker_'.$table.'`');
+		if (isset($state)) $query->where('state = ' . (int) $state);
+		
+		$db->setQuery($query);
+		return $db->loadObjectList();
+	}
 
 // ########################################################################################################################################
 /*

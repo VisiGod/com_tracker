@@ -52,7 +52,7 @@ abstract class modXbtTrackerLatestHelper {
 			// Filter by a single or group of categories.
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			$query->where('a.category IN ('.$categoryId.')');
+			$query->where('c.id IN ('.$categoryId.')');
 		}
 
 		// Add the list ordering clause.

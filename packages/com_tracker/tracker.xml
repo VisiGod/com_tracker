@@ -7,7 +7,7 @@
 	<author>Hugo Carvalho</author>
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
-	<version>2.5.10</version>
+	<version>2.5.10.22</version>
 	<description>A Frontend for XBT Tracker</description>
 
 	<scriptfile>installscript.php</scriptfile>	<!-- Runs on install/uninstall/update; -->
@@ -44,6 +44,7 @@
 		<filename>index.html</filename>
 		<folder>filetypes</folder>
 		<folder>flags</folder>
+		<folder>torrent_image</folder>
 		<folder>torrenttype</folder>
 		<folder>ratios</folder>
 	</media>

@@ -71,6 +71,11 @@ class TrackerModelTorrents extends JModelList {
 		$filteredCategoryId = $this->getUserStateFromRequest('com_tracker.filter.category_id', 'filter_category_id', 0, 'uint', false);
 		$this->setState('filter.category_id', $filteredCategoryId);
 
+		if ($params->get('enable_licenses')) {
+			$filteredLicenseId = $this->getUserStateFromRequest('com_tracker.filter.license_id', 'filter_license_id', 0, 'uint', false);
+			$this->setState('filter.license_id', $filteredLicenseId);
+		}
+
 		// List state information.
 		parent::populateState('t.fid', 'desc');
 		
@@ -106,8 +111,7 @@ class TrackerModelTorrents extends JModelList {
 			$query->select('l.shortname AS torrent_license');
 			$query->join('LEFT', '`#__tracker_licenses` AS l ON l.id = t.licenseID');
 		}
-		
-		// experiment for Psylo to have number of thanks in torrent listing
+
 		if ($params->get('enable_thankyou')) {
 			$query->select('(select count(id) FROM `#__tracker_torrent_thanks` where torrentID = t.fid) as thanks ');
 		}
@@ -129,6 +133,15 @@ class TrackerModelTorrents extends JModelList {
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('( t.name LIKE '.$search.' )');
+			}
+		}
+
+		//**********************************************************************************************************
+		// Filter by license
+		if ($params->get('enable_licenses')) {
+			$filteredLicenseId = $this->getState('filter.license_id');
+			if (is_numeric($filteredLicenseId) && ($filteredLicenseId != 0)) {
+				$query->where('(l.id = '.(int) $filteredLicenseId.')');
 			}
 		}
 

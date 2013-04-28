@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5" client="site" method="upgrade">
-	<name>XBT Tracker Frontend - Tracker Statistics</name>
+	<name>mod_xbt_tracker_stats</name>
 	<creationDate>2012-03-15</creationDate>
 	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com).
 		All rights reserved.</copyright>
@@ -10,7 +10,7 @@
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
 	<description>MOD_XBT_TRACKER_STATS</description>
-	<version>2.5.1</version>
+	<version>2.5.10.1</version>
 
 	<files>
 		<filename module="mod_xbt_tracker_stats">mod_xbt_tracker_stats.php</filename>

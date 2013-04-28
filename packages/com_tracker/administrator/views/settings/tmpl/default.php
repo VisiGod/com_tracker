@@ -34,18 +34,6 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 							<td style="width:50%;"><?php echo $this->items['announce_interval']; ?></td>
 						</tr>
 						<tr>
-							<td class="key" nowrap><label for="anonymous_announce" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_ANONYMOUS_ANNOUNCE' ); ?></b></label></td>
-							<td><?php echo $this->items['anonymous_announce'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="anonymous_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_ANONYMOUS_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->items['anonymous_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="auto_register" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_AUTO_REGISTER' ); ?></b></label></td>
-							<td><?php echo $this->items['auto_register'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-						<tr>
 							<td class="key" nowrap><label for="clean_up_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_CLEAN_UP_INTERVAL' ); ?></b></label></td>
 							<td><?php echo $this->items['clean_up_interval']; ?></td>
 						</tr>

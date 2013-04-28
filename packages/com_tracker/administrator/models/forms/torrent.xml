@@ -2,12 +2,14 @@
 <form>
 	<fieldset>
 		<field name="fid" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" readonly="true" class="readonly" description="JGLOBAL_FIELD_ID_DESC" />
+		
+		<field name="info_hash" type="text" default="" label="COM_TRACKER_TORRENT_INFO_HASH" readonly="true" class="readonly" />
 
 		<field name="name" type="text" size="40" class="inputbox" label="COM_TRACKER_TORRENT_NAME" description="" required="true" filter="safehtml" />
 
 		<field name="alias" type="text" size="40" class="inputbox" label="COM_TRACKER_TORRENT_ALIAS" description="" required="true" filter="safehtml" />
 		
-		<field name="filename" type="text" size="50" class="inputbox" label="COM_TRACKER_TORRENT_FILENAME" description="" required="true" filter="safehtml" />
+		<field name="filename" type="text" size="40" class="inputbox" label="COM_TRACKER_TORRENT_FILENAME" description="" required="true" filter="safehtml" />
 
 		<field name="description" type="editor" buttons="true" height="400" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_TORRENT_DESCRIPTION" description=""	/>
 
@@ -30,7 +32,7 @@
 
 		<field name="licenseID" type="sql" default="10" label="COM_TRACKER_TORRENT_LICENSE" description="" query="SELECT id, shortname FROM #__tracker_licenses WHERE state = 1" key_field="id" value_field="shortname" />
 
-		<field name="image_file" type="media" size="30" default="" label="COM_TRACKER_TORRENT_IMAGE_FILE" description="" directory="../images/" exclude="" stripext="" />
+		<field name="image_file" type="media" label="COM_TRACKER_TORRENT_IMAGE_FILE" directory="tracker/torrent_image" preview="true" size="60"/>
 
 		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 

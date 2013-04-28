@@ -3,4 +3,106 @@
 	<layout title="COM_TRACKER_TORRENTS_VIEW_DEFAULT_TITLE">
 		<message>COM_TRACKER_MENU_TORRENTS_LIST_MESSAGE</message>
 	</layout>
+
+	<fields name="params">
+		<fieldset name="basic" label="COM_TRACKER_MENU_TORRENT_LIST_CHOOSE_VIEW" addfieldpath="/administrator/components/com_tracker/models/fields">
+			<field name="tl_name" type="list" default="1" label="COM_TRACKER_TORRENT_NAME">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_alias" type="list" default="0" label="COM_TRACKER_TORRENT_ALIAS">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_info_hash" type="list" default="0" label="COM_TRACKER_TORRENT_INFO_HASH">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_filename" type="list" default="0" label="COM_TRACKER_TORRENT_FILENAME">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_category" type="list" default="1" label="JCATEGORY">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_size" type="list" default="1" label="COM_TRACKER_TORRENT_SIZE">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_created_time" type="list" default="0" label="COM_TRACKER_TORRENT_UPLOADED">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_leechers" type="list" default="1" label="COM_TRACKER_TORRENT_LEECHERS">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_seeders" type="list" default="1" label="COM_TRACKER_TORRENT_SEEDERS">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_completed" type="list" default="1" label="COM_TRACKER_TORRENT_COMPLETED">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_uploader" type="list" default="1" label="COM_TRACKER_TORRENT_UPLOADER">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_description" type="list" default="0" label="COM_TRACKER_TORRENT_DESCRIPTION">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_number_files" type="list" default="0" label="COM_TRACKER_TORRENT_NUMBER_FILES">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_forum_post" type="list" default="0" label="COM_TRACKER_TORRENT_FORUM_POST">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_info_post" type="list" default="0" label="COM_TRACKER_TORRENT_INFO_POST">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_dowload_multiplier" type="list" default="0" label="COM_TRACKER_DOWNLOAD_MULTIPLIER">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_upload_multiplier" type="list" default="0" label="COM_TRACKER_UPLOAD_MULTIPLIER">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_license" type="list" default="0" label="COM_TRACKER_TORRENT_LICENSE">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_image_file" type="list" default="0" label="COM_TRACKER_TORRENT_IMAGE">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="tl_image_file_width" type="text" size="5" default="150" filter="integer" label="COM_TRACKER_IMAGE_WIDTH_LABEL" description="COM_TRACKER_IMAGE_WIDTH_DESCRIPTION" />
+		</fieldset>
+</fields>
+
+
 </metadata>

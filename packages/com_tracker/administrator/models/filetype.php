@@ -35,9 +35,4 @@ class TrackerModelFiletype extends JModelAdmin {
 		if (empty($data)) $data = $this->getItem();
 		return $data;
 	}
-/*
-	public function save($data) {
-		return parent::save($data);
-	}
-*/
 }

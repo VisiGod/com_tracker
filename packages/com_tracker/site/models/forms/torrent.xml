@@ -16,10 +16,18 @@
 		<field  name="uploader_anonymous" type="list" label="COM_TRACKER_TORRENT_ANONYMOUS" description="" class="inputbox" size="1" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
-		</field> 
+		</field>
 
-		<field name="image_file" type="imagelist" default="" label="COM_TRACKER_TORRENT_IMAGE_FILE" description="" directory="/images/" exclude="" stripext="" />
+		<field name="image_file" type="file" size="60" class="inputbox" label="COM_TRACKER_TORRENT_IMAGE_FILE" description="" filter="safehtml" required="false" />
+		
+		<field name="image_link" type="text" size="60" class="inputbox" label="COM_TRACKER_TORRENT_IMAGE_LINK" description="" filter="safehtml" required="false" />
 
+		<field name="image_type" type="list" label="image_type" >
+			<option value="0">COM_TRACKER_TORRENT_IMAGE_CHOOSE_OPTION</option>
+			<option value="1">COM_TRACKER_TORRENT_IMAGE_CHOOSE_FILE</option>
+			<option value="2">COM_TRACKER_TORRENT_IMAGE_CHOOSE_LINK</option>
+		</field>
+		
 		<field name="description" type="editor" label="COM_TRACKER_TORRENT_DESCRIPTION" description="" width="100%" height="500" filter="safehtml" required="true"/>
 
 		<field name="forum_post" type="text" size="20" class="inputbox" label="COM_TRACKER_TORRENT_FORUM_POST" description="" filter="safehtml" required="true"/>

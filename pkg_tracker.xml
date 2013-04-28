@@ -9,7 +9,7 @@
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
 	<description>A Frontend for XBT Tracker</description>
-	<version>2.5.10</version>
+	<version>2.5.10.1</version>
 	<url>http://www.visigod.com</url>
 	<packager>Hugo Carvalho</packager>
 	<packagerurl>http://www.visigod.com</packagerurl>
@@ -20,7 +20,7 @@
 		<file folder="mod_xbt_tracker_stats" type="module" client="site" id="mod_xbt_tracker_stats">mod_xbt_tracker_stats</file>
 		<file folder="mod_xbt_tracker_user_stats" type="module" client="site" id="mod_xbt_tracker_user_stats">mod_xbt_tracker_user_stats</file>
 		<file folder="mod_xbt_tracker_online_staff" type="module" client="site" id="mod_xbt_tracker_online_staff">mod_xbt_tracker_online_staff</file>
-		<file folder="plg_trackersystem" type="plugin" id="trackersystem" group="system">plg_trackersystem</file>
+		<file folder="plg_system_tracker" type="plugin" id="tracker" group="system">plg_system_tracker</file>
 		<file folder="plg_search_tracker" type="plugin" id="tracker" group="search">plg_search_tracker</file>
 	</files>
 </extension>

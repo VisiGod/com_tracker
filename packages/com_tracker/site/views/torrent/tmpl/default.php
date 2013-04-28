@@ -9,39 +9,42 @@
 
 // no direct access
 defined('_JEXEC') or die;
-JHTML::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
+JHTML::_('behavior.modal');
 
-jimport( 'joomla.html.html.tabs' );
-$user	= JFactory::getUser();
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 $params =& JComponentHelper::getParams( 'com_tracker' );
 
+$doc =& JFactory::getDocument();
+$doc->addScript("http://code.jquery.com/jquery-1.9.1.js");
+$doc->addScript("http://code.jquery.com/ui/1.10.2/jquery-ui.js");
+$doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css");
+
+$user	= JFactory::getUser();
 if ($user->get('id') == 0) $this->item->groupID = 0;
 
-$tab_options = array(
-		'onActive' => 'function(title, description){
-		description.setStyle("display", "block");
-		title.addClass("open").removeClass("closed");
-}',
-		'onBackground' => 'function(title, description){
-		description.setStyle("display", "none");
-		title.addClass("closed").removeClass("open");
-}',
-		'startOffset' => 0,
-		'useCookie' => true,
-);
-
 ?>
+<script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+
+</script>
+
 <div class="row1" align="left" style="font-size: medium;">
-	<b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_FOR' );?> </b>
-	<?php echo str_replace("_", " ", $this->item->name);?>
+	<b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_FOR' );?></b><?php echo str_replace("_", " ", $this->item->name);?>
 </div>
-<?php echo JHtml::_('tabs.start', 'torrent_details_start', $tab_options); ?>
-<div>
-	<?php echo JHtml::_('tabs.panel', JText::_('COM_TRACKER_TORRENT_DETAILS'), 'torrent_details'); ?>
-	<table
-		style="cellpadding: 0; cellspacing: 2; border: 0; width: 99%; align: center;">
-		<!-- Torrent Information -->
+
+<div id="tabs">
+	<ul>
+		<li><a href="#torrent-details"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS'); ?></a></li>
+		<li><a href="#file-list"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_FILE_LIST'); ?></a></li>
+		<?php if (count($this->item->peers) > 0) { ?><li><a href="#peer-list"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_PEER_LIST'); ?></a></li><?php } ?>
+		<?php if (count($this->item->snatchers) > 0) { ?><li><a href="#snatchers"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_SNATCHERS'); ?></a></li><?php } ?>
+		<?php if (count($this->item->hitrunners) > 0) { ?><li><a href="#hit-runners"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_HIT_RUNNER'); ?></a></li><?php } ?>
+	</ul>
+
+	<div id="torrent-details"> <!-- Torrent Information -->
+	<table style="cellpadding: 0; cellspacing: 2; border: 0; width: 99%; align: center;">
 		<tr>
 			<td colspan="4">
 				<table style="width: 100%;">
@@ -210,14 +213,20 @@ $tab_options = array(
 						<?php } ?>
 					</tr>
 					<?php } ?>
-					
 				</table>
 			</td>
-			<!-- Image file - STILL TO IMPLEMENT -->
-			<?php if ($params->get('use_image_file') && is_readable('torrents/'.$this->item->fid.'_'.$this->item->image_file)) { ?>
+			<?php if ($params->get('use_image_file') && !empty($this->item->image_file)) { ?>
+			<?php 
+				$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+				
+				// If we have a link in the field
+				if(!preg_match($reg_exUrl, $this->item->image_file)) {
+					$this->item->image_file = JURI::base().'images/tracker/torrent_image/'.$this->item->image_file;
+				}
+			?>
 			<td valign="middle">
-				<a href="<?php echo JURI::base().'torrents/'.$this->item->fid.'_'.$this->item->image_file; ?>" class="modal">
-					<img src="<?php echo JURI::base().'torrents/thumb_'.$this->item->fid.'_'.$this->item->image_file; ?>" alt="<?php echo $this->item->image_file; ?>" />
+				<a href="<?php echo $this->item->image_file; ?>" class="modal" >
+					<img style="width: <?php echo $params->get('image_width'); ?>px;" src="<?php echo $this->item->image_file; ?>" />
 				</a>
 			</td>
 			<?php } ?>
@@ -226,13 +235,13 @@ $tab_options = array(
 		<?php if ($params->get('forum_post_id') || $params->get('torrent_information') || $params->get('enable_reporttorrent')) { ?>
 		<tr>
 			<!--  Forum post ID -->
-			<?php if ($params->get('forum_post_id')) { ?>
+			<?php if ($params->get('forum_post_id') && $this->item->forum_post > 0) { ?>
 				<td align="center" class="row1" width="50%">
 					<b><a href="<?php echo htmlspecialchars($params->get('forum_post_url').$this->item->forum_post);?>" target="_blank"><?php echo JText::_( 'COM_TRACKER_TORRENT_FORUM_POST' );?></a></b>
 				</td>
 			<?php } ?>
 			<!-- Torrent information page -->
-			<?php if ($params->get('torrent_information')) { ?>
+			<?php if ($params->get('torrent_information') && $this->item->info_post > 0) { ?>
 				<td align="center" class="row1" width="50%">
 					<b><a href="<?php echo htmlspecialchars($params->get('info_post_url').$this->item->info_post);?>" target="_blank"><?php echo $params->get('info_post_description');?></a></b>
 				</td>
@@ -247,17 +256,22 @@ $tab_options = array(
 							</a>
 						</b>
 					</td>
+				<?php } else if ($this->item->uploader == $user->id) { ?>
+					<td align="center" class="row1" width="50%">
+						<b><?php echo JText::_( 'COM_TRACKER_TORRENT_REPORT_OWN_TORRENT' );?></b>
+					</td>
 				<?php } else { ?>
 					<td align="center" class="row1" width="50%">
-						<b><?php echo JText::_( 'COM_TRACKER_REPORT_ALREADY_SENT' );?></b>
+						<b><?php echo JText::_( 'COM_TRACKER_TORRENT_REPORT_ALREADY_SENT' );?></b>
 					</td>
 				<?php } ?>
 			<?php } ?>
 		</tr>
 		<?php } ?>
 	</table>
-
-	<?php echo JHtml::_('tabs.panel', JText::_('COM_TRACKER_TORRENT_DETAILS_FILE_LIST'), 'torrent_files'); ?>
+	</div>
+	
+	<div id="file-list">
 	<table
 		style="cellpadding: 0; cellspacing: 2; border: 0; width: 99%; align: center;">
 		<!-- File List -->
@@ -299,12 +313,11 @@ $tab_options = array(
 			</td>
 		</tr>
 	</table>
-	<?php
-		if (count($this->item->peers) > 0) { // Peer List
-		echo JHtml::_('tabs.panel', JText::_('COM_TRACKER_TORRENT_DETAILS_PEER_LIST'), 'torrent_peers');
-	?>
-	<table
-		style="cellpadding: 0; cellspacing: 0; border: 0; width: 99%; align: center;">
+	</div>
+
+	<?php if (count($this->item->peers) > 0) { // Peer List ?>
+	<div id="peer-list">
+	<table style="cellpadding: 0; cellspacing: 0; border: 0; width: 99%; align: center;">
 		<tr class="row1">
 			<td nowrap>&nbsp;<b><?php echo JText::_( 'COM_TRACKER_USER' );?> </b>
 			</td>
@@ -367,11 +380,11 @@ $tab_options = array(
 			}
 		?>
 	</table>
-	<?php
-		}
-		if (count($this->item->snatchers) > 0) { // Snatchers List
-			echo JHtml::_('tabs.panel', JText::_('COM_TRACKER_TORRENT_DETAILS_SNATCHERS'), 'torrent_seeders');
-			?>
+	</div>
+	<?php } ?>
+
+	<?php if (count($this->item->snatchers) > 0) { // Snatchers List ?>
+	<div id="snatchers">
 	<table
 		style="cellpadding: 0; cellspacing: 0; border: 0; width: 99%; align: center;">
 		<tr class="row1">
@@ -418,11 +431,11 @@ $tab_options = array(
 					}
 				?>
 	</table>
-	<?php
-		}
-		if (count($this->item->hitrunners) > 0) { // Hit and Runners List
-			echo JHtml::_('tabs.panel', JText::_('COM_TRACKER_TORRENT_DETAILS_HIT_RUNNER'), 'torrent_runners');
-			?>
+	</div>
+	<?php } ?>
+
+	<?php if (count($this->item->hitrunners) > 0) { // Hit and Runners List ?>
+	<div id="hit-runners">
 	<table
 		style="cellpadding: 0; cellspacing: 0; border: 0; width: 99%; align: center;">
 		<tr class="row1">
@@ -444,11 +457,11 @@ $tab_options = array(
 					$this->hitrunner =& $this->item->hitrunners[$i];
 					?>
 		<tr class="<?php echo "hitrunner$k"; ?>">
-			<td style="wrap: nowrap">
-				<!-- USER --> <?php
-							if ($params->get('allow_guest') && ($params->get('guest_user') == $user->id)) echo $this->hitrunner->name;
-							else echo "<a href='index.php?option=com_tracker&amp;view=userpanel&amp;id=".$this->hitrunner->id."'>".$this->hitrunner->name."</a>";
-						?>
+			<td style="wrap: nowrap"> <!-- USER -->
+			<?php
+				if ($params->get('allow_guest') && ($params->get('guest_user') == $user->id)) echo $this->hitrunner->name;
+				else echo "<a href='index.php?option=com_tracker&amp;view=userpanel&amp;id=".$this->hitrunner->id."'>".$this->hitrunner->name."</a>";
+			?>
 			</td>
 			<td width="10%" nowrap align="center"><?php
 								if (empty($this->hitrunner->countryname)) {
@@ -470,62 +483,16 @@ $tab_options = array(
 					}
 				?>
 	</table>
-	<?php
-		}
-		echo JHtml::_('tabs.end');
+	</div>
+	<?php } ?>
 
-		if ($params->get('enable_comments') && TrackerHelper::user_permissions('view_comments', $user->get('id'), 1)) {
-			TrackerHelper::comments($this->item->fid, $this->item->name);
-		}
-
-/*
-// Something to work on when base is done
-		if ($this->params->get('use_comments') && TrackerHelper::user_permissions('view_comments', $user->get('id'), 1) && count($this->item->comments) > 0) {
-			?>
-			<br />
-			<table style="cellpadding:0; cellspacing:0; border:0; width:100%; align:center;"> <!-- Torrent Comments -->
-				<tr class="row1">
-					<td width="100%" colspan="2" align="center">
-						<b>Comments</b>
-					</td>
-				</tr>
-				<?php
-				for ($i=0, $n=count( $this->item->comments ); $i < $n; $i++) {
-					$this->comments =& $this->item->comments[$i];
-				?>
-				<tr class="row1">
-					<td width="1%" nowrap>
-						&nbsp;<b><?php echo JText::_( 'COM_TRACKER_LABEL_USER' );?></b>:&nbsp;
-						<?php
-							if ($params->get('allow_guest') && ($params->get('guest_user') == $user->id)) echo $this->comments->username;
-							else echo "<a href='index.php?option=com_tracker&amp;view=userpanel&amp;id=".$this->comments->userid."'>".$this->comments->username."</a>";
-						?>
-					<br />
-						&nbsp;<b><?php echo JText::_( 'COM_TRACKER_TORRENTS_ADDED' );?></b>:&nbsp;
-						<?php echo $this->comments->commentdate; ?>
-					</td>
-					<td width="99%" nowrap align="left" style="padding:0.2em; padding-bottom: 1em;">
-						<?php echo $this->comments->description; ?>
-					</td>
-				</tr>
-			<?php
-			}
-			echo "<br>comment_only_leecher = ".$params->get('comment_only_leecher');
-			echo "<br>this->item->isleecher = ".$this->item->isleecher."<br>";
-			if (TrackerHelper::user_permissions('write_comments', $user->get('id'), 1)) {
-				//if (($params->get('comment_only_leecher') && $this->item->isleecher)) {
-				?>
-					<tr class="row1">
-						<td width="100%" colspan="2" align="right">
-							<a class="modal" href="index.php?option=com_tracker&view=comment&tmpl=component&id=<?php echo (int)$this->item->fid;?>&name=<?php echo base64_encode($this->item->name);?>">Comment</a>
-						</td>
-					</tr>
-				<?php
-				//}
-			}
-			?>
-			</table>
-		<?php }
-*/
-		?>
 </div>
+
+<?php
+// Enable the commenting system if we have it enabled
+	if ($params->get('enable_comments') && TrackerHelper::user_permissions('view_comments', $user->get('id'), 1)) {
+		echo '<br />';
+		TrackerHelper::comments($this->item->fid, $this->item->name);
+	}
+?>
+

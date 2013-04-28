@@ -10,70 +10,119 @@
 // no direct access
 defined('_JEXEC') or die;
 $params =& JComponentHelper::getParams( 'com_tracker' );
+jimport( 'joomla.form.form' );
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
+$doc =& JFactory::getDocument();
+$doc->addScript("http://code.jquery.com/jquery-latest.js");
+$style = '.hide { display:none; }';
+$doc->addStyleDeclaration( $style );
+
 ?>
+<script>
+$(document).ready(function(){
+	$("#jform_image_type").change(function(){
+		if ($(this).val() == "1" ) {
+			$("#image_file_field").show();
+			$("#image_file_link").hide();
+		} else if ($(this).val() == "2" ) {
+			$("#image_file_link").show();
+			$("#image_file_field").hide();
+		} else {
+			$("#image_file_link").hide();
+			$("#image_file_field").hide();
+		}
+    });
+});
+</script>
+
 <style type="text/css">.toggle-editor{display:none;}</style>
 <div class="upload-form">
 	<form id="upload-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" enctype="multipart/form-data" class="form-validate">
-		<table>
-			<tr>
-				<td width="1%" nowrap align="right"><?php echo $this->form->getLabel('filename');?>:</td>
-				<td width="98%"><?php echo $this->form->getInput('filename'); ?></td>
-			</tr>
-			<tr>
-				<td width="1%" nowrap align="right"><?php echo $this->form->getLabel('name');?>:</td>
-				<td width="98%"><?php echo $this->form->getInput('name'); ?></td>
-			</tr>
-			<tr>
-				<td width="1%" nowrap align="right"><?php echo $this->form->getLabel('categoryID');?>:</td>
-				<td width="98%"><?php echo $this->form->getInput('categoryID'); ?>
-				<?php if ($params->get('enable_licenses') == 1) {
-					echo $this->form->getLabel('licenseID').':&nbsp;'.$this->form->getInput('licenseID');
-				} ?>
-				<?php if ($params->get('allow_upload_anonymous') == 1) {
-					echo $this->form->getLabel('uploader_anonymous').':&nbsp;'.$this->form->getInput('uploader_anonymous');
-				} ?>
-				</td>
-			</tr>
+		<div>
+			<div>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('filename'); ?>:</span>
+				<span style="width:98%;"><?php echo $this->form->getInput('filename'); ?></span>
+			</div>
+			<div style="clear: both;"><br /></div>
+			
+			<div>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('name');?>:</span>
+				<span style="width:98%;"><?php echo $this->form->getInput('name'); ?></span>
+			</div>
+			<div style="clear: both;"><br /></div>
+			
+			<div>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('categoryID');?>:</span>
+				<span style="width:98%;"><?php echo $this->form->getInput('categoryID'); ?></span>
+				<?php if ($params->get('enable_licenses') == 1) { ?>
+				<span>&nbsp;&nbsp;&nbsp;</span>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('licenseID');?>:</span>
+				<span style="width:98%;"><?php echo $this->form->getInput('licenseID'); ?></span>
+				<?php } ?>
+				<?php if ($params->get('allow_upload_anonymous') == 1) { ?>
+				<span>&nbsp;&nbsp;&nbsp;</span>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('uploader_anonymous');?>:</span>
+				<span style="width:98%;"><?php echo $this->form->getInput('uploader_anonymous'); ?></span>
+				<?php } ?>
+			</div>
+			<div style="clear: both;"><br /></div>
 
-			<?php if ($params->get('use_image_file') == 1 && $params->get('image_width') > 0) { ?>
-			<tr>
-				<td width="1%" nowrap align="right"><?php echo $this->form->getLabel('image_file');?>:</td>
-				<td width="98%"><?php echo $this->form->getInput('image_file'); ?></td>
-			</tr>
+			<?php if ($params->get('use_image_file') == 1) { ?>
+			<div>
+			<?php if ($params->get('image_type') == 0) { ?>
+				<div style="float: left;">
+					<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_('COM_TRACKER_TORRENT_IMAGE'); ?> :</span>
+					<span style="width:1%; wrap:nowrap; align:left;"><?php echo $this->form->getInput('image_type'); ?></span>
+				</div>
+			<?php } ?>
+			
+			<?php if ($params->get('image_type') == 1 || $params->get('image_type') == 0) { ?>
+				<?php if ($params->get('image_type') == 0) echo '<div class="hide" id="image_file_field" style="float: left;"><span>&nbsp;&nbsp;&nbsp;</span>'; ?>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('image_file');?>:</span>
+				<span style="width:1%; wrap:nowrap; align:left;"><?php echo $this->form->getInput('image_file'); ?></span>
+				<?php if ($params->get('image_type') == 0) echo '</div>'; ?>
+			<?php } ?>
+			
+			<?php if ($params->get('image_type') == 2 || $params->get('image_type') == 0) { ?>
+				<?php if ($params->get('image_type') == 0) echo '<div class="hide" id="image_file_link" style="float: left;"><span>&nbsp;&nbsp;&nbsp;</span>'; ?>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('image_link');?>:</span>
+				<span style="width:1%; wrap:nowrap; align:left;"><?php echo $this->form->getInput('image_link'); ?></span>
+				<?php if ($params->get('image_type') == 0) echo '</div>'; ?>
 			<?php } ?>
 
-			<?php if (($params->get('forum_post_id') == 1) && ($params->get('torrent_information') == 1)) { ?>
-			<tr>
-				<td width="1%" nowrap align="right"><?php echo $this->form->getLabel('forum_post');?>:</td>
-				<td width="98%"><?php 
-					echo $this->form->getInput('forum_post');
-					echo $this->form->getLabel('info_post');
-					echo $this->form->getInput('info_post'); ?>
-				</td>
-			<?php } elseif (($params->get('forum_post_id') == 1) && ($params->get('torrent_information') == 0)) { ?>
-				<td width="1%" nowrap align="right"><?php echo $this->form->getLabel('forum_id');?>:</td>
-				<td width="98%"><?php echo $this->form->getInput('forum_id');?></td>
-			<?php } elseif (($params->get('forum_post_id') == 0) && ($params->get('torrent_information') == 1)) { ?>
-				<td width="1%" nowrap align="right"><?php echo $this->form->getLabel('info_id');?></td>
-				<td width="98%"><?php echo $this->form->getInput('info_id'); ?></td>
+			</div>
+			<div style="clear: both;"><br /></div>
 			<?php } ?>
-			</tr>
+			
+			<?php if ($params->get('forum_post_id') == 1 || $params->get('torrent_information') == 1) { ?>
+			<div>
+				<?php if ($params->get('forum_post_id') == 1) { ?>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('forum_post'); ?> :</span>
+				<span style="width:1%; wrap:nowrap; align:left;"><?php echo $this->form->getInput('forum_post'); ?></span>
+				<?php } ?>
+				<?php if ($params->get('torrent_information') == 1) { ?>
+				<?php if ($params->get('forum_post_id') == 1) echo '<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>'; ?>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('info_post'); ?> :</span>
+				<span style="width:1%; wrap:nowrap; align:left;"><?php echo $this->form->getInput('info_post'); ?></span>
+				<?php } ?>
+			</div>
+			<div style="clear: both;"><br /></div>
+			<?php } ?>
 
-			<tr>
-				<td width="1%" nowrap align="right" valign="top"><?php echo $this->form->getLabel('description');?>:</td>
-				<td width="98%"><?php echo $this->form->getInput('description'); ?></td>
-			</tr>
-		</table>
+			<div>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('description'); ?> :</span>
+				<span style="width:1%; wrap:nowrap; align:left;"><?php echo $this->form->getInput('description'); ?></span>
+			</div>
+		</div>
 
 		<div style="float: right;">
 			<button class="button validate" type="submit"><?php echo JText::_('COM_TRACKER_UPLOAD_TORRENT_BUTTON'); ?></button>
 		</div>
-
+ 
 		<input type="hidden" name="max_torrent_size" value="<?php echo $params->get('max_torrent_size'); ?>" />
 		<input type="hidden" name="option" value="com_tracker" />
 		<input type="hidden" name="task" value="torrent.uploaded" />

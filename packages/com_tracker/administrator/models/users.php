@@ -68,7 +68,7 @@ class TrackerModelUsers extends JModelList {
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.* '
+				'a.*, (a.downloaded/a.uploaded) as ratio '
 			)
 		);
 		$query->from('`#__tracker_users` AS a');

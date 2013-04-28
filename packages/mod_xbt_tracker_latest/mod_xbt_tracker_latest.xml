@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5" client="site" method="upgrade">
-	<name>XBT Tracker Frontend - Latest Torrents</name>
+	<name>mod_xbt_tracker_latest</name>
 	<creationDate>2012-03-08</creationDate>
 	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -8,7 +8,7 @@
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
 	<description>MOD_XBT_TRACKER_LATEST</description>
-	<version>2.5.0.0</version>
+	<version>2.5.10.2</version>
 
 	<files>
 		<filename module="mod_xbt_tracker_latest">mod_xbt_tracker_latest.php</filename>
@@ -40,7 +40,7 @@
 					<option value="name">MOD_XBT_TRACKER_LATEST_NAME</option>
 					<option value="filename">MOD_XBT_TRACKER_LATEST_FILENAME</option>
 				</field>
-				<field name="ordering_direction" type="list" default="published" label="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_DIRECTION_LABEL" description="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_DIRECTION_DESCRIPTION">
+				<field name="ordering_direction" type="list" default="desc" label="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_DIRECTION_LABEL" description="MOD_XBT_TRACKER_LATEST_CREATED_TIME_ORDERING_DIRECTION_DESCRIPTION">
 					<option value="asc">MOD_XBT_TRACKER_LATEST_ASCENDING</option>
 					<option value="desc">MOD_XBT_TRACKER_LATEST_DESCENDING</option>
 				</field>
@@ -109,6 +109,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+				<field name="image_file_width" type="text" size="5" default="150" filter="integer" label="MOD_XBT_TRACKER_FIELD_IMAGE_FILE_WIDTH_LABEL" description="MOD_XBT_TRACKER_FIELD_IMAGE_FILE_WIDTH_DESCRIPTION" />
 				<field name="torrent_owner_field" type="list" default="0" label="MOD_XBT_TRACKER_FIELD_TORRENT_OWNER_FIELD_LABEL" description="MOD_XBT_TRACKER_FIELD_TORRENT_OWNER_FIELD_DESCRIPTION">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" version="2.5" client="site" method="upgrade">
-	<name>XBT Tracker Frontend - Online Staff</name>
+	<name>mod_xbt_tracker_online_staff</name>
 	<creationDate>2013-03-27</creationDate>
 	<copyright>Copyright (C) 2007 - 2013 Hugo Carvalho, PsyloDesign and Patlol. All rights reserved.</copyright>
 	<license>GNU General Public License version 3 or later</license>
@@ -8,7 +8,7 @@
 	<authorEmail>visigod@visigod.com and psylodesign@share-on-underground.com</authorEmail>
 	<authorUrl>http://www.visigod.com and http://share-on-underground.com</authorUrl>
 	<description>MOD_XBT_TRACKER_ONLINE_STAFF</description>
-	<version>2.5.3</version>
+	<version>2.5.10.2</version>
 
 	<files>
 		<filename module="mod_xbt_tracker_online_staff">mod_xbt_tracker_online_staff.php</filename>

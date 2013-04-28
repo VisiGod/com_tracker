@@ -25,18 +25,6 @@ JHtml::_('behavior.formvalidation');
 							<td>&nbsp;&nbsp;<input type="text" name="announce_interval" id="announce_interval" class="inputbox" size="11" value="<?php echo $this->item['announce_interval']; ?>" /></td>
 						</tr>
 						<tr>
-							<td class="key" nowrap><label for="anonymous_announce" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_ANONYMOUS_ANNOUNCE' ); ?></b></label></td>
-							<td><?php echo $this->item['anonymous_announce']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="anonymous_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_ANONYMOUS_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->item['anonymous_scrape']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="auto_register" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_AUTO_REGISTER' ); ?></b></label></td>
-							<td><?php echo $this->item['auto_register']; ?></td>
-						</tr>	
-						<tr>
 							<td class="key" nowrap><label for="clean_up_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_CLEAN_UP_INTERVAL' ); ?></b></label></td>
 							<td>&nbsp;&nbsp;<input type="text" name="clean_up_interval" id="clean_up_interval" class="inputbox" size="11" value="<?php echo $this->item['clean_up_interval']; ?>" /></td>
 						</tr>
