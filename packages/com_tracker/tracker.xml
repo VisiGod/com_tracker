@@ -44,6 +44,7 @@
 		<filename>index.html</filename>
 		<folder>filetypes</folder>
 		<folder>flags</folder>
+		<folder>other</folder>
 		<folder>torrent_image</folder>
 		<folder>torrenttype</folder>
 		<folder>ratios</folder>

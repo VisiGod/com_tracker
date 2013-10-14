@@ -126,9 +126,6 @@ class TrackerModelTorrent extends JModelAdmin {
 		$app			= JFactory::getApplication();
 		$params =& JComponentHelper::getParams( 'com_tracker' );
 
-		// We need to put back the file extension in the filename
-		$data['filename'] = $data['filename'].'.torrent';
-
 		if ($params->get('use_image_file') == 1) {
 		
 			// When image_type is don't use image
@@ -201,7 +198,17 @@ class TrackerModelTorrent extends JModelAdmin {
 		} else {
 			$data['image_file'] = "";
 		}
+		
+		// Rename the filename if we've changed it
+		if ($data['filename'] <> $_POST['old_filename']) {
+			$pre_file = JPATH_SITE.DS.$params->get('torrent_dir').$data['fid'].'_';
 
+			rename($pre_file.$_POST['old_filename'].'.torrent', $pre_file.$data['filename'].'.torrent');
+		}
+		
+		// We need to put back the file extension in the filename
+		$data['filename'] = $data['filename'].'.torrent';
+		
 		return parent::save($data);
 	}
 	

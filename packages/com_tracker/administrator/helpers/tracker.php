@@ -177,11 +177,11 @@ abstract class TrackerHelper {
 		$params =& JComponentHelper::getParams( 'com_tracker' );
 		$config = new JConfig();
 
-		if ($p == 0) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' height='9' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
-		if ($p >= 100) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-green.gif' height='9' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
-		if ($p >= 1 && $p <= 30) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-red.gif' height='9' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' height='9' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
-		if ($p >= 31 && $p <= 65) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-yellow.gif' height='9' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' height='9' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
-		if ($p >= 66 && $p <= 99) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-green.gif' height='9' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' height='9' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
+		if ($p == 0) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
+		if ($p >= 100) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-green.gif' style='height: 9px' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
+		if ($p >= 1 && $p <= 30) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-red.gif' style='height: 9px' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
+		if ($p >= 31 && $p <= 65) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-yellow.gif' style='height: 9px' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
+		if ($p >= 66 && $p <= 99) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-green.gif' style='height: 9px' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
 			return "<img src='".JURI::base()."components/com_tracker/assets/images/bar_left.gif' alt='".$config->sitename."'/>" . $progress ."<img src='".JURI::base()."components/com_tracker/assets/images/bar_right.gif' alt='".$config->sitename."'/>";
 	}
 
@@ -641,6 +641,25 @@ abstract class TrackerHelper {
 		return $db->loadObjectList();
 	}
 
+	function changeUsersPermission($permission, $groupID, $enable) {
+		JArrayHelper::toInteger($groupID);
+		$groupID = implode( ',', $groupID );
+		
+		$db 	= &JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__tracker_users'));
+		$query->set($db->quoteName($permission) . ' = '.$enable);
+		$query->where($db->quoteName('groupID') . ' IN ('.$groupID.')');
+		$query->where($db->quoteName('exemption_type') . ' = 2');
+		$db->setQuery($query);
+		
+		try {
+			$result = $db->query();
+		} catch (Exception $e) {
+			return false;
+		}
+		return true;
+	}
 // ########################################################################################################################################
 /*
 	function checkComponentConfigured() {

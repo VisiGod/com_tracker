@@ -26,13 +26,15 @@ class TrackerModelStatistics extends JModelItem {
 		$app = JFactory::getApplication();
 		$params = $app->getParams();
 
+		//COALESCE(SUM(C.vote_value), 0)
+		
 		if ($params->get('number_torrents') || $params->get('number_files') || $params->get('total_seeders') || $params->get('total_leechers') || $params->get('total_completed') || $params->get('bytes_shared')) {
 			$query->select('COUNT(fid) AS torrents');
-			$query->select('SUM(leechers) AS leechers');
-			$query->select('SUM(seeders) AS seeders');
-			$query->select('SUM(completed) AS completed');
-			$query->select('SUM(size) AS shared');
-			$query->select('SUM(number_files) AS files');
+			$query->select('COALESCE(SUM(leechers), 0) AS leechers');
+			$query->select('COALESCE(SUM(seeders), 0) AS seeders');
+			$query->select('COALESCE(SUM(completed), 0) AS completed');
+			$query->select('COALESCE(SUM(size), 0) AS shared');
+			$query->select('COALESCE(SUM(number_files), 0) AS files');
 			$query->from('#__tracker_torrents');
 			$query->where('flags <> 1');
 			$db->setQuery($query);

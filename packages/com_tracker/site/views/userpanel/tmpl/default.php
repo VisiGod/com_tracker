@@ -18,10 +18,14 @@ $doc->addScript("http://code.jquery.com/ui/1.10.2/jquery-ui.js");
 $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css");
 
 ?>
-<script>
+<script type="text/javascript">
+jQuery.noConflict();
+
+(function($) {
   $(function() {
     $( "#tabs" ).tabs();
   });
+})(jQuery);
 </script>
 
 <div style="font-size: medium; margin-left:35px; wrap:nowrap;">
@@ -40,10 +44,18 @@ $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-u
 <div id="tabs">
 	<ul>
 		<li><a href="#user-panel"><?php echo JText::_('COM_TRACKER_USER_DETAILS'); ?></a></li>
-		<li><a href="#user_snatch_list"><?php echo JText::_('COM_TRACKER_SNATCH_LIST'); ?></a></li>
-		<li><a href="#user_uploaded_list"><?php echo JText::_('COM_TRACKER_TORRENTS_UPLOADED'); ?></a></li>
-		<li><a href="#user_seeded_list"><?php echo JText::_('COM_TRACKER_SEEDED_TORRENTS'); ?></a></li>
-		<li><a href="#user_hit_and_run_list"><?php echo JText::_('COM_TRACKER_LEECHED_AND_RAN'); ?></a></li>
+		<?php if ($this->item->total_snatch > 0) { ?>
+			<li><a href="#user_snatch_list"><?php echo JText::_('COM_TRACKER_SNATCH_LIST'); ?></a></li>
+		<?php } ?>
+		<?php if ($this->item->total_uploads > 0) { ?>
+			<li><a href="#user_uploaded_list"><?php echo JText::_('COM_TRACKER_TORRENTS_UPLOADED'); ?></a></li>
+		<?php } ?>
+		<?php if ($this->item->total_seeds > 0) { ?>
+			<li><a href="#user_seeded_list"><?php echo JText::_('COM_TRACKER_SEEDED_TORRENTS'); ?></a></li>
+		<?php } ?>
+		<?php if ($this->item->total_hitandran > 0) { ?>
+			<li><a href="#user_hit_and_run_list"><?php echo JText::_('COM_TRACKER_LEECHED_AND_RAN'); ?></a></li>
+		<?php } ?>
 	</ul>
 
 	<div id="user-panel">
@@ -125,17 +137,18 @@ $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-u
 			</tr>
 			<?php }
 			}
-			if (((TrackerHelper::user_permissions('edit_torrents', $this->session->get('user')->id, 1)) || $this->session->get('user')->id == $this->item->id) && $this->item->user_donations->donated) { ?>
-			<tr>
-				<td class="row1" align="right"><b><?php echo JText::_( 'COM_TRACKER_DONATED' ); ?>:</b></td>
-				<td class="row0" align="left">
-					<?php
-						echo '&nbsp;$'.number_format($this->item->user_donations->donated, 2, ',', ' ');
-						echo ' ('.TrackerHelper::make_size($this->item->user_donations->credited * 1073741824).')';
-					?>
-				</td>
-			</tr>
-			
+			if ($this->params->get('enable_donations')) {
+				if (((TrackerHelper::user_permissions('edit_torrents', $this->session->get('user')->id, 1)) || $this->session->get('user')->id == $this->item->id) && $this->item->user_donations->donated) { ?>
+				<tr>
+					<td class="row1" align="right"><b><?php echo JText::_( 'COM_TRACKER_DONATED' ); ?>:</b></td>
+					<td class="row0" align="left">
+						<?php
+							echo '&nbsp;$'.number_format($this->item->user_donations->donated, 2, ',', ' ');
+							echo ' ('.TrackerHelper::make_size($this->item->user_donations->credited * 1073741824).')';
+						?>
+					</td>
+				</tr>
+			<?php } ?>
 			<!-- Show the Thanks related info -->
 			<?php if ($this->params->get('enable_thankyou') == 1) { ?>
 			<tr>
@@ -166,16 +179,16 @@ $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-u
 		</table>
 	</div>
 
-	<?php if ($this->item->total_snatch) { ?>
+	<?php if ($this->item->total_snatch > 0) { ?>
 	<div id="user_snatch_list">
 		<table class="adminform" style="width:100%;"> <!-- Snatched Torrents -->
 			<tr class="row1">
-				<th class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_DOWNLOADED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
+				<th>&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_DOWNLOADED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
 			</tr>
 				<?php
 					$k = 0;
@@ -198,14 +211,14 @@ $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-u
 	</div>
 	<?php } ?>
 
-	<?php if ($this->item->total_uploads) { ?>
+	<?php if ($this->item->total_uploads > 0) { ?>
 	<div id="user_uploaded_list"> <!-- UPLOADED TORRENTS -->
 		<table class="adminform">
 			<tr class="row1">
-				<th class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
+				<th >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
 			</tr>
 			<?php
 			$k = 0;
@@ -226,14 +239,14 @@ $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-u
 	</div>
 	<?php } ?>
 
-	<?php if ($this->item->total_seeds) { ?>
+	<?php if ($this->item->total_seeds > 0) { ?>
 	<div id="user_seeded_list"> <!-- SEEDED TORRENTS -->
 		<table class="adminform">
 			<tr class="row1">
-				<th class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
+				<th >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
 			</tr>
 			<?php
 			$k = 0;
@@ -253,16 +266,16 @@ $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-u
 		</table>
 	</div>
 	<?php } ?>
-	<?php if ($this->item->total_hitandran) { ?>
+	<?php if ($this->item->total_hitandran > 0) { ?>
 	<div id="user_hit_and_run_list"> <!-- HIT & RUN TORRENTS -->
 		<table class="adminform">
 			<tr class="row1">
-				<th width="75%" class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_DOWNLOADED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
-				<th width="5%" nowrap class="title">&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
+				<th width="75%" >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_DOWNLOADED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_COMPLETED' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ); ?>&nbsp;</th>
+				<th width="5%" nowrap >&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_LEECHERS' ); ?>&nbsp;</th>
 			</tr>
 			<?php
 			$k = 0;

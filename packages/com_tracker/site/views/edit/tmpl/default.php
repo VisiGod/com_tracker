@@ -24,25 +24,33 @@ $style = '.hide { display:none; }';
 $doc->addStyleDeclaration( $style );
 
 ?>
-<script>
-$(document).ready(function(){
-	function default_dropdown() {
-		if ($("#default_image_type").val() == "1") $("#image_file_field").show();
-		if ($("#default_image_type").val() == "2") $("#image_file_link").show();
-	}
-	default_dropdown();
-	
-	$("#default_image_type").change(function(){
-		if ($(this).val() == "1" ) {
-			$("#image_file_field").show();
-			$("#image_file_link").hide();
+<script type="text/javascript">
+jQuery.noConflict();
+
+(function($) {
+	$(document).ready(function(){
+		function default_dropdown() {
+			if ($("#default_image_type").val() == "1") $("#image_file_field").show();
+			if ($("#default_image_type").val() == "2") $("#image_file_link").show();
 		}
-		if ($(this).val() == "2" ) {
-			$("#image_file_link").show();
-			$("#image_file_field").hide();
-		}
-    });
-});
+		default_dropdown();
+		
+		$("#default_image_type").change(function(){
+			if ($(this).val() == "1" ) {
+				$("#image_file_field").show();
+				$("#image_file_link").hide();
+			}
+			if ($(this).val() == "2" ) {
+				$("#image_file_field").hide();
+				$("#image_file_link").show();
+			}
+			if ($(this).val() == "0" || $(this).val() == "3" ) {
+				$("#image_file_field").hide();
+				$("#image_file_link").hide();
+			}
+	    });
+	});
+})(jQuery);
 </script>
 
 <div class="row1" align="left" style="font-size: medium;"><br/><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_FOR' );?></b><?php echo str_replace("_", " ", $this->item->name);?><br/><br/><br/></div>
@@ -203,6 +211,7 @@ $(document).ready(function(){
 		</div>
 
 		<input type="hidden" name="fid" value="<?php echo $this->item->fid; ?>" />
+		<input type="hidden" name="old_filename" value="<?php echo $this->item->filename; ?>" />
 		<input type="hidden" name="info_hash" value="<?php echo bin2hex($this->item->info_hash); ?>" />
 		<input type="hidden" name="option" value="com_tracker" />
 		<input type="hidden" name="task" value="torrent.edited" />

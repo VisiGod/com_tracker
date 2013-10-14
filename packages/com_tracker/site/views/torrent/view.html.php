@@ -46,8 +46,6 @@ class TrackerViewTorrent extends JViewLegacy {
 			$user->load($params->get('guest_user'));
 		}
 
-		$pathway->addItem($item->name, 'http://www.yourdomain.tld');
-		
 		$this->assignRef('state',		$state);
 		$this->assignRef('item',		$item);
 		$this->assignRef('params', $params);

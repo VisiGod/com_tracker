@@ -10,12 +10,12 @@
 	<version>2.5.10.1</version>
 	<description>PLG_SYSTEM_TRACKER_PLUGIN_DESCRIPTION</description>
 	<files>
-		<filename plugin="trackersystem">trackersystem.php</filename>
+		<filename plugin="tracker">tracker.php</filename>
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_trackersystem.ini</language>
-		<language tag="en-GB">en-GB.plg_system_trackersystem.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_system_tracker.ini</language>
+		<language tag="en-GB">en-GB.plg_system_tracker.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

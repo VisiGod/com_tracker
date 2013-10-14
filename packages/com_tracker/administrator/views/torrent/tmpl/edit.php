@@ -142,6 +142,8 @@ $(document).ready(function(){
 	</div>
 
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="old_filename" value="<?php echo $this->form->getValue('filename'); ?>" />
+	<input type="hidden" name="fid" value="<?php echo $this->form->getValue('fid'); ?>" />
 	<input type="hidden" name="info_hash" value="<?php echo bin2hex($this->form->getValue('info_hash')); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	<div class="clr"></div>

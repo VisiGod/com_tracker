@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-class plgSystemTrackerSystem extends JPlugin {
+class plgSystemTracker extends JPlugin {
 
 /*
 ############################################
@@ -152,6 +152,8 @@ Follow group ratio rules = 2
 			$query->clear();
 			$query->select('id');
 			$query->from($db->quoteName('#__tracker_users'));
+			$query->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
+			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(u.minimum_ratio,0)');
 			$query->where('exemption_type = 0');
 			$db->setquery( $query );
 			if ($row = $db->loadResultArray()) {
@@ -165,6 +167,29 @@ Follow group ratio rules = 2
 				$db->setquery( $query );
 				$db->query( $query );
 			}
+
+			// --------------------------------------------------------------------------------------------------
+			// Remove the permission to leech from users that follow group ratio and group isn't allowed to leech
+			// --------------------------------------------------------------------------------------------------
+			// Get all the groups that cant leech
+			$query->clear();
+			$query->select('id');
+			$query->from($db->quoteName('#__tracker_groups'));
+			$query->where('can_leech = 0');
+			$db->setquery( $query );
+			if ($row = $db->loadResultArray()) {
+				// Deny download from the users that belong to that group(s)
+				JArrayHelper::toInteger($row);
+				$uids = implode( ',', $row );
+				$query->clear();
+				$query->update($db->quoteName('#__tracker_users'));
+				$query->set('can_leech = 0');
+				$query->where('groupID IN ( '.$uids.' )');
+				$db->setquery( $query );
+				$db->query( $query );
+			}
+
+		// Update the time the plugin last ran
 		$ratio_last_update = time();
 		}
 		// Tracker Ratio - End
@@ -344,7 +369,7 @@ Follow group ratio rules = 2
 		$defaults .= '"forumgroup_timeframe":"'.$forumgroup_timeframe.'",';
 		$defaults .= '"forumgroup_last_update":"'.$forumgroup_last_update.'"}'; // JSON format for the parameters
 		$query->set("params = '" . $defaults . "'");
-		$query->where("element = 'trackersystem'");
+		$query->where("element = 'tracker'");
 		$db->setQuery($query);
 		$db->query();
 	}

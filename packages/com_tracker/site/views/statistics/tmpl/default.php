@@ -59,18 +59,23 @@ $( "#tabs-worst" ).tabs();
 ';
 //$doc->addScript($tabs_jquery);
 ?>
-<script>
-  $(function() {
-    $( "#tabs-stats" ).tabs();
-    $( "#tabs-users" ).tabs();
-    $( "#tabs-best" ).tabs();
-    $( "#tabs-worst" ).tabs();
-});
+<script type="text/javascript">
+jQuery.noConflict();
+
+(function($) {
+	$(function() {
+	    $( "#tabs-stats" ).tabs();
+	    $( "#tabs-users" ).tabs();
+	    $( "#tabs-best" ).tabs();
+	    $( "#tabs-worst" ).tabs();
+	});
+})(jQuery);
 </script>
 <?php 
 if ($this->params->get('number_torrents') || $this->params->get('number_files') || $this->params->get('total_seeders') || 
 	$this->params->get('total_leechers') || $this->params->get('total_completed') || $this->params->get('bytes_shared') ||
 	$this->params->get('download_speed') || $this->params->get('upload_speed') ) {
+
 ?>
 <div id="tabs-stats">
 	<ul>
@@ -96,14 +101,14 @@ if ($this->params->get('number_torrents') || $this->params->get('number_files') 
 	echo '</div></div><br /><br />';
 	echo '<div id="container">';
 	echo '<div id="row">';
-	if ($this->params->get('download_speed')) echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_DOWNLOAD_SPEED').'&nbsp;</b></div>';
-	if ($this->params->get('upload_speed')) echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_UPLOAD_SPEED').'&nbsp;</b></div>';
+	if ($this->params->get('download_speed') && $this->params->get('peer_speed')) echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_DOWNLOAD_SPEED').'&nbsp;</b></div>';
+	if ($this->params->get('upload_speed') && $this->params->get('peer_speed')) echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_UPLOAD_SPEED').'&nbsp;</b></div>';
 	if ($this->params->get('bytes_downloaded')) echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_DOWNLOADED_DATA').'&nbsp;</b></div>';
 	if ($this->params->get('bytes_uploaded')) 	echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_UPLOADED_DATA').'&nbsp;</b></div>';
 	if ($this->params->get('bytes_downloaded') || $this->params->get('bytes_uploaded')) echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_TOTAL_DATA').'&nbsp;</b></div>';
 	echo '</div><div id="row">';
-	if ($this->params->get('download_speed')) echo '<div id="value-center">&nbsp;'.TrackerHelper::make_speed($this->item->total_speed->download_rate).'&nbsp;</div>';
-	if ($this->params->get('upload_speed')) echo '<div id="value-center">&nbsp;'.TrackerHelper::make_speed($this->item->total_speed->upload_rate).'&nbsp;</div>';
+	if ($this->params->get('download_speed') && $this->params->get('peer_speed')) echo '<div id="value-center">&nbsp;'.TrackerHelper::make_speed($this->item->total_speed->download_rate).'&nbsp;</div>';
+	if ($this->params->get('upload_speed') && $this->params->get('peer_speed')) echo '<div id="value-center">&nbsp;'.TrackerHelper::make_speed($this->item->total_speed->upload_rate).'&nbsp;</div>';
 	if ($this->params->get('bytes_downloaded'))	echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_downloaded).'&nbsp;</div>';
 	if ($this->params->get('bytes_uploaded')) 	echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_uploaded).'&nbsp;</div>';
 	if ($this->params->get('bytes_downloaded') || $this->params->get('bytes_uploaded'))	echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_downloaded + $this->item->total_transferred->user_uploaded).'&nbsp;</div>';
@@ -139,7 +144,7 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 				</div>
 		<?php foreach ($this->item->top_downloaders as $item) { ?>
 				<div id="row">
-				<div id="value-left">&nbsp;<?php echo $item->name; ?>&nbsp;</div>
+				<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo $item->name; ?></a>&nbsp;</div>
 				<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded); ?>&nbsp;</div>
 				<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded); ?>&nbsp;</div>
 		<?php 	if (empty($item->countryName)) {
@@ -167,7 +172,7 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		echo '</div>';
 		foreach ($this->item->top_uploaders as $item) {
 			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;'.$item->name.'&nbsp;</div>';
+			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->downloaded).'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->uploaded).'&nbsp;</div>';
 			if (empty($item->countryName)) {
@@ -195,7 +200,7 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		echo '</div>';
 		foreach ($this->item->top_sharers as $item) {
 			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;'.$item->name.'&nbsp;</div>';
+			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->downloaded).'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->uploaded).'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::get_ratio($item->uploaded, $item->downloaded).'&nbsp;</div>';
@@ -223,7 +228,7 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		echo '</div>';
 		foreach ($this->item->worst_sharers as $item) {
 			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;'.$item->name.'&nbsp;</div>';
+			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->downloaded).'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->uploaded).'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.TrackerHelper::get_ratio($item->uploaded, $item->downloaded).'&nbsp;</div>';
@@ -250,7 +255,7 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		echo '</div>';
 		foreach ($this->item->top_thanked as $item) {
 			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;'.$item->name.'&nbsp;</div>';
+			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->total_thanks.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;<img style="vertical-align:middle;"  id="tdcountry<'.$item->uid.'" alt="'.$item->countryName.'" src="'.JURI::base().$item->countryImage.'" width="32" /></div>';
 			echo '<div id="value-center">&nbsp;'.$item->usergroup.'&nbsp;</div>';
@@ -270,7 +275,7 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		echo '</div>';
 		foreach ($this->item->top_thanker as $item) {
 			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;'.$item->name.'&nbsp;</div>';
+			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->thanker.'&nbsp;</div>';
 			if (empty($item->countryName)) {
 				$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));

@@ -69,8 +69,12 @@ class TrackerModelTorrent extends JModelItem {
 		$query->join('LEFT', '#__categories AS c on c.id = t.categoryID');
 
 		// Join on the tracker users table
-		$query->select('tu.groupID');
+		$query->select('tu.groupID, tu.exemption_type, tu.minimum_ratio as user_minimum_ratio');
 		$query->join('LEFT', '#__tracker_users AS tu on tu.id = t.uploader');
+		
+		// Join on the tracker groups table
+		$query->select('tg.minimum_ratio as group_minimum_ratio');
+		$query->join('LEFT', '#__tracker_groups AS tg on tg.id = tu.groupID');		
 		
 		// Join on user table.
 		$query->select('u.username as uname');

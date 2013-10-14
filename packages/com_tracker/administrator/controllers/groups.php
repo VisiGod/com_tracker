@@ -59,6 +59,8 @@ class TrackerControllerGroups extends JControllerAdmin {
 
 		if (empty($ids)) JError::raiseWarning(500, JText::_('COM_TRACKER_GROUPS_NO_GROUP_SELECTED'));
 		else {
+			// Remove the ability to leech from the users of the specified group
+			if ($this->task == 'can_leech') TrackerHelper::changeUsersPermission('can_leech', $ids, 0);
 			// Get the model.
 			$model = $this->getModel();
 			// Change the state of the records.
@@ -76,6 +78,8 @@ class TrackerControllerGroups extends JControllerAdmin {
 
 		if (empty($ids)) JError::raiseWarning(500, JText::_('COM_TRACKER_GROUPS_NO_GROUP_SELECTED'));
 		else {
+			// Add the ability to leech from the users of the specified group
+			if ($this->task == 'can_leech') TrackerHelper::changeUsersPermission('can_leech', $ids, 1);
 			// Get the model.
 			$model = $this->getModel();
 			// Change the state of the records.

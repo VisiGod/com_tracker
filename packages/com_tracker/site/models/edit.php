@@ -83,6 +83,7 @@ class TrackerModelEdit extends JModelItem {
 		$torrent['fid']			= (int)$_POST['fid'];
 		$torrent['name'] 		= $_POST['name'];
 		$torrent['filename'] 	= $_POST['filename'];
+		$torrent['old_filename'] 	= $_POST['old_filename'];
 		$torrent['description'] = $_POST['description'];
 		$torrent['categoryID'] 	= (int)$_POST['categoryID'];
 		$torrent['licenseID'] 	= (int)$_POST['licenseID'];
@@ -164,7 +165,18 @@ class TrackerModelEdit extends JModelItem {
 		} else {
 			$torrent['image_file'] = $_POST['image_file'];
 		}
-			
+
+		// Rename the filename if we've changed it
+		if ($torrent['filename'] <> $torrent['old_filename']) {
+			$pre_file = JPATH_SITE.DS.$params->get('torrent_dir').$torrent['fid'].'_';
+		
+			rename($pre_file.$torrent['old_filename'].'.torrent', $pre_file.$torrent['filename'].'.torrent');
+		}
+		
+		// We need to put back the file extension in the filename
+		$torrent['filename'] = $torrent['filename'].'.torrent';
+		
+		
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		// All is good, let's update the record in the database
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -173,7 +185,7 @@ class TrackerModelEdit extends JModelItem {
 		$query->update('#__tracker_torrents');
 		$query->set('name = '.$db->quote($torrent['name']));
 		$query->set('alias = '.$db->quote($torrent['name']));
-		$query->set('filename = '.$db->quote($torrent['filename'].'.torrent'));
+		$query->set('filename = '.$db->quote($torrent['filename']));
 		$query->set('description = '.$db->quote($torrent['description']));
 		$query->set('categoryID = '.$db->quote($torrent['categoryID']));
 		$query->set('licenseID = '.$db->quote($torrent['licenseID']));
