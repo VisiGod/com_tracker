@@ -258,7 +258,7 @@ class com_trackerInstallerScript {
 			$settings['table_files'] 				= $app->getCfg('dbprefix', 1).'tracker_torrents';
 			$settings['table_files_users'] 			= $app->getCfg('dbprefix', 1).'tracker_files_users';
 			$settings['table_scrape_log'] 			= $app->getCfg('dbprefix', 1).'tracker_scrape_log';
-			$settings['table_users'] 				= $app->getCfg('dbprefix', 1).'users';
+			$settings['table_users'] 				= $app->getCfg('dbprefix', 1).'tracker_users';
 			$settings['column_files_completed'] 	= 'completed';
 			$settings['column_files_fid'] 			= 'fid';
 			$settings['column_files_leechers'] 		= 'leechers';
