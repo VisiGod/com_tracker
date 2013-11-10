@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 abstract class TrackerHelper {
 
 	public static function addSubmenu($submenu) {
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_CONTROL_PANEL'), 'index.php?option=com_tracker', $submenu == 'trackerpanel');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_TORRENTS'), 'index.php?option=com_tracker&view=torrents', $submenu == 'torrents');
@@ -155,11 +155,11 @@ abstract class TrackerHelper {
 	}
 
 	public static function user_permissions($type, $userid='0') {
-		$db			=& JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 
 		if (!$userid) {
-			$params =& JComponentHelper::getParams( 'com_tracker' );
+			$params = JComponentHelper::getParams( 'com_tracker' );
 			$userid = $params->get('guest_user');
 		}
 
@@ -174,7 +174,7 @@ abstract class TrackerHelper {
 	}
 
 	public static function get_percent_completed_image($p) {
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$config = new JConfig();
 
 		if ($p == 0) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
@@ -335,7 +335,7 @@ abstract class TrackerHelper {
 	function traffic_per_day($traffic, $id) {
 		jimport('joomla.user.user');
 		JLoader::register('JTableUser', JPATH_PLATFORM.'/joomla/database/table/user.php');
-		$db	=& JFactory::getDBO();
+		$db	= JFactory::getDBO();
 		
 		$user = JFactory::getUser($id);
 		
@@ -374,7 +374,7 @@ abstract class TrackerHelper {
 	}
 
 	function get_new_users() { // Insert new users into the tracker_users table
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		$params = JComponentHelper::getParams('com_tracker');
 		$query	= $db->getQuery(true);
 		
@@ -458,7 +458,7 @@ abstract class TrackerHelper {
 	}
 
 	function comments($torrent_id, $torrent_name) {
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		$params = JComponentHelper::getParams('com_tracker');
 		
 		if ($params->get('comment_system') == 'jcomments') {
@@ -471,7 +471,7 @@ abstract class TrackerHelper {
 	}
 
 	function checkThanks($userID, $torrentID) {
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
 		$query->select('uid');
@@ -519,7 +519,7 @@ abstract class TrackerHelper {
 	}
 
 	function checkReseedRequest($userID, $torrentID) {
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 	
 		$query	= $db->getQuery(true);
 		$query->select('requester');
@@ -532,7 +532,7 @@ abstract class TrackerHelper {
 	}
 
 	function getCountryDetails($countryID) {
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
 		$query->select('name, image');
@@ -549,7 +549,7 @@ abstract class TrackerHelper {
 	}
 
 	function checkReportedTorrent($userID, $torrentID) {
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 	
 		$query	= $db->getQuery(true);
 		$query->select('reporter');
@@ -562,7 +562,7 @@ abstract class TrackerHelper {
 	}
 
 	function checkTorrentType($torrentID) {
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
 		$query->select('download_multiplier, created_time, seeders');
@@ -630,7 +630,7 @@ abstract class TrackerHelper {
 	}
 
 	function SelectList($table, $value, $text, $state) {
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select($value.' as value');
 		$query->select($text.' as text');
@@ -645,7 +645,7 @@ abstract class TrackerHelper {
 		JArrayHelper::toInteger($groupID);
 		$groupID = implode( ',', $groupID );
 		
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__tracker_users'));
 		$query->set($db->quoteName($permission) . ' = '.$enable);
@@ -663,7 +663,7 @@ abstract class TrackerHelper {
 // ########################################################################################################################################
 /*
 	function checkComponentConfigured() {
-		$db			=& JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('name, value');
 		$query->from('xbt_config');

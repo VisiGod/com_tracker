@@ -57,7 +57,7 @@ class TrackerModelUtilities extends JModelList {
 	}
 
 	function importgroups() {
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 

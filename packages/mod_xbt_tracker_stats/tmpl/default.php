@@ -27,7 +27,7 @@ $tab_options = array(
 		'startOffset' => 0,
 		'useCookie' => true,
 );
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $style = '#container {
 						display: table;
 						width: 99%;

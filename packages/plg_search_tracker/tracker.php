@@ -25,8 +25,8 @@ class plgSearchTracker extends JPlugin {
 	}
  
 	function onContentSearch( $text, $phrase='', $ordering='', $areas=null ) {
-		$db     =& JFactory::getDBO();
-		$user   =& JFactory::getUser(); 
+		$db     = JFactory::getDBO();
+		$user   = JFactory::getUser(); 
 	 
 		//If the array is not correct, return it:
 		if (is_array($areas)) {

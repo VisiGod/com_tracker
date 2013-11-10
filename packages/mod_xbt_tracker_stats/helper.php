@@ -15,7 +15,7 @@ JModel::addIncludePath(JPATH_SITE.'/components/com_tracker/models', 'TrackerMode
 require_once JPATH_ADMINISTRATOR.'/components/com_tracker/helpers/tracker.php';
 
 // Load the component language file since we need some function from the helper file
-$lang =& JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $extension = 'com_tracker';
 $base_dir = JPATH_SITE;
 $reload = true;

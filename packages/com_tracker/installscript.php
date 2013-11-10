@@ -15,7 +15,7 @@ class com_trackerInstallerScript {
 	function postflight($type, $parent) {
 
 		if ($type == 'install') {
-			$db = &JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$app = JFactory::getApplication();
 			$query	= $db->getQuery(true);
 			
@@ -273,7 +273,7 @@ class com_trackerInstallerScript {
 		}
 
 		// Insert the users into the tracker_users table
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$app = JFactory::getApplication();
 		$query	= $db->getQuery(true);
 		$query  = "INSERT IGNORE INTO ".$app->getCfg('dbprefix', 1)."tracker_users (id) SELECT id FROM ".$app->getCfg('dbprefix', 1)."users";

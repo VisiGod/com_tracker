@@ -205,7 +205,7 @@ color:#ffffff;
 }
 ';
 
-$doc =& JFactory::getDocument();
+$doc = JFactory::getDocument();
 $doc->addStyleSheet($testCSS);
 
 // Show extra page text (defined in menu)

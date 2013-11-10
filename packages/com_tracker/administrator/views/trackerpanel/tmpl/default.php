@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 $params = JComponentHelper::getParams('com_tracker');
 
 function quickiconButton( $link, $image, $text ) {
-	$lang		=& JFactory::getLanguage();
+	$lang = JFactory::getLanguage();
 	?>
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 	<div class="icon"><a href="<?php echo $link; ?>"> <?php echo JHTML::_('image.site',	$image, 'components/com_tracker/images/panel/', NULL, NULL, $text );?>

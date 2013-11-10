@@ -16,8 +16,8 @@ class TrackerViewSetting extends JView {
 
 	public function display($tpl = null) {
 
-		$params =& JComponentHelper::getParams( 'com_tracker' );
-		$app =& JFactory::getApplication();
+		$params = JComponentHelper::getParams( 'com_tracker' );
+		$app = JFactory::getApplication();
 
 		// get the Data
 		$items = $this->get('Item');

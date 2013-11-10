@@ -9,14 +9,14 @@
 
 // no direct access
 defined('_JEXEC') or die;
-$params =& JComponentHelper::getParams( 'com_tracker' );
+$params = JComponentHelper::getParams( 'com_tracker' );
 jimport( 'joomla.form.form' );
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
-$doc =& JFactory::getDocument();
+$doc = JFactory::getDocument();
 $doc->addScript("http://code.jquery.com/jquery-latest.js");
 $style = '.hide { display:none; }';
 $doc->addStyleDeclaration( $style );

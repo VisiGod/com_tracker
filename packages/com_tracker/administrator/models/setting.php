@@ -51,7 +51,7 @@ class TrackerModelSetting extends JModelAdmin {
 
 	public function save() {
 
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$db = JFactory::getDBO();
 		$data = JRequest::get();
 

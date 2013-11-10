@@ -30,7 +30,7 @@ class TrackerViewComment extends JView {
 		$params		= $app->getParams();
 		$this->form		= $this->get('Form');
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('includes/js/joomla.javascript.js');
 
 		if ($user->get('guest') && !$params->get('allow_guest')) {

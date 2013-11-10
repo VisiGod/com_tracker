@@ -16,7 +16,7 @@ class	TrackerViewBanClient	extends	JView {
 
 	public function display($tpl = null) {
 
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		if ($params->get('peer_banning') == 0) {
 			$app		= JFactory::getApplication();
 			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_BANCLIENT_NOT_ENABLE'), 'error');

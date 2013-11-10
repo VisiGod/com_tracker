@@ -38,7 +38,7 @@ class TrackerModelGroup extends JModelAdmin {
 /*
 	public function save($data) {
 		$app			= JFactory::getApplication();
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 
 		echo "<pre>";
 		print_r($data);

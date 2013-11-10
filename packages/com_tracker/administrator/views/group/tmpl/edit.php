@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted Access');
 // load tooltip behavior
 JHtml::_('behavior.tooltip');
 
-$params =& JComponentHelper::getParams( 'com_tracker' );
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<div class="width-40 fltlft">

@@ -20,10 +20,10 @@ class TrackerModelUserpanel extends JModelItem {
 
 	protected $_context = 'com_tracker.userpanel';
 	
-	public function &getItem($pk = null) {
+	public function getItem($pk = null) {
 		$app 		= JFactory::getApplication();
 		$session	= JFactory::getSession();
-		$db			=& JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$params 	= JComponentHelper::getParams('com_tracker');
 		$user_profile = null;
 		
@@ -45,7 +45,7 @@ class TrackerModelUserpanel extends JModelItem {
 
 		if ($user_profileID <> 0) {
 
-			$user_profile	=& JFactory::getUser($user_profileID); // load the logged in user
+			$user_profile	= JFactory::getUser($user_profileID); // load the logged in user
 
 			// Get the user tracker information
 			$query = $db->getQuery(true);
@@ -262,7 +262,7 @@ class TrackerModelUserpanel extends JModelItem {
 			echo "<script> alert('".JText::_( 'COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OTHER_USER' )."'); window.history.go(-1);</script>\n";
 		}
 
-		$db 	=& JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->update('#__tracker_users');
 		$query->set('torrent_pass_version = torrent_pass_version + 1');
