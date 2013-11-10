@@ -14,7 +14,7 @@ jimport('joomla.database.table');
 
 class TrackerTableBanClient extends JTable {
 
-	function __construct(&$db) {
+	public function __construct(&$db) {
 		parent::__construct('#__tracker_deny_from_clients', 'id', $db);
 	}
 

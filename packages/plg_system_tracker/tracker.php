@@ -23,7 +23,7 @@ Follow no ratio rules = 0
 Follow user ratio rules = 1
 Follow group ratio rules = 2
 */
-	function onAfterInitialise() {
+	public function onAfterInitialise() {
 		$db = JFactory::getDBO();
 		$app = JFactory::getApplication();
 		$query	= $db->getQuery(true);

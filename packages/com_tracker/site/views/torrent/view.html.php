@@ -15,7 +15,7 @@ class TrackerViewTorrent extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
-	function display($tpl = null) {
+	public function display($tpl = null) {
 
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();

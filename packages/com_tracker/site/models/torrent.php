@@ -239,7 +239,7 @@ class TrackerModelTorrent extends JModelItem {
 		return $this->_item[$pk];
 	}
 
-	function download() {
+	public function download() {
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		$torrent_id = $this->getState('torrent.id');
@@ -346,7 +346,7 @@ class TrackerModelTorrent extends JModelItem {
 		else $torrent->send();
 	}
 
-	function thanks() {
+	public function thanks() {
 		$app = JFactory::getApplication();
 		$torrent_id = $this->getState('torrent.id');
 		
@@ -367,7 +367,7 @@ class TrackerModelTorrent extends JModelItem {
 		else $app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_THANKS_OK'), 'message');
 	}
 
-	function reseed() {
+	public function reseed() {
 		$app = JFactory::getApplication();
 		$torrent_id = $this->getState('torrent.id');
 
@@ -414,7 +414,7 @@ class TrackerModelTorrent extends JModelItem {
 		$app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_RESEED_REQUEST_OK'), 'message');
 	}
 
-	function reported() {
+	public function reported() {
 		$app = JFactory::getApplication();
 		$db = $this->getDbo();
 		$user = JFactory::getUser();
@@ -482,7 +482,7 @@ class TrackerModelTorrent extends JModelItem {
 		$app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$report['fid']), JText::_('COM_TRACKER_TORRENT_REPORT_OK'), 'message');
 	}
 	
-	function uploaded() {
+	public function uploaded() {
 		$db 	= JFactory::getDBO();
 		$user 	= JFactory::getUser();
 		$params = JComponentHelper::getParams( 'com_tracker' );

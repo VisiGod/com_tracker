@@ -246,7 +246,7 @@ class TrackerModelUserpanel extends JModelItem {
 		return $user_profile;
 	}
 
-	function resetpassversion() {
+	public function resetpassversion() {
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
 		$session= JFactory::getSession();

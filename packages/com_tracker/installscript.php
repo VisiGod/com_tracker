@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
  
 class com_trackerInstallerScript {
 
-	function postflight($type, $parent) {
+	public function postflight($type, $parent) {
 
 		if ($type == 'install') {
 			$db = JFactory::getDBO();
@@ -264,7 +264,7 @@ class com_trackerInstallerScript {
 			$settings['column_files_leechers'] 		= 'leechers';
 			$settings['column_files_seeders'] 		= 'seeders';
 			$settings['column_users_uid'] 			=	'id';
-			$settings['torrent_pass_private_key'] 	= com_trackerInstallerScript::code(27);
+			$settings['torrent_pass_private_key'] 	= self::code(27);
 			foreach($settings as $name => $value) {
 				$query = "INSERT INTO xbt_config ( name, value ) VALUES ('" . $name . "', '" . $value . "' );";
 				$db->setQuery($query);
@@ -281,7 +281,7 @@ class com_trackerInstallerScript {
 		$db->query();
 	}
 
-	function code($nc, $a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
+	private static function code($nc, $a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {
 		$l=strlen($a)-1; $r='';
 		while($nc-->0) $r.=$a{mt_rand(0,$l)};
 		return $r;

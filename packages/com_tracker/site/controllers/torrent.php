@@ -34,7 +34,7 @@ class TrackerControllerTorrent extends JControllerForm {
 	}
 
 
-	function download() {
+	public function download() {
 		$id = JRequest::getInt('id', 0);
 
 		if ($id) {
@@ -44,7 +44,7 @@ class TrackerControllerTorrent extends JControllerForm {
 		}
 	}
 
-	function thanks() {
+	public function thanks() {
 		$id = JRequest::getInt('id', 0);
 	
 		if ($id) {
@@ -54,7 +54,7 @@ class TrackerControllerTorrent extends JControllerForm {
 		}
 	}
 
-	function reseed() {
+	public function reseed() {
 		$id = JRequest::getInt('id', 0);
 	
 		if ($id) {
@@ -64,7 +64,7 @@ class TrackerControllerTorrent extends JControllerForm {
 		}
 	}
 
-	function reported() {
+	public function reported() {
 		$app	= JFactory::getApplication();
 		$model = $this->getModel('Torrent','TrackerModel',array('ignore_request'=>true));
 	
@@ -73,7 +73,7 @@ class TrackerControllerTorrent extends JControllerForm {
 		$model->reported();
 	}
 	
-	function uploaded() {
+	public function uploaded() {
 		$app	= JFactory::getApplication();
 		$model = $this->getModel('Torrent','TrackerModel',array('ignore_request'=>true));
 
@@ -84,7 +84,7 @@ class TrackerControllerTorrent extends JControllerForm {
 
 	
 /*
-	function commented() {
+	public function commented() {
 		$app	= JFactory::getApplication();
 		$model = $this->getModel('Comment','TrackerModel',array('ignore_request'=>true));
 
@@ -93,7 +93,7 @@ class TrackerControllerTorrent extends JControllerForm {
 		$model->commented();
 	}
 */
-	function edited() {
+	public function edited() {
 		$app	= JFactory::getApplication();
 		$model = $this->getModel('Edit','TrackerModel',array('ignore_request'=>true));
 

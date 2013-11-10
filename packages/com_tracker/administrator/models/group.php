@@ -49,7 +49,7 @@ class TrackerModelGroup extends JModelAdmin {
 		return parent::save($data);
 	}
 */
-	function changeValue($gid, $task, $value) {
+	public function changeValue($gid, $task, $value) {
 		// Initialise variables.
 		$db		= $this->getDbo();
 		$gid	= (array) $gid;

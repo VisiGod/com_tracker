@@ -23,7 +23,7 @@ $lang->load($extension, $base_dir, $reload);
 
 class modXBTTrackerUserStats {
 
-	function getStats(&$params) {
+	public function getStats(&$params) {
 		$db 		= JFactory::getDbo();
 		$app 		= JFactory::getApplication();
 		$appParams	= $app->getParams('com_tracker');

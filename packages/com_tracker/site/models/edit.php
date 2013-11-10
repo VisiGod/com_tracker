@@ -71,7 +71,7 @@ class TrackerModelEdit extends JModelItem {
 		return $this->_item[$pk];
 	}
 
-	function edited() {
+	public function edited() {
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
 		$db 			= JFactory::getDBO();

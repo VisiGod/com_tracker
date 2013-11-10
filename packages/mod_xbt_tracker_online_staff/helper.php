@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 
 class modXbtTrackerOnlineStaffHelper {
 
-	function getOnlineStaff(&$params) {
+	public function getOnlineStaff(&$params) {
 		$db 	= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
