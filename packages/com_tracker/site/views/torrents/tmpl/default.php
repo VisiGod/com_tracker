@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
-jimport( 'joomla.html.parameter' );
 
 if ($this->user->guest && $this->params->get('allow_guest')) :
 	$this->user->id = $this->params->get('guest_user');
@@ -270,7 +269,9 @@ if ($this->params->get('menu_text')) echo '<h2>'.$this->escape($this->params->ge
 			$canEdit	= $this->user->authorise('core.edit',			'com_tracker');
 			$canCheckin	= $this->user->authorise('core.manage',		'com_tracker');
 			$canChange	= $this->user->authorise('core.edit.state',	'com_tracker');
-			$category_params = new JParameter( $item->category_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->category_params);
 			?>
 			<tr class="row<?php echo $i % 2; ?>" style="width:90%;">
 				<td width="92%">

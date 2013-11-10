@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
-jimport('joomla.html.parameter');
+
 JHTML::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
 $session	= JFactory::getSession();
 
@@ -334,7 +334,10 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -368,7 +371,10 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -402,7 +408,10 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -436,7 +445,10 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -473,7 +485,10 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -526,7 +541,10 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -560,7 +578,10 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -594,7 +615,10 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -628,7 +652,10 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $item->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';

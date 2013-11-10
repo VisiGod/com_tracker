@@ -8,7 +8,6 @@
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.html.parameter' );
 
 $user	= JFactory::getUser();
 $appParams = $app->getParams('com_tracker');
@@ -279,7 +278,10 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$most_active_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_active_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_active_torrents->completed.'&nbsp;</div>';
-			$category_params = new JParameter( $most_active_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($most_active_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_active_torrents->fid.'" alt="'.$most_active_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -313,7 +315,10 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$most_seeded_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_seeded_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $most_seeded_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($most_seeded_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_seeded_torrents->fid.'" alt="'.$most_seeded_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -347,7 +352,10 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$most_leeched_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_leeched_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $most_leeched_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($most_leeched_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_leeched_torrents->fid.'" alt="'.$most_leeched_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -381,7 +389,10 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$most_completed_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_completed_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $most_completed_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($most_completed_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_completed_torrents->fid.'" alt="'.$most_completed_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -418,7 +429,10 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$top_thanked_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$top_thanked_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $top_thanked_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($top_thanked_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$top_thanked_torrents->fid.'" alt="'.$top_thanked_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -455,7 +469,10 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_active_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_active_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $worst_active_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($worst_active_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_active_torrents->fid.'" alt="'.$worst_active_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -489,7 +506,10 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_seeded_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_seeded_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $worst_seeded_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($worst_seeded_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_seeded_torrents->fid.'" alt="'.$worst_seeded_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -523,7 +543,10 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_leeched_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_leeched_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $worst_leeched_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($worst_leeched_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_leeched_torrents->fid.'" alt="'.$worst_leeched_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
@@ -557,7 +580,10 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_completed_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_completed_torrents->completed.'&nbsp;</div>';
 			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
-			$category_params = new JParameter( $worst_completed_torrents->cat_params );
+
+			$category_params = new JRegistry();
+			$category_params->loadString($worst_completed_torrents->cat_params);
+
 			echo '<div id="value-center">&nbsp;';
 			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
 				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_completed_torrents->fid.'" alt="'.$worst_completed_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
