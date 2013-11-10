@@ -104,6 +104,7 @@ class TrackerModelUserpanel extends JModelItem {
 			
 			if (!$user_profile->announce) {
 				$user_profile->lastseen = JText::_( 'COM_TRACKER_LAST_TRACKER_ACTIVITY_NEVER' );
+				$user_profile->announce = new stdClass();
 				$user_profile->announce->ipa = JText::_( 'COM_TRACKER_NO_LAST_IP' );
 			}
 			else {
