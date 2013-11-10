@@ -17,16 +17,16 @@ class plgSearchTracker extends JPlugin {
 		$this->loadLanguage();
 	}
 	
-	function onContentSearchAreas() {
+	public function onContentSearchAreas() {
 		static $areas = array(
 			'Tracker' => 'Tracker'
 		);
 		return $areas;
 	}
  
-	function onContentSearch( $text, $phrase='', $ordering='', $areas=null ) {
-		$db     =& JFactory::getDBO();
-		$user   =& JFactory::getUser(); 
+	public function onContentSearch( $text, $phrase='', $ordering='', $areas=null ) {
+		$db     = JFactory::getDBO();
+		$user   = JFactory::getUser(); 
 	 
 		//If the array is not correct, return it:
 		if (is_array($areas)) {

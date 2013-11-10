@@ -36,7 +36,7 @@ class TrackerModelUtilities extends JModelList {
 		} else return true;
 	}
 
-	function optimizetables() {
+	public function optimizetables() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
@@ -56,8 +56,8 @@ class TrackerModelUtilities extends JModelList {
 		} else return true;
 	}
 
-	function importgroups() {
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+	public function importgroups() {
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
@@ -198,7 +198,7 @@ class TrackerModelUtilities extends JModelList {
 		return true;
 	}
 
-	function enable_free_leech() {
+	public function enable_free_leech() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		
@@ -274,7 +274,7 @@ class TrackerModelUtilities extends JModelList {
 		return true;
 	}
 	
-	function disable_free_leech() {
+	public function disable_free_leech() {
 		$db = JFactory::getDBO();
 
 		$query  = $db->getQuery(true);

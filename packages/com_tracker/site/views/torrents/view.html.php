@@ -16,7 +16,7 @@ class TrackerViewTorrents extends JViewLegacy {
 	protected $items;
 	protected $pagination;
 
-	function display($tpl = null) {
+	public function display($tpl = null) {
 
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();

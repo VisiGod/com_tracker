@@ -19,7 +19,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $saveOrder	= $listOrder == 'a.ordering';
 
-$params =& JComponentHelper::getParams( 'com_tracker' );
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm" id="adminForm">

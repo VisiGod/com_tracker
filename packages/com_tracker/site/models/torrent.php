@@ -37,7 +37,7 @@ class TrackerModelTorrent extends JModelItem {
 		}
 	}
 
-	public function &getItem($pk = null) {
+	public function getItem($pk = null) {
 		// Initialise variables.
 		$user		= JFactory::getUser();
 		$params = JComponentHelper::getParams('com_tracker');
@@ -239,13 +239,13 @@ class TrackerModelTorrent extends JModelItem {
 		return $this->_item[$pk];
 	}
 
-	function download() {
+	public function download() {
 		$app = JFactory::getApplication();
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$torrent_id = $this->getState('torrent.id');
 
 		$db = $this->getDbo();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$config = new JConfig();
 
 		if (($user->get('guest') && $params->get('allow_guest') == 0) || !TrackerHelper::user_permissions('download_torrents', $user->id)) {
@@ -346,12 +346,12 @@ class TrackerModelTorrent extends JModelItem {
 		else $torrent->send();
 	}
 
-	function thanks() {
+	public function thanks() {
 		$app = JFactory::getApplication();
 		$torrent_id = $this->getState('torrent.id');
 		
 		$db = $this->getDbo();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$config = new JConfig();
 		
 		// Insert the thank you into the table
@@ -367,12 +367,12 @@ class TrackerModelTorrent extends JModelItem {
 		else $app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_THANKS_OK'), 'message');
 	}
 
-	function reseed() {
+	public function reseed() {
 		$app = JFactory::getApplication();
 		$torrent_id = $this->getState('torrent.id');
 
 		$db = $this->getDbo();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$config	= JFactory::getConfig();
 	
 		// Insert the thank you into the table
@@ -414,10 +414,10 @@ class TrackerModelTorrent extends JModelItem {
 		$app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$torrent_id), JText::_('COM_TRACKER_RESEED_REQUEST_OK'), 'message');
 	}
 
-	function reported() {
+	public function reported() {
 		$app = JFactory::getApplication();
 		$db = $this->getDbo();
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$config	= JFactory::getConfig();
 		
 		$report['comments']		= $_POST['jform']['comments'];
@@ -482,10 +482,10 @@ class TrackerModelTorrent extends JModelItem {
 		$app->redirect(JRoute::_('index.php?option=com_tracker&view=torrent&id='.$report['fid']), JText::_('COM_TRACKER_TORRENT_REPORT_OK'), 'message');
 	}
 	
-	function uploaded() {
-		$db 	=& JFactory::getDBO();
-		$user 	=& JFactory::getUser();
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+	public function uploaded() {
+		$db 	= JFactory::getDBO();
+		$user 	= JFactory::getUser();
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$app	= JFactory::getApplication();
 
 		// Let's start to play with it

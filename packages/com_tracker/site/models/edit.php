@@ -32,7 +32,7 @@ class TrackerModelEdit extends JModelItem {
 
 	}
 
-	public function &getItem($pk = null) {
+	public function getItem($pk = null) {
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('torrent.id');
 		$params = JComponentHelper::getParams('com_tracker');
@@ -71,12 +71,12 @@ class TrackerModelEdit extends JModelItem {
 		return $this->_item[$pk];
 	}
 
-	function edited() {
+	public function edited() {
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
-		$db 			=& JFactory::getDBO();
-		$user 			=& JFactory::getUser();
-		$params 		=& JComponentHelper::getParams( 'com_tracker' );
+		$db 			= JFactory::getDBO();
+		$user 			= JFactory::getUser();
+		$params 		= JComponentHelper::getParams( 'com_tracker' );
 		$app			= JFactory::getApplication();
 		$upload_error 	= 0;
 

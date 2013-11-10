@@ -20,7 +20,7 @@ if ($user->get('guest') && $appParams->get('allow_guest') == 1) {
 	$user->id = 0;
 }
 
-$document =& JFactory::getDocument();
+$document = JFactory::getDocument();
 $style = '#container {
 		display: table;
 		width: 99%;

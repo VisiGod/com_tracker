@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-$params =& JComponentHelper::getParams( 'com_tracker' );
+$params = JComponentHelper::getParams( 'com_tracker' );
 
 ?>
 <script type="text/javascript">

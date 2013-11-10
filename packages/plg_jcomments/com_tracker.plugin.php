@@ -3,7 +3,7 @@ class jc_com_tracker extends JCommentsPlugin {
  
   function getObjectTitle( $id ) {
     // Data load from database by given id 
-    $db = & JFactory::getDBO();
+    $db = JFactory::getDBO();
     $db->setQuery( "SELECT name FROM #__tracker_torrents WHERE fid='$id'");
     return $db->loadResult();
   }
@@ -18,9 +18,8 @@ class jc_com_tracker extends JCommentsPlugin {
   }
  
   function getObjectOwner( $id ) {
-    $db = & JFactory::getDBO();
+    $db = JFactory::getDBO();
     $db->setQuery( 'SELECT uploader, fid FROM #__tracker_torrents WHERE fid = ' . $id );
     return $db->loadResult();
   }
 }
-?>

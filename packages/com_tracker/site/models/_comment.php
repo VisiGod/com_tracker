@@ -36,7 +36,7 @@ class TrackerModelComment extends JModelForm {
 	public function commented() {
 
 		$app			= JFactory::getApplication();
-		$db 		=& JFactory::getDBO();
+		$db 		= JFactory::getDBO();
 
 		$torrentid = (int)$_POST['torrentid'];
 		$userid = (int)$_POST['userid'];

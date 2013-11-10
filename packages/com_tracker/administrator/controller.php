@@ -15,7 +15,7 @@ jimport('joomla.application.component.controller');
 
 class TrackerController extends JController {
 
-	function display($cachable = false) {
+	public function display($cachable = false) {
 		require_once JPATH_COMPONENT.'/helpers/tracker.php';
 
 		// set default view if not set

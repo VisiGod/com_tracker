@@ -30,7 +30,7 @@ class TrackerControllerUser extends JControllerForm {
 		}
 	}
 
-	function resetpassversion() {
+	public function resetpassversion() {
 		$id = JRequest::getInt('id', 0);
 
 		if ($id) {

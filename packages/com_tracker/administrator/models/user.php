@@ -68,7 +68,7 @@ class TrackerModelUser extends JModelAdmin {
 		return $data;
 	}
 
-	function leech(&$uid, $value = 1) {
+	public function leech(&$uid, $value = 1) {
 		// Initialise variables.
 		$db		= $this->getDbo();
 		$uid		= (array) $uid;

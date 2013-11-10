@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-$params =& JComponentHelper::getParams( 'com_tracker' );
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
 
 <table style="align:center;">

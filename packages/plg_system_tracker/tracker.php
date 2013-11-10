@@ -23,11 +23,11 @@ Follow no ratio rules = 0
 Follow user ratio rules = 1
 Follow group ratio rules = 2
 */
-	function onAfterInitialise() {
+	public function onAfterInitialise() {
 		$db = JFactory::getDBO();
 		$app = JFactory::getApplication();
 		$query	= $db->getQuery(true);
-		$component_params = &JComponentHelper::getParams( 'com_tracker' );
+		$component_params = JComponentHelper::getParams( 'com_tracker' );
 		$forum_integration = $component_params->get( 'forum_integration', 0 );
 
 		$ratio_plugin = $this->params->get('ratio_plugin',0);

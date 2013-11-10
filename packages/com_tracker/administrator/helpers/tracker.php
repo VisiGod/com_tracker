@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 abstract class TrackerHelper {
 
 	public static function addSubmenu($submenu) {
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_CONTROL_PANEL'), 'index.php?option=com_tracker', $submenu == 'trackerpanel');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_TORRENTS'), 'index.php?option=com_tracker&view=torrents', $submenu == 'torrents');
@@ -155,11 +155,11 @@ abstract class TrackerHelper {
 	}
 
 	public static function user_permissions($type, $userid='0') {
-		$db			=& JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 
 		if (!$userid) {
-			$params =& JComponentHelper::getParams( 'com_tracker' );
+			$params = JComponentHelper::getParams( 'com_tracker' );
 			$userid = $params->get('guest_user');
 		}
 
@@ -174,7 +174,7 @@ abstract class TrackerHelper {
 	}
 
 	public static function get_percent_completed_image($p) {
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$config = new JConfig();
 
 		if ($p == 0) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
@@ -185,7 +185,7 @@ abstract class TrackerHelper {
 			return "<img src='".JURI::base()."components/com_tracker/assets/images/bar_left.gif' alt='".$config->sitename."'/>" . $progress ."<img src='".JURI::base()."components/com_tracker/assets/images/bar_right.gif' alt='".$config->sitename."'/>";
 	}
 
-	public function sanitize_filename($str, $relative_path = FALSE) {
+	public static function sanitize_filename($str, $relative_path = FALSE) {
 		$bad = array(
 			'../', '<!--', '-->', '<', '>',
 			"'", '"', '&', '$', '#',
@@ -234,7 +234,7 @@ abstract class TrackerHelper {
 		return $str;
 	}
 
-	function last_activity($mtime, $timetype='0', $long='0') {
+	public static function last_activity($mtime, $timetype='0', $long='0') {
 		if ($timetype == 1) {
 			list($date, $time) = explode(' ', $mtime);
 			list($year, $month, $day) = explode('-', $date);
@@ -284,7 +284,7 @@ abstract class TrackerHelper {
 		return $last_activity;
 	}
 
-	function relativeTime($time, $short = false) {
+	public static function relativeTime($time, $short = false) {
 		// Check if this function is better than the last_activity
 		$SECOND = 1;
 		$MINUTE = 60 * $SECOND;
@@ -332,10 +332,10 @@ abstract class TrackerHelper {
 		return $time;
 	}
 
-	function traffic_per_day($traffic, $id) {
+	public static function traffic_per_day($traffic, $id) {
 		jimport('joomla.user.user');
 		JLoader::register('JTableUser', JPATH_PLATFORM.'/joomla/database/table/user.php');
-		$db	=& JFactory::getDBO();
+		$db	= JFactory::getDBO();
 		
 		$user = JFactory::getUser($id);
 		
@@ -352,14 +352,14 @@ abstract class TrackerHelper {
 		return $ul_bytes_per_day;
 	}
 
-	function get_ratio($upload, $download) {
+	public static function get_ratio($upload, $download) {
 		if ($upload == 0 && $download == 0) return JText::_( 'COM_TRACKER_NO_DOWNLOAD_UPLOAD' );
 		elseif ($upload > 0 && $download < 1) return JText::_( 'COM_TRACKER_JUST_SEEDED' );
 		elseif ($upload < 1 && $download > 0) return JText::_( 'COM_TRACKER_JUST_LEECHEED' );
 		else return '<span style="color: ' . TrackerHelper::get_ratio_color(($upload/$download)) . ';">'.number_format(($upload/$download), 2).'</span>';
 	}
 	
-	function get_ratio_color($ratio) {
+	public static function get_ratio_color($ratio) {
 		if ($ratio < 0.1) return "#ff0000";
 		elseif ($ratio < 0.2) return "#ee0000";
 		elseif ($ratio < 0.3) return "#dd0000";
@@ -373,8 +373,8 @@ abstract class TrackerHelper {
 		return "#000000";
 	}
 
-	function get_new_users() { // Insert new users into the tracker_users table
-		$db 	= &JFactory::getDBO();
+	public static function get_new_users() { // Insert new users into the tracker_users table
+		$db 	= JFactory::getDBO();
 		$params = JComponentHelper::getParams('com_tracker');
 		$query	= $db->getQuery(true);
 		
@@ -419,7 +419,7 @@ abstract class TrackerHelper {
 
 	}
 
-	function make_wait_time($difference, $long) {
+	public static function make_wait_time($difference, $long) {
 		$wait_time = '';
 		if ($difference > 31536000) {
 			$wait_time .= floor($difference / 31536000).'&nbsp;';
@@ -457,8 +457,8 @@ abstract class TrackerHelper {
 		return $wait_time;
 	}
 
-	function comments($torrent_id, $torrent_name) {
-		$db 	= &JFactory::getDBO();
+	public static function comments($torrent_id, $torrent_name) {
+		$db 	= JFactory::getDBO();
 		$params = JComponentHelper::getParams('com_tracker');
 		
 		if ($params->get('comment_system') == 'jcomments') {
@@ -470,8 +470,8 @@ abstract class TrackerHelper {
 		}
 	}
 
-	function checkThanks($userID, $torrentID) {
-		$db 	= &JFactory::getDBO();
+	public static function checkThanks($userID, $torrentID) {
+		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
 		$query->select('uid');
@@ -483,7 +483,7 @@ abstract class TrackerHelper {
 		else return $userID;
 	}
 
-	function getLastOrder($tablename) { // Get the last ordering from the table we choose
+	public static function getLastOrder($tablename) { // Get the last ordering from the table we choose
 
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT MAX(ordering) FROM #__'.$tablename);
@@ -493,7 +493,7 @@ abstract class TrackerHelper {
 
 	}
 
-	function update_parameter($name, $value) { // Update a parameter value by name 
+	public static function update_parameter($name, $value) { // Update a parameter value by name 
 		// retrieve existing params
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT params FROM #__extensions WHERE name = "com_tracker"');
@@ -508,7 +508,7 @@ abstract class TrackerHelper {
 		$db->query();
 	}
 
-	function getFileImage($filename) {	// echos the filetype of the image
+	public static function getFileImage($filename) {	// echos the filetype of the image
 		$extension = JFile::getExt($filename);
 		
 		$filetype_imagelink = JURI::base().'/images/tracker/filetypes/'.$extension.'.png';
@@ -518,8 +518,8 @@ abstract class TrackerHelper {
 		else echo '<img id="'.$filename.'" alt="'.$filename.'" src="'.JUri::root(true).'/images/tracker/filetypes/default.png'.'" width="60" />';
 	}
 
-	function checkReseedRequest($userID, $torrentID) {
-		$db 	= &JFactory::getDBO();
+	public static function checkReseedRequest($userID, $torrentID) {
+		$db 	= JFactory::getDBO();
 	
 		$query	= $db->getQuery(true);
 		$query->select('requester');
@@ -531,8 +531,8 @@ abstract class TrackerHelper {
 		else return $userID;
 	}
 
-	function getCountryDetails($countryID) {
-		$db 	= &JFactory::getDBO();
+	public static function getCountryDetails($countryID) {
+		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
 		$query->select('name, image');
@@ -542,14 +542,17 @@ abstract class TrackerHelper {
 		try {
 			$default_country = $db->loadNextObject();
 		} catch (Exception $e) {
-			$this->setError(JText::_( 'COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'));
+			// $this->setError(JText::_( 'COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'));
+			jimport('joomla.log.log');
+			JLog::add(JText::_('COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'), JLog::NOTICE);
+
 			return false;
 		}
 		return $default_country;
 	}
 
-	function checkReportedTorrent($userID, $torrentID) {
-		$db 	= &JFactory::getDBO();
+	public static function checkReportedTorrent($userID, $torrentID) {
+		$db 	= JFactory::getDBO();
 	
 		$query	= $db->getQuery(true);
 		$query->select('reporter');
@@ -561,8 +564,8 @@ abstract class TrackerHelper {
 		else return $userID;
 	}
 
-	function checkTorrentType($torrentID) {
-		$db 	= &JFactory::getDBO();
+	public static function checkTorrentType($torrentID) {
+		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
 		$query->select('download_multiplier, created_time, seeders');
@@ -570,58 +573,60 @@ abstract class TrackerHelper {
 		$query->where('fid ='.(int)$torrentID);
 		$db->setQuery($query);
 		$torrent_type = $db->loadNextObject();
+
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		
 		// Check if torrent is free
-		if ($this->params->get('enable_torrent_type_free')) {
+		if ($params->get('enable_torrent_type_free')) {
 			if ($torrent_type->download_multiplier == 0)
-				echo '<img id="'.$torrentID.'free" alt="'.JText::_('COM_TRACKER_FREE').'" src="'.JURI::base().$this->params->get('torrent_type_free_image').'" />';
+				echo '<img id="'.$torrentID.'free" alt="'.JText::_('COM_TRACKER_FREE').'" src="'.JURI::base().$params->get('torrent_type_free_image').'" />';
 		}
 
 		// Check if torrent is semi-free
-		if ($this->params->get('enable_torrent_type_semifree')) {
-			if ($torrent_type->download_multiplier <= $this->params->get('torrent_type_semifree_value') && $torrent_type->download_multiplier > 0)
-				echo '<img id="'.$torrentID.'semifree" alt="'.JText::_('COM_TRACKER_SEMIFREE').'" src="'.JURI::base().$this->params->get('torrent_type_semifree_image').'" />';
+		if ($params->get('enable_torrent_type_semifree')) {
+			if ($torrent_type->download_multiplier <= $params->get('torrent_type_semifree_value') && $torrent_type->download_multiplier > 0)
+				echo '<img id="'.$torrentID.'semifree" alt="'.JText::_('COM_TRACKER_SEMIFREE').'" src="'.JURI::base().$params->get('torrent_type_semifree_image').'" />';
 		}
 
 		// Check if torrent is new
-		if ($this->params->get('enable_torrent_type_new')) {
-			if ((date("U") - strtotime($torrent_type->created_time)) < ($this->params->get('torrent_type_new_value') * 3600))
-				echo '<img id="'.$torrentID.'new" alt="'.JText::_('COM_TRACKER_NEW').'" src="'.JURI::base().$this->params->get('torrent_type_new_image').'" />';
+		if ($params->get('enable_torrent_type_new')) {
+			if ((date("U") - strtotime($torrent_type->created_time)) < ($params->get('torrent_type_new_value') * 3600))
+				echo '<img id="'.$torrentID.'new" alt="'.JText::_('COM_TRACKER_NEW').'" src="'.JURI::base().$params->get('torrent_type_new_image').'" />';
 		}
 
 		// Now for the messy part. We need to check if top or hot isn't used and return only what's used
 		// Or if both are used we need to compare the values to see which one we check first
 		
 		// If we're using only top value and not using hot value
-		if ($this->params->get('enable_torrent_type_top') && !$this->params->get('enable_torrent_type_hot')) {
-			if ($torrent_type->seeders >= $this->params->get('torrent_type_top_value'))
-				echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$this->params->get('torrent_type_top_image').'" />';
+		if ($params->get('enable_torrent_type_top') && !$params->get('enable_torrent_type_hot')) {
+			if ($torrent_type->seeders >= $params->get('torrent_type_top_value'))
+				echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$params->get('torrent_type_top_image').'" />';
 		}
 		
 		//But if we're only using hot value and not using top value
-		if ($this->params->get('enable_torrent_type_hot') && !$this->params->get('enable_torrent_type_top')) {
-			if ($torrent_type->seeders >= $this->params->get('torrent_type_hot_value'))
-				echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$this->params->get('torrent_type_hot_image').'" />';
+		if ($params->get('enable_torrent_type_hot') && !$params->get('enable_torrent_type_top')) {
+			if ($torrent_type->seeders >= $params->get('torrent_type_hot_value'))
+				echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$params->get('torrent_type_hot_image').'" />';
 		}
 
 		// To finish the mess, we're using both values (top and hot) and we need to check which one is bigger
-		if ($this->params->get('enable_torrent_type_hot') && $this->params->get('enable_torrent_type_top')) {
+		if ($params->get('enable_torrent_type_hot') && $params->get('enable_torrent_type_top')) {
 			// If top value > hot value, we check top first
-			if ($this->params->get('torrent_type_top_value') > $this->params->get('torrent_type_hot_value')) {
-				if ($torrent_type->seeders >= $this->params->get('torrent_type_top_value'))
-					echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$this->params->get('torrent_type_top_image').'" />';
-				elseif ($torrent_type->seeders >= $this->params->get('torrent_type_hot_value'))
-					echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$this->params->get('torrent_type_hot_image').'" />';
+			if ($params->get('torrent_type_top_value') > $params->get('torrent_type_hot_value')) {
+				if ($torrent_type->seeders >= $params->get('torrent_type_top_value'))
+					echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$params->get('torrent_type_top_image').'" />';
+				elseif ($torrent_type->seeders >= $params->get('torrent_type_hot_value'))
+					echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$params->get('torrent_type_hot_image').'" />';
 			} else { // Or we check hot first
-				if ($torrent_type->seeders >= $this->params->get('torrent_type_hot_value'))
-					echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$this->params->get('torrent_type_hot_image').'" />';
-				elseif ($torrent_type->seeders >= $this->params->get('torrent_type_top_value'))
-					echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$this->params->get('torrent_type_top_image').'" />';
+				if ($torrent_type->seeders >= $params->get('torrent_type_hot_value'))
+					echo '<img id="'.$torrentID.'hot" alt="'.JText::_('COM_TRACKER_HOT').'" src="'.JURI::base().$params->get('torrent_type_hot_image').'" />';
+				elseif ($torrent_type->seeders >= $params->get('torrent_type_top_value'))
+					echo '<img id="'.$torrentID.'top" alt="'.JText::_('COM_TRACKER_TOP').'" src="'.JURI::base().$params->get('torrent_type_top_image').'" />';
 			}
 		}
 	}
 
-	function is_image($path) {
+	public static function is_image($path) {
 		$a = getimagesize($path);
 		$image_type = $a[2];
 
@@ -629,8 +634,8 @@ abstract class TrackerHelper {
 		return false;
 	}
 
-	function SelectList($table, $value, $text, $state) {
-		$db 	= &JFactory::getDBO();
+	public static function SelectList($table, $value, $text, $state) {
+		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select($value.' as value');
 		$query->select($text.' as text');
@@ -641,11 +646,11 @@ abstract class TrackerHelper {
 		return $db->loadObjectList();
 	}
 
-	function changeUsersPermission($permission, $groupID, $enable) {
+	public static function changeUsersPermission($permission, $groupID, $enable) {
 		JArrayHelper::toInteger($groupID);
 		$groupID = implode( ',', $groupID );
 		
-		$db 	= &JFactory::getDBO();
+		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__tracker_users'));
 		$query->set($db->quoteName($permission) . ' = '.$enable);
@@ -662,8 +667,8 @@ abstract class TrackerHelper {
 	}
 // ########################################################################################################################################
 /*
-	function checkComponentConfigured() {
-		$db			=& JFactory::getDBO();
+	public static function checkComponentConfigured() {
+		$db			= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('name, value');
 		$query->from('xbt_config');
@@ -673,13 +678,13 @@ abstract class TrackerHelper {
 		else return '&nbsp;-&nbsp;<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/nok.png" />&nbsp;-&nbsp;'.JText::_( 'COM_TRACKER_PANEL_COMPONENT_NOT_CONFIGURED' );
 	}
 
-	function checkFolder($full_folder, $folder) {
+	public static function checkFolder($full_folder, $folder) {
 		if (JFolder::exists($full_folder) && strlen($folder) > 0 && TrackerHelper::is_folder_writable($full_folder)) return '<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/ok.png" />&nbsp;-&nbsp;'.JText::_( "COM_TRACKER_PANEL_DIRECTORY_EXIST" );
 			else if (JFolder::exists($full_folder) && strlen($folder) > 0 && !TrackerHelper::is_folder_writable($full_folder)) return '<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/nok.png" />&nbsp;-&nbsp;'.JText::_( "COM_TRACKER_PANEL_DIRECTORY_EXIST_CANT_WRITE" );
 				else return '<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/nok.png" />&nbsp;-&nbsp;'.JText::_( "COM_TRACKER_PANEL_DIRECTORY_DONT_EXIST" );
 	}
 
-	function is_folder_writable($path) {
+	public static function is_folder_writable($path) {
 	//will work in despite of Windows ACLs bug
 	//NOTE: use a trailing slash for folders!!!
 	//see http://bugs.php.net/bug.php?id=27609

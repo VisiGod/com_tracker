@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.modal');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
-$params =& JComponentHelper::getParams( 'com_tracker' );
+$params = JComponentHelper::getParams( 'com_tracker' );
 
-$doc =& JFactory::getDocument();
+$doc = JFactory::getDocument();
 $doc->addScript("http://code.jquery.com/jquery-1.9.1.js");
 $doc->addScript("http://code.jquery.com/ui/1.10.2/jquery-ui.js");
 $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css");

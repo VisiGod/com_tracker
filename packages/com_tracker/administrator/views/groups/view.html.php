@@ -45,7 +45,7 @@ class TrackerViewGroups extends JView {
 
 	protected function addToolbar() {
 		$canDo = TrackerHelper::getActions();
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		JToolBarHelper::title(JText::_('COM_TRACKER_GROUPS'), 'groups');
 
 		if ($canDo->get('core.create') && !$params->get('forum_integration')) {

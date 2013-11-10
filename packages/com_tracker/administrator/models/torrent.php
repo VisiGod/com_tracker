@@ -39,7 +39,7 @@ class TrackerModelTorrent extends JModelAdmin {
 	public function delete($itemIds) {
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 
 		// Sanitize the ids.
 		$itemIds = array_unique($itemIds);
@@ -124,7 +124,7 @@ class TrackerModelTorrent extends JModelAdmin {
 
 	public function save($data) {
 		$app			= JFactory::getApplication();
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 
 		if ($params->get('use_image_file') == 1) {
 		

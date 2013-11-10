@@ -38,7 +38,7 @@ class TrackerModelGroup extends JModelAdmin {
 /*
 	public function save($data) {
 		$app			= JFactory::getApplication();
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 
 		echo "<pre>";
 		print_r($data);
@@ -49,7 +49,7 @@ class TrackerModelGroup extends JModelAdmin {
 		return parent::save($data);
 	}
 */
-	function changeValue($gid, $task, $value) {
+	public function changeValue($gid, $task, $value) {
 		// Initialise variables.
 		$db		= $this->getDbo();
 		$gid	= (array) $gid;

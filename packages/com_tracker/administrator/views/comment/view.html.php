@@ -16,7 +16,7 @@ class TrackerViewComment extends JView {
 
 	public function display($tpl = null) {
 
-		$params =& JComponentHelper::getParams( 'com_tracker' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		if ($params->get('enable_comments') == 0) {
 			$app		= JFactory::getApplication();
 			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_COMMENT_NOT_ENABLE'), 'error');
