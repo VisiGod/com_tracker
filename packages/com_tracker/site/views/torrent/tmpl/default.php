@@ -90,7 +90,7 @@ jQuery(document).ready(function(){
 						<td valign="middle" style="height: 16px; width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_DOWNLOAD' );?></b>&nbsp;</td>
 						<td style="width: 99%;" colspan="2" nowrap>
 							<?php
-								echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_RATIO_LOW' )&nbsp;;
+								echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_RATIO_LOW' );
 								if ($this->item->exemption_type == 2) echo $this->item->group_minimum_ratio; // shows the group minimum ratio
 								else echo $this->item->user_minimum_ratio; // shows the user minimum ratio
 							?>
