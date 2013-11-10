@@ -8,7 +8,7 @@
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.html.parameter' );
+
 JHTML::_('behavior.modal');
 
 $user	= JFactory::getUser();
@@ -120,7 +120,9 @@ $document->addStyleDeclaration( $style );
 				if ($params->get('torrent_owner_field')) $items .= '<div id="value-center">&nbsp;'.$item->torrent_owner.'&nbsp;</div>';
 				if ($params->get('torrent_category_field')) $items .= '<div id="value-center">&nbsp;'.$item->torrent_category.'&nbsp;</div>';
 				if ($params->get('category_image_field')) {
-					$category_params = new JParameter( $item->category_params );
+					$category_params = new JRegistry();
+					$category_params->loadString($item->category_params);
+
 					if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DS.$category_params->get('image'))) {
 						$items .= '<div id="value-center">&nbsp;<img id="image'.$item->fid.'" alt="'.$item->torrent_category.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />&nbsp;</div>';
 					} else $items .= '<div id="value">&nbsp;'.$item->torrent_category.'&nbsp;</div>';

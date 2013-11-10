@@ -91,7 +91,9 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 				$canEdit	= $user->authorise('core.edit',			'com_tracker');
 				$canCheckin	= $user->authorise('core.manage',		'com_tracker');
 				$canChange	= $user->authorise('core.edit.state',	'com_tracker');
-				$category_params = new JParameter( $item->category_params );
+
+				$category_params = new JRegistry();
+				$category_params->loadString($item->category_params);
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td width="1%" nowrap><?php echo $item->fid;?></td>
