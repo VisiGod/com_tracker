@@ -17,7 +17,7 @@ class TrackerControllerBanClients extends JController {
 
 	protected $text_prefix = 'COM_TRACKER_BANCLIENTS';
 
-	public function getModel($name = 'BanClient', $prefix = 'TrackerModel') {
+	public function getModel($name = 'BanClient', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 

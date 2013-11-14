@@ -17,7 +17,7 @@ class TrackerControllerFiletypes extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_FILETYPES';
 
-	public function getModel($name = 'Filetype', $prefix = 'TrackerModel') {
+	public function getModel($name = 'Filetype', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 }

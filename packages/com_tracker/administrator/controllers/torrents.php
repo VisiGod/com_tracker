@@ -17,7 +17,7 @@ class TrackerControllerTorrents extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_TORRENTS';
 
-	public function getModel($name = 'Torrent', $prefix = 'TrackerModel') {
+	public function getModel($name = 'Torrent', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 

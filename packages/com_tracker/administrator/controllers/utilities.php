@@ -17,7 +17,7 @@ class TrackerControllerUtilities extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_UTILITIES';
 
-	public function getModel($name = 'Utilities', $prefix = 'TrackerModel') {
+	public function getModel($name = 'Utilities', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 

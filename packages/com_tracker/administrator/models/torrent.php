@@ -36,7 +36,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		return $data;
 	}
 
-	public function delete($itemIds) {
+	public function delete(&$itemIds) {
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$params = JComponentHelper::getParams( 'com_tracker' );

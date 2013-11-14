@@ -17,7 +17,7 @@ class TrackerControllerBanHosts extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_BANHOSTS';
 
-	public function getModel($name = 'BanHost', $prefix = 'TrackerModel') {
+	public function getModel($name = 'BanHost', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 }

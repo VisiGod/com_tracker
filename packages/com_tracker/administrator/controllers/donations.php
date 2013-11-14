@@ -17,7 +17,7 @@ class TrackerControllerDonations extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_DONATIONS';
 
-	public function getModel($name = 'Donation', $prefix = 'TrackerModel') {
+	public function getModel($name = 'Donation', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 }

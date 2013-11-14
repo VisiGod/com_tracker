@@ -17,7 +17,7 @@ class TrackerControllerReseeds extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_RESEEDS';
 
-	public function getModel($name = 'Reseed', $prefix = 'TrackerModel') {
+	public function getModel($name = 'Reseed', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 }

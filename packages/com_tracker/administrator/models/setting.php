@@ -36,7 +36,7 @@ class TrackerModelSetting extends JModelAdmin {
 		return $data;
 	}
 
-	public function getItem() {
+	public function getItem($pk = null) {
 		$db			= $this->getDbo();
 		$query	= $db->getQuery(true);
 
@@ -49,7 +49,7 @@ class TrackerModelSetting extends JModelAdmin {
 		return $data;
 	}
 
-	public function save() {
+	public function save($data) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		$db = JFactory::getDBO();

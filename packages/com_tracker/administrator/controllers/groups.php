@@ -17,7 +17,7 @@ class TrackerControllerGroups extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_GROUPS';
 
-	public function getModel($name = 'Group', $prefix = 'TrackerModel') {
+	public function getModel($name = 'Group', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 

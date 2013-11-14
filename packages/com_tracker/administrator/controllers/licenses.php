@@ -17,7 +17,7 @@ class TrackerControllerLicenses extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_LICENSES';
 
-	public function getModel($name = 'License', $prefix = 'TrackerModel') {
+	public function getModel($name = 'License', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 }
