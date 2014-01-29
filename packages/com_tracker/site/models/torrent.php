@@ -512,11 +512,6 @@ class TrackerModelTorrent extends JModelItem {
 		// Sanitize the filename
 		$temp_torrent['filename'] = TrackerHelper::sanitize_filename($temp_torrent['filename']);
 
-		// The file sent is not a torrent
-		if ($_FILES['jform']['type']['filename'] != 'application/x-bittorrent') {
-			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_FILE_IS_NOT_A_TORRENT'), 'error');
-		}
-
 		// If something wrong happened during the file upload, we bail out
 		if (!is_uploaded_file($_FILES['jform']['tmp_name']['filename'])) {
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_OPS_SOMETHING_HAPPENED'), 'error');
