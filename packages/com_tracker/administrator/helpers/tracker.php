@@ -100,8 +100,11 @@ abstract class TrackerHelper {
 	}
 
 	public static function getGroups() {
-		$db = JFactory::getDbo();
-		$db->setQuery( 'SELECT a.id AS value, a.name AS text FROM #__tracker_groups AS a' );
+		$db		= JFactory::getDBO();
+		$query  = $db->getQuery(true);
+		$query->select('a.id AS value, a.name AS text');
+		$query->from('`#__tracker_groups` AS a');
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
@@ -118,8 +121,12 @@ abstract class TrackerHelper {
 	}
 
 	public static function getAllCountries() {
-		$db = JFactory::getDbo();
-		$db->setQuery( 'SELECT a.id AS value, a.name AS text FROM #__tracker_countries AS a ORDER BY a.name' );
+		$db		= JFactory::getDBO();
+		$query  = $db->getQuery(true);
+		$query->select('a.id AS value, a.name AS text');
+		$query->from('`#__tracker_countries` AS a');
+		$query->order('a.name ASC');
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
@@ -136,9 +143,17 @@ abstract class TrackerHelper {
 	}
 
 	public static function getUsedCountries() {
-		$db = JFactory::getDbo();
 
-		$db->setQuery( 'SELECT DISTINCT(tu.countryID) AS value, c.name AS text FROM #__tracker_countries AS c RIGHT JOIN #__tracker_users AS tu ON tu.countryID = c.id WHERE tu.countryID <> 0 ORDER BY c.name' );
+		$db		= JFactory::getDBO();
+		$query  = $db->getQuery(true);
+		
+		$query->select('DISTINCT(tu.countryID) AS value, c.name AS text');
+		$query->from('`#__tracker_countries` AS c');
+		$query->join('RIGHT', '`#__tracker_users` AS tu ON tu.countryID = c.id');
+		$query->where('tu.countryID <> 0');
+		$query->order('c.name ASC');
+		
+		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
 		// Check for a database error.
@@ -484,19 +499,23 @@ abstract class TrackerHelper {
 	}
 
 	public static function getLastOrder($tablename) { // Get the last ordering from the table we choose
-
-		$db = JFactory::getDbo();
-		$db->setQuery('SELECT MAX(ordering) FROM #__'.$tablename);
+		$db		= JFactory::getDBO();
+		$query  = $db->getQuery(true);
+		$query->select('MAX(ordering)');
+		$query->from('`#__'.$tablename.'`');
+		$db->setQuery($query);
 		$max = $db->loadResult();
-
 		return $max+1;
-
 	}
 
 	public static function update_parameter($name, $value) { // Update a parameter value by name 
 		// retrieve existing params
-		$db = JFactory::getDbo();
-		$db->setQuery('SELECT params FROM #__extensions WHERE name = "com_tracker"');
+		$db		= JFactory::getDBO();
+		$query  = $db->getQuery(true);
+		$query->select('params');
+		$query->from('`#__extensions`');
+		$query->where('name = "com_tracker"');
+		$db->setQuery($query);
 		$params = json_decode( $db->loadResult(), true );
 	
 		// change the parameter value 
@@ -504,7 +523,12 @@ abstract class TrackerHelper {
 	
 		// store the combined result
 		$paramsString = json_encode( $params );
-		$db->setQuery('UPDATE #__extensions SET params = ' .$db->quote( $paramsString ) .' WHERE name = "com_tracker"' );
+		$query->clear();
+		
+		$query->update('#__extensions');
+		$query->set('params = '.$db->quote($paramsString));
+		$query->where('name = "com_tracker"');
+		$db->setQuery($query);
 		$db->query();
 	}
 

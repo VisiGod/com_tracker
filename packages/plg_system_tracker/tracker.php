@@ -91,7 +91,7 @@ Follow group ratio rules = 2
 				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 0');
 				$query->where('id IN ( '.$uids.' )');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 			}
 
@@ -108,7 +108,7 @@ Follow group ratio rules = 2
 			$query->where('u.exemption_type = 1');
 			$query->where('u.can_leech = 0');
 			$query->where('u.downloaded >= '.(int)$mindownload);
-			$db->setquery( $query );
+			$db->setQuery($query);
 			if ($row = $db->loadResultArray()) {
 				// Allow download from the users that have a higher ratio than the required
 				JArrayHelper::toInteger($row);
@@ -117,7 +117,7 @@ Follow group ratio rules = 2
 				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 1');
 				$query->where('id IN ( '.$uids.' )');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 			}
 
@@ -132,7 +132,7 @@ Follow group ratio rules = 2
 			$query->where('u.exemption_type = 2');
 			$query->where('u.can_leech = 0');
 			$query->where('u.downloaded >= '.(int)$mindownload);
-			$db->setquery( $query );
+			$db->setQuery($query);
 			if ($row = $db->loadResultArray()) {
 				// Allow download from the users that have a higher ratio than the required
 				JArrayHelper::toInteger($row);
@@ -141,7 +141,7 @@ Follow group ratio rules = 2
 				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 1');
 				$query->where('id IN ( '.$uids.' )');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 			}
 
@@ -155,7 +155,7 @@ Follow group ratio rules = 2
 			$query->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid');
 			$query->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(u.minimum_ratio,0)');
 			$query->where('exemption_type = 0');
-			$db->setquery( $query );
+			$db->setQuery($query);
 			if ($row = $db->loadResultArray()) {
 				// Allow download from the users that dont need to follow any ratio rules
 				JArrayHelper::toInteger($row);
@@ -164,7 +164,7 @@ Follow group ratio rules = 2
 				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 1');
 				$query->where('id IN ( '.$uids.' )');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 			}
 
@@ -176,7 +176,7 @@ Follow group ratio rules = 2
 			$query->select('id');
 			$query->from($db->quoteName('#__tracker_groups'));
 			$query->where('can_leech = 0');
-			$db->setquery( $query );
+			$db->setQuery($query);
 			if ($row = $db->loadResultArray()) {
 				// Deny download from the users that belong to that group(s)
 				JArrayHelper::toInteger($row);
@@ -185,7 +185,7 @@ Follow group ratio rules = 2
 				$query->update($db->quoteName('#__tracker_users'));
 				$query->set('can_leech = 0');
 				$query->where('groupID IN ( '.$uids.' )');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 			}
 
@@ -204,7 +204,7 @@ Follow group ratio rules = 2
 			$query->from($db->quoteName('#__tracker_announce_log'));
 			$query->group('uid, ipa');
 			$query->order('mtime DESC');
-			$db->setquery( $query );
+			$db->setQuery($query);
 			if ($row = $db->loadResultArray()) {
 				// Delete the rows from announce log that aren't the newest ones
 				JArrayHelper::toInteger($row);
@@ -212,7 +212,7 @@ Follow group ratio rules = 2
 				$query->clear();
 				$query->delete($db->quoteName('#__tracker_announce_log'));
 				$query->where('id NOT IN ( '.$uids.' )');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 			}
 			$announce_last_update = time();
@@ -257,11 +257,11 @@ Follow group ratio rules = 2
 				$rows = $forumdb->loadObjectList();
 				$query	= $db->getQuery(true);
 				$query  = 'CREATE TABLE '.$db->quoteName('#__temp_users_check').' (name varchar(255) not null, ugroup smallint(3))';
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 				$query	= $db->getQuery(true);
 				$query = 'TRUNCATE '.$db->quoteName('#__temp_users_check');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 				$query	= $db->getQuery(true);
 				foreach ($rows as $row) {
@@ -280,7 +280,7 @@ Follow group ratio rules = 2
 				$query->join('LEFT', $db->quoteName('#__users').' AS ju ON ju.username = fmt.name');
 				$query->where('u.groupID <> fmt.ugroup');
 				$query->where('u.exemption_type = 0');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$changed_forum_users_id = $db->loadResultArray();
 
 				if (count($changed_forum_users_id) > 0) {
@@ -314,11 +314,11 @@ Follow group ratio rules = 2
 					$query->set('u.can_leech = ug.can_leech');
 					$query->where('u.id IN ( '.$uids.' )');
 */
-					$db->setquery( $query );
+					$db->setQuery($query);
 					$db->query( $query );
 				}
 				$query='DROP TABLE '.$db->quoteName('#__temp_users_check');
-				$db->setquery( $query );
+				$db->setQuery($query);
 				$db->query( $query );
 			}
 

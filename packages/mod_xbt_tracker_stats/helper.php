@@ -95,7 +95,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__tracker_groups` AS tg ON tg.id = tu.groupID');
 			$query->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID');
 			$query->order('tu.uploaded DESC LIMIT 0,'.$params->get('number_top_uploaders', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->top_uploaders = $db->loadObjectList();    
 		} else $total_torrents->top_uploaders = 0;
 
@@ -110,7 +110,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID');
 			$query->having('tu.downloaded > 1073741824 AND tu.uploaded > 1073741824');
 			$query->order('(tu.uploaded / tu.downloaded) DESC LIMIT 0,'.$params->get('number_top_sharers', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->top_sharers = $db->loadObjectList();
 		} else $total_torrents->top_sharers = 0;
 
@@ -125,7 +125,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID');
 			$query->having('tu.downloaded > 1073741824 AND tu.uploaded > 1073741824');
 			$query->order('(tu.uploaded / tu.downloaded) LIMIT 0,'.$params->get('number_worst_sharers', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->worst_sharers = $db->loadObjectList();
 		} else $total_torrents->worst_sharers = 0;
 
@@ -143,7 +143,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID');
 			$query->group('u.id');
 			$query->order('COUNT(u.id) DESC LIMIT 0,'.$params->get('number_top_thanked', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->top_thanked = $db->loadObjectList();
 		} else $total_torrents->top_thanked = 0;
 
@@ -160,7 +160,7 @@ class modXbtTrackerStatsHelper {
 			$query->group('tt.uid');
 			$query->having('COUNT(tt.uid) > 0');
 			$query->order('COUNT(tt.uid) DESC LIMIT 0,'.$params->get('number_top_thanker', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->top_thanker = $db->loadObjectList();
 		} else $total_torrents->top_thanker = 0;
 		
@@ -177,7 +177,7 @@ class modXbtTrackerStatsHelper {
 			$query->where('t.flags <> 1');
 			$query->group('t.fid');
 			$query->order('count(fu.active) DESC LIMIT 0,'.$params->get('number_most_active_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->most_active_torrents = $db->loadObjectList();
 		} else $total_torrents->most_active_torrents = 0;
 
@@ -190,7 +190,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__categories` AS c ON c.id = t.categoryID');
 			$query->where('t.flags <> 1');
 			$query->order('t.seeders DESC LIMIT 0,'.$params->get('number_most_seeded_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->most_seeded_torrents = $db->loadObjectList();
 		} else $total_torrents->most_seeded_torrents = 0;
 
@@ -203,7 +203,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__categories` AS c ON c.id = t.categoryID');
 			$query->where('t.flags <> 1');
 			$query->order('t.leechers DESC LIMIT 0,'.$params->get('number_most_leeched_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->most_leeched_torrents = $db->loadObjectList();
 		} else $total_torrents->most_leeched_torrents = 0;
 
@@ -216,7 +216,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__categories` AS c ON c.id = t.categoryID');
 			$query->where('t.flags <> 1');
 			$query->order('t.completed DESC LIMIT 0,'.$params->get('number_most_completed_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->most_completed_torrents = $db->loadObjectList();
 		} else $total_torrents->most_completed_torrents = 0;
 
@@ -231,7 +231,7 @@ class modXbtTrackerStatsHelper {
 			$query->group('tt.torrentID');
 			$query->having('COUNT(tt.torrentID) > 0');
 			$query->order('COUNT(tt.torrentID) DESC LIMIT 0,'.$params->get('number_most_thanked_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->top_thanked_torrents = $db->loadObjectList();
 		} else $total_torrents->top_thanked_torrents = 0;
 
@@ -247,7 +247,7 @@ class modXbtTrackerStatsHelper {
 			$query->group('t.fid');
 			$query->having('fu.active = 0');
 			$query->order('fu.mtime ASC LIMIT 0,'.$params->get('number_worst_active_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->worst_active_torrents = $db->loadObjectList();
 		} else $total_torrents->worst_active_torrents = 0;
 
@@ -261,7 +261,7 @@ class modXbtTrackerStatsHelper {
 			$query->where('t.leechers > 0');
 			$query->where('t.flags <> 1');
 			$query->order('t.leechers DESC, t.seeders LIMIT 0,'.$params->get('number_worst_seeded_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->worst_seeded_torrents = $db->loadObjectList();
 		} else $total_torrents->worst_seeded_torrents = 0;
 
@@ -275,7 +275,7 @@ class modXbtTrackerStatsHelper {
 			$query->where('t.seeders > 0 AND t.leechers > 0');
 			$query->where('t.flags <> 1');
 			$query->order('t.seeders DESC, t.leechers LIMIT 0,'.$params->get('number_worst_leeched_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->worst_leeched_torrents = $db->loadObjectList();
 		} else $total_torrents->worst_leeched_torrents = 0;
 
@@ -288,7 +288,7 @@ class modXbtTrackerStatsHelper {
 			$query->join('LEFT', '`#__categories` AS c ON c.id = t.categoryID');
 			$query->where('t.flags <> 1');
 			$query->order('t.completed LIMIT 0,'.$params->get('number_worst_completed_torrents', 5));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$total_torrents->worst_completed_torrents = $db->loadObjectList();
 		} else $total_torrents->worst_completed_torrents = 0;
 

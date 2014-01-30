@@ -79,7 +79,7 @@ class TrackerModelUserpanel extends JModelItem {
 				$query->join('LEFT', '`#__tracker_torrents` AS tt ON tt.fid = ttt.torrentID');
 				$query->join('LEFT', '`#__users` AS u ON u.id = tt.uploader');
 				$query->where('u.id = ' . (int)$user_profile->id);
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$user_profile->total_thanks = $db->loadResult();
 
 				// Get the number of thanks the user gave
@@ -87,7 +87,7 @@ class TrackerModelUserpanel extends JModelItem {
 				$query->select('COUNT(uid) as thanker');
 				$query->from('#__tracker_torrent_thanks');
 				$query->where('uid = ' . (int)$user_profile->id);
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$user_profile->thanker = $db->loadResult();
 				
 			}
@@ -99,7 +99,7 @@ class TrackerModelUserpanel extends JModelItem {
 			$query->where('uid = ' . (int)$user_profile->id);
 			$query->order('id DESC');
 			$query->limit('0,1');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$user_profile->announce = $db->loadNextObject();
 			
 			if (!$user_profile->announce) {
@@ -119,7 +119,7 @@ class TrackerModelUserpanel extends JModelItem {
 			$query->where('id = ' . (int)$user_profile->tracker_info->groupID);
 			$query->order('id DESC');
 			$query->limit('0,1');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$user_profile->group_info = $db->loadNextObject();
 
 			if ($params->get('enable_donations')) {
@@ -129,7 +129,7 @@ class TrackerModelUserpanel extends JModelItem {
 				$query->from('#__tracker_donations');
 				$query->where('uid = ' . (int)$user_profile->id);
 				$query->where('state = 1');
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$user_profile->user_donations = $db->loadNextObject();
 			}
 			
@@ -142,7 +142,7 @@ class TrackerModelUserpanel extends JModelItem {
 			$query->where('fu.uid = ' . (int)$user_profile->id);
 			$query->where('fu.completed > 0');
 			$query->where('t.uploader <> '.(int)$user_profile->id);
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if ($user_profile->total_snatch = $db->loadResult()) {
 				// Get the user snatched torrents
 				$query->clear();
@@ -153,7 +153,7 @@ class TrackerModelUserpanel extends JModelItem {
 				$query->where('fu.completed > 0');
 				$query->where('t.uploader <> '.(int)$user_profile->id);
 				$query->order('fu.fid DESC');
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$user_profile->user_snatches = $db->loadObjectList();
 			}
 
@@ -166,7 +166,7 @@ class TrackerModelUserpanel extends JModelItem {
 			$query->where('t.uploader = ' . (int)$user_profile->id);
 			$query->where('t.name <> \'\'');
 			$query->order('t.fid DESC');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if ($user_profile->total_uploads = $db->loadResult()) {
 				# Get the user uploaded torrents
 				$query->clear();
@@ -178,7 +178,7 @@ class TrackerModelUserpanel extends JModelItem {
 				// Show the anonymous uploaded torrent if the user is the owner. If it's another user it keeps the anonymous torrents hidden
 				if ($user_profile->id <> $session->get('user')->id || TrackerHelper::user_permissions('edit_torrents', $user_profile->tracker_info->groupID) == 0) $query->where('t.uploader_anonymous = 0');
 				$query->order('t.fid DESC');
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$user_profile->user_uploads = $db->loadObjectList();
 			}
 
@@ -193,7 +193,7 @@ class TrackerModelUserpanel extends JModelItem {
 			$query->where('fu.active = 1');
 			$query->where('t.name <> \'\'');
 			$query->order('fu.fid DESC');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if ($user_profile->total_seeds = $db->loadResult()) {
 				# Get the user seeded torrents
 				$query->clear();
@@ -205,7 +205,7 @@ class TrackerModelUserpanel extends JModelItem {
 				$query->where('fu.active = 1');
 				$query->where('t.name <> \'\'');
 				$query->order('fu.fid DESC');
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$user_profile->user_seeds = $db->loadObjectList();
 			}
 
@@ -222,7 +222,7 @@ class TrackerModelUserpanel extends JModelItem {
 			$query->where('fu.downloaded > 0');
 			$query->where('t.name <> \'\'');
 			$query->order('fu.fid DESC');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if ($user_profile->total_hitandran = $db->loadResult()) {
 				# Get the leeched and run torrents
 				$query->clear();
@@ -236,7 +236,7 @@ class TrackerModelUserpanel extends JModelItem {
 				$query->where('fu.downloaded > 0');
 				$query->where('t.name <> \'\'');
 				$query->order('fu.fid DESC');
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$user_profile->user_hitruns = $db->loadObjectList();
 			}
 		} else {

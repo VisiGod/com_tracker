@@ -132,7 +132,7 @@ class TrackerModelTorrent extends JModelItem {
 		$query->where('fu.fid = ' . (int) $pk);
 		$query->where('fu.left = 0');
 		$query->order('fu.mtime ASC');
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$data->snatchers = $db->loadObjectList();
 
 		// Get the Hit and Runners
@@ -150,7 +150,7 @@ class TrackerModelTorrent extends JModelItem {
 		$query->where('fu.downloaded > 0');
 		$query->where('fu.left = 0');
 		$query->order('fu.mtime DESC');
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$data->hitrunners = $db->loadObjectList();
 
 		// Get the default country and flagpic
@@ -158,7 +158,7 @@ class TrackerModelTorrent extends JModelItem {
 		$query->select('tc.name as name, tc.image as image');
 		$query->from('#__tracker_countries AS tc');
 		$query->where('tc.id = '.$params->get('defaultcountry'));
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$data->default_country = $db->loadObjectList();
 
 		// Get the torrent thanks
@@ -170,7 +170,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->join('LEFT', '#__tracker_torrents AS tt on tt.fid = ttt.torrentID');
 			$query->where('ttt.torrentID = '.(int) $pk);
 			$query->where('ttt.state = 1');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$data->thankyous = $db->loadObjectList();
 		}
 		
@@ -183,7 +183,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->join('LEFT', '#__tracker_torrents AS tt on tt.fid = trr.fid');
 			$query->where('trr.fid = '.(int) $pk);
 			$query->where('trr.state = 1');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$data->reseeds = $db->loadObjectList();
 		}
 
@@ -196,7 +196,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->join('LEFT', '#__tracker_torrents AS tt on tt.fid = trt.fid');
 			$query->where('trt.fid = '.(int) $pk);
 			$query->where('trt.state = 1');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$data->reports = $db->loadObjectList();
 		}
 
@@ -212,7 +212,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->where('tcom.torrentid = '.(int)$pk);
 			$query->where('tcom.state = 1');
 			$query->order('tcom.id DESC');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$data->comments = $db->loadObjectList();
 
 			if ($params->get('comment_only_leecher')) {
@@ -221,7 +221,7 @@ class TrackerModelTorrent extends JModelItem {
 				$query->from('#__tracker_files_users');
 				$query->where('fid = '.(int)$pk);
 				$query->where('uid = '.(int)$user->get('id'));
-				$db->setQuery( $query );
+				$db->setQuery($query);
 				$data->isleecher = $db->loadResult();
 			} else $data->isleecher = 1;
 
@@ -456,7 +456,7 @@ class TrackerModelTorrent extends JModelItem {
 		
 		// get all admin users
 		$query = 'SELECT name, email, sendEmail, id FROM #__users WHERE sendEmail=1';
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		$rows = $db->loadObjectList();
 		
 		foreach( $rows as $row ) {
@@ -545,7 +545,7 @@ class TrackerModelTorrent extends JModelItem {
 		$query->select('count(fid)');
 		$query->from('#__tracker_torrents');
 		$query->where('info_hash = UNHEX("'.$torrent->hash_info().'")');
-		$db->setQuery( $query );
+		$db->setQuery($query);
 		if ($db->loadResult() > 0) {
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_ALREADY_EXISTS'), 'error');
 		}		
@@ -646,7 +646,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->set('torrentID = '.$db->quote($torrent_id));
 			$query->set('filename = '.$db->quote($filename));
 			$query->set('size = '.$db->quote($filesize));
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
@@ -659,7 +659,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->insert('#__tracker_torrents_freeleech');
 			$query->set('fid = '.$db->quote($torrent_id));
 			$query->set('download_multiplier = 1');
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			if (!$db->query()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
