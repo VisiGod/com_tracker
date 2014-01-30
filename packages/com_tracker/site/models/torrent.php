@@ -103,6 +103,15 @@ class TrackerModelTorrent extends JModelItem {
 		$db->setQuery($query);
 		$data->torrent_files = $db->loadObjectList();
 
+		// Get some tracker config times
+		$query->clear();
+		$query->select('name, value');
+		$query->from('xbt_config');
+		$db->setQuery($query);
+		$data->xbt_config = $db->loadObjectList('name');
+		$time_difference = (int)($data->xbt_config['announce_interval']->value + $data->xbt_config['read_db_interval']->value);
+		
+
 		// Get the torrent peers
 		$query->clear();
 		$query->select('u.id, u.name');
@@ -114,6 +123,9 @@ class TrackerModelTorrent extends JModelItem {
 		$query->join('LEFT', '#__tracker_files_users AS fu on fu.uid = u.id');
 		$query->select('tc.name as countryname, tc.image as countryimage');
 		$query->join('LEFT', '#__tracker_countries AS tc ON tc.id = tu.countryID');
+		// Get the number of times the peer is present
+		// for when we have the same user seeding/leeching more than once
+		$query->select('(SELECT count(distinct(peer_id)) FROM `#__tracker_announce_log` WHERE mtime >= ( UNIX_TIMESTAMP() - '.$time_difference.' ) AND uid = u.id) as num_times');
 		$query->where('fu.fid = ' . (int) $pk);
 		$query->where('fu.active = 1');
 		$query->order('fu.left ASC');

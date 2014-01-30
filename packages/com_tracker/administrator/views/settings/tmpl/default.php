@@ -72,10 +72,6 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 							<td width="50%"><?php echo $this->items['log_access'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
 						</tr>	
 						<tr>
-							<td class="key" nowrap><label for="log_announce" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_ANNOUNCE' ); ?></b></label></td>
-							<td><?php echo $this->items['log_announce'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-						<tr>
 							<td class="key" nowrap><label for="log_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_SCRAPE' ); ?></b></label></td>
 							<td><?php echo $this->items['log_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
 						</tr>	

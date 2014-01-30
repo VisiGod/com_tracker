@@ -63,10 +63,6 @@ JHtml::_('behavior.formvalidation');
 							<td><?php echo $this->item['log_access']; ?></td>
 						</tr>	
 						<tr>
-							<td class="key" nowrap><label for="log_announce" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_ANNOUNCE' ); ?></b></label></td>
-							<td><?php echo $this->item['log_announce']; ?></td>
-						</tr>	
-						<tr>
 							<td class="key" nowrap><label for="log_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_SCRAPE' ); ?></b></label></td>
 							<td><?php echo $this->item['log_scrape']; ?></td>
 						</tr>	

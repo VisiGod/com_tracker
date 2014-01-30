@@ -89,7 +89,6 @@ class TrackerViewSetting extends JView {
 		$item['listen_ipa'] 							= $item['listen_ipa'];
 		$item['listen_port'] 							= (int) $item['listen_port'];
 		$item['log_access'] 							= JHTML::_('select.booleanlist',  'log_access', 'class="inputbox" size="1"', $item['log_access'] );
-		$item['log_announce'] 						= JHTML::_('select.booleanlist',  'log_announce', 'class="inputbox" size="1"', $item['log_announce'] );
 		$item['log_scrape'] 							= JHTML::_('select.booleanlist',  'log_scrape', 'class="inputbox" size="1"', $item['log_scrape'] );
 		$item['offline_message'] 					= $item['offline_message'];
 	  $item['pid_file'] 								= $item['pid_file'];

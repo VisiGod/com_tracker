@@ -69,7 +69,7 @@ class TrackerModelSetting extends JModelAdmin {
 			else 									$settings['listen_ipa'] = $data['listen_ipa'];
 		$settings['listen_port'] 					= (int)$data['listen_port'];
 		$settings['log_access'] 					= (int)$data['log_access'];
-		$settings['log_announce'] 					= (int)$data['log_announce'];
+		$settings['log_announce'] 					= 1;
 		$settings['log_scrape'] 					= (int)$data['log_scrape'];
 		$settings['offline_message'] 				= addslashes($data['offline_message']);
 		$settings['pid_file'] 						= $data['pid_file'];

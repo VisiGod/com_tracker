@@ -359,6 +359,7 @@ jQuery(document).ready(function(){
 				<td width="10%" align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOAD_SPEED' );?></b></td>
 			<?php } ?>
 			<td width="10%" nowrap align="center"><b><?php echo JText::_( 'COM_TRACKER_RATIO' );?></b></td>
+			<td width="10%" align="center"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUM_TIMES' );?></b></td>
 		</tr>
 		<?php
 			$k = 0;
@@ -391,6 +392,7 @@ jQuery(document).ready(function(){
 				<td width="10%" nowrap align="right"><?php echo TrackerHelper::make_size($this->peer->up_rate).'/s'; ?></td>
 			<?php } ?>
 			<td width="10%" nowrap align="center"><?php echo TrackerHelper::make_ratio($this->peer->downloaded,$this->peer->uploaded); ?></td>
+			<td width="10%" nowrap align="center"><?php echo $this->peer->num_times; ?></td>
 		</tr>
 		<?php
 			$k = 1 - $k;
