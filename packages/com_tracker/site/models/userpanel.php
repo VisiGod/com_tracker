@@ -274,7 +274,11 @@ class TrackerModelUserpanel extends JModelItem {
 			JError::raiseError(500, $db->getErrorMsg());
 		}
 
-		$app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel'), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
-	}
+		// Get SEF status
+		$config =& JFactory::getConfig();
+		// If its on we dont add the view name, if its off we add it
+		if ($config->getValue( 'sef' ) == 1) $app->redirect(JRoute::_('index.php?option=com_tracker'), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
+			else $app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel'.$view), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
 
+	}
 }

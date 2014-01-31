@@ -41,6 +41,7 @@ function TrackerBuildRoute(&$query)
  *
  * index.php?/banners/id/Itemid
  */
+
 function TrackerParseRoute($segments)
 {
 	$vars = array();

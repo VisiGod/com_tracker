@@ -168,10 +168,10 @@ jQuery.noConflict();
 				<td class="row0" align="left">
 		 			<?php if ($this->item->tracker_info->torrent_pass_version) {
 		 				echo '&nbsp;<b>'.$this->item->tracker_info->torrent_pass_version.'</b>&nbsp;-&nbsp;';
-		 				echo '<a href="index.php?option=com_tracker&amp;task=user.resetpassversion&amp;id='.$this->item->id."\" onMouseOver=\"return overlib('Only use if you suspect that someone else knows your passkey', CAPTION, 'When to click the \'Reset Torrent Pass Version\'', BELOW, RIGHT, CAPCOLOR, '#FFFFFF', BGCOLOR, '#707070', TEXTCOLOR, '#FFFFFF', FGCOLOR, '#c2c2c2');\" onmouseout=\"return nd();\" >Reset Torrent Pass Version</a>";
+		 				echo '<a href="index.php?option=com_tracker&amp;task=user.resetpassversion&amp;id='.$this->item->id.'">'.JText::_( 'COM_TRACKER_RESET_TORRENT_PASS' ).'</a>';
 		 			} else {
 		 				echo '&nbsp;<b>No torrent pass version yet</b>&nbsp;-&nbsp;';
-		 				echo '<a href="index.php?option=com_tracker&amp;task=user.resetpassversion&amp;id='.$this->item->id."\" onMouseOver=\"return overlib('If this is the first time you use the tracker you need to create your passkey', CAPTION, 'When to click the \'Create Torrent Pass Version\'', BELOW, RIGHT, CAPCOLOR, '#FFFFFF', BGCOLOR, '#707070', TEXTCOLOR, '#FFFFFF', FGCOLOR, '#c2c2c2');\" onmouseout=\"return nd();\" >Create Torrent Pass Version</a>";
+		 				echo '<a href="index.php?option=com_tracker&amp;task=user.resetpassversion&amp;id='.$this->item->id.'">'.JText::_( 'COM_TRACKER_CREATE_TORRENT_PASS' ).'</a>';
 		 			} ?>
 				</td>
 			</tr>
