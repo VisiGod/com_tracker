@@ -49,31 +49,46 @@ $style = '#container {
 						white-space: pre-wrap;
 					}';
 $doc->addStyleDeclaration( $style );
+$tabs_jquery = '
+<script>
+$( "#tabs-stats" ).tabs();
+$( "#tabs-users" ).tabs();
+$( "#tabs-best" ).tabs();
+$( "#tabs-worst" ).tabs();
+</script>
+';
 ?>
 <script type="text/javascript">
 jQuery.noConflict();
-(function($, undefined) {
-	$(function() { // onload
-		var base_set = ($('base').length != 0);
-		var current_location = window.location.href.split('#')[0];
+(function($) {
+	$(function() {
+		$( "#tabs-stats" ).tabs();
+		$( "#tabs-users" ).tabs();
+		$( "#tabs-best" ).tabs();
+		$( "#tabs-worst" ).tabs();
+
+// (function($, undefined) {
+// 	$(function() { // onload
+// 		var base_set = ($('base').length != 0);
+// 		var current_location = window.location.href.split('#')[0];
 	
-		function init_tabs(tabsid) {
-			if (base_set) {
-				$('#' tabsid ' > ul a').each(function() {
-					var link_hash = $(this).attr('href');
-					if (link_hash[0] === '#') {
-						$(this).attr('href', current_location link_hash);
-					}
-				});
-			}
+// 		function init_tabs(tabsid) {
+// 			if (base_set) {
+// 				$('#' tabsid ' > ul a').each(function() {
+// 					var link_hash = $(this).attr('href');
+// 					if (link_hash[0] === '#') {
+// 						$(this).attr('href', current_location link_hash);
+// 					}
+// 				});
+// 			}
 	
-			$('#' tabsid).tabs();
-		}
+// 			$('#' tabsid).tabs();
+// 		}
 	
-		init_tabs('tabs-stats');
-		init_tabs('tabs-users');
-		init_tabs('tabs-best');
-		init_tabs('tabs-worst');
+// 		init_tabs('tabs-stats');
+// 		init_tabs('tabs-users');
+// 		init_tabs('tabs-best');
+// 		init_tabs('tabs-worst');
 	});
 })(jQuery);
 </script>

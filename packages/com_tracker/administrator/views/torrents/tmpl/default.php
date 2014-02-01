@@ -106,7 +106,12 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 				</td>
 
 				<td width="1%" align="center" nowrap>
-					<img id="image<?php echo $item->fid;?>" alt="<?php echo $item->category; ?>" src="<?php echo JUri::root(true).'/'.$category_params->get('image'); ?>" width="<?php echo $params->get('category_image_size');?>" />
+				<?php
+					if(@is_array(getimagesize(JUri::root(true).'/'.$category_params->get('image')))) { 
+						echo '<img id="image'.$item->fid.'" alt="'.$item->category.'" src="'.JUri::root(true).'/'.$category_params->get('image').'" width="'.$params->get('category_image_size').'" />';
+					}
+					else echo $item->category;
+				?>
 				</td>
 
 				<td align="right" nowrap><?php echo TrackerHelper::make_size($item->size);?></td>
