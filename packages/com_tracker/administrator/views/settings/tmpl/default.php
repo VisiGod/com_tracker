@@ -26,7 +26,7 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=settings'); ?>" method="post" name="adminForm" id="adminForm">
 	<table style="width:100%;">
 		<tr>
-			<td style="width:26%;" valign="top">
+			<td style="width:50%;" valign="top">
 				<table class="adminlist">
 					<thead>
 						<tr>
@@ -61,12 +61,6 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 							<td class="key" nowrap><label for="listen_port" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LISTEN_PORT' ); ?></b></label></td>
 							<td><?php echo $this->items['listen_port']; ?></td>
 						</tr>	
-					</thead>
-				</table>
-			</td>
-			<td width="37%" valign="top">
-				<table class="adminlist">
-					<thead>
 						<tr>
 							<td class="key" nowrap><label for="log_access" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_ACCESS' ); ?></b></label></td>
 							<td width="50%"><?php echo $this->items['log_access'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
@@ -75,6 +69,12 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 							<td class="key" nowrap><label for="log_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_SCRAPE' ); ?></b></label></td>
 							<td><?php echo $this->items['log_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
 						</tr>	
+					</thead>
+				</table>
+			</td>
+			<td style="width:50%;" valign="top">
+				<table class="adminlist">
+					<thead>
 						<tr>
 							<td class="key" nowrap><label for="offline_message" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_OFFLINE_MESSAGE' ); ?></b></label></td>
 							<td><?php echo $this->items['offline_message']; ?></td>
@@ -106,64 +106,6 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 						<tr>
 							<td class="key" nowrap><label for="write_db_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_WRITE_DB_INTERVAL' ); ?></b></label></td>
 							<td><?php echo $this->items['write_db_interval']; ?></td>
-						</tr>
-					</thead>
-				</table>
-			</td>
-			<td width="37%" valign="top">
-				<table class="adminlist">
-					<thead>
-						<tr>
-							<td class="key" nowrap><label for="table_announce_log" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TABLE_ANNOUNCE_LOG' ); ?></b></label></td>
-							<td><?php echo $this->items['table_announce_log']; ?></td>
-						</tr>
-						<?php if ($params->get('host_banning')) { ?>
-						<tr>
-							<td class="key" nowrap><label for="table_banhosts" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TABLE_BANHOSTS' ); ?></b></label></td>
-							<td width="50%"><?php echo $this->items['table_deny_from_hosts']; ?></td>
-						</tr>
-						<?php } ?>
-						<?php if ($params->get('peer_banning')) { ?>
-						<tr>
-							<td class="key" nowrap><label for="table_banclients" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TABLE_BANCLIENTS' ); ?></b></label></td>
-							<td><?php echo $this->items['table_deny_from_clients']; ?></td>
-						</tr>
-						<?php } ?>
-						<tr>
-							<td class="key" nowrap><label for="table_files" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TABLE_FILES' ); ?></b></label></td>
-							<td><?php echo $this->items['table_files']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="table_files_users" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TABLE_FILES_USERS' ); ?></b></label></td>
-							<td><?php echo $this->items['table_files_users']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="table_scrape_log" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TABLE_SCRAPE_LOG' ); ?></b></label></td>
-							<td><?php echo $this->items['table_scrape_log']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="table_users" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TABLE_USERS' ); ?></b></label></td>
-							<td><?php echo $this->items['table_users']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="column_files_completed" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_COLUMN_FILES_COMPLETED' ); ?></b></label></td>
-							<td><?php echo $this->items['column_files_completed']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="column_files_fid" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_COLUMN_FILES_FID' ); ?></b></label></td>
-							<td><?php echo $this->items['column_files_fid']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="column_files_leechers" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_COLUMN_FILES_LEECHERS' ); ?></b></label></td>
-							<td><?php echo $this->items['column_files_leechers']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="column_files_seeders" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_COLUMN_FILES_SEEDERS' ); ?></b></label></td>
-							<td><?php echo $this->items['column_files_seeders']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="column_users_uid" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_COLUMN_USER_UID' ); ?></b></label></td>
-							<td><?php echo $this->items['column_users_uid']; ?></td>
 						</tr>
 						<tr>
 							<td class="key" nowrap><label for="torrent_pass_private_key" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TORRENT_PASS_PRIVATE_KEY' ); ?></b></label></td>

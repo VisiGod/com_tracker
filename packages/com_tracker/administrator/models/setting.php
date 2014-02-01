@@ -50,7 +50,7 @@ class TrackerModelSetting extends JModelAdmin {
 	}
 
 	public function save($data) {
-
+		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		$db = JFactory::getDBO();
 		$data = JRequest::get();
@@ -79,24 +79,22 @@ class TrackerModelSetting extends JModelAdmin {
 		$settings['redirect_url'] 					= $data['redirect_url'];
 		$settings['scrape_interval'] 				= (int)$data['scrape_interval'];
 		$settings['write_db_interval'] 				= (int)$data['write_db_interval'];
-		$settings['table_announce_log'] 			= $data['table_announce_log'];
-		$settings['table_files'] 					= $data['table_files'];
-		$settings['table_files_users'] 				= $data['table_files_users'];
-		$settings['table_scrape_log'] 				= $data['table_scrape_log'];
-		$settings['table_users'] 					= $data['table_users'];
-		$settings['column_files_completed'] 		= $data['column_files_completed'];
-		$settings['column_files_fid'] 				= $data['column_files_fid'];
-		$settings['column_files_leechers'] 			= $data['column_files_leechers'];
-		$settings['column_files_seeders'] 			= $data['column_files_seeders'];
-		$settings['column_users_uid'] 				= $data['column_users_uid'];
+		$settings['table_announce_log'] 			= $app->getCfg('dbprefix', 1).'tracker_announce_log';
+		$settings['table_files'] 					= $app->getCfg('dbprefix', 1).'tracker_torrents';
+		$settings['table_files_users'] 				= $app->getCfg('dbprefix', 1).'tracker_files_users';
+		$settings['table_scrape_log'] 				= $app->getCfg('dbprefix', 1).'tracker_scrape_log';
+		$settings['table_users'] 					= $app->getCfg('dbprefix', 1).'tracker_users';
+		$settings['column_files_completed'] 		= 'completed';
+		$settings['column_files_fid'] 				= 'fid';
+		$settings['column_files_leechers'] 			= 'leechers';
+		$settings['column_files_seeders'] 			= 'seeders';
+		$settings['column_users_uid'] 				= 'id';
 		$settings['torrent_pass_private_key'] 		= $data['torrent_pass_private_key'];
 		if ($params->get('peer_banning')) {
-			if (!isset($data['table_deny_from_clients'])) $data['table_deny_from_clients'] = '';
-			$settings['table_deny_from_clients'] 	= $data['table_deny_from_clients'];
+			$settings['table_deny_from_clients'] 	= $app->getCfg('dbprefix', 1).'tracker_deny_from_clients';
 		}
 		if ($params->get('host_banning')) {
-			if (!isset($data['table_deny_from_hosts'])) $data['table_deny_from_hosts'] = '';
-			$settings['table_deny_from_hosts'] 		= $data['table_deny_from_hosts'];
+			$settings['table_deny_from_hosts'] 	= $app->getCfg('dbprefix', 1).'tracker_deny_from_hosts';
 		}
 
 		// clear old config values

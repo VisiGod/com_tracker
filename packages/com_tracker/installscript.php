@@ -48,7 +48,7 @@ class com_trackerInstallerScript {
 			$defaults .= '"progress_bar_size":"50",';
 			$defaults .= '"image_width":"150",';
 			$defaults .= '"base_group":"1",';
-			$defaults .= '"defaultcountry":"999",';
+			$defaults .= '"defaultcountry":"170",';
 			$defaults .= '"forum_post_id":"1",';
 			$defaults .= '"forum_post_url":"http://forum.site.com/index.php?showtopic":"",';
 			$defaults .= '"torrent_information":"1",';
@@ -259,11 +259,13 @@ class com_trackerInstallerScript {
 			$settings['table_files_users'] 			= $app->getCfg('dbprefix', 1).'tracker_files_users';
 			$settings['table_scrape_log'] 			= $app->getCfg('dbprefix', 1).'tracker_scrape_log';
 			$settings['table_users'] 				= $app->getCfg('dbprefix', 1).'tracker_users';
+			$settings['table_deny_from_clients'] 	= $app->getCfg('dbprefix', 1).'tracker_deny_from_clients';
+			$settings['table_deny_from_hosts'] 		= $app->getCfg('dbprefix', 1).'tracker_deny_from_hosts';
 			$settings['column_files_completed'] 	= 'completed';
 			$settings['column_files_fid'] 			= 'fid';
 			$settings['column_files_leechers'] 		= 'leechers';
 			$settings['column_files_seeders'] 		= 'seeders';
-			$settings['column_users_uid'] 			=	'id';
+			$settings['column_users_uid'] 			= 'id';
 			$settings['torrent_pass_private_key'] 	= self::code(27);
 			foreach($settings as $name => $value) {
 				$query = "INSERT INTO xbt_config ( name, value ) VALUES ('" . $name . "', '" . $value . "' );";
