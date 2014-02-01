@@ -394,7 +394,7 @@ Follow group ratio rules = 2
 			}
 			$request_last_update = time();
 		}
-		// Seed request delete - Start
+		// Seed request delete - End
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		// ----------------------------------------------------------------------
@@ -420,4 +420,60 @@ Follow group ratio rules = 2
 		$db->setQuery($query);
 		$db->query();
 	}
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// User delete - Start
+	public function onUserBeforeDelete($user) {
+		$db = JFactory::getDBO();
+		$app = JFactory::getApplication();
+		$component_params = JComponentHelper::getParams( 'com_tracker' );
+		$query	= $db->getQuery(true);
+
+		// Update the torrents to a new owner that was specified in the component configuration
+		$query->clear();
+		$query->update($db->quoteName('#__tracker_torrents'));
+		$query->set('uploader = '.(int)$component_params->get('torrent_user'));
+		$query->where('uploader = '.(int)$user['id']);
+		$db->setQuery($query);
+		$db->query();
+		
+		// Delete the reseed requests from the users that were deleted
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_reseed_request'));
+		$query->where('requester = '.(int)$user['id']);
+		$db->setQuery($query);
+		$db->query($query);
+
+		// Delete the thanks from the users that were deleted
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_torrent_thanks'));
+		$query->where('uid = '.(int)$user['id']);
+		$db->setQuery($query);
+		$db->query($query);
+
+		// Delete the reports from the users that were deleted
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_reported_torrents'));
+		$query->where('reporter = '.(int)$user['id']);
+		$db->setQuery($query);
+		$db->query($query);
+
+		// Delete the downloads made from the users that were deleted
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_files_users'));
+		$query->where('uid = '.(int)$user['id']);
+		$db->setQuery($query);
+		$db->query($query);
+
+		// Delete the announce logs made from the users that were deleted
+		$query->clear();
+		$query->delete($db->quoteName('#__tracker_announce_log'));
+		$query->where('uid = '.(int)$user['id']);
+		$db->setQuery($query);
+		$db->query($query);
+		
+	}
+	// User delete - End
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
 }
