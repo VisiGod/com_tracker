@@ -38,6 +38,8 @@ Follow group ratio rules = 2
 		$announce_plugin = $this->params->get('announce_plugin', 0);
 		$announce_timeframe = $this->params->get('announce_timeframe',3600);
 		$announce_last_update = $this->params->get('announce_last_update',0);
+		$request_timeframe = $this->params->get('request_timeframe',3600);
+		$request_last_update = $this->params->get('request_last_update',0);
 		$forum_plugin = $this->params->get('forum_plugin',0);
 		$forumgroup_timeframe = $this->params->get('forumgroup_timeframe',3600);
 		$forumgroup_last_update = $this->params->get('forumgroup_last_update',0);
@@ -351,6 +353,49 @@ Follow group ratio rules = 2
 		}
 		// Updates the users without groups - END
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		if ($this->params->get('announce_plugin') && ( ($announce_last_update + $announce_timeframe) < time() )) {
+			// Get the latest rows from announce log where the IP and User ID is equal
+			$query->clear();
+			$query->select('id');
+			$query->from($db->quoteName('#__tracker_announce_log'));
+			$query->group('uid, ipa');
+			$query->order('mtime DESC');
+			$db->setQuery($query);
+			if ($row = $db->loadResultArray()) {
+				// Delete the rows from announce log that aren't the newest ones
+				JArrayHelper::toInteger($row);
+				$uids = implode( ',', $row );
+				$query->clear();
+				$query->delete($db->quoteName('#__tracker_announce_log'));
+				$query->where('id NOT IN ( '.$uids.' )');
+				$db->setQuery($query);
+				$db->query( $query );
+			}
+			$announce_last_update = time();
+		}
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// Seed request delete - Start
+		if (($request_last_update + $request_timeframe) < time() ) {
+			// Get the torrents that have peers
+			$query->clear();
+			$query->select('fid');
+			$query->from($db->quoteName('#__tracker_torrents'));
+			$query->where('(leechers + seeders) > 0');
+			$db->setQuery($query);
+			if ($row = $db->loadResultArray()) {
+				// Delete the rows from request log that still have torrents with peers
+				JArrayHelper::toInteger($row);
+				$uids = implode( ',', $row );
+				$query->clear();
+				$query->delete($db->quoteName('#__tracker_reseed_request'));
+				$query->where('fid IN ( '.$uids.' )');
+				$db->setQuery($query);
+				$db->query( $query );
+			}
+			$request_last_update = time();
+		}
+		// Seed request delete - Start
+		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		// ----------------------------------------------------------------------
 		// Update the plugin parameters
@@ -365,6 +410,8 @@ Follow group ratio rules = 2
 		$defaults .= '"announce_plugin":"'.$announce_plugin.'",';
 		$defaults .= '"announce_timeframe":"'.$announce_timeframe.'",';
 		$defaults .= '"announce_last_update":"'.$announce_last_update.'",';
+		$defaults .= '"request_timeframe":"'.$announce_timeframe.'",';
+		$defaults .= '"request_last_update":"'.$announce_last_update.'",';
 		$defaults .= '"forum_plugin":"'.$forum_plugin.'",';
 		$defaults .= '"forumgroup_timeframe":"'.$forumgroup_timeframe.'",';
 		$defaults .= '"forumgroup_last_update":"'.$forumgroup_last_update.'"}'; // JSON format for the parameters

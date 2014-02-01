@@ -37,6 +37,12 @@
 				<field name="announce_timeframe" type="text" default="3600" label="COM_TRACKER_SYSPLUGIN_TIMEFRAME" description="COM_TRACKER_SYSPLUGIN_ANNOUNCE_TIMEFRAME_DESCRIPTION" size="6" />
 				<field name="announce_last_update" type="hidden" default="" />
 			</fieldset>
+
+			<fieldset name="COM_TRACKER_SYSPLUGIN_REQUEST_HEADER">
+				<field name="request_timeframe" type="text" default="3600" label="COM_TRACKER_SYSPLUGIN_TIMEFRAME" description="COM_TRACKER_SYSPLUGIN_REQUEST_TIMEFRAME_DESCRIPTION" size="6" />
+				<field name="request_last_update" type="hidden" default="" />
+			</fieldset>
+			
 			<fieldset name="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_HEADER">
 				<field name="forum_plugin" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN" description="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN_DESCRIPTION">
 					<option value="0">JNO</option>
