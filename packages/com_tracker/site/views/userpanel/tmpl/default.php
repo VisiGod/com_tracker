@@ -20,11 +20,24 @@ $doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-u
 ?>
 <script type="text/javascript">
 jQuery.noConflict();
-
-(function($) {
-  $(function() {
-    $( "#tabs" ).tabs();
-  });
+(function($, undefined) {
+		$(function() { // onload
+			var base_set = ($('base').length != 0);
+			var current_location = window.location.href.split('#')[0];
+		
+			function init_tabs(tabsid) {
+				if (base_set) {
+					$('#' + tabsid + ' > ul a').each(function() {
+						var link_hash = $(this).attr('href');
+						if (link_hash[0] === '#') {
+							$(this).attr('href', current_location + link_hash);
+						}
+					});
+				}
+				$('#' + tabsid).tabs();
+			}
+			init_tabs('tabs');
+		});
 })(jQuery);
 </script>
 

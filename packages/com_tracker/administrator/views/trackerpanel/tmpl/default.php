@@ -50,38 +50,6 @@ function quickiconButton( $link, $image, $text ) {
 					?>
 				</td>
 			</tr>
-
-<!-- Changed in new version. Need to check which plugins to use
-	<tr>
-		<td class="key" nowrap align="right"><?php echo JText::_( 'COM_TRACKER_PANEL_PLUGIN_SYSTEM_TRACKER_VERSION' );?></td>
-		<td align="left">&nbsp;&nbsp;<?php
-			/*
-		echo $this->plg_system_tracker['version'];
-		echo TrackerHelper::checkPluginEnabled('tracker', 'system');
-		*/
-		?></td>
-	</tr>
-
-	<tr>
-		<td class="key" nowrap align="right"><?php echo JText::_( 'COM_TRACKER_PANEL_PLUGIN_USER_TRACKER_VERSION' );?></td>
-		<td align="left">&nbsp;&nbsp;<?php
-		/*
-		echo $this->plg_user_tracker['version'];
-		echo TrackerHelper::checkPluginEnabled('tracker', 'user');
-		*/
-		?></td>
-	</tr>
--->
-
-<?php
-/*
-		<tr>
-			<td class="key" nowrap align="right"><?php echo JText::_( 'COM_TRACKER_PANEL_TORRENT_FOLDER' );?></td>
-			<td align="left">&nbsp;&nbsp;<?php echo TrackerHelper::checkFolder(JPATH_ROOT.DS.$params->get('torrent_dir'), $params->get('torrent_dir'));?></td>
-		</tr>
-*/
-?>
-
 			<tr>
 				<td colspan="2">&nbsp;</td>
 			</tr>
@@ -93,6 +61,18 @@ function quickiconButton( $link, $image, $text ) {
 				<td class="key" align="right"><?php echo JText::_( 'COM_TRACKER_CONTROL_PANEL_ICONS' );?></td>
 				<td align="left">&nbsp;&nbsp;<a href="http://www.deleket.com/" target="_blank">Jojo</a></td>
 			</tr>
+			<tr>
+				<td colspan="2">&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="key" align="right"><?php echo JText::_( 'COM_TRACKER_CONTROL_PANEL_GITHUB' );?></td>
+				<td align="left">&nbsp;&nbsp;<a href="https://github.com/VisiGod/com_tracker" target="_blank">GitHub</a></td>
+			</tr>
+			<tr>
+				<td class="key" align="right"><?php echo JText::_( 'COM_TRACKER_CONTROL_PANEL_TRANSIFEX' );?></td>
+				<td align="left">&nbsp;&nbsp;<a href="https://www.transifex.com/projects/p/com_tracker/" target="_blank">Transifex</a></td>
+			</tr>
+			
 		</table>
 	</div>
 	<div id="cpanel" style="float: right; width: 60%;">
