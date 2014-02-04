@@ -32,6 +32,7 @@ jQuery.noConflict();
 		function default_dropdown() {
 			if ($("#default_image_type").val() == "1") $("#image_file_field").show();
 			if ($("#default_image_type").val() == "2") $("#image_file_link").show();
+			if ($("#default_torrent_file").val() == "0") $("#torrent_file_keep").show();
 		}
 		default_dropdown();
 		
@@ -49,6 +50,17 @@ jQuery.noConflict();
 				$("#image_file_link").hide();
 			}
 	    });
+
+		$("#default_torrent_file").change(function(){
+			if ($(this).val() == "0" ) {
+				$("#torrent_file_keep").show();
+				$("#torrent_file_new").hide();
+			}
+			if ($(this).val() == "1" ) {
+				$("#torrent_file_keep").hide();
+				$("#torrent_file_new").show();
+			}
+	    });
 	});
 })(jQuery);
 </script>
@@ -56,22 +68,41 @@ jQuery.noConflict();
 <div class="row1" align="left" style="font-size: medium;"><br/><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_FOR' );?></b><?php echo str_replace("_", " ", $this->item->name);?><br/><br/><br/></div>
 <div>
 	<form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrent&id='.(int) $this->item->fid); ?>" method="post" enctype="multipart/form-data" name="torrent-edit" id="torrent-edit">
-		<div>
-			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>:</span>
-			<span style="width:1%;"><input type="text" id="name" name="name" class="inputbox" size="90" value="<?php echo str_replace("_", " ", $this->item->name); ?>" /></span>
+		<div style="float: left;">
+			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_('COM_TRACKER_EDIT_TORRENT_FILE'); ?>:</span>
+			<?php
+				$torrent_file = array(0 => JText::_('COM_TRACKER_EDIT_TORRENT_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_TORRENT_CHOOSE_NEW_FILE'));
+				$torrent_options = array();
+				foreach($torrent_file as $key=>$value) :
+					$torrent_options[] = JHTML::_('select.option', $key, $value);
+				endforeach;
+			?>
+			<span style="width:1%; wrap:nowrap; align:left;"><?php echo JHTML::_('select.genericlist', $torrent_options, 'default_torrent_file', 'class="inputbox"', 'value', 'text', 0); ?></span>
+
+			<div style="clear: both;"></div><br />
+
+			<div class="hide" id="torrent_file_keep" style="float: left;">
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' ); ?>:</span>
+				<span style="width:1%;">
+					<?php // Removes the extension from the filename. We'll add it in the end
+						$temp = explode( '.', $this->item->filename );
+						$ext = array_pop( $temp );
+						$this->item->filename = implode( '.', $temp );
+					?>
+					<input type="text" id="filename" name="filename" class="inputbox" size="50" value="<?php echo $this->item->filename; ?>" />
+				</span>
+			</div>
+
+			<div class="hide" id="torrent_file_new" style="float: left;">
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' ); ?>:</span>
+				<span style="width:98%;"><input type="file" id="filename" name="filename" class="inputbox" size="50" value="" /></span>
+			</div>
 		</div>
 		<div style="clear: both;"><br /></div>
 
 		<div>
-			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' );?>:</span>
-			<span style="width:1%;">
-				<?php // Removes the extension from the filename. We'll add it in the end
-					$temp = explode( '.', $this->item->filename );
-					$ext = array_pop( $temp );
-					$this->item->filename = implode( '.', $temp );
-				?>
-				<input type="text" id="filename" name="filename" class="inputbox" size="90" value="<?php echo $this->item->filename; ?>" />
-			</span>
+			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_NAME' ); ?>:</span>
+			<span style="width:1%;"><input type="text" id="name" name="name" class="inputbox" size="90" value="<?php echo str_replace("_", " ", $this->item->name); ?>" /></span>
 		</div>
 		<div style="clear: both;"><br /></div>
 
@@ -83,9 +114,11 @@ jQuery.noConflict();
 					<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_tracker'), 'value', 'text', $this->item->categoryID);?>
 				</select>
 			</span>
+		</div>
+		<div style="clear: both;"><br /></div>
 
+		<div>
 			<?php if ($params->get('enable_licenses') == 1) { ?>
-			<span>&nbsp;&nbsp;&nbsp;</span>
 			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_LICENSE' );?>:</span>
 			<span style="width:1%;">
 				<?php echo JHTML::_('select.genericlist', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'licenseID', 'class="inputbox"', 'value', 'text', $this->item->licenseID); ?>
@@ -117,7 +150,7 @@ jQuery.noConflict();
 		<div>
 		<?php if ($params->get('image_type') == 0) { ?>
 			<div style="float: left;">
-				<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_('COM_TRACKER_TORRENT_IMAGE'); ?>:</span>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_('COM_TRACKER_TORRENT_IMAGE_FILE'); ?>:</span>
 				<?php
 					$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
 					$options = array();
@@ -128,16 +161,17 @@ jQuery.noConflict();
 				<span style="width:1%; wrap:nowrap; align:left;"><?php echo JHTML::_('select.genericlist', $options, 'default_image_type', 'class="inputbox"', 'value', 'text', 0); ?></span>
 			</div>
 		<?php } ?>
+			<div style="clear: both;"></div>
 
 		<?php if ($params->get('image_type') == 1 || $params->get('image_type') == 0) { ?>
-			<?php if ($params->get('image_type') == 0) echo '<div class="hide" id="image_file_field" style="float: left;"><span>&nbsp;&nbsp;&nbsp;</span>'; ?>
+			<?php if ($params->get('image_type') == 0) echo '<div class="hide" id="image_file_field" style="float: left;"><br />'; ?>
 			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?>:</span>
 			<span style="width:1%;"><input type="file" name="image_file" id="image_file" value="<?php echo $this->item->image_file; ?>" class="inputbox" size="60" /></span>
 			<?php if ($params->get('image_type') == 0) echo '</div>'; ?>
 		<?php } ?>
 
 		<?php if ($params->get('image_type') == 2 || $params->get('image_type') == 0) { ?>
-			<?php if ($params->get('image_type') == 0) echo '<div class="hide" id="image_file_link" style="float: left;"><span>&nbsp;&nbsp;&nbsp;</span>'; ?>
+			<?php if ($params->get('image_type') == 0) echo '<div class="hide" id="image_file_link" style="float: left;"><br />'; ?>
 			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?>:</span>
 			<span style="width:1%;"><input type="text" name="image_file" id="image_file" value="<?php echo $this->item->image_file; ?>" class="inputbox" size="60" /></span>
 			<?php if ($params->get('image_type') == 0) echo '</div>'; ?>
