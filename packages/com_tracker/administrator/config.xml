@@ -131,6 +131,8 @@
 
 		<field name="image_width" type="text" default="150" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_IMAGE_WIDTH" size="5" />
 
+		<field name="default_image_file" type="media" directory="tracker/torrent_image" default="images/tracker/torrent_image/torrent.png" preview="true" hide_none="1" label="COM_TRACKER_OPTIONS_COMPONENT_DEFAULT_IMAGE" />
+
 		<field name="image_type" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_IMAGE_TYPE" >
 			<option value="0">COM_TRACKER_OPTIONS_COMPONENT_IMAGE_TYPE_LET_USER_CHOOSE</option>
 			<option value="1">COM_TRACKER_OPTIONS_COMPONENT_IMAGE_TYPE_UPLOAD_IMAGE</option>

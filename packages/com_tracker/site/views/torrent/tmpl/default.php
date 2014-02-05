@@ -247,13 +247,18 @@ jQuery(document).ready(function(){
 					<?php } ?>
 				</table>
 			</td>
-			<?php if ($params->get('use_image_file') && !empty($this->item->image_file)) { ?>
+			<?php /*if ($params->get('use_image_file') && !empty($this->item->image_file)) { */?>
+			<?php if ($params->get('use_image_file')) { ?>
 			<?php 
 				$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
 				
 				// If we have a link in the field
 				if(!preg_match($reg_exUrl, $this->item->image_file)) {
 					$this->item->image_file = JURI::base().'images/tracker/torrent_image/'.$this->item->image_file;
+				}
+				
+				if (!is_file($this->item->image_file)) {
+					$this->item->image_file = JURI::base().$params->get('default_image_file');
 				}
 			?>
 			<td valign="middle">
