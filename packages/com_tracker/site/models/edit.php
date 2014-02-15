@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -88,6 +88,7 @@ class TrackerModelEdit extends JModelItem {
 		$torrent['upload_multiplier']	= (float)$_POST['upload_multiplier'];
 		$torrent['forum_post'] 			= (int)$_POST['forum_post'];
 		$torrent['info_post'] 			= (int)$_POST['info_post'];
+		$torrent['tags'] 				= $_POST['tags'];
 
 		// If we're in freeleech
 		if ($params->get('freeleech') == 1) $torrent['download_multiplier'] = 0;
@@ -241,6 +242,7 @@ class TrackerModelEdit extends JModelItem {
 		$query->set('forum_post = '.$db->quote($torrent['forum_post']));
 		$query->set('info_post = '.$db->quote($torrent['info_post']));
 		$query->set('image_file = '.$db->quote($torrent['image_file']));
+		$query->set('tags = '.$db->quote($torrent['tags']));
 		$query->set('flags = 2');
 		// Since we're updating the torrent file we must change some values
 		if ($_POST['default_torrent_file'] == 1) {

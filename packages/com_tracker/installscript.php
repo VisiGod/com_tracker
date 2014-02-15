@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		2.5.11-dev
+ * @version		2.5.12-dev
  * @package		Joomla
  * @subpackage	com_tracker
  * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -12,8 +12,21 @@ defined('_JEXEC') or die('Restricted access');
  
 class com_trackerInstallerScript {
 
-	public function postflight($type, $parent) {
+	function update( $parent ) {
+		$jversion = new JVersion();
+		
+		// Installing component manifest file version
+		$this->release = $parent->get( "manifest" )->version;
 
+		// First changes in database model since version 2.5.12-dev 
+		if ($this->release < '2.5.12-dev') { 
+			$db = JFactory::getDbo();
+			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `tags` VARCHAR(16380) NOT NULL AFTER `image_file`');
+			$db->query();
+		}
+	}
+	
+	public function postflight($type, $parent) {
 		if ($type == 'install') {
 			$db = JFactory::getDBO();
 			$app = JFactory::getApplication();
@@ -29,24 +42,48 @@ class com_trackerInstallerScript {
 			$defaults .= '"enable_countries":"1",';
 			$defaults .= '"enable_licenses":"1",';
 			$defaults .= '"enable_filetypes":"1",';
-			$defaults .= '"allow_guest":"0",';
-			$defaults .= '"guest_user":"",';
-			$defaults .= '"allow_upload_anonymous":"1",';
-			$defaults .= '"make_private":"1",';
-			$defaults .= '"tag_in_torrent":"1",';
-			$defaults .= '"welcome_gigs":"0",';
-			$defaults .= '"use_image_file":"1",';
 			$defaults .= '"enable_thankyou":"1",';
 			$defaults .= '"enable_reseedrequest":"1",';
 			$defaults .= '"enable_reporttorrent":"1",';
 			$defaults .= '"freeleech":"0",';
+			$defaults .= '"enable_torrent_type":"1",';
+			$defaults .= '"enable_torrent_type_new":"1",';
+			$defaults .= '"torrent_type_new_image":"images/tracker/torrenttype/new.png",';
+			$defaults .= '"torrent_type_new_text":"The torrent was uploaded in the last %s hours",';
+			$defaults .= '"torrent_type_new_value":"24",';
+			$defaults .= '"enable_torrent_type_top":"1",';
+			$defaults .= '"torrent_type_top_image":"images/tracker/torrenttype/top.png",';
+			$defaults .= '"torrent_type_top_text":"The torrent has %s or more seeders",';
+			$defaults .= '"torrent_type_top_value":"3",';
+			$defaults .= '"enable_torrent_type_hot":"1",';
+			$defaults .= '"torrent_type_hot_image":"images/tracker/torrenttype/hot.png",';
+			$defaults .= '"torrent_type_hot_text":"The torrent has %s or more seeders",';
+			$defaults .= '"torrent_type_hot_value":"5",';
+			$defaults .= '"enable_torrent_type_semifree":"1",';
+			$defaults .= '"torrent_type_semifree_image":"images/tracker/torrenttype/semifree.png",';
+			$defaults .= '"torrent_type_semifree_text":"The torrent is in semi free leech mode",';
+			$defaults .= '"torrent_type_semifree_value":"0.5",';
+			$defaults .= '"enable_torrent_type_free":"1",';
+			$defaults .= '"torrent_type_free_image":"images/tracker/torrenttype/free.png",';
+			$defaults .= '"torrent_type_free_text":"The torrent is in free leech mode",';
+			$defaults .= '"allow_guest":"0",';
+			$defaults .= '"guest_user":"",';
+			$defaults .= '"torrent_user":"332",';
+			$defaults .= '"use_image_file":"1",';
+			$defaults .= '"image_width":"150",';
+			$defaults .= '"default_image_file":"images/tracker/torrent_image/torrent.png",';
+			$defaults .= '"image_type":"0",';
+			$defaults .= '"torrent_tags":"0",';
+			$defaults .= '"allow_upload_anonymous":"1",';
+			$defaults .= '"make_private":"1",';
+			$defaults .= '"tag_in_torrent":"1",';
+			$defaults .= '"welcome_gigs":"0",';
 			$defaults .= '"category_image_size":"36",';
 			$defaults .= '"trackers_address":"",';
 			$defaults .= '"donation_ratio":"2.5",';
 			$defaults .= '"torrent_dir":"torrents",';
 			$defaults .= '"max_torrent_size":"1048576",';
 			$defaults .= '"progress_bar_size":"50",';
-			$defaults .= '"image_width":"150",';
 			$defaults .= '"base_group":"1",';
 			$defaults .= '"defaultcountry":"170",';
 			$defaults .= '"forum_post_id":"1",';

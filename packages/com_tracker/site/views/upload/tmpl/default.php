@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -117,6 +117,14 @@ $(document).ready(function(){
 				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('description'); ?> :</span>
 				<span style="width:1%; wrap:nowrap; align:left;"><?php echo $this->form->getInput('description'); ?></span>
 			</div>
+			<div style="clear: both;"><br /></div>
+
+			<?php if ($params->get('torrent_tags') == 1) { ?>
+			<div>
+				<span style="width:1%; wrap:nowrap; align:right;"><?php echo $this->form->getLabel('tags'); ?> :</span>
+				<span style="width:1%; wrap:nowrap; align:left; display:inline-block; vertical-align:top"><?php echo $this->form->getInput('tags'); ?></span>
+			</div>
+			<?php } ?>
 		</div>
 
 		<div style="float: right;">

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -18,202 +18,12 @@ endif;
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
-
-$testCSS = '
-.bar{
-
-width:800px;
-}
-
-.barrerecherche{
-
-width:50%;
-float:left;
-}
-.barrecat{
-
-width:1%;
-float:right;
-
-}
-.gantry-filtre {
-    background-color: #FFFFFF;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px 4px 4px 4px;
-    margin: 15px 0;
-    padding: 39px 19px 14px;
-    position: relative;
-}
-.gantry-filtre .table, .gantry-filtre .well, .gantry-filtre blockquote {
-    margin-bottom: 5px;
-}
-.gantry-filtre .lead {
-    font-size: 18px;
-    line-height: 24px;
-}
-.gantry-filtre > p:last-child {
-    margin-bottom: 0;
-}
-.gantry-filtre + .prettyprint {
-    margin-top: -20px;
-    padding-top: 15px;
-}
-.gantry-filtre:after {
-    background-color: #F5F5F5;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px 0 4px 0;
-    color: #9DA0A4;
-    content: "Filtre";
-    font-size: 12px;
-    font-style: normal;
-    font-weight: bold;
-    left: -1px;
-    padding: 3px 7px;
-    position: absolute;
-    top: -1px;;
-}
-form.gantry-filtre {
-    padding-bottom: 19px;
-}
-.badge2 {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    border-image: none;
-    border-radius: 4px 4px 4px 4px;
-    border-style: solid;
-    border-width: 1px;
-    
-    display: inline-block;
-    font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 0;
-    padding: 4px 14px;
-    text-align: center;
-    vertical-align: middle;
-}
-a.hastip {
-	position: relative;
-	text-decoration: none;
-}
-.tp {
-	opacity: 0;
-	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);					/* Fucking IE */
-	position: absolute;
-	left: 300px;
-	top: -200px;
-	z-index: 30;
-	padding: 0 20px;
-	height: auto;
-	width: auto;
-	min-width: 300px;
-	border: 1px solid #E3E3E3;	
-	-webkit-border-radius:	4px;
-	-moz-border-radius:		4px;
-	-o-border-radius:		4px;
-	border-radius:			4px;
-	line-height: 40px;
-	color: #333333;
-	text-shadow: 0 -1px 1px rgba(0,0,0,.6), 0 1px 1px rgba(255,255,255,1);
-	-webkit-box-shadow:	inset 0 1px 1px rgba(0, 0, 0, 0.05);
-	-moz-box-shadow:	inset 0 1px 1px rgba(0, 0, 0, 0.05);
-	-o-box-shadow:		inset 0 1px 1px #rgba(0, 0, 0, 0.05);
-	box-shadow:			0 1px 1px rgba(0, 0, 0, 0.05) inset;
-	-webkit-transform:	scale(0);
-	-moz-transform:		scale(0);
-	-o-transform:		scale(0);
-	transform:			scale(0);
-	-webkit-transition:	opacity .4s ease-in-out,top .4s ease-in-out,-webkit-transform 0s linear .4s;
-	-moz-transition:	opacity .4s ease-in-out,top .4s ease-in-out,-moz-transform 0s linear .4s;
-	-o-transition:		opacity .4s ease-in-out,top .4s ease-in-out,-o-transform 0s linear .4s;
-	transition:			opacity .4s ease-in-out,top .4s ease-in-out,transform 0s linear .4s;
-
-	
-}
-.hastip:hover .tp, .hastip:active .tp {
-	opacity: 1;
-	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=100);				/* Fucking IE */
-	top:-50px;
-	
-	z-index: 40;
-	-webkit-transform:	scale(1);
-	-moz-transform:		scale(1);
-	-o-transform:		scale(1);
-	transform:			scale(1);
-	-webkit-transition:	opacity .4s ease-in-out,top .4s ease-in-out;
-	-moz-transition:	opacity .4s ease-in-out,top .4s ease-in-out;
-	-o-transition:		opacity .4s ease-in-out,top .4s ease-in-out;
-	transition:			opacity .4s ease-in-out,top .4s ease-in-out;
-
-	
-
-}
-
-
-.blue {
-	text-shadow: 0 -1px 1px #ffffff, 0 1px 1px #ffffff;
-	background-color: rgba(254, 254, 254, 0.7);
-	-webkit-box-shadow:	inset 0 1px 1px #ffffff, 0 4px 46px #494b4c;
-	-moz-box-shadow:	inset 0 1px 1px #ffffff, 0 4px 46px #494b4c;
-	-o-box-shadow:		inset 0 1px 1px #ffffff, 0 4px 46px #494b4c;
-	box-shadow:			inset 0 1px 1px #ffffff, 0 4px 46px #494b4c;
-padding:5px;
-
-	
-}
-.blue:after {
-
- position: absolute;
-  display: block;
-  content: "";  
-  border-color: rgba(254, 254, 254, 0.7) transparent transparent transparent;
-  border-style: solid;
-  border-width: 10px;
-  height:0;
-  width:0;
-  position:absolute;
-  bottom:-19px;
-  left:-20px;
-	top:40px;
-
--webkit-transform:rotate(90deg); 
-  -moz-transform:rotate(90deg);
-  -o-transform:rotate(90deg); 
-  -ms-transform:rotate(90deg); 
-  transform:rotate(90deg);
-
-	
-}
-.thx {
-display:inline-block;
-width:auto;
-background:url("http://share-on-underground.com/components/com_tracker/assets/images/fondthx.png")scroll no-repeat 50% 50%;
-width:62px;
-height:48px;
-left:-20px;
-position:absolute;
-}
-.thx span {
-
-position:absolute;
-top:14px;
-left:15px;
-font-family:"Lobster Two",Helvetica,arial,serif;
-color:#ffffff;
-}
-';
-
-$doc = JFactory::getDocument();
-$doc->addStyleSheet($testCSS);
-
 // Show extra page text (defined in menu)
 if ($this->params->get('menu_text')) echo '<h2>'.$this->escape($this->params->get('menu-anchor_title')).'</h2>';
+
 ?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm" class="gantry-filtre form-search">
-	<fieldset id="filter-bar" class="bar">
-
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm">
+	<fieldset id="filter-bar">
 		<div class="filter-search fltlft" style="width:50%; float:left;">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('Search'); ?>" />
@@ -317,10 +127,8 @@ if ($this->params->get('menu_text')) echo '<h2>'.$this->escape($this->params->ge
 				<?php
 				// experiment for Psylo to have number of thanks in torrent listing 
 				if ($this->params->get('enable_thankyou')) {
-					
 					//if (!$item->thanks) $item->thanks = 0;
 					//echo '<td width="1%" align="center">'.$item->thanks.'</td>';
-					
 				}
 				?>
 			</tr>

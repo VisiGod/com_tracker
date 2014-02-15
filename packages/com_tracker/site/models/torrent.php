@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -62,6 +62,9 @@ class TrackerModelTorrent extends JModelItem {
 		if ($params->get('torrent_information')) {
 			$query->select('t.info_post');
 		}
+		if ($params->get('torrent_tags')) {
+			$query->select('t.tags');
+		}		
 		$query->from('#__tracker_torrents AS t');
 
 		// Join on category table.
@@ -504,6 +507,8 @@ class TrackerModelTorrent extends JModelItem {
 		$temp_torrent['name']		= $_POST['jform']['name'];
 		$temp_torrent['categoryID']	= $_POST['jform']['categoryID'];
 		$temp_torrent['description']= $_POST['jform']['description'];
+		if ($params->get('torrent_tags') == 1) $temp_torrent['tags']= $_POST['jform']['tags'];
+		else  $temp_torrent['tags'] = '';
 		if ($params->get('enable_licenses') == 1) $licenseID = $_POST['jform']['licenseID'];
 		else $licenseID = 0;
 		if ($params->get('forum_post_id') == 1) $forum_post = $_POST['jform']['forum_post'];
@@ -636,6 +641,7 @@ class TrackerModelTorrent extends JModelItem {
 		$query->set('upload_multiplier = 1');
 		$query->set('download_multiplier = '.$db->quote($download_multiplier));
 		$query->set('image_file = '.$db->quote($image_file_query_value));
+		$query->set('tags = '.$db->quote($temp_torrent['tags']));
 		$query->set('state = 1');
 		$db->setQuery($query);
 		if (!$db->query()) {

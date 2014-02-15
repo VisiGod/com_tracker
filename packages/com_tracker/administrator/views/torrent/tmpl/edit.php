@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -141,6 +141,17 @@ $(document).ready(function(){
 		</fieldset>
 	</div>
 
+	<?php if ($params->get('torrent_tags') == 1) { ?>
+	<div class="width-100 fltrgt">
+		<fieldset class="adminform">
+			<legend><?php echo JText::_('COM_TRACKER_TORRENT_TAGS_EDIT'); ?></legend>
+			<ul class="adminformlist">			
+				<li><?php echo $this->form->getInput('tags'); ?></li>
+			</ul>
+		</fieldset>
+	</div>
+	<?php } ?>
+	
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="old_filename" value="<?php echo $this->form->getValue('filename'); ?>" />
 	<input type="hidden" name="fid" value="<?php echo $this->form->getValue('fid'); ?>" />

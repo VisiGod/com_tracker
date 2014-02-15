@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -42,13 +42,26 @@ class TrackerModelTorrents extends JModelList {
 	protected function populateState($ordering = null, $direction = null) {
 		// Initialise variables.
 		$app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_tracker');
+		$component = JComponentHelper::getComponent( 'com_tracker' );
+		$params = new JParameter( $component->params );
+
+		$menuitemid = JRequest::getInt( 'Itemid' );
+		$menu = JSite::getMenu();
+		if ($menuitemid) {
+			$menuparams = $menu->getParams( $menuitemid );
+			$params->merge( $menuparams );
+		}
+
+		$this->setState('params', $params);
+
+		if ($params->get('torrent_tags')) $search = JRequest::getVar('tag');
+		else $search = '';
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search .= $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		//Omit double (white-)spaces and set state
 		$this->setState('filter.search', preg_replace('/\s+/',' ', $search));
-
+		
 		// List state information
 		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
 		$this->setState('list.limit', $value);
@@ -132,7 +145,7 @@ class TrackerModelTorrents extends JModelList {
 				$query->where('t.fid = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('( t.name LIKE '.$search.' )');
+				$query->where('( t.name LIKE '.$search.' OR t.tags LIKE '.$search.' )');
 			}
 		}
 

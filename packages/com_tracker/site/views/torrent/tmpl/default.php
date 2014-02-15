@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -54,7 +54,6 @@ jQuery(document).ready(function(){
 
 });
 </script>
-
 
 <div id="title" style="width:0%; font-family: 'Lobster Two','Helvetica',arial,serif; text-align:center; text-shadow: 1px 1px 0 #FFFFFF; font-size:30px;" >
 	<p class="title info"><?php echo str_replace("_", " ", $this->item->name);?></p>
@@ -212,7 +211,6 @@ jQuery(document).ready(function(){
 									if ($i < $totalThanks - 1) echo ', ';
 								}
 							}
-							
 						?>
 						</td>
 					</tr>
@@ -232,7 +230,6 @@ jQuery(document).ready(function(){
 									if ($i < $totalReseeds - 1) echo ', ';
 								}
 							}
-							
 						?>
 						</td>
 						<?php if ((TrackerHelper::checkReseedRequest($user->id, $this->item->fid) <> 0) && ($user->id <> $this->item->uploader)) { ?>
@@ -245,9 +242,29 @@ jQuery(document).ready(function(){
 						<?php } ?>
 					</tr>
 					<?php } ?>
+
+					<!-- Torrent Tags -->
+					<?php if ($params->get('torrent_tags')) { ?>
+					<tr>
+						<td nowrap style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_TAGS' );?></b>&nbsp;</td>
+						<td width="98%" colspan="2" valign="top" style="wrap">
+						<?php
+							if (empty($this->item->tags)) echo JText::_( 'COM_TRACKER_NO_TORRENT_TAGS' );
+							else {
+								$Tags = explode(", ", $this->item->tags);
+								$totalTags = count($Tags);
+								for ($i=0; $i < $totalTags; $i++) {
+									echo '<a href="index.php?option=com_tracker&amp;view=torrents&amp;tag='.$Tags[$i].'">'.$Tags[$i].'</a>';;
+									if ($i < $totalTags - 1) echo ', ';
+								}
+							}
+						?>
+						</td>
+					</tr>
+
+					<?php } ?>
 				</table>
 			</td>
-			<?php /*if ($params->get('use_image_file') && !empty($this->item->image_file)) { */?>
 			<?php if ($params->get('use_image_file')) { ?>
 			<?php 
 				$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
@@ -510,4 +527,3 @@ jQuery(document).ready(function(){
 		TrackerHelper::comments($this->item->fid, $this->item->name);
 	}
 ?>
-

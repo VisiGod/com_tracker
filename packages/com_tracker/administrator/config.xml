@@ -139,6 +139,11 @@
 			<option value="2">COM_TRACKER_OPTIONS_COMPONENT_IMAGE_TYPE_USE_LINK</option>
 		</field>
 
+		<field name="torrent_tags" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_USE_TORRENT_TAGS" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
 		<field type="spacer" name="spacer5" hr="true" />
 
 		<field name="allow_upload_anonymous" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_UPLOAD_ANONYMOUS" >

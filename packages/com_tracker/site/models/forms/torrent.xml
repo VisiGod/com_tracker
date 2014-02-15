@@ -34,6 +34,8 @@
 
 		<field name="info_post" type="text" size="20" class="inputbox" label="COM_TRACKER_TORRENT_INFO_POST" description="" filter="safehtml" required="true"/>
 
+		<field name="tags" type="textarea" required="false" label="COM_TRACKER_TORRENT_TAGS" rows="3" cols="50" filter="raw" />
+
 		<field name="state" type="hidden" default="1" />
 
 	</fieldset>

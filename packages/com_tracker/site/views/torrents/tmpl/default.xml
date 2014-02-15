@@ -100,7 +100,15 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+
 			<field name="tl_image_file_width" type="text" size="5" default="150" filter="integer" label="COM_TRACKER_IMAGE_WIDTH_LABEL" description="COM_TRACKER_IMAGE_WIDTH_DESCRIPTION" />
+
+			<field name="tl_torrent_status_dropdown" type="list" default="0" label="COM_TRACKER_TORRENT_STATUS_DROPDOWN" description="COM_TRACKER_TORRENT_STATUS_DROPDOWN_DESCRIPTION" >
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+
 		</fieldset>
 </fields>
 

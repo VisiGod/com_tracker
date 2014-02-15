@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -237,6 +237,16 @@ jQuery.noConflict();
 			<span style="width:1%; wrap:nowrap; align:left;"><?php echo $editor->display( 'description',  stripslashes($this->item->description) , '100%', '300', '60', '20', false); ?></span>
 		</div>
 		<div style="clear: both;"><br /></div>
+
+		<?php if ($params->get('torrent_tags') == 1) { ?>
+		<div>
+			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_TAGS' ); ?>:</span>
+			<span style="width:1%; wrap:nowrap; align:left;">
+				<input type="text" name="tags" id="tags" value="<?php echo $this->item->tags; ?>" class="textarea" size="100" />
+			</span>
+		</div>
+		<div style="clear: both;"><br /></div>
+		<?php } ?>
 
 		<div style="float: right;">
 			<button class="button validate" type="submit"><?php echo JText::_('JSAVE'); ?></button>

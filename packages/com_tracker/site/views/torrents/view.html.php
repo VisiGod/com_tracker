@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.11-dev
+ * @version			2.5.12-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -17,7 +17,6 @@ class TrackerViewTorrents extends JViewLegacy {
 	protected $pagination;
 
 	public function display($tpl = null) {
-
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
 
@@ -46,6 +45,7 @@ class TrackerViewTorrents extends JViewLegacy {
 
 		$this->assignRef('state', $state);
 		$this->assignRef('items', $items);
+		$this->assignRef('item', $item);
 		$this->assignRef('params', $params);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('user', $user);

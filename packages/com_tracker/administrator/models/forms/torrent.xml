@@ -34,6 +34,8 @@
 
 		<field name="image_file" type="media" label="COM_TRACKER_TORRENT_IMAGE_FILE" directory="tracker/torrent_image" preview="true" size="60"/>
 
+		<field name="tags" type="textarea" required="false" label="COM_TRACKER_TORRENT_TAGS" rows="3" cols="50" filter="raw" />
+
 		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="state" type="hidden" default="1" />
