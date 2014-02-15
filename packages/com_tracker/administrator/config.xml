@@ -203,6 +203,16 @@
 
 	</fieldset>
 
+	<fieldset name="utilities" label="COM_TRACKER_OPTIONS_UTILITIES" >
+	
+		<field name="import_source_folder" type="folderlist" default="" label="COM_TRACKER_OPTIONS_UTILITIES_SOURCE_FOLDER" directory="" filter="" exclude="" stripext="" />
+
+		<field name="import_filename" type="filelist" default="" label="COM_TRACKER_OPTIONS_UTILITIES_IMPORT_FILENAME" description="" directory="tmp" filter="" exclude="" stripext="" />
+
+		<field name="field_separator" type="text" default=";" label="COM_TRACKER_OPTIONS_UTILITIES_FIELD_SEPARATOR" size="1" />
+
+	</fieldset>
+
 	<fieldset name="comments" label="COM_TRACKER_OPTIONS_COMMENTS" >
 		<field name="enable_comments" type="list" default="1" label="COM_TRACKER_OPTIONS_COMMENTS_ENABLE_COMMENTS" >
 			<option value="0">JNO</option>

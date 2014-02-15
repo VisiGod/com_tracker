@@ -65,5 +65,14 @@ class TrackerControllerUtilities extends JControllerAdmin {
 	
 		$this->setRedirect('index.php?option=com_tracker&view=utilities');
 	}
+
+	public function bulk_import() {
+		$model = $this->getModel();
+	
+		if (!$model->bulk_import()) JError::raiseWarning(500, $model->getError());
+		else $this->setMessage(JText::_( 'COM_TRACKER_UTILITY_IMPORT_TORRENTS_OK'));
+	
+		$this->setRedirect('index.php?option=com_tracker&view=utilities');
+	}
 	
 }

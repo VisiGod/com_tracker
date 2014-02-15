@@ -45,6 +45,12 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 			</a>
 		</td>
 		<?php } ?>
+
+		<td width="20%" align="center">
+			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.bulk_import'); ?>">
+				<?php echo JHTML::_('image.site',  'icon-48-install.png', '/templates/'. $template .'/images/header/', NULL, NULL, JText::_( 'COM_TRACKER_UTILITY_IMPORT_BULK_IMPORT' ) ); ?>
+			</a>
+		</td>
 	</tr>
 
 	<tr>
@@ -78,5 +84,11 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 			</a>
 		</td>
 		<?php } ?>
+
+		<td width="20%" align="center">
+			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.bulk_import'); ?>">
+				<?php echo JText::_( 'COM_TRACKER_UTILITY_IMPORT_BULK_IMPORT' ); ?>
+			</a>
+		</td>
 	</tr>
 </table>
