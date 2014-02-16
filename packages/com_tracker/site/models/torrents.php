@@ -22,13 +22,23 @@ class TrackerModelTorrents extends JModelList {
 			$config['filter_fields'] = array(
 							'fid', 't.fid',
 							'name', 't.name',
+							'alias', 't.alias',
+							'info_hash', 't.info_hash',
+							'filename', 't.filename',
 							'category', 'c.title',
+							'torrent_license', 'torrent_license',
 							'size', 't.size',
 							'created_time', 't.created_time',
 							'leechers', 't.leechers',
 							'seeders', 't.seeders',
 							'completed', 't.completed',
-							'torrent_owner', 'torrent_owner',
+							'uploader_name', 'uploader_name',
+							'uploader_username', 'uploader_username',
+							'number_files', 't.number_files',
+							'forum_post', 't.forum_post',
+							'info_post', 't.info_post',
+							'download_multiplier', 't.download_multiplier',
+							'upload_multiplier', 't.upload_multiplier',
 							'image_file', 't.image_file',
 							'license', 't.licenseID',
 							'ordering', 't.ordering',
@@ -115,7 +125,7 @@ class TrackerModelTorrents extends JModelList {
 		$query->where('t.flags <> 1');
 
 		// Join over the user who added the torrent
-		$query->select('u.username AS torrent_owner');
+		$query->select('u.username AS uploader_username, u.name AS uploader_name');
 		$query->join('LEFT', '`#__users` AS u ON u.id = t.uploader');
 
 		// Join over the torrent category

@@ -22,7 +22,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 if ($this->params->get('menu_text')) echo '<h2>'.$this->escape($this->params->get('menu-anchor_title')).'</h2>';
 
 $torrentType = array(
-		//JHTML::_('select.option', '1', JText::_('COM_TRACKER_SELECT_ALL_TORRENTS') ),
 		JHTML::_('select.option', '1', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_PEERS') ),
 		JHTML::_('select.option', '2', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_SEEDERS') ),
 		JHTML::_('select.option', '3', JText::_('COM_TRACKER_SELECT_TORRENTS_ONLY_LEECHERS') ),
@@ -32,14 +31,16 @@ $torrentType = array(
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
+		<?php if ($this->params->get('tl_search_bar')) { ?>
 		<div class="filter-search fltlft" style="width:50%; float:left;">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('Search'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
+		<?php } ?>
 
-		<?php if ($this->params->get('tl_category')) { ?>
+		<?php if ($this->params->get('tl_category_dropdown')) { ?>
 		<div style="float: right;">
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
@@ -48,7 +49,7 @@ $torrentType = array(
 		</div>
 		<?php } ?>
 
-		<?php if ($this->params->get('tl_license')) { ?>
+		<?php if ($this->params->get('"tl_license_dropdown"')) { ?>
 		<div style="float: right; margin-right: 3px;">
 			<select name="filter_license_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_TRACKER_SELECT_LICENSE');?></option>
@@ -71,20 +72,27 @@ $torrentType = array(
 	<table class="adminlist table table-hover table-striped" style="width:100%;">
 		<thead>
 			<tr>
-				<th width="93%" align='center'><?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_NAME', 't.name', $listDirn, $listOrder); ?></th>
-				<th width="1%">&nbsp;</th>
-				<?php if ($this->params->get('tl_category')) { ?>
-					<th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'JCATEGORY', 'c.title', $listDirn, $listOrder); ?>&nbsp;</th>
-				<?php } ?>
-				<th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_SIZE', 't.size', $listDirn, $listOrder); ?></th>
-				<th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_CREATED_TIME', 't.created_time', $listDirn, $listOrder); ?></th>
-				<th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_LEECHERS_SMALL', 't.leechers', $listDirn, $listOrder); ?>&nbsp;</th>
-				<th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_SEEDERS_SMALL', 't.seeders', $listDirn, $listOrder); ?>&nbsp;</th>
-				<th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_COMPLETED_SMALL', 't.completed', $listDirn, $listOrder); ?>&nbsp;</th>
-				<th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_UPLOADER', 'torrent_owner', $listDirn, $listOrder); ?>&nbsp;</th>
-				<?php if (TrackerHelper::user_permissions('download_torrents', $this->user->id)) { ?>
-					<th width="1%" class='align'>DL</th>
-				<?php } ?>
+				<?php if ($this->params->get('tl_name')) { ?><th width="93%" align='center'><?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_NAME', 't.name', $listDirn, $listOrder); ?></th><?php } ?>
+				<?php if ($this->params->get('tl_alias')) { ?><th width="93%" align='center'><?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_ALIAS', 't.alias', $listDirn, $listOrder); ?></th><?php } ?>
+				<?php if ($this->params->get('enable_torrent_type')) { ?><th width="1%">&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_info_hash')) { ?><th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_INFO_HASH', 't.info_hash', $listDirn, $listOrder); ?></th><?php } ?>
+				<?php if ($this->params->get('tl_filename')) { ?><th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_FILENAME', 't.filename', $listDirn, $listOrder); ?></th><?php } ?>
+				<?php if ($this->params->get('tl_category')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'JCATEGORY', 'c.title', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_license')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort',	'COM_TRACKER_TORRENT_LICENSE', 'torrent_license', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_description')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JText::_( 'COM_TRACKER_TORRENT_DESCRIPTION' ); ?></th><?php } ?>
+				<?php if ($this->params->get('tl_size')) { ?><th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_SIZE', 't.size', $listDirn, $listOrder); ?></th><?php } ?>
+				<?php if ($this->params->get('tl_created_time')) { ?><th width="1%" align='center' nowrap><?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_CREATED_TIME', 't.created_time', $listDirn, $listOrder); ?></th><?php } ?>
+				<?php if ($this->params->get('tl_leechers')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_LEECHERS_SMALL', 't.leechers', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_seeders')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_SEEDERS_SMALL', 't.seeders', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_completed')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_COMPLETED_SMALL', 't.completed', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_uploader_name')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_UPLOADER', 'uploader_name', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_uploader_username')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_UPLOADER', 'uploader_username', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_number_files')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_NUMBER_FILES', 't.number_files', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_forum_post')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_FORUM_POST', 't.forum_post', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_info_post')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_INFO_POST', 't.info_post', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_download_multiplier')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_DOWNLOAD_MULTIPLIER', 't.download_multiplier', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if ($this->params->get('tl_upload_multiplier')) { ?><th width="1%" align='center' nowrap>&nbsp;<?php echo JHtml::_('grid.sort', 'COM_TRACKER_UPLOAD_MULTIPLIER', 't.upload_multiplier', $listDirn, $listOrder); ?>&nbsp;</th><?php } ?>
+				<?php if (TrackerHelper::user_permissions('download_torrents', $this->user->id) && $this->params->get('tl_download_image')) { ?><th width="1%" class='align'><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_IMAGE_TEXT' ); ?></th><?php } ?>
 			</tr>
 		</thead>
 
@@ -100,46 +108,56 @@ $torrentType = array(
 			$category_params->loadString($item->category_params);
 			?>
 			<tr class="row<?php echo $i % 2; ?>" style="width:90%;">
-				<td width="92%">
-					<a href="<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&id=".(int)$item->fid); ?>">
-					<?php echo $this->escape(str_replace('_', ' ', $item->name)); ?>
-					</a>
-				</td>
-				<td width="1%" align="right" nowrap>
-					<?php if ($this->params->get('enable_torrent_type')) {
-						echo TrackerHelper::checkTorrentType((int)$item->fid);
-					} ?>
-				</td>
+				<?php if ($this->params->get('tl_name')) { ?><td width="92%"><a href="<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&id=".(int)$item->fid); ?>"><?php echo $this->escape(str_replace('_', ' ', $item->name)); ?></a></td><?php } ?>
+				<?php if ($this->params->get('tl_alias')) { ?><td width="92%"><a href="<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&id=".(int)$item->fid); ?>"><?php echo $item->alias; ?></a></td><?php } ?>
+				<?php if ($this->params->get('enable_torrent_type')) {?><td width="1%" align="right" nowrap><?php echo TrackerHelper::checkTorrentType((int)$item->fid);?></td><?php } ?>
+				<?php if ($this->params->get('tl_info_hash')) { ?><td width="1%" align="center" nowrap><?php echo bin2hex($item->info_hash); ?></td><?php } ?>
+				<?php if ($this->params->get('tl_filename')) { ?><td width="1%" align="center" nowrap><?php echo $item->filename; ?></td><?php } ?>
 				
 				<?php if ($this->params->get('tl_category')) { ?>
-				<td width="1%" align="center" nowrap>
-					<?php if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DS.$category_params->get('image'))) { ?>
-						<img id="image<?php echo $item->fid;?>" alt="<?php echo $item->torrent_category; ?>" src="<?php echo JUri::root(true).DS.$category_params->get('image'); ?>" width="36" />
-					<?php }
-						else echo '&nbsp;'.$item->torrent_category.'&nbsp;';
-					?>
-				</td>
+					<td width="1%" align="center" nowrap>
+						<?php if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DS.$category_params->get('image')) && $this->params->get('use_image_file')) { ?>
+							<img id="image<?php echo $item->fid;?>" alt="<?php echo $item->torrent_category; ?>" src="<?php echo JUri::root(true).DS.$category_params->get('image'); ?>" width="36" />
+						<?php } else echo '&nbsp;'.$item->torrent_category.'&nbsp;'; ?>
+					</td>
 				<?php } ?>
-				
-				<td width="1%" align="right" nowrap>&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</td>
-				<td width="1%" align="right" nowrap>&nbsp;<?php echo date('Y.m.d', strtotime($item->created_time));?>&nbsp;</td>
-				<td width="1%" align="center" nowrap>&nbsp;<?php echo $item->leechers;?>&nbsp;</td>
-				<td width="1%" align="center" nowrap>&nbsp;<?php echo $item->seeders;?>&nbsp;</td>
-				<td width="1%" align="center" nowrap>&nbsp;<?php echo $item->completed;?>&nbsp;</td>
 
-				<td align="right" nowrap>&nbsp;
-				<?php 
-				//echo $item->torrent_owner;
-				if (($this->params->get('allow_upload_anonymous') == 0) || ($item->uploader_anonymous == 0) || ($item->uploader == $this->user->id)) echo $item->torrent_owner;
-				else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
-				?>&nbsp;</td>
-				<?php if (TrackerHelper::user_permissions('download_torrents', $this->user->id)) { ?>
+				<?php if ($this->params->get('tl_license')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->torrent_license;?></td><?php } ?>
+				<?php if ($this->params->get('tl_description')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->description;?></td><?php } ?>
+
+				<?php if ($this->params->get('tl_size')) { ?><td width="1%" align="right" nowrap>&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_created_time')) { ?><td width="1%" align="right" nowrap>&nbsp;<?php echo date('Y.m.d', strtotime($item->created_time));?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_leechers')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->leechers;?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_seeders')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->seeders;?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_completed')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->completed;?>&nbsp;</td><?php } ?>
+
+				<?php if ($this->params->get('tl_uploader_name') || $this->params->get('tl_uploader_username')) { ?>
+					<td align="right" nowrap>&nbsp;
+					<?php 
+						if (($this->params->get('allow_upload_anonymous') == 0) || ($item->uploader_anonymous == 0) || ($item->uploader == $this->user->id)) {
+							if ($this->params->get('tl_uploader_username')) echo $item->uploader_username;
+							else echo $item->uploader_name;
+						}
+						else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
+					?>&nbsp;
+					</td>
+				<?php } ?>
+
+				<?php if ($this->params->get('tl_number_files')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->number_files;?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_forum_post')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->forum_post;?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_info_post')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->info_post;?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_download_multiplier')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->download_multiplier;?>&nbsp;</td><?php } ?>
+				<?php if ($this->params->get('tl_upload_multiplier')) { ?><td width="1%" align="center" nowrap>&nbsp;<?php echo $item->upload_multiplier;?>&nbsp;</td><?php } ?>
+
+				<?php if (TrackerHelper::user_permissions('download_torrents', $this->user->id) && $this->params->get('tl_download_image')) { ?>
 					<td width="1%" align="center">
 						<a href="<?php echo JRoute::_("index.php?option=com_tracker&task=torrent.download&id=".$item->fid); ?>">
 							<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
 						</a>
 					</td>
 				<?php } ?>
+
+				
 				<?php
 				// experiment for Psylo to have number of thanks in torrent listing 
 				if ($this->params->get('enable_thankyou')) {
