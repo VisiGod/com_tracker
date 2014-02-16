@@ -21,6 +21,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 // Show extra page text (defined in menu)
 if ($this->params->get('menu_text')) echo '<h2>'.$this->escape($this->params->get('menu-anchor_title')).'</h2>';
 
+$torrentType = array(
+		//JHTML::_('select.option', '1', JText::_('COM_TRACKER_SELECT_ALL_TORRENTS') ),
+		JHTML::_('select.option', '1', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_PEERS') ),
+		JHTML::_('select.option', '2', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_SEEDERS') ),
+		JHTML::_('select.option', '3', JText::_('COM_TRACKER_SELECT_TORRENTS_ONLY_LEECHERS') ),
+		JHTML::_('select.option', '4', JText::_('COM_TRACKER_SELECT_TORRENTS_DEAD') ),
+);
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
@@ -48,7 +56,15 @@ if ($this->params->get('menu_text')) echo '<h2>'.$this->escape($this->params->ge
 			</select>
 		</div>
 		<?php } ?>
-	<!-- TODO: Dropdown for torrent type (with peers, without peers, etc) -->
+
+		<?php if ($this->params->get('tl_torrent_status_dropdown')) { ?>
+		<div style="float: right;">
+			<select name="filter_torrent_status" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_TRACKER_SELECT_ALL_TORRENTS');?></option>
+				<?php echo JHtml::_('select.options', $torrentType, 'value', 'text', $this->state->get('filter.torrent_status'));?>
+			</select>
+		</div>
+		<?php } ?>
 	</fieldset>
 	<div class="clr"></div>
 

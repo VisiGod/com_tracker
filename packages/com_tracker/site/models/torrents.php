@@ -89,6 +89,9 @@ class TrackerModelTorrents extends JModelList {
 			$this->setState('filter.license_id', $filteredLicenseId);
 		}
 
+		$filteredTorrentStatus = $this->getUserStateFromRequest('com_tracker.filter.torrent_status', 'filter_torrent_status', 0, 'uint', false);
+		$this->setState('filter.torrent_status', $filteredTorrentStatus);
+
 		// List state information.
 		parent::populateState('t.fid', 'desc');
 		
@@ -156,6 +159,20 @@ class TrackerModelTorrents extends JModelList {
 			if (is_numeric($filteredLicenseId) && ($filteredLicenseId != 0)) {
 				$query->where('(l.id = '.(int) $filteredLicenseId.')');
 			}
+		}
+
+		//**********************************************************************************************************
+		// Filter by torrent status
+		$filteredTorrentStatus = $this->getState('filter.torrent_status');
+		if (is_numeric($filteredTorrentStatus) && ($filteredTorrentStatus != 0)) {
+			// Torrents with peers
+			if ($filteredTorrentStatus == 1) $query->where('((t.leechers + t.seeders) > 0 )');
+			// Torrents with seeders
+			if ($filteredTorrentStatus == 2) $query->where('(t.seeders > 0 )');
+			// Torrents needing seeds (with leechers and no seeders)
+			if ($filteredTorrentStatus == 3) $query->where('( t.leechers > 0 AND t.seeders = 0 )');
+			// Dead torrents (no leechers and no seeders)
+			if ($filteredTorrentStatus == 3) $query->where('( t.leechers = 0 AND t.seeders = 0 )');
 		}
 
 		$query->order($this->getState('list.ordering', 't.ordering').' '.$this->getState('list.direction', 'ASC'));
