@@ -74,7 +74,7 @@ class TrackerModelStatistics extends JModelItem {
 		if ($params->get('top_downloaders') && $params->get('number_top_downloaders')) {
 			// Get the top downloaders
 			$query->clear();
-			$query->select('u.id as uid, u.name, tu.downloaded, tu.uploaded');
+			$query->select('u.id as uid, u.name, u.username, tu.downloaded, tu.uploaded');
 			$query->select('tg.name as usergroup, c.image as countryImage, c.name as countryName');
 			$query->from('#__tracker_users AS tu');
 			$query->join('LEFT', '`#__users` AS u ON u.id = tu.id');
@@ -88,7 +88,7 @@ class TrackerModelStatistics extends JModelItem {
 		if ($params->get('top_uploaders') && $params->get('number_top_uploaders')) {
 			// Get the top uploaders
 			$query->clear();
-			$query->select('u.id as uid, u.name, tu.downloaded, tu.uploaded');
+			$query->select('u.id as uid, u.name, u.username, tu.downloaded, tu.uploaded');
 			$query->select('tg.name as usergroup, c.image as countryImage, c.name as countryName');
 			$query->from('#__users AS u');
 			$query->join('LEFT', '`#__tracker_users` AS tu ON tu.id = u.id');
@@ -102,7 +102,7 @@ class TrackerModelStatistics extends JModelItem {
 		if ($params->get('top_sharers') && $params->get('number_top_sharers')) {
 			// Get the top best sharers
 			$query->clear();
-			$query->select('u.id as uid, u.name, tu.downloaded, tu.uploaded');
+			$query->select('u.id as uid, u.name, u.username, tu.downloaded, tu.uploaded');
 			$query->select('tg.name as usergroup, c.image as countryImage, c.name as countryName');
 			$query->from('#__users AS u');
 			$query->join('LEFT', '`#__tracker_users` AS tu ON tu.id = u.id');
@@ -117,7 +117,7 @@ class TrackerModelStatistics extends JModelItem {
 		if ($params->get('worst_sharers') && $params->get('number_worst_sharers')) {
 			// Get the top worst sharers
 			$query->clear();
-			$query->select('u.id as uid, u.name, tu.downloaded, tu.uploaded');
+			$query->select('u.id as uid, u.name, u.username, tu.downloaded, tu.uploaded');
 			$query->select('tg.name as usergroup, c.image as countryImage, c.name as countryName');
 			$query->from('#__users AS u');
 			$query->join('LEFT', '`#__tracker_users` AS tu ON tu.id = u.id');
@@ -133,7 +133,7 @@ class TrackerModelStatistics extends JModelItem {
 		if ($params->get('top_thanked') && $params->get('number_top_thanked')) {
 			// Get the top thanked users
 			$query->clear();
-			$query->select('u.id as uid, u.name, tg.name as usergroup, c.image as countryImage');
+			$query->select('u.id as uid, u.name, u.username, tg.name as usergroup, c.image as countryImage');
 			$query->select('c.name as countryName, ttt.torrentID, COUNT(u.id) as total_thanks');
 			$query->from('`#__tracker_torrent_thanks` AS ttt');
 			$query->join('LEFT', '`#__tracker_torrents` AS tt ON tt.fid = ttt.torrentID');
@@ -150,7 +150,7 @@ class TrackerModelStatistics extends JModelItem {
 		if ($params->get('top_thanker') && $params->get('number_top_thanker')) {
 			// Get the top thankers
 			$query->clear();
-			$query->select('u.id as uid, u.name, COUNT(tt.uid) as thanker');
+			$query->select('u.id as uid, u.name, u.username, COUNT(tt.uid) as thanker');
 			$query->select('tg.name as usergroup, c.image as countryImage, c.name as countryName');
 			$query->from('#__users AS u');
 			$query->join('LEFT', '`#__tracker_users` AS tu ON tu.id = u.id');

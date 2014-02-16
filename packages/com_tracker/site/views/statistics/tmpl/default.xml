@@ -14,6 +14,7 @@
 				<option value="1">JYES</option>
 			</field>
 			<field name="usergroups" type="sql" default="0" label="COM_TRACKER_STATS_USERGROUPS" multiple="multiple" query="SELECT id, name FROM #__tracker_groups WHERE state = 1" key_field="id" value_field="name" />
+
 			<!-- Transferred Data -->
 			<field type="spacer" name="transferred_data_space" hr="true" />
 			<field type="spacer" name="COM_TRACKER_STATS_GENERAL_STATS" hr="false" />
@@ -68,30 +69,59 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field name="top_downloaders_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_DOWNLOADERS_NAME_USERNAME">
+				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
+				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
+			</field>
 			<field name="number_top_downloaders" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_DOWNLOADERS" filter="integer" />
+			<field type="spacer" name="top_users_space_1" label="" hr="false" />
 			<field name="top_uploaders" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_UPLOADERS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field name="top_uploaders_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_UPLOADERS_NAME_USERNAME">
+				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
+				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
+			</field>
 			<field name="number_top_uploaders" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_UPLOADERS" filter="integer" />
+			<field type="spacer" name="top_users_space_2" label="" hr="false" />
 			<field name="top_sharers" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_RATIO">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field name="top_sharers_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_SHARERS_NAME_USERNAME">
+				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
+				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
+			</field>
 			<field name="number_top_sharers" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_SHARERS" filter="integer" />
+			<field type="spacer" name="top_users_space_3" label="" hr="false" />
 			<field name="worst_sharers" type="list" default="1" label="COM_TRACKER_STATS_SHOW_WORST_RATIO">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field name="worst_sharers_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_WORST_SHARERS_NAME_USERNAME">
+				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
+				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
+			</field>
 			<field name="number_worst_sharers" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_WORST_SHARERS" filter="integer" />
+			<field type="spacer" name="top_users_space_4" label="" hr="false" />
 			<field name="top_thanked" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field name="top_thanked_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_THANKED_NAME_USERNAME">
+				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
+				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
+			</field>
 			<field name="number_top_thanked" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_THANKED" filter="integer" />
+			<field type="spacer" name="top_users_space_5" label="" hr="false" />
 			<field name="top_thanker" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKER">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			</field>
+			<field name="top_thanker_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_THANKER_NAME_USERNAME">
+				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
+				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
 			</field>
 			<field name="number_top_thanker" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_THANKER" filter="integer" />
 			<!-- Top Torrents -->

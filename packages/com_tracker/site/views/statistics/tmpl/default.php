@@ -66,29 +66,6 @@ jQuery.noConflict();
 		$( "#tabs-users" ).tabs();
 		$( "#tabs-best" ).tabs();
 		$( "#tabs-worst" ).tabs();
-
-// (function($, undefined) {
-// 	$(function() { // onload
-// 		var base_set = ($('base').length != 0);
-// 		var current_location = window.location.href.split('#')[0];
-	
-// 		function init_tabs(tabsid) {
-// 			if (base_set) {
-// 				$('#' tabsid ' > ul a').each(function() {
-// 					var link_hash = $(this).attr('href');
-// 					if (link_hash[0] === '#') {
-// 						$(this).attr('href', current_location link_hash);
-// 					}
-// 				});
-// 			}
-	
-// 			$('#' tabsid).tabs();
-// 		}
-	
-// 		init_tabs('tabs-stats');
-// 		init_tabs('tabs-users');
-// 		init_tabs('tabs-best');
-// 		init_tabs('tabs-worst');
 	});
 })(jQuery);
 </script>
@@ -160,157 +137,179 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 					<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_USER'); ?>&nbsp;</b></div>
 					<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_DOWNLOADED'); ?>&nbsp;</b></div>
 					<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_UPLOADED'); ?>&nbsp;</b></div>
-					<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_COUNTRY'); ?>&nbsp;</b></div>
+					<?php if ($this->params->get('enable_countries')) { ?><div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_COUNTRY'); ?>&nbsp;</b></div><?php } ?>
 					<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_GROUP'); ?>&nbsp;</b></div>
 				</div>
 		<?php foreach ($this->item->top_downloaders as $item) { ?>
 				<div id="row">
-				<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo $item->name; ?></a>&nbsp;</div>
+				<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
 				<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded); ?>&nbsp;</div>
 				<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded); ?>&nbsp;</div>
-		<?php 	if (empty($item->countryName)) {
-					$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
-					$item->countryName = $item->default_country->name; 
-					$item->countryImage = $item->default_country->image;
-				}
-		?>
-				<div id="value-center">&nbsp;<img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></div>
+		<?php if ($this->params->get('enable_countries')) { ?>
+			<?php if (empty($item->countryName)) {
+						$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+						$item->countryName = $item->default_country->name; 
+						$item->countryImage = $item->default_country->image;
+					}
+			?>
+					<div id="value-center">&nbsp;<img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></div>
+		<?php } ?>
 				<div id="value-center">&nbsp;<?php echo $item->usergroup; ?>&nbsp;</div>
 				</div>
 		<?php } ?>
 			</div>
 		</div>
 	<?php } ?>
-	<?php if ($this->params->get('top_uploaders') && count($this->item->top_uploaders)) {
-		echo '<div id="top-uploaders">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_USER').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_DOWNLOADED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_UPLOADED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_COUNTRY').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_GROUP').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->top_uploaders as $item) {
-			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->downloaded).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->uploaded).'&nbsp;</div>';
-			if (empty($item->countryName)) {
-				$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
-				$item->countryName = $item->default_country->name; 
-				$item->countryImage = $item->default_country->image;
-			}
-			echo '<div id="value-center">&nbsp;<img style="vertical-align:middle;"  id="tdcountry<'.$item->uid.'" alt="'.$item->countryName.'" src="'.JURI::base().$item->countryImage.'" width="32" /></div>';
-			echo '<div id="value-center">&nbsp;'.$item->usergroup.'&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
+	<?php if ($this->params->get('top_uploaders') && count($this->item->top_uploaders)) { ?>
+		<div id="top-uploaders">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_USER'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_DOWNLOADED'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_UPLOADED'); ?>&nbsp;</b></div>
+		<?php if ($this->params->get('enable_countries')) { ?><div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_COUNTRY'); ?>&nbsp;</b></div><?php } ?>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_GROUP'); ?>&nbsp;</b></div>
+		</div>
+	<?php foreach ($this->item->top_uploaders as $item) { ?>
+			<div id="row">
+			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_uploaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
+		<?php if ($this->params->get('enable_countries')) { ?>
+			<?php if (empty($item->countryName)) {
+						$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+						$item->countryName = $item->default_country->name; 
+						$item->countryImage = $item->default_country->image;
+					}
+			?>
+					<div id="value-center">&nbsp;<img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></div>
+		<?php } ?>
+			<div id="value-center">&nbsp;<?php echo $item->usergroup; ?>&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
 	
-	if ($this->params->get('top_sharers') && count($this->item->top_sharers)) {
-		echo '<div id="top-sharers">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_USER').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_DOWNLOADED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_UPLOADED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_RATIO').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_COUNTRY').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_GROUP').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->top_sharers as $item) {
-			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->downloaded).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->uploaded).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::get_ratio($item->uploaded, $item->downloaded).'&nbsp;</div>';
-			if (empty($item->countryName)) {
-				$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
-				$item->countryName = $item->default_country->name; 
-				$item->countryImage = $item->default_country->image;
-			}
-			echo '<div id="value-center">&nbsp;<img style="vertical-align:middle;"  id="tdcountry<'.$item->uid.'" alt="'.$item->countryName.'" src="'.JURI::base().$item->countryImage.'" width="32" /></div>';
-			echo '<div id="value-center">&nbsp;'.$item->usergroup.'&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-	if ($this->params->get('worst_sharers') && count($this->item->worst_sharers)) {
-		echo '<div id="worst-sharers">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_USER').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_DOWNLOADED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_UPLOADED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_RATIO').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_COUNTRY').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_GROUP').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->worst_sharers as $item) {
-			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->downloaded).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($item->uploaded).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.TrackerHelper::get_ratio($item->uploaded, $item->downloaded).'&nbsp;</div>';
-			if (empty($item->countryName)) {
-				$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
-				$item->countryName = $item->default_country->name; 
-				$item->countryImage = $item->default_country->image;
-			}
-			echo '<div id="value-center">&nbsp;<img style="vertical-align:middle;"  id="tdcountry<'.$item->uid.'" alt="'.$item->countryName.'" src="'.JURI::base().$item->countryImage.'" width="32" /></div>';
-			echo '<div id="value-center">&nbsp;'.$item->usergroup.'&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-
-	if ($this->params->get('top_thanked') && count($this->item->top_thanked)) {
-		echo '<div id="top-thanked">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_USER').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_THANKED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_COUNTRY').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_GROUP').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->top_thanked as $item) {
-			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->total_thanks.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;<img style="vertical-align:middle;"  id="tdcountry<'.$item->uid.'" alt="'.$item->countryName.'" src="'.JURI::base().$item->countryImage.'" width="32" /></div>';
-			echo '<div id="value-center">&nbsp;'.$item->usergroup.'&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-
-	if ($this->params->get('top_thanker') && count($this->item->top_thanker)) {
-		echo '<div id="top-thanker">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_USER').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_THANKER').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_COUNTRY').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_GROUP').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->top_thanker as $item) {
-			echo'<div id="row">';
-			echo '<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id='.$item->uid.'">'.$item->name.'</a>&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->thanker.'&nbsp;</div>';
-			if (empty($item->countryName)) {
-				$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
-				$item->countryName = $item->default_country->name;
-				$item->countryImage = $item->default_country->image;
-			}
-			echo '<div id="value-center">&nbsp;<img style="vertical-align:middle;"  id="tdcountry<'.$item->uid.'" alt="'.$item->countryName.'" src="'.JURI::base().$item->countryImage.'" width="32" /></div>';
-			echo '<div id="value-center">&nbsp;'.$item->usergroup.'&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
+	<?php if ($this->params->get('top_sharers') && count($this->item->top_sharers)) { ?>
+		<div id="top-sharers">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_USER'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_DOWNLOADED'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_UPLOADED'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_RATIO');?>&nbsp;</b></div>
+		<?php if ($this->params->get('enable_countries')) { ?><div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_COUNTRY'); ?>&nbsp;</b></div><?php } ?>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_GROUP'); ?>&nbsp;</b></div>
+		</div>
+	<?php foreach ($this->item->top_sharers as $item) { ?>
+			<div id="row">
+			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_sharers_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::get_ratio($item->uploaded, $item->downloaded);?>&nbsp;</div>
+		<?php if ($this->params->get('enable_countries')) { ?>
+			<?php if (empty($item->countryName)) {
+						$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+						$item->countryName = $item->default_country->name; 
+						$item->countryImage = $item->default_country->image;
+					}
+			?>
+					<div id="value-center">&nbsp;<img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></div>
+		<?php } ?>
+			<div id="value-center">&nbsp;<?php echo $item->usergroup; ?>&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
 	
-?>
+	<?php if ($this->params->get('worst_sharers') && count($this->item->worst_sharers)) { ?>
+		<div id="worst-sharers">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_USER'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_DOWNLOADED'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_UPLOADED'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_RATIO');?>&nbsp;</b></div>
+		<?php if ($this->params->get('enable_countries')) { ?><div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_COUNTRY'); ?>&nbsp;</b></div><?php } ?>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_GROUP'); ?>&nbsp;</b></div>
+		</div>
+	<?php foreach ($this->item->worst_sharers as $item) { ?>
+			<div id="row">
+			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('worst_sharers_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo TrackerHelper::get_ratio($item->uploaded, $item->downloaded);?>&nbsp;</div>
+		<?php if ($this->params->get('enable_countries')) { ?>
+			<?php if (empty($item->countryName)) {
+						$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+						$item->countryName = $item->default_country->name; 
+						$item->countryImage = $item->default_country->image;
+					}
+			?>
+					<div id="value-center">&nbsp;<img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></div>
+		<?php } ?>
+			<div id="value-center">&nbsp;<?php echo $item->usergroup; ?>&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
+	
+	<?php if ($this->params->get('top_thanked') && count($this->item->top_thanked)) { ?>
+		<div id="top-thanked">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_USER'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_THANKED');?>&nbsp;</b></div>
+		<?php if ($this->params->get('enable_countries')) { ?><div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_COUNTRY'); ?>&nbsp;</b></div><?php } ?>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_GROUP'); ?>&nbsp;</b></div>
+		</div>
+	<?php foreach ($this->item->top_thanked as $item) { ?>
+			<div id="row">
+			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_thanked_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->total_thanks; ?>'&nbsp;</div>
+	<?php if ($this->params->get('enable_countries')) { ?>
+		<?php if (empty($item->countryName)) {
+					$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+					$item->countryName = $item->default_country->name; 
+					$item->countryImage = $item->default_country->image;
+				}
+		?>
+				<div id="value-center">&nbsp;<img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></div>
+	<?php } ?>
+			<div id="value-center">&nbsp;<?php echo $item->usergroup; ?>&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
+	
+	<?php if ($this->params->get('top_thanker') && count($this->item->top_thanker)) { ?>
+		<div id="top-thanker">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_USER'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_THANKER');?>&nbsp;</b></div>
+		<?php if ($this->params->get('enable_countries')) { ?><div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_COUNTRY'); ?>&nbsp;</b></div><?php } ?>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_GROUP'); ?>&nbsp;</b></div>
+		</div>
+	<?php foreach ($this->item->top_thanker as $item) { ?>
+			<div id="row">
+			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_thanker_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->thanker; ?>'&nbsp;</div>
+	<?php if ($this->params->get('enable_countries')) { ?>
+		<?php if (empty($item->countryName)) {
+					$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+					$item->countryName = $item->default_country->name; 
+					$item->countryImage = $item->default_country->image;
+				}
+		?>
+				<div id="value-center">&nbsp;<img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></div>
+	<?php } ?>
+			<div id="value-center">&nbsp;<?php echo $item->usergroup; ?>&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
+	
 </div>
 <?php 
 }
@@ -331,195 +330,193 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 		<?php if ($this->params->get('most_thanked_torrents') && count($this->item->top_thanked_torrents)) { ?><li><a href="#most_thanked"><?php echo JText::_('COM_TRACKER_STATS_TOP_THANKED_TORRENTS'); ?></a></li><?php } ?>
 	</ul>
 <?php
-	if ($this->params->get('most_active_torrents') && count($this->item->most_active_torrents)) {
-		echo '<div id="most_active">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->most_active_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
+	if ($this->params->get('most_active_torrents') && count($this->item->most_active_torrents)) {?>
+		<div id="most_active">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->most_active_torrents as $item) { ?>
+			<div id="row">
+			
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
 			$category_params->loadString($item->cat_params);
-
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-	if ($this->params->get('most_seeded_torrents') && count($this->item->most_seeded_torrents)) {
-		echo '<div id="most_seeded">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->most_seeded_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
+	<?php if ($this->params->get('most_seeded_torrents') && count($this->item->most_seeded_torrents)) {?>
+		<div id="most_seeded">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->most_seeded_torrents as $item) {?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
 			$category_params->loadString($item->cat_params);
-
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-	if ($this->params->get('most_leeched_torrents') && count($this->item->most_leeched_torrents)) {
-		echo '<div id="most_leeched">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->most_leeched_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
-			$category_params->loadString($item->cat_params);
-
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-	if ($this->params->get('most_completed_torrents') && count($this->item->most_completed_torrents)) {
-		echo '<div id="most_completed">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->most_completed_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
-			$category_params->loadString($item->cat_params);
-
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
 	
-	if ($this->params->get('most_thanked_torrents') && count($this->item->top_thanked_torrents)) {
-		echo '<div id="most_thanked">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_THANKED').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->top_thanked_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->total_thanks.'&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
+	<?php if ($this->params->get('most_leeched_torrents') && count($this->item->most_leeched_torrents)) {?>
+		<div id="most_leeched">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->most_leeched_torrents as $item) { ?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
 			$category_params->loadString($item->cat_params);
-
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-?>
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
+	
+	<?php if ($this->params->get('most_completed_torrents') && count($this->item->most_completed_torrents)) { ?>
+		<div id="most_completed">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->most_completed_torrents as $item) { ?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
+	
+	<?php if ($this->params->get('most_thanked_torrents') && count($this->item->top_thanked_torrents)) { ?>
+		<div id="most_thanked">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_THANKED');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->top_thanked_torrents as $item) {?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-center">&nbsp;<?php echo $item->total_thanks;?>&nbsp;</div>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
+			$category_params->loadString($item->cat_params);
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
+			
 </div>
 <?php 
 }
@@ -537,156 +534,155 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 		<?php if ($this->params->get('most_leeched_torrents') && count($this->item->worst_leeched_torrents)) { ?><li><a href="#worst_leeched"><?php echo JText::_('COM_TRACKER_STATS_WORST_LEECHED_TORRENTS'); ?></a></li><?php } ?>
 		<?php if ($this->params->get('worst_leeched_torrents') && count($this->item->worst_completed_torrents)) { ?><li><a href="#worst_completed"><?php echo JText::_('COM_TRACKER_STATS_WORST_COMPLETED_TORRENTS'); ?></a></li><?php } ?>
 	</ul>
-<?php
-	if ($this->params->get('worst_active_torrents') && count($this->item->worst_active_torrents)) {
-		echo '<div id="worst_active">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->worst_active_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
+<?php if ($this->params->get('worst_active_torrents') && count($this->item->worst_active_torrents)) { ?>
+		<div id="worst_active">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->worst_active_torrents as $item) { ?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
 			$category_params->loadString($item->cat_params);
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
 
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-	if ($this->params->get('worst_seeded_torrents') && count($this->item->worst_seeded_torrents)) {
-		echo '<div id="worst_seeded">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->worst_seeded_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
+	<?php if ($this->params->get('worst_seeded_torrents') && count($this->item->worst_seeded_torrents)) { ?>
+		<div id="worst_seeded">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->worst_seeded_torrents as $item) { ?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
 			$category_params->loadString($item->cat_params);
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
 
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-	if ($this->params->get('worst_leeched_torrents') && count($this->item->worst_leeched_torrents)) {
-		echo '<div id="worst_leeched">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->worst_leeched_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
+	<?php if ($this->params->get('worst_leeched_torrents') && count($this->item->worst_leeched_torrents)) { ?>
+		<div id="worst_leeched">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->worst_leeched_torrents as $item) { ?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-center">&nbsp;<?php echo $item->total_thanks;?>&nbsp;</div>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
 			$category_params->loadString($item->cat_params);
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
 
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-	if ($this->params->get('worst_completed_torrents') && count($this->item->worst_completed_torrents)) {
-		echo '<div id="worst_completed">';
-		echo '<div id="container">';
-		echo '<div id="row">';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_NAME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_SIZE').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_STATS_CREATED_TIME').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL').'&nbsp;</b></div>';
-		echo '<div id="value-center"><b>&nbsp;'.JText::_('JCATEGORY').'&nbsp;</b></div>';
-		echo '</div>';
-		foreach ($this->item->worst_completed_torrents as $item) {
-			echo'<div id="row">';
-			echo '<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;';
-			if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1))
-				echo '<a href="index.php?option=com_tracker&view=torrent&id='.$item->fid.'">'.$item->name.'</a>';
-			else echo $item->name;
-			echo '&nbsp;</div>';
-			echo '<div id="value-right">&nbsp;'.TrackerHelper::make_size($item->size).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.date ('Y.m.d', strtotime($item->created_time)).'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->seeders.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->leechers.'&nbsp;</div>';
-			echo '<div id="value-center">&nbsp;'.$item->completed.'&nbsp;</div>';
-
-			$category_params = new JRegistry();
+	<?php if ($this->params->get('worst_completed_torrents') && count($this->item->worst_completed_torrents)) { ?>
+		<div id="worst_completed">
+		<div id="container">
+		<div id="row">
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_NAME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_SIZE');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_STATS_CREATED_TIME'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_SEEDERS_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_LEECHERS_SMALL');?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('COM_TRACKER_TORRENT_COMPLETED_SMALL'); ?>&nbsp;</b></div>
+		<div id="value-center"><b>&nbsp;<?php echo JText::_('JCATEGORY'); ?>&nbsp;</b></div>
+	</div>
+	<?php foreach ($this->item->worst_completed_torrents as $item) { ?>
+			<div id="row">
+			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+			<?php } else {?>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
+			<?php } ?>
+			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->completed;?>&nbsp;</div>
+	<?php 	$category_params = new JRegistry();
 			$category_params->loadString($item->cat_params);
+	?>
+			<div id="value-center">&nbsp;
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php } else echo $item->cat_title; ?>
+			&nbsp;</div>
+			</div>
+	<?php } ?>
+		</div></div>
+	<?php } ?>
 
-			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
-			} else echo $item->cat_title;
-			echo '&nbsp;</div>';
-			echo '</div>';
-		}
-		echo '</div></div>';
-	}
-?>
 </div>
 <?php 	
 }
