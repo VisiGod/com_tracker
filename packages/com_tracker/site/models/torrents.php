@@ -190,6 +190,4 @@ class TrackerModelTorrents extends JModelList {
 		return $query;
 	}
 
-
-	
 }

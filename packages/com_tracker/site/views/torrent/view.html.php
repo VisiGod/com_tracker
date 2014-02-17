@@ -27,6 +27,8 @@ class TrackerViewTorrent extends JViewLegacy {
 		$pagination	= $this->get('Pagination');
 		$params		= $app->getParams();
 
+		$pathway->addItem(str_replace("_", " ", $item->name));
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));

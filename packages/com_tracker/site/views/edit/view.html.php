@@ -22,14 +22,16 @@ class TrackerViewEdit extends JView {
 		$user		= JFactory::getUser();
 		$app		= JFactory::getApplication();
 
+		$pathway 	= $app->getPathway();
+		$pathway->addItem(str_replace("_", " ", $item->name));
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
 
-		if($item === false)
-		{
+		if($item === false) {
 			return JError::raiseError(404, JText::_('COM_TRACKER_NO_TORRENT'));
 		}
 		
