@@ -179,13 +179,14 @@ jQuery.noConflict();
 			<tr>
 				<td class="row1" align="right" nowrap><b><?php echo JText::_( 'COM_TRACKER_TORRENT_PASS_VERSION' ); ?>:</b></td>
 				<td class="row0" align="left">
-		 			<?php if ($this->item->tracker_info->torrent_pass_version) {
-		 				echo '&nbsp;<b>'.$this->item->tracker_info->torrent_pass_version.'</b>&nbsp;-&nbsp;';
-		 				echo '<a href="index.php?option=com_tracker&amp;task=user.resetpassversion&amp;id='.$this->item->id.'">'.JText::_( 'COM_TRACKER_RESET_TORRENT_PASS' ).'</a>';
-		 			} else {
-		 				echo '&nbsp;<b>No torrent pass version yet</b>&nbsp;-&nbsp;';
-		 				echo '<a href="index.php?option=com_tracker&amp;task=user.resetpassversion&amp;id='.$this->item->id.'">'.JText::_( 'COM_TRACKER_CREATE_TORRENT_PASS' ).'</a>';
-		 			} ?>
+		 			<?php if ($this->item->tracker_info->torrent_pass_version) { ?>
+		 				&nbsp;<b><?php echo $this->item->tracker_info->torrent_pass_version; ?></b>&nbsp;-&nbsp;
+		 				<a href='<?php echo JRoute::_("index.php?option=com_tracker&task=user.resetpassversion&id=".$this->item->id); ?>'><?php echo JText::_( 'COM_TRACKER_RESET_TORRENT_PASS' );?></a>
+		 			<?php 
+		 			} else { ?>
+		 				&nbsp;<b>No torrent pass version yet</b>&nbsp;-&nbsp;
+		 				<a href='<?php echo JRoute::_("index.php?option=com_tracker&task=user.resetpassversion&id=".$this->item->id); ?>'><?php echo JText::_( 'COM_TRACKER_CREATE_TORRENT_PASS' );?></a>
+		 			<?php } ?>
 				</td>
 			</tr>
 			<?php } ?>
@@ -209,7 +210,7 @@ jQuery.noConflict();
 						$this->item_snatched =& $this->item->user_snatches[$i];
 				?>
 					<tr class="<?php echo "user_snatched".$k; ?>">
-						<td> <?php echo '<a href="index.php?option=com_tracker&amp;view=torrent&amp;id='.$this->item_snatched->fid.'" >'.htmlspecialchars(str_replace("_", " ", $this->item_snatched->name)).'</a>'; ?> </td>
+						<td><a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$this->item_snatched->fid); ?>'><?php echo htmlspecialchars(str_replace("_", " ", $this->item_snatched->name));?></a></td>
 						<td width="5%" nowrap align="right">&nbsp;<?php echo TrackerHelper::make_size($this->item_snatched->uploaded); ?>&nbsp;</td>
 						<td width="5%" nowrap align="right">&nbsp;<?php echo TrackerHelper::make_size($this->item_snatched->downloaded); ?>&nbsp;</td>
 						<td width="5%" nowrap align="right">&nbsp;<?php echo $this->item_snatched->completed; ?>&nbsp;</td>
@@ -239,7 +240,7 @@ jQuery.noConflict();
 			$this->item_uploaded =& $this->item->user_uploads[$i];
 			?>
 			<tr class="<?php echo "user_snatched$k"; ?>">
-				<td> <?php echo '<a href="index.php?option=com_tracker&amp;view=torrent&amp;id='.$this->item_uploaded->fid.'" >'.htmlspecialchars(str_replace("_", " ", $this->item_uploaded->name)).'</a>'; ?> </td>
+				<td><a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$this->item_uploaded->fid); ?>'><?php echo htmlspecialchars(str_replace("_", " ", $this->item_uploaded->name));?></a></td>
 				<td width="5%" nowrap align="right"><?php echo $this->item_uploaded->completed; ?>&nbsp;</td>
 				<td width="5%" nowrap align="right"><?php echo $this->item_uploaded->seeders; ?>&nbsp;</td>
 				<td width="5%" nowrap align="right"><?php echo $this->item_uploaded->leechers; ?>&nbsp;</td>
@@ -267,7 +268,7 @@ jQuery.noConflict();
 			$this->item_seeding =& $this->item->user_seeds[$i];
 			?>
 			<tr class="<?php echo "user_seeds$k"; ?>">
-				<td> <?php echo '<a href="index.php?option=com_tracker&amp;view=torrent&amp;id='.$this->item_seeding->fid.'" >'.htmlspecialchars(str_replace("_", " ", $this->item_seeding->name)).'</a>'; ?> </td>
+				<td><a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$this->item_seeding->fid); ?>'><?php echo htmlspecialchars(str_replace("_", " ", $this->item_seeding->name));?></a></td>
 				<td width="5%" nowrap align="right"><?php echo $this->item_seeding->completed; ?>&nbsp;</td>
 				<td width="5%" nowrap align="right"><?php echo $this->item_seeding->seeders; ?>&nbsp;</td>
 				<td width="5%" nowrap align="right"><?php echo $this->item_seeding->leechers; ?>&nbsp;</td>
@@ -296,7 +297,7 @@ jQuery.noConflict();
 			$this->item_hitrun =& $this->item->user_hitruns[$i];
 			?>
 			<tr class="<?php echo "user_hitrun$k"; ?>">
-				<td width="75%"> <?php echo '<a href="index.php?option=com_tracker&amp;view=torrent&amp;id='.$this->item_hitrun->fid.'" >'.htmlspecialchars(str_replace("_", " ", $this->item_hitrun->name)).'</a>'; ?> </td>
+				<td width="75%"><a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$this->item_hitrun->fid); ?>'><?php echo htmlspecialchars(str_replace("_", " ", $this->item_hitrun->name));?></a></td>
 				<td width="5%" nowrap align="right">&nbsp;<?php echo TrackerHelper::make_size($this->item_hitrun->uploaded); ?>&nbsp;</td>
 				<td width="5%" nowrap align="right">&nbsp;<?php echo TrackerHelper::make_size($this->item_hitrun->downloaded); ?>&nbsp;</td>
 				<td width="5%" nowrap align="right">&nbsp;<?php echo $this->item_hitrun->completed; ?>&nbsp;</td>

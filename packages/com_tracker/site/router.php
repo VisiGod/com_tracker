@@ -11,14 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.categories');
 
-/**
- * @param	array	A named array
- * @return	array
- */
-function TrackerBuildRoute(&$query)
-{
+function TrackerBuildRoute(&$query) {
 	$segments = array();
 
+	if(isset($query['view'])) {
+		$segments[] = $query['view'];
+		unset( $query['view'] );
+	}
 	if (isset($query['task'])) {
 		$segments[] = $query['task'];
 		unset($query['task']);
@@ -31,43 +30,49 @@ function TrackerBuildRoute(&$query)
 	return $segments;
 }
 
-/**
- * @param	array	A named array
- * @param	array
- *
- * Formats:
- *
- * index.php?/banners/task/id/Itemid
- *
- * index.php?/banners/id/Itemid
- */
-
-function TrackerParseRoute($segments)
-{
+function TrackerParseRoute($segments) {
 	$vars = array();
 
-	// view is always the first element of the array
+	switch($segments[0]) 	{
+		case 'edit':
+			$vars['view'] = 'edit';
+			$vars['id'] = (int) $id[0];
+			break;
+		case 'torrents-list':
+			$vars['view'] = 'torrents-list';
+			break;
+		case 'statistics':
+			$vars['view'] = 'statistics';
+			break;
+		case 'upload':
+			$vars['view'] = 'upload';
+			break;
+		case 'userpanel':
+			$vars['view'] = 'userpanel';
+			$id = explode( ':', $segments[1] );
+			$vars['id'] = (int) $id[0];
+			break;
+		case 'torrent':
+			$vars['view'] = 'torrent';
+			$id = explode( ':', $segments[1] );
+			$vars['id'] = (int) $id[0];
+			break;
+	}
+	/*
 	$count = count($segments);
-
-	if ($count)
-	{
+	if ($count) {
 		$count--;
 		$segment = array_shift($segments);
-		if (is_numeric($segment)) {
-			$vars['id'] = $segment;
-		} else {
-			$vars['task'] = $segment;
-		}
+		if (is_numeric($segment)) $vars['id'] = $segment;
+		else $vars['task'] = $segment;
 	}
 
-	if ($count)
-	{
+	if ($count) {
 		$count--;
 		$segment = array_shift($segments) ;
-		if (is_numeric($segment)) {
-			$vars['id'] = $segment;
-		}
+		if (is_numeric($segment)) $vars['id'] = $segment;
 	}
 
+	*/
 	return $vars;
 }

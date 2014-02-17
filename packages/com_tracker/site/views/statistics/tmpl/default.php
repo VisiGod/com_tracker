@@ -95,7 +95,7 @@ if ($this->params->get('number_torrents') || $this->params->get('number_files') 
 	if ($this->params->get('total_seeders')) 	echo '<div id="value-center">&nbsp;'.$this->item->seeders.'&nbsp;</div>';
 	if ($this->params->get('total_leechers')) 	echo '<div id="value-center">&nbsp;'.$this->item->leechers.'&nbsp;</div>';
 	if ($this->params->get('total_completed')) 	echo '<div id="value-center">&nbsp;'.$this->item->completed.'&nbsp;</div>';
-	if ($this->params->get('bytes_shared')) 	echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($this->item->shared).'&nbsp;</div>';
+	if ($this->params->get('bytes_shared')) 	echo '<div id="value-center" style="white-space: nowrap;">&nbsp;'.TrackerHelper::make_size($this->item->shared).'&nbsp;</div>';
 	echo '</div></div><br /><br />';
 	echo '<div id="container">';
 	echo '<div id="row">';
@@ -107,9 +107,9 @@ if ($this->params->get('number_torrents') || $this->params->get('number_files') 
 	echo '</div><div id="row">';
 	if ($this->params->get('download_speed') && $this->params->get('peer_speed')) echo '<div id="value-center">&nbsp;'.TrackerHelper::make_speed($this->item->total_speed->download_rate).'&nbsp;</div>';
 	if ($this->params->get('upload_speed') && $this->params->get('peer_speed')) echo '<div id="value-center">&nbsp;'.TrackerHelper::make_speed($this->item->total_speed->upload_rate).'&nbsp;</div>';
-	if ($this->params->get('bytes_downloaded'))	echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_downloaded).'&nbsp;</div>';
-	if ($this->params->get('bytes_uploaded')) 	echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_uploaded).'&nbsp;</div>';
-	if ($this->params->get('bytes_downloaded') || $this->params->get('bytes_uploaded'))	echo '<div id="value-center">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_downloaded + $this->item->total_transferred->user_uploaded).'&nbsp;</div>';
+	if ($this->params->get('bytes_downloaded'))	echo '<div id="value-center" style="white-space: nowrap;">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_downloaded).'&nbsp;</div>';
+	if ($this->params->get('bytes_uploaded')) 	echo '<div id="value-center" style="white-space: nowrap;">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_uploaded).'&nbsp;</div>';
+	if ($this->params->get('bytes_downloaded') || $this->params->get('bytes_uploaded'))	echo '<div id="value-center" style="white-space: nowrap;">&nbsp;'.TrackerHelper::make_size($this->item->total_transferred->user_downloaded + $this->item->total_transferred->user_uploaded).'&nbsp;</div>';
 	echo '</div></div></div>';
 }
 ?>
@@ -142,9 +142,9 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 				</div>
 		<?php foreach ($this->item->top_downloaders as $item) { ?>
 				<div id="row">
-				<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
-				<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded); ?>&nbsp;</div>
-				<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded); ?>&nbsp;</div>
+				<div id="value-left">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel&amp;id=".$item->uid); ?>'><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+				<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded); ?>&nbsp;</div>
+				<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded); ?>&nbsp;</div>
 		<?php if ($this->params->get('enable_countries')) { ?>
 			<?php if (empty($item->countryName)) {
 						$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
@@ -172,9 +172,9 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		</div>
 	<?php foreach ($this->item->top_uploaders as $item) { ?>
 			<div id="row">
-			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_uploaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
+			<div id="value-left">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel&amp;id=".$item->uid); ?>'><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
+			<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
 		<?php if ($this->params->get('enable_countries')) { ?>
 			<?php if (empty($item->countryName)) {
 						$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
@@ -203,9 +203,9 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		</div>
 	<?php foreach ($this->item->top_sharers as $item) { ?>
 			<div id="row">
-			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_sharers_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
+			<div id="value-left">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel&amp;id=".$item->uid); ?>'><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
+			<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo TrackerHelper::get_ratio($item->uploaded, $item->downloaded);?>&nbsp;</div>
 		<?php if ($this->params->get('enable_countries')) { ?>
 			<?php if (empty($item->countryName)) {
@@ -235,9 +235,9 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		</div>
 	<?php foreach ($this->item->worst_sharers as $item) { ?>
 			<div id="row">
-			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('worst_sharers_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
+			<div id="value-left">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel&amp;id=".$item->uid); ?>'><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->downloaded);?>&nbsp;</div>
+			<div id="value-center" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->uploaded);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo TrackerHelper::get_ratio($item->uploaded, $item->downloaded);?>&nbsp;</div>
 		<?php if ($this->params->get('enable_countries')) { ?>
 			<?php if (empty($item->countryName)) {
@@ -265,8 +265,8 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		</div>
 	<?php foreach ($this->item->top_thanked as $item) { ?>
 			<div id="row">
-			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_thanked_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo $item->total_thanks; ?>'&nbsp;</div>
+			<div id="value-left">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel&amp;id=".$item->uid); ?>'><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->total_thanks; ?>&nbsp;</div>
 	<?php if ($this->params->get('enable_countries')) { ?>
 		<?php if (empty($item->countryName)) {
 					$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
@@ -293,8 +293,8 @@ if (($this->params->get('top_downloaders') && count($this->item->top_downloaders
 		</div>
 	<?php foreach ($this->item->top_thanker as $item) { ?>
 			<div id="row">
-			<div id="value-left">&nbsp;<a href="index.php?option=com_tracker&view=userpanel&id=<?php echo $item->uid; ?>"><?php echo ($this->params->get('top_thanker_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
-			<div id="value-center">&nbsp;<?php echo $item->thanker; ?>'&nbsp;</div>
+			<div id="value-left">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel&amp;id=".$item->uid); ?>'><?php echo ($this->params->get('top_downloaders_username')) ? $item->username : $item->name; ?></a>&nbsp;</div>
+			<div id="value-center">&nbsp;<?php echo $item->thanker; ?>&nbsp;</div>
 	<?php if ($this->params->get('enable_countries')) { ?>
 		<?php if (empty($item->countryName)) {
 					$item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
@@ -346,11 +346,11 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			<div id="row">
 			
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -382,11 +382,11 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 	<?php foreach ($this->item->most_seeded_torrents as $item) {?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -419,11 +419,11 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 	<?php foreach ($this->item->most_leeched_torrents as $item) { ?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -456,11 +456,11 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 	<?php foreach ($this->item->most_completed_torrents as $item) { ?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -494,12 +494,12 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 	<?php foreach ($this->item->top_thanked_torrents as $item) {?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
 			<div id="value-center">&nbsp;<?php echo $item->total_thanks;?>&nbsp;</div>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -549,11 +549,11 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 	<?php foreach ($this->item->worst_active_torrents as $item) { ?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -586,11 +586,11 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 	<?php foreach ($this->item->worst_seeded_torrents as $item) { ?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -623,12 +623,11 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 	<?php foreach ($this->item->worst_leeched_torrents as $item) { ?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-center">&nbsp;<?php echo $item->total_thanks;?>&nbsp;</div>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
@@ -661,11 +660,11 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 	<?php foreach ($this->item->worst_completed_torrents as $item) { ?>
 			<div id="row">
 			<?php if (TrackerHelper::user_permissions('download_torrents', $session->get('user')->id, 1)) { ?>
-				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href="index.php?option=com_tracker&view=torrent&id=<?php echo $item->fid;?>"><?php echo $item->name;?></a>&nbsp;</div>
+				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&amp;id=".$item->fid); ?>'><?php echo $item->name;?></a>&nbsp;</div>
 			<?php } else {?>
 				<div id="value" style="overflow: hidden; white-space: pre-wrap;">&nbsp;<?php echo $item->name;?>&nbsp;</div>
 			<?php } ?>
-			<div id="value-right">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
+			<div id="value-right" style="white-space: nowrap;">&nbsp;<?php echo TrackerHelper::make_size($item->size);?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo date ('Y.m.d', strtotime($item->created_time));?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->seeders;?>&nbsp;</div>
 			<div id="value-center">&nbsp;<?php echo $item->leechers;?>&nbsp;</div>
