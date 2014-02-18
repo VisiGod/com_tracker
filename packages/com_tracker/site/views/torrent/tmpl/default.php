@@ -85,9 +85,9 @@ jQuery(document).ready(function(){
 					<tr class="success">
 						<td valign="middle" style="height: 16px; width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_DOWNLOAD' );?></b>&nbsp;</td>
 						<td style="width: 99%;" colspan="2" nowrap>
-							<a href='<?php echo JRoute::_("index.php?option=com_tracker&task=torrent.download&amp;id=".$this->item->fid); ?>'><?php echo $this->item->name;?></a>
+							<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>"><?php echo $this->item->name;?></a>
 							&nbsp;&nbsp;
-							<a href="<?php echo JRoute::_("index.php?option=com_tracker&task=torrent.download&id=".$this->item->fid); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>">
 								<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
 							</a>
 						</td>
@@ -111,7 +111,7 @@ jQuery(document).ready(function(){
 							<br />
 							<b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION' );?></b><br />
 								<ul>
-									<li><a href='<?php echo JRoute::_("index.php?option=com_tracker&view=upload"); ?>'><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION_UPLOAD' );?></a></li>
+									<li><a href='<?php echo JRoute::_("index.php?view=upload"); ?>'><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION_UPLOAD' );?></a></li>
 									<li><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION_DONATE' );?></li>
 								</ul>
 						</td>
@@ -151,14 +151,14 @@ jQuery(document).ready(function(){
 							if (($params->get('allow_guest') == 1) && ($user->id == $params->get('guest_user'))) { 
 								echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
 							} elseif ($user->id == $this->item->uploader) { ?>
-							<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel"); ?>'><?php echo $this->item->name;?></a>
+							<a href='<?php echo JRoute::_("index.php?view=userpanel"); ?>'><?php echo $this->item->name;?></a>
 						<?php } elseif (($params->get('allow_upload_anonymous') == 0) || ($this->item->uploader_anonymous == 0) && ($this->item->uploader <> $params->get('guest_user'))) { ?>
-							<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=userpanel&id=".$this->item->uploader); ?>'><?php echo $this->item->uname;?></a>
+							<a href='<?php echo JRoute::_("index.php?view=userpanel&id=".$this->item->uploader); ?>'><?php echo $this->item->uname;?></a>
 						<?php } else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
 						
 						// Show torrent edit
 						if ((TrackerHelper::user_permissions('edit_torrents', $user->id) || ($user->id == $this->item->uploader)) ) ?> 		
-							&nbsp;&nbsp;&nbsp;(<a href='<?php echo JRoute::_("index.php?option=com_tracker&view=edit&id=".$this->item->fid); ?>'><b><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_EDIT_THIS_TORRENT');?></b></a>)
+							&nbsp;&nbsp;&nbsp;(<a href='<?php echo JRoute::_("index.php?view=edit&id=".$this->item->fid); ?>'><b><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_EDIT_THIS_TORRENT');?></b></a>)
 						</td>
 					</tr>
 					<tr>
@@ -208,7 +208,7 @@ jQuery(document).ready(function(){
 							if ($totalThanks == 0) echo JText::_( 'COM_TRACKER_TORRENT_NO_THANKS' );
 							else {
 								for ($i=0; $i < $totalThanks; $i++) {
-									echo "<a href='".JRoute::_('index.php?option=com_tracker&view=userpanel&id='.$this->item->thankyous[$i]->thankerid)."'><b>".$this->item->thankyous[$i]->thanker."</b></a>";
+									echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->thankyous[$i]->thankerid)."'><b>".$this->item->thankyous[$i]->thanker."</b></a>";
 									if ($i < $totalThanks - 1) echo ', ';
 								}
 							}
@@ -227,7 +227,7 @@ jQuery(document).ready(function(){
 							if ($totalReseeds == 0) echo JText::_( 'COM_TRACKER_NO_RESEEDS' );
 							else {
 								for ($i=0; $i < $totalReseeds; $i++) {
-									echo "<a href='".JRoute::_('index.php?option=com_tracker&view=userpanel&id='.$this->item->reseeds[$i]->requester)."'><b>".$this->item->reseeds[$i]->requester."</b></a>";
+									echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->reseeds[$i]->requester)."'><b>".$this->item->reseeds[$i]->requester."</b></a>";
 									if ($i < $totalReseeds - 1) echo ', ';
 								}
 							}
@@ -236,7 +236,7 @@ jQuery(document).ready(function(){
 						<?php if ((TrackerHelper::checkReseedRequest($user->id, $this->item->fid) <> 0) && ($user->id <> $this->item->uploader)) { ?>
 						<td nowrap style="width: 1%;" align="left">&nbsp;
 							<img src="<?php echo JURI::base();?>images/tracker/other/reseed.png" alt="<?php echo JText::_( 'COM_TRACKER_REQUEST_RESEED' ); ?>" border="0" />
-							<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.reseed&id='.$this->item->fid);?>">
+							<a href="index.php?option=com_tracker&task=torrent.reseed&id=<?php echo $this->item->fid;?>">
 								<?php echo JText::_( 'COM_TRACKER_REQUEST_RESEED' );?>
 							</a>&nbsp;
 						</td>
@@ -255,7 +255,7 @@ jQuery(document).ready(function(){
 								$Tags = explode(", ", $this->item->tags);
 								$totalTags = count($Tags);
 								for ($i=0; $i < $totalTags; $i++) {
-									echo '<a href="'.JRoute::_('index.php?option=com_tracker&view=torrents&tag='.$Tags[$i]).'">'.$Tags[$i].'</a>';
+									echo '<a href="'.JRoute::_('index.php?view=torrents&tag='.$Tags[$i]).'">'.$Tags[$i].'</a>';
 									if ($i < $totalTags - 1) echo ', ';
 								}
 							}
@@ -308,7 +308,7 @@ jQuery(document).ready(function(){
 					<div style="display: inline-block; width: 25%;" class="row1">
 						<img src="<?php echo JURI::base();?>images/tracker/other/report.png" alt="<?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' ); ?>" border="0" />
 						<b>
-							<a href="<?php echo JRoute::_('index.php?option=com_tracker&view=report&id='.$this->item->fid);?>&tmpl=component" class="modal" title="Report Torrent" rel="{handler: 'iframe', size: {x: 800, y: 600}}">
+							<a href="index.php?option=com_tracker&view=report&tmpl=component&id=<?php echo $this->item->fid;?>" class="modal" title="Report Torrent" rel="{handler: 'iframe', size: {x: 800, y: 600}}">
 								<?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' );?>
 							</a>
 						</b>
@@ -328,7 +328,7 @@ jQuery(document).ready(function(){
 				<?php if ((TrackerHelper::checkThanks($user->id, $this->item->fid) <> 0) && ($user->id <> $this->item->uploader)) { ?>
 					<div style="display: inline-block; width: 25%;" class="row1">
 						<img src="<?php echo JURI::base();?>images/tracker/other/thank_you.png" alt="<?php echo JText::_( 'COM_TRACKER_TORRENT_SAY_THANKYOU' ); ?>" border="0" />
-						<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.thanks&id='.$this->item->fid);?>">
+						<a href="index.php?option=com_tracker&task=torrent.thanks&id=<?php echo $this->item->fid;?>">
 							<?php echo JText::_( 'COM_TRACKER_TORRENT_SAY_THANKYOU' );?>
 						</a>&nbsp;
 					</div>
@@ -406,7 +406,7 @@ jQuery(document).ready(function(){
 		?>
 		<tr class="<?php echo "peer$k"; ?>">
 			<td style="wrap: nowrap">
-				<a href="<?php echo JRoute::_('index.php?option=com_tracker&view=userpanel&id='.$this->peer->id);?>"><?php echo $this->peer->name; ?></a>
+				<a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$this->peer->id);?>"><?php echo $this->peer->name; ?></a>
 			</td>
 			<td width="10%" nowrap align="center"><?php
 					if (empty($this->peer->countryname)) {
@@ -459,7 +459,7 @@ jQuery(document).ready(function(){
 					?>
 		<tr class="<?php echo "snatcher$k"; ?>">
 			<td style="wrap: nowrap">&nbsp;<!-- USER -->
-				<a href="<?php echo JRoute::_('index.php?option=com_tracker&view=userpanel&id='.$this->snatcher->id);?>"><?php echo $this->snatcher->name; ?></a>
+				<a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$this->snatcher->id);?>"><?php echo $this->snatcher->name; ?></a>
 			</td>
 			<td width="10%" nowrap align="center">
 			<?php
@@ -500,7 +500,7 @@ jQuery(document).ready(function(){
 			<td style="wrap: nowrap"> <!-- USER -->
 			<?php
 				if ($params->get('allow_guest') && ($params->get('guest_user') == $user->id)) echo $this->hitrunner->name;
-				else echo '<a href="'.JRoute::_('index.php?option=com_tracker&view=userpanel&id='.$this->hitrunner->id).'">'.$this->hitrunner->name.'</a>';
+				else echo '<a href="'.JRoute::_('index.php?view=userpanel&id='.$this->hitrunner->id).'">'.$this->hitrunner->name.'</a>';
 			?>
 			</td>
 			<td width="10%" nowrap align="center">

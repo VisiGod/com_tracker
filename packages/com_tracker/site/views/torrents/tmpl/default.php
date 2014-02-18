@@ -29,7 +29,7 @@ $torrentType = array(
 );
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?view=torrents'); ?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
 		<?php if ($this->params->get('tl_search_bar')) { ?>
 		<div class="filter-search fltlft" style="width:50%; float:left;">
@@ -108,8 +108,8 @@ $torrentType = array(
 			$category_params->loadString($item->category_params);
 			?>
 			<tr class="row<?php echo $i % 2; ?>" style="width:90%;">
-				<?php if ($this->params->get('tl_name')) { ?><td width="92%"><a href="<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&id=".(int)$item->fid); ?>"><?php echo $this->escape(str_replace('_', ' ', $item->name)); ?></a></td><?php } ?>
-				<?php if ($this->params->get('tl_alias')) { ?><td width="92%"><a href="<?php echo JRoute::_("index.php?option=com_tracker&view=torrent&id=".(int)$item->fid); ?>"><?php echo $item->alias; ?></a></td><?php } ?>
+				<?php if ($this->params->get('tl_name')) { ?><td width="92%"><a href="<?php echo JRoute::_("index.php?view=torrent&id=".(int)$item->fid); ?>"><?php echo $this->escape(str_replace('_', ' ', $item->name)); ?></a></td><?php } ?>
+				<?php if ($this->params->get('tl_alias')) { ?><td width="92%"><a href="<?php echo JRoute::_("index.php?view=torrent&id=".(int)$item->fid); ?>"><?php echo $item->alias; ?></a></td><?php } ?>
 				<?php if ($this->params->get('enable_torrent_type')) {?><td width="1%" align="right" nowrap><?php echo TrackerHelper::checkTorrentType((int)$item->fid);?></td><?php } ?>
 				<?php if ($this->params->get('tl_info_hash')) { ?><td width="1%" align="center" nowrap><?php echo bin2hex($item->info_hash); ?></td><?php } ?>
 				<?php if ($this->params->get('tl_filename')) { ?><td width="1%" align="center" nowrap><?php echo $item->filename; ?></td><?php } ?>
@@ -151,7 +151,7 @@ $torrentType = array(
 
 				<?php if (TrackerHelper::user_permissions('download_torrents', $this->user->id) && $this->params->get('tl_download_image')) { ?>
 					<td width="1%" align="center">
-						<a href="<?php echo JRoute::_("index.php?option=com_tracker&task=torrent.download&id=".$item->fid); ?>">
+						<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$item->fid); ?>">
 							<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
 						</a>
 					</td>

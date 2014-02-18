@@ -14,10 +14,8 @@ jimport('joomla.application.component.modelform');
 class TrackerModelReport extends JModelForm {
 	
 	public function &getItem() {
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$id 	= JRequest::getInt('id', 0);
-		
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		
@@ -38,14 +36,12 @@ class TrackerModelReport extends JModelForm {
 	}
 
 	public function getForm($data = array(), $loadData = true) {
-		// Get the form.
 		$form = $this->loadForm('com_tracker.report', 'report', array('control' => 'jform', 'load_data' => true));
 		if (empty($form)) return false;
 		return $form;
 	}
 
 	protected function loadFormData() {
-		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_tracker.reported.torrent.data', array());
 		return $data;
 	}

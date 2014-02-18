@@ -16,17 +16,16 @@ class TrackerViewTorrent extends JViewLegacy {
 	protected $item = null;
 
 	public function display($tpl = null) {
-
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 		$pathway 	= $app->getPathway();
+		$params		= $app->getParams();
 
 		// Initialise variables
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$pagination	= $this->get('Pagination');
-		$params		= $app->getParams();
-
+		
 		$pathway->addItem(str_replace("_", " ", $item->name));
 
 		// Check for errors.
@@ -48,9 +47,9 @@ class TrackerViewTorrent extends JViewLegacy {
 			$user->load($params->get('guest_user'));
 		}
 
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('params', $params);
+		$this->assignRef('state',	$state);
+		$this->assignRef('item',	$item);
+		$this->assignRef('params', 	$params);
 
 		parent::display($tpl);
 	}

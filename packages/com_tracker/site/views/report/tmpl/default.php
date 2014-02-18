@@ -13,7 +13,6 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 JHtml::_('behavior.modal');
 
 ?>
-
 <style type="text/css">.toggle-editor{display:none;}</style>
 <div class="report-form">
 	<form id="report-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" target="_parent" class="form-validate">

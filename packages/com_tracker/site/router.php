@@ -16,7 +16,7 @@ function TrackerBuildRoute(&$query) {
 
 	if(isset($query['view'])) {
 		$segments[] = $query['view'];
-		unset( $query['view'] );
+		unset($query['view']);
 	}
 	if (isset($query['task'])) {
 		$segments[] = $query['task'];
@@ -33,46 +33,26 @@ function TrackerBuildRoute(&$query) {
 function TrackerParseRoute($segments) {
 	$vars = array();
 
-	switch($segments[0]) 	{
-		case 'edit':
-			$vars['view'] = 'edit';
-			$vars['id'] = (int) $id[0];
-			break;
-		case 'torrents-list':
-			$vars['view'] = 'torrents-list';
-			break;
-		case 'statistics':
-			$vars['view'] = 'statistics';
-			break;
-		case 'upload':
-			$vars['view'] = 'upload';
-			break;
-		case 'userpanel':
-			$vars['view'] = 'userpanel';
-			$id = explode( ':', $segments[1] );
-			$vars['id'] = (int) $id[0];
-			break;
-		case 'torrent':
-			$vars['view'] = 'torrent';
-			$id = explode( ':', $segments[1] );
-			$vars['id'] = (int) $id[0];
-			break;
-	}
-	/*
 	$count = count($segments);
+
 	if ($count) {
 		$count--;
 		$segment = array_shift($segments);
-		if (is_numeric($segment)) $vars['id'] = $segment;
-		else $vars['task'] = $segment;
+		if (is_numeric($segment)) {
+			$vars['id'] = $segment;
+		} else {
+			$vars['task'] = $segment;
+			$vars['view'] = $segment;
+		}
 	}
 
 	if ($count) {
 		$count--;
 		$segment = array_shift($segments) ;
-		if (is_numeric($segment)) $vars['id'] = $segment;
+		if (is_numeric($segment)) {
+			$vars['id'] = $segment;
+		}
 	}
 
-	*/
 	return $vars;
 }
