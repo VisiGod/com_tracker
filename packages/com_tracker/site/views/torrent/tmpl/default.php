@@ -15,9 +15,9 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 $params = JComponentHelper::getParams( 'com_tracker' );
 
 $doc = JFactory::getDocument();
-$doc->addScript("http://code.jquery.com/jquery-1.9.1.js");
-$doc->addScript("http://code.jquery.com/ui/1.10.2/jquery-ui.js");
-$doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css");
+$doc->addScript($params->get('jquery_url'));
+$doc->addScript($params->get('jquery_ui_url'));
+$doc->addStyleSheet($params->get('jquery_smoothness_theme_url'));
 
 $user	= JFactory::getUser();
 if ($user->get('id') == 0) $this->item->groupID = 0;

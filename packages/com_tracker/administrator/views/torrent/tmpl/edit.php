@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidation');
 $params = JComponentHelper::getParams( 'com_tracker' );
 
 $doc = JFactory::getDocument();
-$doc->addScript("http://code.jquery.com/jquery-latest.js");
+$doc->addScript($params->get('jquery_url'));
 $style = '.hide { display:none; }';
 $doc->addStyleDeclaration( $style );
 

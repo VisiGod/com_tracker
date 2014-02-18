@@ -213,6 +213,16 @@
 
 	</fieldset>
 
+	<fieldset name="external_link" label="COM_TRACKER_OPTIONS_EXTERNAL_LINKS" >
+
+		<field name="jquery_url" type="text" default="http://code.jquery.com/jquery-latest.js" label="COM_TRACKER_OPTIONS_EXTERNAL_LINKS_JQUERY" size="90" />
+
+		<field name="jquery_ui_url" type="text" default="http://code.jquery.com/ui/1.10.2/jquery-ui.js" label="COM_TRACKER_OPTIONS_EXTERNAL_LINKS_JQUERY_UI" size="90" />
+
+		<field name="jquery_smoothness_theme_url" type="text" default="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" label="COM_TRACKER_OPTIONS_EXTERNAL_LINKS_JQUERY_SMOOTHNESS_THEME" size="90" />
+
+	</fieldset>
+
 	<fieldset name="comments" label="COM_TRACKER_OPTIONS_COMMENTS" >
 		<field name="enable_comments" type="list" default="1" label="COM_TRACKER_OPTIONS_COMMENTS_ENABLE_COMMENTS" >
 			<option value="0">JNO</option>

@@ -17,7 +17,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
 $doc = JFactory::getDocument();
-$doc->addScript("http://code.jquery.com/jquery-latest.js");
+$doc->addScript($params->get('jquery_url'));
 $style = '.hide { display:none; }';
 $doc->addStyleDeclaration( $style );
 

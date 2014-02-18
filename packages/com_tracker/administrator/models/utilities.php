@@ -271,6 +271,10 @@ class TrackerModelUtilities extends JModelList {
 		
 		// Update the component parameter to know that freeleech is on
 		TrackerHelper::update_parameter('freeleech', '1');
+		
+		// Clean the cache.
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 		return true;
 	}
 	
@@ -301,6 +305,10 @@ class TrackerModelUtilities extends JModelList {
 		}
 		
 		TrackerHelper::update_parameter('freeleech', '0');
+
+		// Clean the cache.
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 		return true;
 	}
 

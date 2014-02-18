@@ -15,9 +15,9 @@ JHTML::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
 $session	= JFactory::getSession();
 
 $doc = JFactory::getDocument();
-$doc->addScript("http://code.jquery.com/jquery-1.9.1.js");
-$doc->addScript("http://code.jquery.com/ui/1.10.2/jquery-ui.js");
-$doc->addStyleSheet("http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css");
+$doc->addScript($this->params->get('jquery_url'));
+$doc->addScript($this->params->get('jquery_ui_url'));
+$doc->addStyleSheet($this->params->get('jquery_smoothness_theme_url'));
 $style = '#container {
 						display: table;
 						width: 99%;
