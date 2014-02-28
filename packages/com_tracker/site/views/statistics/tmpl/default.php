@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -49,16 +49,6 @@ $style = '#container {
 						white-space: pre-wrap;
 					}';
 $doc->addStyleDeclaration( $style );
-/*
-$tabs_jquery = '
-<script>
-$( "#tabs-stats" ).tabs();
-$( "#tabs-users" ).tabs();
-$( "#tabs-best" ).tabs();
-$( "#tabs-worst" ).tabs();
-</script>
-';
-*/
 ?>
 <script type="text/javascript">
 jQuery.noConflict();

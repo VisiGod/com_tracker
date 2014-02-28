@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -35,20 +35,7 @@ class TrackerModelGroup extends JModelAdmin {
 		if (empty($data)) $data = $this->getItem();
 		return $data;
 	}
-/*
-	public function save($data) {
-		$app			= JFactory::getApplication();
-		$params = JComponentHelper::getParams( 'com_tracker' );
 
-		echo "<pre>";
-		print_r($data);
-		echo "</pre>";
-		die();
-		
-		
-		return parent::save($data);
-	}
-*/
 	public function changeValue($gid, $task, $value) {
 		// Initialise variables.
 		$db		= $this->getDbo();

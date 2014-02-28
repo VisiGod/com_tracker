@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controllerform');
 
-class TrackerControllerUser extends JControllerForm {
+class TrackerControllerRSS extends JControllerForm {
 
-	public function getModel($name = 'userpanel', $prefix = '', $config = array('ignore_request' => true)) {
+	public function getModel($name = 'rss', $prefix = '', $config = array('ignore_request' => true)) {
 		$model = parent::getModel($name, $prefix, $config);
 
 		return $model;
@@ -29,15 +29,4 @@ class TrackerControllerUser extends JControllerForm {
 			return base64_decode($return);
 		}
 	}
-
-	public function resetpassversion() {
-		$id = JRequest::getInt('id', 0);
-
-		if ($id) {
-			$model = $this->getModel('Userpanel','TrackerModel',array('ignore_request'=>true));
-			$model->setState('userpasskey.id',$id);
-			$model->resetpassversion();
-		}
-	}
-
 }

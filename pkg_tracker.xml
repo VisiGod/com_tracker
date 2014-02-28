@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="package" version="2.5" method="upgrade">
 	<packagename>tracker</packagename>
-	<name>com_tracker</name>
+	<name>COM_TRACKER</name>
 	<creationDate>2012-03-17</creationDate>
 	<copyright>Copyright (C) 2007 - 2013 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
 	<license>GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl.html</license>
@@ -9,11 +9,11 @@
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
 	<description>A Frontend for XBT Tracker</description>
-	<version>2.5.12-dev</version>
+	<version>2.5.13-dev</version>
 	<url>http://www.visigod.com</url>
 	<packager>Hugo Carvalho</packager>
 	<packagerurl>http://www.visigod.com</packagerurl>
-	<description>XBT Tracker Frontend</description>
+	<description>COM_TRACKER_XML_DESCRIPTION</description>
 	<files folder="packages">
 		<file folder="com_tracker" type="component" id="com_tracker">com_tracker</file>
 		<file folder="mod_xbt_tracker_latest" type="module" client="site" id="mod_xbt_tracker_latest">mod_xbt_tracker_latest</file>

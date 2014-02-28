@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
 jimport('joomla.application.component.model');
+jimport( 'joomla.html.parameter' );
 
 class TrackerModelTorrents extends JModelList {
 
@@ -53,6 +54,7 @@ class TrackerModelTorrents extends JModelList {
 		// Initialise variables.
 		$app = JFactory::getApplication();
 		$component = JComponentHelper::getComponent( 'com_tracker' );
+		
 		$params = new JParameter( $component->params );
 
 		$menuitemid = JRequest::getInt( 'Itemid' );

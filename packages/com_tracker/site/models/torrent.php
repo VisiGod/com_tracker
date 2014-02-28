@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -556,7 +556,7 @@ class TrackerModelTorrent extends JModelItem {
 		if (empty($_POST['jform']['name'])) {
 			$filename = pathinfo($_FILES['jform']['name']['filename']);
 			$torrent->name($filename['filename']);
-		}			
+		} else $torrent->name($_POST['jform']['name']);
 
 		$query = $db->getQuery(true);
 		$query->select('count(fid)');

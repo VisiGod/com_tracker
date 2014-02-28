@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		2.5.12-dev
+ * @version		2.5.13-dev
  * @package		Joomla
  * @subpackage	mod_xbt_tracker_online_staff
  * @copyright	Copyright (C) 2007 - 2013 Hugo Carvalho, Psylodesign and Patlol. All rights reserved.

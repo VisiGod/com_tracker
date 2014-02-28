@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla controlleradmin library
 jimport('joomla.application.component.controlleradmin');
 
-class TrackerControllerBanClients extends JController {
+class TrackerControllerBanClients extends JControllerAdmin {
 
 	protected $text_prefix = 'COM_TRACKER_BANCLIENTS';
 

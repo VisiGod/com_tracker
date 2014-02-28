@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -93,6 +93,7 @@ function quickiconButton( $link, $image, $text ) {
 		if ($params->get('enable_reporttorrent')) quickiconButton( 'index.php?option=com_tracker&amp;view=reports', 'report-48x48.png', JText::_( 'COM_TRACKER_REPORTS' ) );
 		quickiconButton( 'index.php?option=com_tracker&amp;view=settings', 'settings-48x48.png', JText::_( 'COM_TRACKER_SETTINGS' ) );
 		quickiconButton( 'index.php?option=com_tracker&amp;view=utilities', 'utilities-48x48.png', JText::_( 'COM_TRACKER_UTILITIES' ) );
+		if ($params->get('enable_rss')) quickiconButton( 'index.php?option=com_tracker&amp;view=rsses', 'rss-48x48.png', JText::_( 'COM_TRACKER_RSSES' ) );
 		?>
 	</div>
 	<div style="clear: both;"></div>

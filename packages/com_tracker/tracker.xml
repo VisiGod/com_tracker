@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
-	<name>com_tracker</name>
+	<name>COM_TRACKER</name>
 	<creationDate>2012-08-20</creationDate>
 	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
 	<license>GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl-3.0.html</license>
 	<author>Hugo Carvalho</author>
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
-	<version>2.5.12-dev</version>
-	<description>A Frontend for XBT Tracker</description>
+	<version>2.5.13-dev</version>
+	<description>COM_TRACKER_XML_DESCRIPTION</description>
 
 	<scriptfile>installscript.php</scriptfile>	<!-- Runs on install/uninstall/update; -->
 
@@ -51,7 +51,7 @@
 	</media>
 	
 	<administration>
-		<menu img="components/com_tracker/images/panel/logo-16x16.png" alt="XBT Tracker Frontend">COM_TRACKER_MENU_TITLE</menu>
+		<menu img="components/com_tracker/images/panel/logo-16x16.png" alt="XBT Tracker Frontend">COM_TRACKER</menu>
 		<files folder="administrator">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>

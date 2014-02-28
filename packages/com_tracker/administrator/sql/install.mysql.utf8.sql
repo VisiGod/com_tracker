@@ -205,6 +205,7 @@ CREATE TABLE IF NOT EXISTS `#__tracker_users` (
 `multiplier_type` TINYINT(1) NOT NULL DEFAULT '0',
 `download_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
 `upload_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
+`hash` VARCHAR(32) NOT NULL,
 `ordering` INT(11) NOT NULL,
 PRIMARY KEY (`id`)
 );
@@ -229,6 +230,25 @@ CREATE TABLE IF NOT EXISTS `#__tracker_groups` (
 `edit_comments` TINYINT(1) NOT NULL DEFAULT '0',
 `delete_comments` TINYINT(1) NOT NULL DEFAULT '0',
 `autopublish_comments` TINYINT(1) NOT NULL DEFAULT '0',
+`ordering` INT(11) NOT NULL,
+`state` TINYINT(1) NOT NULL DEFAULT '1',
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `#__tracker_rss` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(50) NOT NULL,
+`channel_title` VARCHAR(50) NOT NULL,
+`channel_description` VARCHAR(100) NOT NULL,
+`rss_authentication` TINYINT(1) NOT NULL DEFAULT '0',
+`rss_authentication_items` VARCHAR(100) DEFAULT NULL,
+`rss_type` TINYINT(1) NOT NULL DEFAULT '0',
+`rss_type_items` VARCHAR(100) DEFAULT NULL,
+`item_count` TINYINT(1) UNSIGNED NOT NULL DEFAULT '10',
+`item_title` VARCHAR(50) NOT NULL,
+`item_description` VARCHAR(250) NOT NULL,
+`created_user_id` INT(10) UNSIGNED NOT NULL,
+`created_time` DATETIME DEFAULT NULL,
 `ordering` INT(11) NOT NULL,
 `state` TINYINT(1) NOT NULL DEFAULT '1',
 PRIMARY KEY (`id`)

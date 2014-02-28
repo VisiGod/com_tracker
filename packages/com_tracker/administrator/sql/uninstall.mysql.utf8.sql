@@ -15,4 +15,5 @@ DROP TABLE `#__tracker_licenses`;
 DROP TABLE `#__tracker_scrape_log`;
 DROP TABLE `#__tracker_users`;
 DROP TABLE `#__tracker_groups`;
+DROP TABLE `#__tracker_rss`;
 DROP TABLE `xbt_config`;

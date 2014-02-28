@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		2.5.12-dev
+ * @version		2.5.13-dev
  * @package		Joomla
  * @subpackage	com_tracker
  * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -18,12 +18,39 @@ class com_trackerInstallerScript {
 		// Installing component manifest file version
 		$this->release = $parent->get( "manifest" )->version;
 
-		// First changes in database model since version 2.5.12-dev 
-		if ($this->release < '2.5.12-dev') { 
+		// First changes in database model since version 2.5.13-dev 
+		if ($this->release < '2.5.13-dev') { 
 			$db = JFactory::getDbo();
 			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `tags` VARCHAR(16380) NOT NULL AFTER `image_file`');
 			$db->query();
 		}
+		
+		// Release 2.5.13-dev - The introduction of RSS
+		if ($this->release < '2.5.13-dev') {
+			$db = JFactory::getDbo();
+			$db->setQuery("CREATE TABLE IF NOT EXISTS `#__tracker_rss` (
+							`id` INT(11) NOT NULL AUTO_INCREMENT,
+							`channel_title` VARCHAR(50) NOT NULL,
+							`channel_description` VARCHAR(100) NOT NULL,
+							`rss_authentication` TINYINT(1) NOT NULL DEFAULT '0',
+							`rss_authentication_items` VARCHAR(100) DEFAULT NULL,
+							`rss_type` TINYINT(1) NOT NULL DEFAULT '0',
+							`rss_type_items` VARCHAR(100) DEFAULT NULL,
+							`item_count` TINYINT(1) UNSIGNED NOT NULL DEFAULT '10',
+							`item_title` VARCHAR(50) NOT NULL,
+							`item_description` VARCHAR(250) NOT NULL,
+							`created_user_id` INT(10) UNSIGNED NOT NULL,
+							`created_time` DATETIME DEFAULT NULL,
+							`ordering` INT(11) NOT NULL,
+							`state` TINYINT(1) NOT NULL DEFAULT '1',
+							PRIMARY KEY (`id`)
+							);");
+			$db->query();
+			
+			$query	= $db->getQuery(true);
+			$db->setQuery('ALTER TABLE #__tracker_users ADD `hash` VARCHAR(32) NOT NULL AFTER `upload_multiplier`');
+			$db->query();
+		}		
 	}
 	
 	public function postflight($type, $parent) {
@@ -45,6 +72,7 @@ class com_trackerInstallerScript {
 			$defaults .= '"enable_thankyou":"1",';
 			$defaults .= '"enable_reseedrequest":"1",';
 			$defaults .= '"enable_reporttorrent":"1",';
+			$defaults .= '"enable_rss":"1",';
 			$defaults .= '"freeleech":"0",';
 			$defaults .= '"enable_torrent_type":"1",';
 			$defaults .= '"enable_torrent_type_new":"1",';
@@ -91,6 +119,12 @@ class com_trackerInstallerScript {
 			$defaults .= '"torrent_information":"1",';
 			$defaults .= '"info_post_description":"Torrent Information",';
 			$defaults .= '"info_post_url":"http://www.site.com/index.php?info":"",';
+			$defaults .= '"import_source_folder":"",';
+			$defaults .= '"import_filename":"",';
+			$defaults .= '"field_separator":";",';
+			$defaults .= '"jquery_url":"http://code.jquery.com/jquery-latest.js",';
+			$defaults .= '"jquery_ui_url":"http://code.jquery.com/ui/1.10.2/jquery-ui.js",';
+			$defaults .= '"jquery_smoothness_theme_url":"http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css",';
 			$defaults .= '"enable_comments":"0",';
 			$defaults .= '"comment_system":"jcomments",';
 			$defaults .= '"comment_only_leecher":"1",';

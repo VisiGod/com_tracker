@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="id" type="hidden" default="0" />
+
+		<field name="name" type="text" size="50" class="inputbox" label="COM_TRACKER_RSS_NAME" description="" required="true" filter="safehtml" />
+
+		<field name="channel_title" type="text" size="50" class="inputbox" label="COM_TRACKER_RSS_CHANNEL_TITLE" description="" required="true" filter="safehtml" />
+		
+		<field name="channel_description" type="textarea" default="" label="COM_TRACKER_RSS_CHANNEL_DESCRIPTION" description="" rows="10" cols="5" filter="raw"/>
+
+		<field name="rss_authentication" type="list" default="0" label="COM_TRACKER_RSS_AUTHENTICATION" description="">
+			<option value="0">COM_TRACKER_RSS_AUTHENTICATION_GUEST_ACCESS</option>
+			<option value="1">COM_TRACKER_RSS_AUTHENTICATION_LOGGED_IN_ACCESS</option>
+			<option value="2">COM_TRACKER_RSS_AUTHENTICATION_GROUP_ACCESS</option>
+		</field>
+
+		<field name="rss_authentication_group" size="5" type="sql" class="inputbox" multiple="true" label="COM_TRACKER_RSS_AUTHENTICATION_GROUP" query="SELECT id , name FROM #__tracker_groups WHERE state = 1" key_field="id" value_field="name" description="" />
+
+		<field name="rss_authentication_items" type="hidden" />
+
+		<field name="rss_type" type="list" default="0" label="COM_TRACKER_RSS_TYPE" description="">
+			<option value="0">COM_TRACKER_RSS_TYPE_LATEST</option>
+			<option value="1">COM_TRACKER_RSS_TYPE_CATEGORY</option>
+			<option value="2">COM_TRACKER_RSS_TYPE_LICENSE</option>
+		</field>
+
+		<field name="rss_type_category" size="5" type="sql" class="inputbox" multiple="true" label="COM_TRACKER_RSS_TYPE_CATEGORY" query="SELECT id , title FROM #__categories WHERE extension='com_tracker' AND published = 1" key_field="id" value_field="title" description="" />
+
+		<field name="rss_type_license" size="5" type="sql" class="inputbox" multiple="true" label="COM_TRACKER_RSS_TYPE_LICENSE" query="SELECT id , shortname FROM #__tracker_licenses WHERE state = 1" key_field="id" value_field="shortname" description="" />
+
+		<field name="rss_type_items" type="hidden" />
+
+		<field name="item_count" type="text" default="10" label="COM_TRACKER_RSS_ITEM_COUNT" description="" filter="integer" />
+
+		<field name="item_title" type="text" size="50" class="inputbox" label="COM_TRACKER_RSS_ITEM_TITLE" description="" required="true" filter="safehtml" />
+		
+		<field name="item_description" type="textarea" default="" label="COM_TRACKER_RSS_ITEM_DESCRIPTION" description="" rows="10" cols="5" filter="raw"/>
+
+		<field name="created_user_id" type="user" label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="JGLOBAL_FIELD_CREATED_BY_DESC" />
+
+		<field name="created_time" type="text" label="JGLOBAL_CREATED_DATE" class="readonly" filter="unset" readonly="true" />
+
+		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+
+		<field name="state" type="hidden" default="1" />
+	</fieldset>
+</form>

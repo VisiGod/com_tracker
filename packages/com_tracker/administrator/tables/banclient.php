@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -47,20 +47,4 @@ class TrackerTableBanClient extends JTable {
 		return parent::bind($array, $ignore);
 	}
 
-/*	
-	protected function _getAssetName() {
-		$k = $this->_tbl_key;
-		return 'com_tracker.banclient.'.(int) $this->$k;
-	}
- 
-	protected function _getAssetTitle() {
-		return $this->cname;
-	}
-
-	protected function _getAssetParentId() {
-		$asset = JTable::getInstance('Asset');
-		$asset->loadByName('com_tracker');
-		return $asset->id;
-	}
-*/
 }

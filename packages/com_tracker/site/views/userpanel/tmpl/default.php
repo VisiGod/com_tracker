@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
 $doc = JFactory::getDocument();
-$doc->addScript($params->get('jquery_url'));
-$doc->addScript($params->get('jquery_ui_url'));
-$doc->addStyleSheet($params->get('jquery_smoothness_theme_url'));
+$doc->addScript($this->params->get('jquery_url'));
+$doc->addScript($this->params->get('jquery_ui_url'));
+$doc->addStyleSheet($this->params->get('jquery_smoothness_theme_url'));
 
 ?>
 <script type="text/javascript">

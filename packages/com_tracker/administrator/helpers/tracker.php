@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.12-dev
+ * @version			2.5.13-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -9,6 +9,7 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/RSSFeed.php';
 
 abstract class TrackerHelper {
 
@@ -32,6 +33,7 @@ abstract class TrackerHelper {
 		if ($params->get('enable_reporttorrent')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_REPORTS'), 'index.php?option=com_tracker&view=reports', $submenu == 'reports');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_SETTINGS'), 'index.php?option=com_tracker&view=settings', $submenu == 'settings');
 		JSubMenuHelper::addEntry( JText::_('COM_TRACKER_UTILITIES'), 'index.php?option=com_tracker&view=utilities', $submenu == 'utilities');
+		if ($params->get('enable_rss')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_RSSES'), 'index.php?option=com_tracker&view=rsses', $submenu == 'rsses');
 		// set some global property
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('.icon-48-trackerpanel {background-image: url(components/com_tracker/images/panel/logo-48x48.png);}');
@@ -50,6 +52,7 @@ abstract class TrackerHelper {
 		$document->addStyleDeclaration('.icon-48-report {background-image: url(components/com_tracker/images/panel/report-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-settings {background-image: url(components/com_tracker/images/panel/settings-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-utilities {background-image: url(components/com_tracker/images/panel/utilities-48x48.png);}');
+		$document->addStyleDeclaration('.icon-48-rsses {background-image: url(components/com_tracker/images/panel/rss-48x48.png);}');
 	}
 
 	public static function getActions($Id = 0, $Asset = NULL) {
@@ -427,6 +430,7 @@ abstract class TrackerHelper {
 			$query->set('multiplier_type = 0');
 			$query->set('download_multiplier = '.$base_group['download_multiplier']);
 			$query->set('upload_multiplier = '.$base_group['upload_multiplier']);
+			$query->set('hash = "'.JUserHelper::genRandomPassword(32).'"');
 			$query->set('ordering = '.(int)$newuser['id']);
 			$db->setQuery($query);
 			$db->query();
@@ -689,6 +693,134 @@ abstract class TrackerHelper {
 		}
 		return true;
 	}
+
+	public static function getRSS($data = null) {
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+		$user	= JFactory::getUser();
+		$db 	= JFactory::getDBO();
+		$config =& JFactory::getConfig();
+		$query	= $db->getQuery(true);
+		$params	= JComponentHelper::getParams('com_tracker');
+		$lang = JFactory::getLanguage();
+	
+		// Get the items for the RSS channel
+		$query->select('t.fid');
+			
+		// We need to use one field to do the preg_match.
+		$used_fields = $data->item_title.' '.$data->item_description;
+			
+		// Select the fields in the item title and description
+		if (preg_match('/{name}/',$used_fields)) 		$query->select('t.name');
+		if (preg_match('/{description}/',$used_fields)) $query->select('t.description');
+		if (preg_match('/{size}/',$used_fields))		$query->select('t.size');
+		if (preg_match('/{upload_date}/',$used_fields))	$query->select('t.created_time');
+		if (preg_match('/{seeders}/',$used_fields))		$query->select('t.seeders');
+		if (preg_match('/{leechers}/',$used_fields))	$query->select('t.leechers');
+		if (preg_match('/{completed}/',$used_fields))	$query->select('t.completed');
+	
+		// Join on category table.
+		if (preg_match('/{category}/',$used_fields) || $data->rss_type == 1) {
+			$query->select('c.title AS category');
+			$query->join('LEFT', '#__categories AS c on c.id = t.categoryID');
+		}
+	
+		// Join on user table.
+		if (preg_match('/{uploader}/',$used_fields)) {
+			$query->select('u.username as user');
+			$query->join('LEFT', '#__users AS u on u.id = r.created_user_id');
+		}
+			
+		// Join on licenses table
+		if (preg_match('/{license}/',$used_fields) || $data->rss_type == 2) {
+			$query->select('l.shortname as license');
+			$query->join('LEFT', '#__tracker_licenses AS l on l.id = t.licenseID');
+		}
+			
+		$query->from('#__tracker_torrents AS t');
+	
+		// Show torrents with the selected categories
+		if ($data->rss_type == 1) {
+			$query->where('t.categoryID IN ( '.$data->rss_type_items.' )');
+			// Or show torrents with the selected licenses
+		} else if ($data->rss_type == 2) {
+			$query->where('t.licenseID IN ( '.$data->rss_type_items.' )');
+		}
+		$query->order('t.fid DESC');
+	
+		// Limit the number of items we get from the DB
+		$db->setQuery($query,0,$data->item_count);
+		$items = $db->loadObjectList();
+	
+		$feed = new RSSFeed();
+		$feed->SetChannel(JURI::getInstance()->toString(), 					// RSS URL
+				$data->channel_title,										// RSS Channel Title
+				$data->channel_description,									// RSS Channel Description
+				$lang->getTag(),											// RSS Language
+				'&#174;'.$config->getValue( 'config.sitename' ).date("Y"),	// RSS Copyright
+				$data->user,												// RSS Creator
+				$data->name);												// RSS Name
+	
+		foreach ($items as $i => $item) {
+			// Now we need to prepare the preg_replace items. It's an ugly code but didn't found a better one
+			$source = array();
+			$destination = array();
+	
+			if (preg_match('/{name}/',$used_fields)) {
+				array_push($source, '/{name}/');
+				array_push($destination, $item->name);
+			}
+			if (preg_match('/{description}/',$used_fields)) {
+				array_push($source, '/{description}/');
+				array_push($destination, $item->description);
+			}
+			if (preg_match('/{link}/',$used_fields)) {
+				array_push($source, '/{link}/');
+				array_push($destination, 'JRoute::_(JURI::base()."index.php?option=com_tracker&view=torrent&id=".$item->fid, true, -1)');
+			}
+			if (preg_match('/{size}/',$used_fields)) {
+				array_push($source, '/{size}/');
+				array_push($destination, $item->size);
+			}
+			if (preg_match('/{upload_date}/',$used_fields)) {
+				array_push($source, '/{upload_date}/');
+				array_push($destination, $item->created_time);
+			}
+			if (preg_match('/{seeders}/',$used_fields)) {
+				array_push($source, '/{seeders}/');
+				array_push($destination, $item->seeders);
+			}
+			if (preg_match('/{leechers}/',$used_fields)) {
+				array_push($source, '/{leechers}/');
+				array_push($destination, $item->leechers);
+			}
+			if (preg_match('/{completed}/',$used_fields)) {
+				array_push($source, '/{completed}/');
+				array_push($destination, $item->completed);
+			}
+			if (preg_match('/{category}/',$used_fields)) {
+				array_push($source, '/{category}/');
+				array_push($destination, $item->category);
+			}
+			if (preg_match('/{uploader}/',$used_fields)) {
+				array_push($source, '/{uploader}/');
+				array_push($destination, $item->user);
+			}
+			if (preg_match('/{license}/',$used_fields)) {
+				array_push($source, '/{license}/');
+				array_push($destination, $item->license);
+			}
+	
+			$name = preg_replace($source, $destination, $data->item_title);
+			$description = preg_replace($source, $destination, $data->item_description);
+	
+			$feed->SetItem(JRoute::_(JURI::base().'index.php?option=com_tracker&view=torrent&id='.$item->fid, true, -1), $name, $description);
+		}
+	
+		echo $feed->output();
+	}
+	
+
 // ########################################################################################################################################
 /*
 	public static function checkComponentConfigured() {
