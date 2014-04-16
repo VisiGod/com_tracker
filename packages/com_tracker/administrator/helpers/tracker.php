@@ -9,7 +9,7 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/RSSFeed.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_tracker/helpers/RSSFeed.php';
 
 abstract class TrackerHelper {
 
