@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -55,7 +55,7 @@ class TrackerModelTorrents extends JModelList {
 		$app = JFactory::getApplication();
 		$component = JComponentHelper::getComponent( 'com_tracker' );
 		
-		$params = new JParameter( $component->params );
+		$params = json_decode($component->params);
 
 		$menuitemid = JRequest::getInt( 'Itemid' );
 		$menu = JSite::getMenu();

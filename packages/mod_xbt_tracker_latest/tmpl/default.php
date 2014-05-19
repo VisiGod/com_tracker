@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	mod_xbt_tracker_latest
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -123,8 +123,8 @@ $document->addStyleDeclaration( $style );
 					$category_params = new JRegistry();
 					$category_params->loadString($item->category_params);
 
-					if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DS.$category_params->get('image'))) {
-						$items .= '<div id="value-center">&nbsp;<img id="image'.$item->fid.'" alt="'.$item->torrent_category.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />&nbsp;</div>';
+					if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'))) {
+						$items .= '<div id="value-center">&nbsp;<img id="image'.$item->fid.'" alt="'.$item->torrent_category.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />&nbsp;</div>';
 					} else $items .= '<div id="value">&nbsp;'.$item->torrent_category.'&nbsp;</div>';
 				}
 				if ($params->get('download_button') && TrackerHelper::user_permissions('can_leech', $user->id) ) {

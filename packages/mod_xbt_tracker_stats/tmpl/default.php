@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	mod_xbt_tracker_stats
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -283,8 +283,8 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			$category_params->loadString($most_active_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_active_torrents->fid.'" alt="'.$most_active_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_active_torrents->fid.'" alt="'.$most_active_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $most_active_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -320,8 +320,8 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			$category_params->loadString($most_seeded_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_seeded_torrents->fid.'" alt="'.$most_seeded_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_seeded_torrents->fid.'" alt="'.$most_seeded_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $most_seeded_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -357,8 +357,8 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			$category_params->loadString($most_leeched_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_leeched_torrents->fid.'" alt="'.$most_leeched_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_leeched_torrents->fid.'" alt="'.$most_leeched_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $most_leeched_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -394,8 +394,8 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			$category_params->loadString($most_completed_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_completed_torrents->fid.'" alt="'.$most_completed_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$most_completed_torrents->fid.'" alt="'.$most_completed_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $most_completed_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -434,8 +434,8 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			$category_params->loadString($top_thanked_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$top_thanked_torrents->fid.'" alt="'.$top_thanked_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$top_thanked_torrents->fid.'" alt="'.$top_thanked_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $top_thanked_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -474,8 +474,8 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			$category_params->loadString($worst_active_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_active_torrents->fid.'" alt="'.$worst_active_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_active_torrents->fid.'" alt="'.$worst_active_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $worst_active_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -511,8 +511,8 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			$category_params->loadString($worst_seeded_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_seeded_torrents->fid.'" alt="'.$worst_seeded_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_seeded_torrents->fid.'" alt="'.$worst_seeded_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $worst_seeded_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -548,8 +548,8 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			$category_params->loadString($worst_leeched_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_leeched_torrents->fid.'" alt="'.$worst_leeched_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_leeched_torrents->fid.'" alt="'.$worst_leeched_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $worst_leeched_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';
@@ -585,8 +585,8 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			$category_params->loadString($worst_completed_torrents->cat_params);
 
 			echo '<div id="value-center">&nbsp;';
-			if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) {
-				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_completed_torrents->fid.'" alt="'.$worst_completed_torrents->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />';
+			if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) {
+				echo '<img style="vertical-align:middle;"  id="tacatimage'.$worst_completed_torrents->fid.'" alt="'.$worst_completed_torrents->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />';
 			} else echo $worst_completed_torrents->cat_title;
 			echo '&nbsp;</div>';
 			echo '</div>';

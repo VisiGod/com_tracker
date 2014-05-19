@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -367,8 +367,8 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -403,8 +403,8 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -440,8 +440,8 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -477,8 +477,8 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -516,8 +516,8 @@ if (($this->params->get('most_active_torrents') && count($this->item->most_activ
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -570,8 +570,8 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -607,8 +607,8 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -644,8 +644,8 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>
@@ -681,8 +681,8 @@ if (($this->params->get('worst_active_torrents') && count($this->item->worst_act
 			$category_params->loadString($item->cat_params);
 	?>
 			<div id="value-center">&nbsp;
-	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DS.JUri::root(true).$category_params->get('image'))) { ?>
-				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DS.$category_params->get('image').'" width="36" />
+	<?php if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.JUri::root(true).$category_params->get('image'))) { ?>
+				<img style="vertical-align:middle;"  id="tacatimage'.$item->fid.'" alt="'.$item->cat_title.'" src="'.JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image').'" width="36" />
 	<?php } else echo $item->cat_title; ?>
 			&nbsp;</div>
 			</div>

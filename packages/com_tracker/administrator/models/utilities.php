@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -329,7 +329,7 @@ class TrackerModelUtilities extends JModelList {
 			return false;
 		}
 
-		$filename = JUri::root().DS.'tmp'.DS.$filename;
+		$filename = JUri::root().DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.$filename;
 		@$handle = fopen($filename, "r");
 		$header = NULL;
 		$data = array();
@@ -367,7 +367,7 @@ class TrackerModelUtilities extends JModelList {
 	
 			// ------------------------------------------------------------------------------------------------------------------------
 			// Let's take care of the .torrent file first
-			$torrent_file = JPATH_ROOT.DS.$source_folder.DS.$imported_torrent['Filename'];
+			$torrent_file = JPATH_ROOT.DIRECTORY_SEPARATOR.$source_folder.DIRECTORY_SEPARATOR.$imported_torrent['Filename'];
 			$temp_torrent['filename'] = $imported_torrent['Filename'];
 	
 			// If we try to use an empty file
@@ -417,7 +417,7 @@ class TrackerModelUtilities extends JModelList {
 	
 				// When image file is 'uploaded file'
 				if ($image_type == 1) {
-					$image_file = JPATH_ROOT.DS.$source_folder.DS.$imported_torrent['Image'];
+					$image_file = JPATH_ROOT.DIRECTORY_SEPARATOR.$source_folder.DIRECTORY_SEPARATOR.$imported_torrent['Image'];
 					if (!is_file($image_file)) {
 						$this->setError(JText::_( 'COM_TRACKER_UTILITY_IMPORT_OPS_SOMETHING_HAPPENED_IMAGE').' - '.$imported_torrent['Image']);
 						return false;
@@ -523,7 +523,7 @@ class TrackerModelUtilities extends JModelList {
 	
 			$upload_error = 0;
 			// Lets try to save the torrent before we continue
-			if (!copy($torrent_file, JPATH_SITE.DS.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'])) {
+			if (!copy($torrent_file, JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'])) {
 				$upload_error = 1;
 				echo JText::_('COM_TRACKER_UTILITY_IMPORT_COULDNT_COPY_TORRENT');
 				continue;
@@ -531,7 +531,7 @@ class TrackerModelUtilities extends JModelList {
 	
 			// And we should also move the image file if we're using it with the option of uploading an image file
 			if ($params->get('use_image_file') && $imported_torrent['ImageType'] == 1) {
-				if (!copy($image_file, JPATH_SITE.DS.'images/tracker/torrent_image/'.$image_file_query_value)) {
+				if (!copy($image_file, JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value)) {
 					$upload_error = 1;
 					echo JText::_('COM_TRACKER_UTILITY_IMPORT_COULDNT_COPY_TORRENT_IMAGE');
 					continue 2;
@@ -555,8 +555,8 @@ class TrackerModelUtilities extends JModelList {
 				$query->where('fid='.$db->quote($torrent_id));
 				$db->setQuery($query);
 				$db->query();
-				@unlink(JPATH_SITE.DS.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename']);
-				if ($image_type == 1) @unlink(JPATH_SITE.DS.'images/tracker/torrent_image/'.$image_file_query_value);
+				@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename']);
+				if ($image_type == 1) @unlink(JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value);
 				continue;
 			}
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_TRACKER_UTILITY_IMPORT_TORRENT').' \''.$temp_torrent['filename'].'\' '.JText::_('COM_TRACKER_UTILITY_IMPORT_TORRENT_SUCCESS').'<br>');

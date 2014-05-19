@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -104,7 +104,7 @@ class TrackerModelEdit extends JModelItem {
 
 			// Rename the filename if we've changed it
 			if ($torrent['filename'] <> $torrent['old_filename'].'.torrent') {
-				$pre_file = JPATH_SITE.DS.$params->get('torrent_dir').$torrent['fid'].'_';
+				$pre_file = JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent['fid'].'_';
 				rename($pre_file.$torrent['old_filename'].'.torrent', $pre_file.$torrent['filename']);
 			}
 		} else { // We've uploaded a new torrent file to replace the old one
@@ -176,16 +176,16 @@ class TrackerModelEdit extends JModelItem {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$torrent['fid']), JText::_('COM_TRACKER_UPLOAD_NOT_AN_IMAGE_FILE'), 'error');
 				}
 
-				if (file_exists('file://' . JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
+				if (file_exists('file://' . JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
 					// Delete the previous image file from disk
-					@unlink (JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']);
+					@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']);
 				}
 				$image_file_extension = end(explode(".", $_FILES['image_file']['name'])); 
 				$torrent['image_file'] = $_POST['info_hash'].'.'.$image_file_extension;
 				$image_file_file = $_FILES['jform']['tmp_name']['image_file'];
 
 				// And we should also move the image file if we're using it with the option of uploading an image file
-				if (!move_uploaded_file($_FILES['image_file']['tmp_name'], JPATH_SITE.DS.'images/tracker/torrent_image/'.$torrent['image_file'])) {
+				if (!move_uploaded_file($_FILES['image_file']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$torrent['image_file'])) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$torrent['fid']), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 				}
 
@@ -204,18 +204,18 @@ class TrackerModelEdit extends JModelItem {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&amp;view=edit&id='.$torrent['fid']), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_NOT_IMAGE'), 'error');
 				}
 
-				if (file_exists('file://' . JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
+				if (file_exists('file://' . JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
 					// Delete the previous image file from disk
-					@unlink (JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']);
+					@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']);
 				}
 
 				$torrent['image_file'] = $_POST['image_file'];
 			}
 
 			if ($_POST['default_image_type'] == 3) {
-				if (file_exists('file://' . JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
+				if (file_exists('file://' . JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
 					// Delete the previous image file from disk
-					@unlink (JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']);
+					@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']);
 				}
 
 				$torrent['image_file'] = "";
@@ -285,11 +285,11 @@ class TrackerModelEdit extends JModelItem {
 				}
 			}
 			// And we need to overwrite the previous torrent from the server with the new one
-			if (!move_uploaded_file($_FILES['filename']['tmp_name'], JPATH_SITE.DS.$params->get('torrent_dir').$torrent['fid']."_".$_FILES['filename']['name']))
+			if (!move_uploaded_file($_FILES['filename']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent['fid']."_".$_FILES['filename']['name']))
 				$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$torrent['fid']), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 
 			// But we also need to delete the old torrent file
-			@unlink(JPATH_SITE.DS.$params->get('torrent_dir').$torrent['fid']."_".$torrent['old_filename'].'.torrent');
+			@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent['fid']."_".$torrent['old_filename'].'.torrent');
 		}
 
 		// If we're in freeleech we need to edit the record of the torrent in the freeleech table

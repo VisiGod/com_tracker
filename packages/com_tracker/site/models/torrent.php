@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -293,13 +293,13 @@ class TrackerModelTorrent extends JModelItem {
 
 		$torrentfile = $row->fid."_".$row->filename;
 
-		if (!is_file(JPATH_SITE.DS.$params->get('torrent_dir').$torrentfile)) {
+		if (!is_file(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile)) {
 			echo "<script> alert(\"".JText::_( 'COM_TRACKER_FILE_DOESNT_EXIST' )."\"); window.history.go(-1);</script>\n";
 			exit;
 		}
 		clearstatcache();
 
-		if (!is_readable(JPATH_SITE.DS.$params->get('torrent_dir').$torrentfile)) {
+		if (!is_readable(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile)) {
 			echo "<script> alert(\"".JText::_( 'COM_TRACKER_FILE_ISNT_READABLE' )."\"); window.history.go(-1);</script>\n";
 			exit;
 		}
@@ -326,7 +326,7 @@ class TrackerModelTorrent extends JModelItem {
 		$db->setQuery($query);
 		$torrent_pass_version = $db->loadResult();
 
-		$torrent = new Torrent( JPATH_SITE.DS.$params->get('torrent_dir').$torrentfile );
+		$torrent = new Torrent( JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile );
 		// ###############################################################################################################################
 
 		// reset announce trackers
@@ -685,11 +685,11 @@ class TrackerModelTorrent extends JModelItem {
 
 		$upload_error = 0;
 		// Lets try to save the torrent before we continue
-		if (!move_uploaded_file($_FILES['jform']['tmp_name']['filename'], JPATH_SITE.DS.$params->get('torrent_dir').$torrent_id."_".$_FILES['jform']['name']['filename'])) $upload_error = 1;
+		if (!move_uploaded_file($_FILES['jform']['tmp_name']['filename'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$_FILES['jform']['name']['filename'])) $upload_error = 1;
 
 		// And we should also move the image file if we're using it with the option of uploading an image file
 		if ($params->get('use_image_file') && $_POST['jform']['image_type'] == 1) {
-			if (!move_uploaded_file($_FILES['jform']['tmp_name']['image_file'], JPATH_SITE.DS.'images/tracker/torrent_image/'.$image_file_query_value)) $upload_error = 1;
+			if (!move_uploaded_file($_FILES['jform']['tmp_name']['image_file'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value)) $upload_error = 1;
 		}
 
 		if ($upload_error == 0) {
@@ -712,7 +712,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->where('fid='.$db->quote($torrent_id));
 			$db->setQuery($query);
 			$db->query();
-			unlink (JPATH_SITE.DS.$params->get('torrent_dir').$torrent_id."_*");
+			unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_*");
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 		}
 	}

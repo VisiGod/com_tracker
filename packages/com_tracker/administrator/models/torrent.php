@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -69,7 +69,7 @@ class TrackerModelTorrent extends JModelAdmin {
 				
 				if ($image_file) {
 					// Delete the image
-					@unlink (JPATH_SITE.DS.'images/tracker/torrent_image/'.$itemId.'_'.$image_file);
+					@unlink (JPATH_SITE.'/images/tracker/torrent_image/'.$itemId.'_'.$image_file);
 				}
 			}
 		}
@@ -116,7 +116,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		$file = $db->loadResult();
 		
 		// Delete the real torrent file
-		@unlink (JPATH_SITE.DS.$params->get('torrent_dir').$itemId.'_'.$file);
+		@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$file);
 		
 
 		return true;
@@ -150,15 +150,15 @@ class TrackerModelTorrent extends JModelAdmin {
 					return false;
 				}
 		
-				if (file_exists('file://' . JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
+				if (file_exists('file://' . JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
 					// Delete the previous image file from disk
-					@unlink (JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']);
+					@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']);
 				}
 				$image_file_extension = end(explode(".", $_FILES['image_file']['name']));
 				$data['image_file'] = $_POST['info_hash'].'.'.$image_file_extension;
 		
 				// And we should also move the image file if we're using it with the option of uploading an image file
-				if (!move_uploaded_file($_FILES['image_file']['tmp_name'], JPATH_SITE.DS.'images/tracker/torrent_image/'.$data['image_file'])) {
+				if (!move_uploaded_file($_FILES['image_file']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$data['image_file'])) {
 					$this->setError(JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'));
 					return false;
 				}
@@ -178,9 +178,9 @@ class TrackerModelTorrent extends JModelAdmin {
 					return false;
 				}
 		
-				if (file_exists('file://' . JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
+				if (file_exists('file://' . JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']) && !empty($_POST['image_file'])) {
 					// Delete the previous image file from disk
-					@unlink (JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']);
+					@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']);
 				}
 				$data['image_file'] = $_POST['image_file'];
 			}
@@ -188,9 +188,9 @@ class TrackerModelTorrent extends JModelAdmin {
 			// When we want to remove the old image file or image link
 			if ($_POST['default_image_type'] == 3) {
 
-				if (file_exists('file://' . JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file'])) {
+				if (file_exists('file://' . JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file'])) {
 					// Delete the previous image file from disk
-					@unlink (JPATH_SITE.DS.'images/tracker/torrent_image/'.$_POST['image_file']);
+					@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['image_file']);
 				}
 
 				$data['image_file'] = $_POST['image_file'];
@@ -201,7 +201,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		
 		// Rename the filename if we've changed it
 		if ($data['filename'] <> $_POST['old_filename']) {
-			$pre_file = JPATH_SITE.DS.$params->get('torrent_dir').$data['fid'].'_';
+			$pre_file = JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$data['fid'].'_';
 
 			rename($pre_file.$_POST['old_filename'].'.torrent', $pre_file.$data['filename'].'.torrent');
 		}

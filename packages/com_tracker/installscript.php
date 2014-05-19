@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		2.5.13-dev
+ * @version		3.3.1-dev
  * @package		Joomla
  * @subpackage	com_tracker
  * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -18,15 +18,15 @@ class com_trackerInstallerScript {
 		// Installing component manifest file version
 		$this->release = $parent->get( "manifest" )->version;
 
-		// First changes in database model since version 2.5.13-dev 
-		if ($this->release < '2.5.13-dev') { 
+		// First changes in database model since version 3.3.1-dev 
+		if ($this->release < '3.3.1-dev') { 
 			$db = JFactory::getDbo();
 			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `tags` VARCHAR(16380) NOT NULL AFTER `image_file`');
 			$db->query();
 		}
 		
-		// Release 2.5.13-dev - The introduction of RSS
-		if ($this->release < '2.5.13-dev') {
+		// Release 3.3.1-dev - The introduction of RSS
+		if ($this->release < '3.3.1-dev') {
 			$db = JFactory::getDbo();
 			$db->setQuery("CREATE TABLE IF NOT EXISTS `#__tracker_rss` (
 							`id` INT(11) NOT NULL AUTO_INCREMENT,

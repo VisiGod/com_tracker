@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="search" method="upgrade">
+<extension version="3.0" type="plugin" group="search" method="upgrade">
 	<name>plg_search_tracker</name>
 	<creationDate>2013-03-28</creationDate>
 	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
@@ -7,7 +7,7 @@
 	<author>Hugo Carvalho</author>
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
-	<version>2.5.13-dev</version>
+	<version>3.3.1-dev</version>
 	<description>PLG_SEARCH_TRACKER_PLUGIN_DESCRIPTION</description>
 	<files>
 		<filename plugin="tracker">tracker.php</filename>

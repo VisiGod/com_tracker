@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -15,7 +15,7 @@ class TrackerViewTrackerPanel extends JView {
 
 	public function display($tpl = null) {
 		
-		$component_xml	=	JApplicationHelper::parseXMLInstallFile( JPATH_ADMINISTRATOR .DS. 'components' .DS. 'com_tracker' .DS. 'tracker.xml' );
+		$component_xml	=	JApplicationHelper::parseXMLInstallFile( JPATH_ADMINISTRATOR .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. 'com_tracker' .DIRECTORY_SEPARATOR. 'tracker.xml' );
 		JToolBarHelper::title(JText::_('COM_TRACKER_CONTROL_PANEL'), 'trackerpanel');
 		$this->assignRef('component_info', $component_xml);
 

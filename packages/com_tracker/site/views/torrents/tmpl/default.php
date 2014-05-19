@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -116,8 +116,8 @@ $torrentType = array(
 				
 				<?php if ($this->params->get('tl_category')) { ?>
 					<td width="1%" align="center" nowrap>
-						<?php if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DS.$category_params->get('image')) && $this->params->get('use_image_file')) { ?>
-							<img id="image<?php echo $item->fid;?>" alt="<?php echo $item->torrent_category; ?>" src="<?php echo JUri::root(true).DS.$category_params->get('image'); ?>" width="36" />
+						<?php if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image')) && $this->params->get('use_image_file')) { ?>
+							<img id="image<?php echo $item->fid;?>" alt="<?php echo $item->torrent_category; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="36" />
 						<?php } else echo '&nbsp;'.$item->torrent_category.'&nbsp;'; ?>
 					</td>
 				<?php } ?>

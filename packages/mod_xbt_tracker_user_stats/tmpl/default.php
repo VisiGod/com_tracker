@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		2.5.13-dev
+ * @version		3.3.1-dev
  * @package		Joomla
  * @subpackage	mod_xbt_tracker_user_stats
  * @copyright	Copyright (C) 2007 - 2013 Hugo Carvalho and Psylodesign. All rights reserved.

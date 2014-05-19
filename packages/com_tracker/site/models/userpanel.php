@@ -1,6 +1,6 @@
 <?php
 /**
- * @version			2.5.13-dev
+ * @version			3.3.1-dev
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modelitem');
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'tables');
+JTable::addIncludePath(JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'tables');
 
 jimport('joomla.user.user');
 JLoader::register('JTableUser', JPATH_PLATFORM.'/joomla/database/table/user.php');

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		2.5.13-dev
+ * @version		3.3.1-dev
  * @package		Joomla
  * @subpackage	mod_xbt_tracker_stats
  * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.

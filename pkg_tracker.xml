@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="2.5" method="upgrade">
+<extension type="package" version="3.0" method="upgrade">
 	<packagename>tracker</packagename>
 	<name>COM_TRACKER</name>
 	<creationDate>2012-03-17</creationDate>
@@ -9,7 +9,7 @@
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
 	<description>A Frontend for XBT Tracker</description>
-	<version>2.5.13-dev</version>
+	<version>3.3.1-dev</version>
 	<url>http://www.visigod.com</url>
 	<packager>Hugo Carvalho</packager>
 	<packagerurl>http://www.visigod.com</packagerurl>

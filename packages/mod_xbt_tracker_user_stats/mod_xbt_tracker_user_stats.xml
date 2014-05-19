@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5" client="site" method="upgrade">
+<extension type="module" version="3.0" client="site" method="upgrade">
 	<name>mod_xbt_tracker_user_stats</name>
 	<creationDate>2013-03-25</creationDate>
 	<copyright>Copyright (C) 2007 - 2013 Hugo Carvalho and Jb MartinN. All rights reserved.</copyright>
@@ -8,7 +8,7 @@
 	<authorEmail>visigod@visigod.com and psylodesign@share-on-underground.com</authorEmail>
 	<authorUrl>http://www.visigod.com and http://share-on-underground.com</authorUrl>
 	<description>MOD_XBT_TRACKER_USER_STATS</description>
-	<version>2.5.13-dev</version>
+	<version>3.3.1-dev</version>
 
 	<files>
 		<filename module="mod_xbt_tracker_user_stats">mod_xbt_tracker_user_stats.php</filename>
