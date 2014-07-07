@@ -9,11 +9,12 @@
 
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
 
 class TrackerControllerLicense extends JControllerForm {
 
-	protected $text_prefix = 'COM_TRACKER_LICENSE';
-
+	function __construct() {
+		$this->view_list = 'licenses';
+		parent::__construct();
+	}
 }

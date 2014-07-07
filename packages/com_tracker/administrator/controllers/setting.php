@@ -14,24 +14,9 @@ jimport('joomla.application.component.controllerform');
 
 class TrackerControllerSetting extends JControllerForm {
 
-	protected $text_prefix = 'COM_TRACKER_SETTING';
-
-	public function display($cachable = false, $urlparams = false) {
-		$this->setRedirect(JRoute::_('index.php?option=com_tracker&view=settings', false));
-	}
-
-	protected function allowEdit($data = array(), $key = 'name') {
-		// Check if this person is a Super Admin
-		if (JAccess::check($data[$key], 'core.admin'))
-		{
-			// If I'm not a Super Admin, then disallow the edit.
-			if (!JFactory::getUser()->authorise('core.admin'))
-			{
-				return false;
-			}
-		}
-
-		return parent::allowEdit($data, $key);
+	function __construct() {
+		$this->view_list = 'settings';
+		parent::__construct();
 	}
 
 }

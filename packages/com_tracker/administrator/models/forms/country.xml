@@ -10,6 +10,5 @@
 		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="state" type="hidden" default="1" />
-
 	</fieldset>
 </form>

@@ -10,65 +10,73 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla view library
 jimport('joomla.application.component.view');
 
 class TrackerViewDonations extends JViewLegacy {
 
-	public function display($cachable = false, $urlparams = false) {
+	protected $items;
+	protected $pagination;
+	protected $state;
 
-		// Get data from the model
-		$state			= $this->get('State');
-		$items 			= $this->get('Items');
-		$pagination 	= $this->get('Pagination');
+	public function display($tpl = null) {
 
-		$user = JFactory::getUser();
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+
+//		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+
+		$this->user = JFactory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode('<br />', $errors));
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		// Assign data to the view
-		$this->state = $state;
-		$this->items = $items;
-		$this->pagination = $pagination;
-		$this->user = $user;
-
-		// Set the toolbar
 		$this->addToolbar();
 
-		// Display the template
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display();
 	}
 
 	protected function addToolbar() {
-		$canDo = TrackerHelper::getActions();
-		JToolBarHelper::title(JText::_('COM_TRACKER_DONATIONS'), 'donations');
+		$canDo = JHelperContent::getActions('com_tracker', 'category', $this->state->get('filter.category_id'));
+		$user = JFactory::getUser();
+		
+		$bar = JToolBar::getInstance('toolbar');
+		
+		JToolbarHelper::title(JText::_('COM_TRACKER_DONATIONS'), 'donations');
 
-		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('donation.add','JTOOLBAR_NEW');
+		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
+			JToolbarHelper::addNew('donation.add');
 		}
 		
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own')) {
-			JToolBarHelper::editList('donation.edit','JTOOLBAR_EDIT');
+		if (($canDo->get('core.edit'))) {
+			JToolbarHelper::editList('donation.edit');
 		}
-
+		
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::custom('donations.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('donations.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::trash('donation.delete');
 		}
 		
-		if ($canDo->get('core.delete')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::deleteList('', 'donations.delete','JTOOLBAR_DELETE');
+		if ($user->authorise('core.admin', 'com_tracker')) {
+			JToolbarHelper::preferences('com_tracker');
 		}
-				
-		if ($canDo->get('core.admin')) {
-	    JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_tracker');
-		}
+	}
+
+	protected function getSortFields() {
+		return array(
+				'a.fid' => JText::_('JGLOBAL_FIELD_ID_LABEL'),
+				'du.username' => JText::_('COM_TRACKER_DONATION_UID'),
+				'a.donated' => JText::_('COM_TRACKER_DONATION_DONATED'),
+				'a.ratio' => JText::_('COM_TRACKER_DONATION_RATIO'),
+				'a.credited' => JText::_('COM_TRACKER_DONATION_CREDITED'),
+				'a.created_time' => JText::_('JGLOBAL_CREATED_DATE'),
+				'u.username' => JText::_('COM_TRACKER_DONATION_USERNAME'),
+				'a.comments' => JText::_('COM_TRACKER_DONATION_COMMENTS'),
+				'a.state' => JText::_('JSTATUS'),
+		);
 	}
 }

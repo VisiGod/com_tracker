@@ -9,11 +9,12 @@
 
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
 
 class TrackerControllerFiletype extends JControllerForm {
 
-	protected $text_prefix = 'COM_TRACKER_FILETYPE';
-
+	function __construct() {
+		$this->view_list = 'filetypes';
+		parent::__construct();
+	}
 }

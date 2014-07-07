@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
 
 class TrackerControllerRSS extends JControllerForm {
-	protected $text_prefix = 'COM_TRACKER_RSS';
+
+	function __construct() {
+		$this->view_list = 'rsses';
+		parent::__construct();
+	}
 }

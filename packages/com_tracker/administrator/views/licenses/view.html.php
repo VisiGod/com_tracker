@@ -10,65 +10,70 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla view library
 jimport('joomla.application.component.view');
 
 class TrackerViewLicenses extends JViewLegacy {
 
-	public function display($cachable = false, $urlparams = false) {
+	protected $items;
+	protected $pagination;
+	protected $state;
 
-		// Get data from the model
-		$state			= $this->get('State');
-		$items 			= $this->get('Items');
-		$pagination 	= $this->get('Pagination');
+	public function display($tpl = null) {
 
-		$user = JFactory::getUser();
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+
+//		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+
+		$this->user = JFactory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode('<br />', $errors));
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		// Assign data to the view
-		$this->state = $state;
-		$this->items = $items;
-		$this->pagination = $pagination;
-		$this->user = $user;
-
-		// Set the toolbar
 		$this->addToolbar();
 
-		// Display the template
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display();
 	}
 
 	protected function addToolbar() {
-		$canDo = TrackerHelper::getActions();
+		$canDo = JHelperContent::getActions('com_tracker', 'category', $this->state->get('filter.category_id'));
+		$user = JFactory::getUser();
+	
+		$bar = JToolBar::getInstance('toolbar');
+	
 		JToolBarHelper::title(JText::_('COM_TRACKER_LICENSES'), 'licenses');
-
-		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('license.add','JTOOLBAR_NEW');
+	
+		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
+			JToolbarHelper::addNew('license.add');
 		}
-		
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own')) {
-			JToolBarHelper::editList('license.edit','JTOOLBAR_EDIT');
+	
+		if (($canDo->get('core.edit'))) {
+			JToolbarHelper::editList('license.edit');
 		}
-
+	
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::custom('licenses.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('licenses.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::trash('license.delete');
 		}
-		
-		if ($canDo->get('core.delete')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::deleteList('', 'licenses.delete','JTOOLBAR_DELETE');
+	
+		if ($user->authorise('core.admin', 'com_tracker')) {
+			JToolbarHelper::preferences('com_tracker');
 		}
-				
-		if ($canDo->get('core.admin')) {
-	    JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_tracker');
-		}
+	}
+	
+	protected function getSortFields() {
+		return array(
+				'a.fid' => JText::_('JGLOBAL_FIELD_ID_LABEL'),
+				'a.shortname' => JText::_('COM_TRACKER_LICENSE_SHORTNAME'),
+				'a.rafullnametio' => JText::_('COM_TRACKER_LICENSE_FULLNAME'),
+				'a.description' => JText::_('COM_TRACKER_LICENSE_DESCRIPTION'),
+				'a.link' => JText::_('COM_TRACKER_LICENSE_LINK'),
+				'a.state' => JText::_('JSTATUS'),
+		);
 	}
 }

@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-// import the Joomla modellist library
+
 jimport('joomla.application.component.modellist');
 
 class TrackerModelDonations extends JModelList {
@@ -17,18 +17,18 @@ class TrackerModelDonations extends JModelList {
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
 							'id', 'a.id',
-		        	'uid', 'a.uid',
-			        'ratio', 'a.ratio',
-			        'donated', 'a.donated',
-			        'donation_date', 'a.donation_date',
-		  	      'credited', 'a.credited',
-		    	    'created_time', 'a.created_time',
-		    	    'created_user_id', 'a.created_user_id',
-		      	  'comments', 'a.comments',
-		      	  'donator', 'du.username',
-		      	  'username', 'u.username',
-		    	    'ordering', 'a.ordering',
-		      	  'state', 'a.state',
+							'uid', 'a.uid',
+							'ratio', 'a.ratio',
+							'donated', 'a.donated',
+							'donation_date', 'a.donation_date',
+							'credited', 'a.credited',
+							'created_time', 'a.created_time',
+							'created_user_id', 'a.created_user_id',
+							'comments', 'a.comments',
+							'donator', 'du.username',
+							'username', 'u.username',
+							'ordering', 'a.ordering',
+							'state', 'a.state',
 			);
 		}
 		parent::__construct($config);
@@ -37,16 +37,23 @@ class TrackerModelDonations extends JModelList {
 	protected function populateState($ordering = null, $direction = null) {
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
-		$context	= $this->context;
 
-		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($context.'.filter.state', 'filter_state', '');
-		$this->setState('filter.state', $state);
+	
+		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
+		$this->setState('filter.state', $published);
 
 		// List state information.
-		parent::populateState('a.donation_date', 'desc');
+		parent::populateState('a.id', 'asc');
+	}
+
+	protected function getStoreId($id = '') {
+		// Compile the store id.
+		$id.= ':' . $this->getState('filter.search');
+		$id.= ':' . $this->getState('filter.state');
+		return parent::getStoreId($id);
 	}
 
 	protected function getListQuery() {
@@ -70,31 +77,37 @@ class TrackerModelDonations extends JModelList {
 		$query->select('u.username AS username');
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.created_user_id');
 
-		// Filter by state
-		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
-				$query->where('a.state = '.(int) $state);
-		} else if ($state === '') {
-				$query->where('(a.state IN (0, 1))');
+			// Filter by published state
+		$published = $this->getState('filter.state');
+		if (is_numeric($published)) {
+			$query->where('a.state = ' . (int) $published);
+		} else if ($published === '') {
+			$query->where('(a.state IN (0, 1))');
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
-				$query->where('a.uid = '.(int) substr($search, 3));
+				$query->where('a.id = ' . (int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-                $query->where('( a.comments LIKE '.$search.' )');
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('( a.donator LIKE '.$search.' OR a.username LIKE '.$search.')');
 			}
 		}
-
-		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.id');
-		$orderDirn = $this->state->get('list.direction', 'ASC');
 		
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering');
+		$orderDirn = $this->state->get('list.direction');
+		if ($orderCol && $orderDirn) {
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
 		
 		return $query;
+	}
+
+	public function getItems() {
+		$items = parent::getItems();
+		return $items;
 	}
 }
