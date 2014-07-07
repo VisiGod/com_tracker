@@ -1,14 +1,14 @@
 <?php
 /**
- * @version			3.3.1-dev
- * @package			Joomla
+ * @version		3.3.1-dev
+ * @package		Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
- * @license			GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die('Restricted access');
-// import the Joomla modellist library
+
 jimport('joomla.application.component.modellist');
 
 class TrackerModelTorrents extends JModelList {
@@ -18,7 +18,7 @@ class TrackerModelTorrents extends JModelList {
 			$config['filter_fields'] = array(
 							'fid', 'a.fid',
 							'name', 'a.name',
-							'category', 'c.id',
+							'category', 'a.categoryID',
 							'size', 'a.size',
 							'created_time', 'a.created_time',
 							'leechers', 'a.leechers',
@@ -26,10 +26,7 @@ class TrackerModelTorrents extends JModelList {
 							'completed', 'a.completed',
 							'download_multiplier', 'a.download_multiplier',
 							'upload_multiplier', 'a.upload_multiplier',
-							'licenseID', 'a.licenseID',
-							'image_file', 'a.image_file',
-							'forum_post', 'a.forum_post',
-							'info_post', 'a.info_post',
+							'uploader', 'a.uploader',
 							'ordering', 'a.ordering',
 							'state', 'a.state',
 				);
@@ -40,26 +37,39 @@ class TrackerModelTorrents extends JModelList {
 	protected function populateState($ordering = null, $direction = null) {
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
-		$context	= $this->context;
-
-		// List state information
-		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
-		$this->setState('list.limit', $value);
-
-		$value = JRequest::getUInt('limitstart', 0);
-		$this->setState('list.start', $value);
-
-		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
+	
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
+	
+		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
+		$this->setState('filter.state', $published);
 
-		$state = $this->getUserStateFromRequest($context.'.filter.state', 'filter_state', '');
-		$this->setState('filter.state', $state);
-
-		$category = $this->getUserStateFromRequest($context.'.filter.category', 'filter_category');
-		$this->setState('filter.category', $category);
-
+		//Filtering fid
+		$this->setState('filter.fid', $app->getUserStateFromRequest($this->context.'.filter.fid', 'filter_fid', '', 'string'));
+	
+		//Filtering info_hash
+		$this->setState('filter.info_hash', $app->getUserStateFromRequest($this->context.'.filter.info_hash', 'filter_info_hash', '', 'string'));
+	
+		//Filtering leechers
+		$this->setState('filter.leechers', $app->getUserStateFromRequest($this->context.'.filter.leechers', 'filter_leechers', '', 'string'));
+	
+		//Filtering categoryid
+		$this->setState('filter.categoryid', $app->getUserStateFromRequest($this->context.'.filter.categoryid', 'filter_categoryid', '', 'string'));
+	
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_tracker');
+		$this->setState('params', $params);
+	
 		// List state information.
 		parent::populateState('a.fid', 'desc');
+	}
+
+	protected function getStoreId($id = '') {
+		// Compile the store id.
+		$id.= ':' . $this->getState('filter.search');
+		$id.= ':' . $this->getState('filter.state');
+		return parent::getStoreId($id);
 	}
 
 	protected function getListQuery() {
@@ -71,7 +81,7 @@ class TrackerModelTorrents extends JModelList {
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.*, c.params as category_params '
+				'a.*, a.uploader as uploaderID, c.params as category_params '
 			)
 		);
 		$query->from('`#__tracker_torrents` AS a');
@@ -92,38 +102,42 @@ class TrackerModelTorrents extends JModelList {
 		}
 
 		// Filter by published state
-		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
-				$query->where('a.state = '.(int) $state);
-		} else if ($state === '') {
-				$query->where('(a.state IN (0, 1))');
-		}
-
-		// Filter by a single or group of categories.
-		$category = $this->getState('filter.category');
-		if (is_numeric($category)) {
-			$query->where('a.categoryID = '.(int) $category);
-		}
-		else if (is_array($category)) {
-			JArrayHelper::toInteger($category);
-			$category = implode(',', $category);
-			$query->where('a.categoryID IN ('.$category.')');
+		$published = $this->getState('filter.state');
+		if (is_numeric($published)) {
+			$query->where('a.state = ' . (int) $published);
+		} else if ($published === '') {
+			$query->where('(a.state IN (0, 1))');
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
-				$query->where('a.fid = '.(int) substr($search, 3));
+				$query->where('a.fid = ' . (int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('a.name LIKE '.$search.'OR a.tags LIKE '.$search);
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('( a.name LIKE '.$search.' )');
 			}
 		}
 
+		//Filtering categoryid
+		$filter_categoryid = $this->state->get("filter.categoryid");
+		if ($filter_categoryid) {
+			$query->where("a.categoryID = '".$db->escape($filter_categoryid)."'");
+		}
+		
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.fid')).' '.$db->getEscaped($this->getState('list.direction', 'DESC')));
+		$orderCol = $this->state->get('list.ordering');
+		$orderDirn = $this->state->get('list.direction');
+		if ($orderCol && $orderDirn) {
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
 
 		return $query;
+	}
+
+	public function getItems() {
+		$items = parent::getItems();
+		return $items;
 	}
 }

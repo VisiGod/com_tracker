@@ -31,7 +31,7 @@ if ($user->get('guest')) {
 			if ($params->get('name'))
 				echo '<div><h3>'.JText::_('MOD_TRACKER_USER_STATS_WELCOME_TEXT').' '.$user_stats->name.'</h3></div>';
 			if ($params->get('registration'))
-				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_REGISTERED_TEXT').' '.JFactory::getDate($user_stats->registerDate)->toFormat('%d %B %Y').'</div>';
+				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_REGISTERED_TEXT').' '.JFactory::getDate($user_stats->registerDate)->Format('%d %B %Y').'</div>';
 			if ($params->get('group'))
 				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_GROUP_TEXT').' '.$user_stats->groupname.'</div>';
 			if ($params->get('country')) {

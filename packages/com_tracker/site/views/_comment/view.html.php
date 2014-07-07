@@ -15,14 +15,14 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 /**
  * View class for a list of Tracker.
  */
-class TrackerViewComment extends JView {
+class TrackerViewComment extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
 	/**
 	 * Display the view
 	 */
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 		$state	= $this->get('State');
 		$item		= $this->get('Item');
 		$user		= JFactory::getUser();
@@ -45,7 +45,7 @@ class TrackerViewComment extends JView {
 		$this->assignRef('item',		$item);
 		$this->assignRef('user',		$user);
 
-		parent::display($tpl);
+		parent::display();
 	}
 
 }

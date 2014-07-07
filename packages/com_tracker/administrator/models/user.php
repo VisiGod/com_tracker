@@ -4,7 +4,7 @@
  * @package			Joomla
  * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
- * @user			GNU General Public user version 2 or later; see USER.txt
+ * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -14,6 +14,54 @@ jimport('joomla.application.component.modeladmin');
 
 class TrackerModelUser extends JModelAdmin {
 
+	protected $text_prefix = 'COM_TRACKER';
+	
+	public function getTable($type = 'User', $prefix = 'TrackerTable', $config = array()) {
+		return JTable::getInstance($type, $prefix, $config);
+	}
+	
+	public function getForm($data = array(), $loadData = true) {
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+		// Get the form.
+		$form = $this->loadForm('com_tracker.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
+	
+		if (empty($form)) {
+			return false;
+		}
+		return $form;
+	}
+	
+	protected function loadFormData() {
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_tracker.edit.user.data', array());
+		if (empty($data)) {
+			$data = $this->getItem();
+		}
+		return $data;
+	}
+	
+	
+	public function getItem($pk = null) {
+		if ($item = parent::getItem($pk)) {
+			//Do any procesing on fields here if needed
+		}
+		return $item;
+	}
+	
+	protected function prepareTable($table) {
+		jimport('joomla.filter.output');
+		if (empty($table->id)) {
+			// Set ordering to the last item if not set
+			if (@$table->ordering === '') {
+				$db = JFactory::getDbo();
+				$db->setQuery('SELECT MAX(ordering) FROM #__tracker_users');
+				$max = $db->loadResult();
+				$table->ordering = $max+1;
+			}
+		}
+	}
+/*
 	protected function allowEdit($data = array(), $key = 'id') {
 		// Check specific edit permission then general edit permission.
 		return JFactory::getUser()->authorise('core.edit', 'com_tracker.user.'.((int) isset($data[$key]) ? $data[$key] : 0)) or parent::allowEdit($data, $key);
@@ -90,5 +138,5 @@ class TrackerModelUser extends JModelAdmin {
 		}
 		return true;
 	}
-
+*/
 }

@@ -20,7 +20,7 @@ class TrackerTableBanHost extends JTable {
 
 	public function store($updateNulls = false) {
 		// Initialise variables.
-		$date = JFactory::getDate()->toMySQL();
+		$date = JFactory::getDate()->toSql();
 		$userId = JFactory::getUser()->get('id');
 
 		$this->created_time = $date;

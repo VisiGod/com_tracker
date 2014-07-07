@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class TrackerViewUserpanel extends JView {
+class TrackerViewUserpanel extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 		$state	= $this->get('State');
 		$item		= $this->get('Item');
 		$user		= JFactory::getUser();
@@ -43,7 +43,7 @@ class TrackerViewUserpanel extends JView {
 		$this->assignRef('params',		$params);
 		$this->assignRef('session',		$session);
 
-		parent::display($tpl);
+		parent::display();
 	}
 
 }

@@ -207,6 +207,7 @@ CREATE TABLE IF NOT EXISTS `#__tracker_users` (
 `upload_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
 `hash` VARCHAR(32) NOT NULL,
 `ordering` INT(11) NOT NULL,
+`state` TINYINT(1) NOT NULL DEFAULT '1',
 PRIMARY KEY (`id`)
 );
 

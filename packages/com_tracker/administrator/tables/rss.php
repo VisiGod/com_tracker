@@ -20,7 +20,7 @@ class TrackerTableRSS extends JTable {
 
 	public function store($updateNulls = false) {
 		// Initialise variables.
-		$date = JFactory::getDate()->toMySQL();
+		$date = JFactory::getDate()->toSql();
 		$userId = JFactory::getUser()->get('id');
 
 		$this->created_time = $date;
@@ -77,7 +77,7 @@ class TrackerTableRSS extends JTable {
 				' WHERE ('.$where.')' .
 				$checkin
 		);
-		$this->_db->query();
+		$this->_db->execute();
 	
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {

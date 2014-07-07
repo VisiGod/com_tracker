@@ -15,7 +15,7 @@ class TrackerViewTorrent extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 		$pathway 	= $app->getPathway();
@@ -51,7 +51,7 @@ class TrackerViewTorrent extends JViewLegacy {
 		$this->assignRef('item',	$item);
 		$this->assignRef('params', 	$params);
 
-		parent::display($tpl);
+		parent::display();
 	}
 
 }

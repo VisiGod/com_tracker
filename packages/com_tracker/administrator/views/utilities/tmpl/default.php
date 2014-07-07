@@ -15,19 +15,19 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 	<tr>
 		<td width="20%" align="center">
 			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.clearannounce'); ?>">
-				<?php echo JHTML::_('image.site',  'icon-48-trash.png', '/templates/'. $template .'/images/header/', NULL, NULL, JText::_( 'COM_TRACKER_UTILITY_CLEAN_ANNOUNCE' ) ); ?>
+				<?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/icon-48-trash.png' , JText::_( 'COM_TRACKER_UTILITY_CLEAN_ANNOUNCE' ), null, false, false); ?>
 			</a>
 		</td>
 		<td width="20%" align="center">
 			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.optimizetables'); ?>">
-				<?php echo JHTML::_('image.site',  'icon-48-stats.png', '/templates/'. $template .'/images/header/', NULL, NULL, JText::_( 'COM_TRACKER_UTILITY_OPTIMIZE_TABLES' ) ); ?>
+				<?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/icon-48-stats.png' , JText::_( 'COM_TRACKER_UTILITY_OPTIMIZE_TABLES' ), null, false, false); ?>
 			</a>
 		</td>
 
 		<?php if ($params->get('forum_integration')) {?>
 		<td width="20%" align="center">
 			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.importgroups'); ?>">
-				<?php echo JHTML::_('image.site',  'icon-48-purge.png', '/templates/'. $template .'/images/header/', NULL, NULL, JText::_( 'COM_TRACKER_UTILITY_IMPORT_FORUM_GROUPS' ) ); ?>
+				<?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/icon-48-purge.png' , JText::_( 'COM_TRACKER_UTILITY_IMPORT_FORUM_GROUPS' ), null, false, false); ?>
 			</a>
 		</td>
 		<?php } ?>
@@ -35,20 +35,20 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 		<?php if ($params->get('freeleech') == 0) {?>
 		<td width="20%" align="center">
 			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.enable_free_leech'); ?>">
-				<?php echo JHTML::_('image.site',  'free_leech_start-48x48.png', 'components/com_tracker/images/panel/', NULL, NULL, JText::_( 'COM_TRACKER_UTILITY_ENABLE_FREE_LEECH' ) ); ?>
+				<?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/free_leech_start-48x48.png' , JText::_( 'COM_TRACKER_UTILITY_ENABLE_FREE_LEECH' ), null, false, false); ?>
 			</a>
 		</td>
 		<?php } else { ?>
 		<td width="20%" align="center">
 			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.disable_free_leech'); ?>">
-				<?php echo JHTML::_('image.site',  'free_leech_stop-48x48.png', 'components/com_tracker/images/panel/', NULL, NULL, JText::_( 'COM_TRACKER_UTILITY_DISABLE_FREE_LEECH' ) ); ?>
+				<?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/free_leech_stop-48x48.png' , JText::_( 'COM_TRACKER_UTILITY_DISABLE_FREE_LEECH' ), null, false, false); ?>
 			</a>
 		</td>
 		<?php } ?>
 
 		<td width="20%" align="center">
 			<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=utilities.bulk_import'); ?>">
-				<?php echo JHTML::_('image.site',  'icon-48-install.png', '/templates/'. $template .'/images/header/', NULL, NULL, JText::_( 'COM_TRACKER_UTILITY_IMPORT_BULK_IMPORT' ) ); ?>
+				<?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/icon-48-install.png' , JText::_( 'COM_TRACKER_UTILITY_IMPORT_BULK_IMPORT' ), null, false, false); ?>
 			</a>
 		</td>
 	</tr>

@@ -106,9 +106,9 @@ $(document).ready(function(){
 								$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
 								$options = array();
 								foreach($image_type as $key=>$value) :
-									$options[] = JHTML::_('select.option', $key, $value);
+									$options[] = JHtml::_('select.option', $key, $value);
 								endforeach;
-								echo JHTML::_('select.genericlist', $options, 'default_image_type', 'class="inputbox"', 'value', 'text', 0);
+								echo JHtml::_('select.genericlist', $options, 'default_image_type', 'class="inputbox"', 'value', 'text', 0);
 								
 								if ($params->get('image_type') == 1 || $params->get('image_type') == 0) {
 									if ($params->get('image_type') == 0) echo '<span class="hide" id="image_file_field">&nbsp;&nbsp;&nbsp;';

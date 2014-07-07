@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewDonation extends JView {
+class TrackerViewDonation extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		if ($params->get('enable_donations') == 0) {
@@ -43,7 +43,7 @@ class TrackerViewDonation extends JView {
 		$this->addToolBar();
  
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 
 	}
 

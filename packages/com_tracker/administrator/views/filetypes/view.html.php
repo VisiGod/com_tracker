@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewFiletypes extends JView {
+class TrackerViewFiletypes extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		// Get data from the model
 		$state			= $this->get('State');
@@ -40,7 +40,7 @@ class TrackerViewFiletypes extends JView {
 		$this->addToolbar();
 
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 	}
 
 	protected function addToolbar() {

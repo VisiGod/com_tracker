@@ -10,22 +10,44 @@
 // No direct access.
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla controlleradmin library
 jimport('joomla.application.component.controlleradmin');
 
 class TrackerControllerUsers extends JControllerAdmin {
 
-	protected $text_prefix = 'COM_TRACKER_USERS';
-
-	public function getModel($name = 'User', $prefix = 'TrackerModel', $config = array()) {
-		return parent::getModel($name, $prefix, array('ignore_request' => true));
+	public function getModel($name = 'user', $prefix = 'TrackerModel') {
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
 	}
-
+	
+	public function saveOrderAjax() {
+		// Get the input
+		$input = JFactory::getApplication()->input;
+		$pks = $input->post->get('cid', array(), 'array');
+		$order = $input->post->get('order', array(), 'array');
+	
+		// Sanitize the input
+		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($order);
+	
+		// Get the model
+		$model = $this->getModel();
+	
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+	
+		if ($return) {
+			echo "1";
+		}
+	
+		// Close the application
+		JFactory::getApplication()->close();
+	}
+	
 	public function __construct($config = array()) {
 		parent::__construct($config);
-
-		$this->registerTask('leech',		'changeLeech');
-		$this->registerTask('unleech',		'changeLeech');
+	
+		$this->registerTask('leech',   'changeLeech');
+		$this->registerTask('unleech', 'changeLeech');
 	}
 
 	public function changeLeech() {

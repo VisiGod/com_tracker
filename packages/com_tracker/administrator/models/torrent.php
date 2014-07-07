@@ -14,6 +14,55 @@ jimport('joomla.application.component.modeladmin');
 
 class TrackerModelTorrent extends JModelAdmin {
 
+	protected $text_prefix = 'COM_TRACKER';
+
+	public function getTable($type = 'Torrent', $prefix = 'TrackerTable', $config = array()) {
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	public function getForm($data = array(), $loadData = true) {
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+		// Get the form.
+		$form = $this->loadForm('com_tracker.torrent', 'torrent', array('control' => 'jform', 'load_data' => $loadData));
+	
+		if (empty($form)) {
+			return false;
+		}
+		return $form;
+	}
+
+	protected function loadFormData() {
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_tracker.edit.torrent.data', array());
+		if (empty($data)) {
+			$data = $this->getItem();
+		}
+		return $data;
+	}
+
+
+	public function getItem($pk = null) {
+		if ($item = parent::getItem($pk)) {
+			//Do any procesing on fields here if needed
+		}
+		return $item;
+	}
+
+	protected function prepareTable($table) {
+		jimport('joomla.filter.output');
+		if (empty($table->id)) {
+			// Set ordering to the last item if not set
+			if (@$table->ordering === '') {
+				$db = JFactory::getDbo();
+				$db->setQuery('SELECT MAX(ordering) FROM #__tracker_torrents');
+				$max = $db->loadResult();
+				$table->ordering = $max+1;
+			}
+		}
+	}
+	
+/* OLD VERSION
 	protected function allowEdit($data = array(), $key = 'fid') {
 		// Check specific edit permission then general edit permission.
 		return JFactory::getUser()->authorise('core.edit', 'com_tracker.torrent.'.((int) isset($data[$key]) ? $data[$key] : 0)) or parent::allowEdit($data, $key);
@@ -52,7 +101,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
 		$db->setQuery($query);
 		try {
-			$result = $db->query();
+			$result = $db->execute();
 		} catch (Exception $e) {
 			return false;
 		}
@@ -80,7 +129,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		$query->where($db->quoteName('torrentID') . ' IN (' . implode(',', $itemIds) . ')');
 		$db->setQuery($query);
 		try {
-			$result = $db->query();
+			$result = $db->execute();
 		} catch (Exception $e) {
 			return false;
 		}
@@ -91,7 +140,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
 		$db->setQuery($query);
 		try {
-			$result = $db->query();
+			$result = $db->execute();
 		} catch (Exception $e) {
 			return false;
 		}
@@ -102,7 +151,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
 		$db->setQuery($query);
 		try {
-			$result = $db->query();
+			$result = $db->execute();
 		} catch (Exception $e) {
 			return false;
 		}
@@ -211,5 +260,5 @@ class TrackerModelTorrent extends JModelAdmin {
 		
 		return parent::save($data);
 	}
-	
+	*/
 }

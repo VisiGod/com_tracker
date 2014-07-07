@@ -10,10 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-// import Joomla controller library
-jimport('joomla.application.component.controller');
-
-class TrackerController extends JController {
+class TrackerController extends JControllerLegacy {
 
 	public function display($cachable = false, $urlparams = false) {
 		require_once JPATH_COMPONENT.'/helpers/tracker.php';
@@ -23,8 +20,8 @@ class TrackerController extends JController {
 
 		// Load the submenu.
 		TrackerHelper::addSubmenu(JRequest::getCmd('view', 'trackerpanel'));
-
-		// call parent behavior
-		return parent::display($cachable);
+		parent::display($cachable, $urlparams);
+		
+		return $this;
 	}
 }

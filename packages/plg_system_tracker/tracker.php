@@ -349,7 +349,7 @@ Follow group ratio rules = 2
 			$query->set('groupID = '.$component_params->get('base_group'));
 			$query->where('groupID = 0');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 		// Updates the users without groups - END
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -418,7 +418,7 @@ Follow group ratio rules = 2
 		$query->set("params = '" . $defaults . "'");
 		$query->where("element = 'tracker'");
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -435,7 +435,7 @@ Follow group ratio rules = 2
 		$query->set('uploader = '.(int)$component_params->get('torrent_user'));
 		$query->where('uploader = '.(int)$user['id']);
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 		
 		// Delete the reseed requests from the users that were deleted
 		$query->clear();

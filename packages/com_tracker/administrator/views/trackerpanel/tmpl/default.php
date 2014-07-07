@@ -15,8 +15,12 @@ function quickiconButton( $link, $image, $text ) {
 	$lang = JFactory::getLanguage();
 	?>
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
-	<div class="icon"><a href="<?php echo $link; ?>"> <?php echo JHTML::_('image.site',	$image, 'components/com_tracker/images/panel/', NULL, NULL, $text );?>
-	<span><?php echo $text; ?></span></a></div>
+		<div class="icon">
+			<a href="<?php echo $link; ?>">
+				<?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/'.$image , $text, null, false, false); ?>
+				<span><?php echo $text; ?></span>
+			</a>
+		</div>
 	</div>
 <?php } ?>
 
@@ -46,7 +50,6 @@ function quickiconButton( $link, $image, $text ) {
 				<td class="key" nowrap align="right"><?php echo JText::_( 'COM_TRACKER_CONTROL_PANEL_COMPONENT_VERSION' );?></td>
 				<td align="left">
 					&nbsp;&nbsp;<?php echo $this->component_info['version'];
-				//echo TrackerHelper::checkComponentConfigured();
 					?>
 				</td>
 			</tr>

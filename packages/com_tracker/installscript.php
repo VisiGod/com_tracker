@@ -22,7 +22,7 @@ class com_trackerInstallerScript {
 		if ($this->release < '3.3.1-dev') { 
 			$db = JFactory::getDbo();
 			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `tags` VARCHAR(16380) NOT NULL AFTER `image_file`');
-			$db->query();
+			$db->execute();
 		}
 		
 		// Release 3.3.1-dev - The introduction of RSS
@@ -45,11 +45,11 @@ class com_trackerInstallerScript {
 							`state` TINYINT(1) NOT NULL DEFAULT '1',
 							PRIMARY KEY (`id`)
 							);");
-			$db->query();
+			$db->execute();
 			
 			$query	= $db->getQuery(true);
 			$db->setQuery('ALTER TABLE #__tracker_users ADD `hash` VARCHAR(32) NOT NULL AFTER `upload_multiplier`');
-			$db->query();
+			$db->execute();
 		}		
 	}
 	
@@ -148,7 +148,7 @@ class com_trackerInstallerScript {
 			$query->set($db->quoteName('params') . ' = ' . $db->quote($defaults));
 			$query->where($db->quoteName('name') . ' = ' . $db->quote('com_tracker'));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			//Insert the default countries
 			$query	= $db->getQuery(true);
@@ -234,7 +234,7 @@ class com_trackerInstallerScript {
 			$query .= "(235, 'Wales', 'images/tracker/flags/Wales.png', 235, 1), (236, 'Wallis and Futuna', 'images/tracker/flags/Wallis.and.Futuna.png', 236, 1), (237, 'Yemen', 'images/tracker/flags/Yemen.png', 237, 1), ";
 			$query .= "(238, 'Zambia', 'images/tracker/flags/Zambia.png', 238, 1), (239, 'Zimbabwe', 'images/tracker/flags/Zimbabwe.png', 239, 1) ";
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			//Insert the default user group
 			$query	= $db->getQuery(true);
@@ -261,7 +261,7 @@ class com_trackerInstallerScript {
 			$query->set('ordering = 0');
 			$query->set('state = 1');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			//Insert the default license
 			$query = $db->getQuery(true);
@@ -274,7 +274,7 @@ class com_trackerInstallerScript {
 			$query->set('ordering = 1');
 			$query->set('state = 1');
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			//Insert the default file types
 			$query = $db->getQuery(true);
@@ -299,7 +299,7 @@ class com_trackerInstallerScript {
 			$query .= "(52, 'xls', 'images/tracker/filetypes/xls.png', 52, 1), (53, 'xlsx', 'images/tracker/filetypes/xlsx.png', 53, 1), (54, 'xml', 'images/tracker/filetypes/xml.png', 54, 1), ";
 			$query .= "(55, 'zip', 'images/tracker/filetypes/zip.png', 55, 1)";
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 
 			//Insert the XBT default values
 			$settings = array();
@@ -341,7 +341,7 @@ class com_trackerInstallerScript {
 			foreach($settings as $name => $value) {
 				$query = "INSERT INTO xbt_config ( name, value ) VALUES ('" . $name . "', '" . $value . "' );";
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -351,7 +351,7 @@ class com_trackerInstallerScript {
 		$query	= $db->getQuery(true);
 		$query  = "INSERT IGNORE INTO ".$app->getCfg('dbprefix', 1)."tracker_users (id) SELECT id FROM ".$app->getCfg('dbprefix', 1)."users";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	private static function code($nc, $a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') {

@@ -9,7 +9,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal');
 
 $user	= JFactory::getUser();
 $appParams = $app->getParams('com_tracker');

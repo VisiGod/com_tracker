@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-// import Joomla controllerform library
 jimport('joomla.application.component.controllerform');
 
 class TrackerControllerUser extends JControllerForm {
 
-	protected $text_prefix = 'COM_TRACKER_USER';
+	function __construct() {
+		$this->view_list = 'users';
+		parent::__construct();
+	}
 }

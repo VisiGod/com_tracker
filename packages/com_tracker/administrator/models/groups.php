@@ -1,14 +1,14 @@
 <?php
 /**
- * @version			3.3.1-dev
- * @package			Joomla
+ * @version		3.3.1-dev
+ * @package		Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
- * @license			GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die('Restricted access');
-// import the Joomla modellist library
+
 jimport('joomla.application.component.modellist');
 
 class TrackerModelGroups extends JModelList {
@@ -45,16 +45,23 @@ class TrackerModelGroups extends JModelList {
 	protected function populateState($ordering = null, $direction = null) {
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
-		$context	= $this->context;
 
-		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($context.'.filter.state', 'filter_state', '');
-		$this->setState('filter.state', $state);
+	
+		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
+		$this->setState('filter.state', $published);
 
 		// List state information.
 		parent::populateState('a.id', 'asc');
+	}
+
+	protected function getStoreId($id = '') {
+		// Compile the store id.
+		$id.= ':' . $this->getState('filter.search');
+		$id.= ':' . $this->getState('filter.state');
+		return parent::getStoreId($id);
 	}
 
 	protected function getListQuery() {
@@ -70,28 +77,37 @@ class TrackerModelGroups extends JModelList {
 		);
 		$query->from('`#__tracker_groups` AS a');
 
-		// Filter by state
-		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
-				$query->where('a.state = '.(int) $state);
-		} else if ($state === '') {
-				$query->where('(a.state IN (0, 1))');
+		// Filter by published state
+		$published = $this->getState('filter.state');
+		if (is_numeric($published)) {
+			$query->where('a.state = ' . (int) $published);
+		} else if ($published === '') {
+			$query->where('(a.state IN (0, 1))');
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
-				$query->where('a.id = '.(int) substr($search, 3));
+				$query->where('a.fid = ' . (int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('a.name LIKE '.$search);
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('( a.name LIKE '.$search.' )');
 			}
 		}
-
+		
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.id')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-
+		$orderCol = $this->state->get('list.ordering');
+		$orderDirn = $this->state->get('list.direction');
+		if ($orderCol && $orderDirn) {
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
+		
 		return $query;
+	}
+
+	public function getItems() {
+		$items = parent::getItems();
+		return $items;
 	}
 }

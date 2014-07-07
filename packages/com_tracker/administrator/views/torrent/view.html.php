@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewTorrent extends JView {
+class TrackerViewTorrent extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		JLoader::register('JTableUser', JPATH_LIBRARIES.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'table'.DIRECTORY_SEPARATOR.'user.php');
 
@@ -35,7 +35,7 @@ class TrackerViewTorrent extends JView {
 		$this->addToolBar();
  
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 
 	}
 

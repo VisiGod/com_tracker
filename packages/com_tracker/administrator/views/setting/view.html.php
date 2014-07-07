@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewSetting extends JView {
+class TrackerViewSetting extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		$app = JFactory::getApplication();
@@ -58,14 +58,14 @@ class TrackerViewSetting extends JView {
 		// --------- XBT CONFIGURATION --------- 
 		$item['announce_interval'] 		= (int) $item['announce_interval'];
 		$item['clean_up_interval'] 		= (int) $item['clean_up_interval'];
-		$item['daemon'] 				= JHTML::_('select.booleanlist',  'daemon', 'class="inputbox" size="1"', $item['daemon'] );
-		$item['debug'] 					= JHTML::_('select.booleanlist',  'debug', 'class="inputbox" size="1"', $item['debug'] );
-		$item['full_scrape'] 			= JHTML::_('select.booleanlist',  'full_scrape', 'class="inputbox" size="1"', $item['full_scrape'] );
-		$item['gzip_scrape'] 			= JHTML::_('select.booleanlist',  'gzip_scrape', 'class="inputbox" size="1"', $item['gzip_scrape'] );
+		$item['daemon'] 				= JHtml::_('select.booleanlist',  'daemon', 'class="inputbox" size="1"', $item['daemon'] );
+		$item['debug'] 					= JHtml::_('select.booleanlist',  'debug', 'class="inputbox" size="1"', $item['debug'] );
+		$item['full_scrape'] 			= JHtml::_('select.booleanlist',  'full_scrape', 'class="inputbox" size="1"', $item['full_scrape'] );
+		$item['gzip_scrape'] 			= JHtml::_('select.booleanlist',  'gzip_scrape', 'class="inputbox" size="1"', $item['gzip_scrape'] );
 		$item['listen_ipa'] 			= $item['listen_ipa'];
 		$item['listen_port'] 			= (int) $item['listen_port'];
-		$item['log_access'] 			= JHTML::_('select.booleanlist',  'log_access', 'class="inputbox" size="1"', $item['log_access'] );
-		$item['log_scrape'] 			= JHTML::_('select.booleanlist',  'log_scrape', 'class="inputbox" size="1"', $item['log_scrape'] );
+		$item['log_access'] 			= JHtml::_('select.booleanlist',  'log_access', 'class="inputbox" size="1"', $item['log_access'] );
+		$item['log_scrape'] 			= JHtml::_('select.booleanlist',  'log_scrape', 'class="inputbox" size="1"', $item['log_scrape'] );
 		$item['offline_message'] 		= $item['offline_message'];
 		$item['pid_file'] 				= $item['pid_file'];
 		$item['query_log'] 				= $item['query_log'];
@@ -83,7 +83,7 @@ class TrackerViewSetting extends JView {
 		$this->addToolBar();
  
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 	}
 
 	protected function addToolbar() {

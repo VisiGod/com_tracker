@@ -15,7 +15,7 @@ jimport('joomla.application.component.view');
 
 class TrackerViewSettings extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		// Get data from the model
 		$data		= $this->get('Items');
@@ -41,7 +41,7 @@ class TrackerViewSettings extends JViewLegacy {
 		$this->addToolbar();
 
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 	}
 
 	protected function addToolbar() {

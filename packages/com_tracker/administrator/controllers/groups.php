@@ -10,15 +10,36 @@
 // No direct access.
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla controlleradmin library
 jimport('joomla.application.component.controlleradmin');
 
 class TrackerControllerGroups extends JControllerAdmin {
 
-	protected $text_prefix = 'COM_TRACKER_GROUPS';
-
-	public function getModel($name = 'Group', $prefix = 'TrackerModel', $config = array()) {
+	public function getModel($name = 'group', $prefix = 'TrackerModel', $config = array()) {
 		return parent::getModel($name, $prefix, array('ignore_request' => true));
+	}
+
+	public function saveOrderAjax() {
+		// Get the input
+		$input = JFactory::getApplication()->input;
+		$pks = $input->post->get('cid', array(), 'array');
+		$order = $input->post->get('order', array(), 'array');
+	
+		// Sanitize the input
+		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($order);
+	
+		// Get the model
+		$model = $this->getModel();
+	
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+	
+		if ($return) {
+			echo "1";
+		}
+	
+		// Close the application
+		JFactory::getApplication()->close();
 	}
 
 	public function __construct($config = array()) {

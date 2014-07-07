@@ -11,9 +11,9 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view' );
 
-class TrackerViewTrackerPanel extends JView {
+class TrackerViewTrackerPanel extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 		
 		$component_xml	=	JApplicationHelper::parseXMLInstallFile( JPATH_ADMINISTRATOR .DIRECTORY_SEPARATOR. 'components' .DIRECTORY_SEPARATOR. 'com_tracker' .DIRECTORY_SEPARATOR. 'tracker.xml' );
 		JToolBarHelper::title(JText::_('COM_TRACKER_CONTROL_PANEL'), 'trackerpanel');
@@ -23,7 +23,7 @@ class TrackerViewTrackerPanel extends JView {
 		$this->addToolbar();
 
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 
 		// Set the document
 		$this->setDocument();

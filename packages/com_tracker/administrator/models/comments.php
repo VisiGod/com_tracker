@@ -87,8 +87,11 @@ class TrackerModelComments extends JModelList {
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.id')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-
+		$orderCol = $this->state->get('list.ordering', 'a.id');
+		$orderDirn = $this->state->get('list.direction', 'ASC');
+		
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		
 		return $query;
 	}
 }

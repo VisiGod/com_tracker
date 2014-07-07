@@ -12,20 +12,15 @@ defined('_JEXEC') or die;
 
 // Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_tracker')) {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// import joomla controller library
 jimport('joomla.application.component.controller');
 
 // require helper file
 JLoader::register('TrackerHelper', dirname(__FILE__) . '/helpers/tracker.php');
 
-// Get an instance of the controller prefixed by Tracker
-$controller	= JController::getInstance('Tracker');
-
-// Perform the Request task
-$controller->execute(JRequest::getCmd('task'));
-
-// Redirect if set by the controller
+// Execute the task.
+$controller = JControllerLegacy::getInstance('Tracker');
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

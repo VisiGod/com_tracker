@@ -55,22 +55,16 @@ abstract class TrackerHelper {
 		$document->addStyleDeclaration('.icon-48-rsses {background-image: url(components/com_tracker/images/panel/rss-48x48.png);}');
 	}
 
-	public static function getActions($Id = 0, $Asset = NULL) {
-		$user	= JFactory::getUser();
-		$result	= new JObject;
- 
-		if($Asset == NULL) {
-			$assetName = 'com_tracker';
-			$actions = array('core.admin', 'core.manage', 'core.create', 'core.edit', 'core.delete', 'core.edit.state', 'core.edit.state');
-		} else {
-			$assetName = 'com_tracker.'. $Asset . '.' . (int) $Id;
-			$actions = array('core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.edit.own', 'core.delete');
-		}
- 
+	public static function getActions() {
+		$user = JFactory::getUser();
+		$result = new JObject;
+		$assetName = 'com_tracker';
+		$actions = array(
+				'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
+		);
 		foreach ($actions as $action) {
-			$result->set($action,	$user->authorise($action, $assetName));
+			$result->set($action, $user->authorise($action, $assetName));
 		}
- 
 		return $result;
 	}
 
@@ -433,7 +427,7 @@ abstract class TrackerHelper {
 			$query->set('hash = "'.JUserHelper::genRandomPassword(32).'"');
 			$query->set('ordering = '.(int)$newuser['id']);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 	}
@@ -533,7 +527,7 @@ abstract class TrackerHelper {
 		$query->set('params = '.$db->quote($paramsString));
 		$query->where('name = "com_tracker"');
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 
 	public static function getFileImage($filename) {	// echos the filetype of the image
@@ -687,7 +681,7 @@ abstract class TrackerHelper {
 		$db->setQuery($query);
 		
 		try {
-			$result = $db->query();
+			$result = $db->execute();
 		} catch (Exception $e) {
 			return false;
 		}

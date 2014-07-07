@@ -266,7 +266,7 @@ class TrackerModelEdit extends JModelItem {
 			$query->delete('#__tracker_files_in_torrents');
 			$query->where('torrentID ='.$db->quote($torrent['fid']));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($error = $db->getErrorMsg()) {
 				$this->setError($error);
 				return false;

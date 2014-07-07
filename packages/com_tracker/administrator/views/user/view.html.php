@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewUser extends JView {
+class TrackerViewUser extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		// get the Data
 		$form = $this->get('Form');
@@ -33,7 +33,7 @@ class TrackerViewUser extends JView {
 		$this->addToolBar();
  
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 
 	}
 

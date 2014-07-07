@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 
 class	TrackerViewBanClient	extends	JView {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		if ($params->get('peer_banning') == 0) {
@@ -41,7 +41,7 @@ class	TrackerViewBanClient	extends	JView {
 		$this->addToolBar();
  
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 
 	}
 

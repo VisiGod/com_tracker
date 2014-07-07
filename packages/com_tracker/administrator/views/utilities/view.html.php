@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewUtilities extends JView {
+class TrackerViewUtilities extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -27,7 +27,7 @@ class TrackerViewUtilities extends JView {
 		$this->addToolbar();
 
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 	}
 
 

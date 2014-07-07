@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 $params = JComponentHelper::getParams( 'com_tracker' );

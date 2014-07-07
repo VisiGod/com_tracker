@@ -1,14 +1,14 @@
-<?php
+	<?php
 /**
- * @version			3.3.1-dev
- * @package			Joomla
+ * @version		3.3.1-dev
+ * @package		Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
- * @license			GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die('Restricted access');
-// import the Joomla modellist library
+
 jimport('joomla.application.component.modellist');
 
 class TrackerModelUsers extends JModelList {
@@ -30,6 +30,7 @@ class TrackerModelUsers extends JModelList {
 							'download_multiplier', 'a.download_multiplier',
 							'upload_multiplier', 'a.upload_multiplier',
 							'can_leech', 'a.can_leech',
+							'block', 'u.block',
 			);
 		}
 		parent::__construct($config);
@@ -38,22 +39,31 @@ class TrackerModelUsers extends JModelList {
 	protected function populateState($ordering = null, $direction = null) {
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
-		$context	= $this->context;
 
-		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($context.'.filter.state', 'filter_state', '');
-		$this->setState('filter.state', $state);
-
-		$group = $this->getUserStateFromRequest($context.'.filter.group', 'filter_group');
-		$this->setState('filter.group', $group);
-
-		$country = $this->getUserStateFromRequest($context.'.filter.country', 'filter_country');
-		$this->setState('filter.country', $country);
-
+		
+		/*
+		//Filtering group
+		$this->setState('filter.group', $app->getUserStateFromRequest($this->context.'.filter.group', 'filter_group', '', 'string'));
+		
+		//Filtering country
+		$this->setState('filter.country', $app->getUserStateFromRequest($this->context.'.filter.country', 'filter_country', '', 'string'));
+		*/
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_tracker');
+		$this->setState('params', $params);
+		
 		// List state information.
 		parent::populateState('a.id', 'asc');
+	}
+
+	protected function getStoreId($id = '') {
+		// Compile the store id.
+		$id.= ':' . $this->getState('filter.search');
+	
+		return parent::getStoreId($id);
 	}
 
 	protected function getListQuery() {
@@ -62,7 +72,8 @@ class TrackerModelUsers extends JModelList {
 		$params = JComponentHelper::getParams('com_tracker');
 
 		// In case the user is new, check the database and add it to the #__tracker_users
-		TrackerHelper::get_new_users();
+		//TrackerHelper::get_new_users();
+		// TODO: Check plugin for J!3
 		
 		// Select the required fields from the table.
 		$query->select(
@@ -74,7 +85,7 @@ class TrackerModelUsers extends JModelList {
 		$query->from('`#__tracker_users` AS a');
 
 		// Join the user table
-		$query->select(' u.name as name, u.username as username, u.email as email, u.block as block');
+		$query->select('u.name as name, u.username as username, u.email as email, u.block as block');
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.id');
 
 		if ($params->get('enable_countries')) {
@@ -93,13 +104,6 @@ class TrackerModelUsers extends JModelList {
 		$query->select('g.name as group_name');
 		$query->join('LEFT', '`#__tracker_groups` AS g on g.id = a.groupID');
 
-
-		// Filter by group
-		$group = $this->getState('filter.group');
-		if ($group) {
-			$query->where('a.groupID = '.(int)$group);
-		}
-
 		if ($params->get('enable_countries')) {
 			// Filter by country
 			$country = $this->getState('filter.country');
@@ -109,29 +113,29 @@ class TrackerModelUsers extends JModelList {
 			}
 		}
 
-		// Filter by state (user blocked or not)
-		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
-				$query->where('u.block = '.(int)$state);
-		} else if ($state === '') {
-				$query->where('(u.block IN (0, 1))');
-		}
-
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
-				$query->where('a.id = '.(int) substr($search, 3));
+				$query->where('a.id = ' . (int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
 				$query->where('u.name LIKE '.$search.' OR u.username LIKE '.$search);
 			}
 		}
-
+		
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.id')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$orderCol = $this->state->get('list.ordering');
+		$orderDirn = $this->state->get('list.direction');
+		if ($orderCol && $orderDirn) {
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
 
 		return $query;
 	}
 
+	public function getItems() {
+		$items = parent::getItems();
+		return $items;
+	}
 }

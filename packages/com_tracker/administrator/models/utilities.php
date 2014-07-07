@@ -210,7 +210,7 @@ class TrackerModelUtilities extends JModelList {
 		$db->setQuery((string)$query);
 		// Check if we have an error and output it
 		try {
-			$db->query();
+			$db->execute();
 		} catch (Exception $e) {
 			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_CREATE_TEMP_TABLE'));
 			return false;
@@ -221,7 +221,7 @@ class TrackerModelUtilities extends JModelList {
 		$db->setQuery((string)$query);
 		// Check if we have an error and output it
 		try {
-			$db->query();
+			$db->execute();
 		} catch (Exception $e) {
 			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_TRUNCATE_TEMP_TABLE'));
 			return false;
@@ -249,7 +249,7 @@ class TrackerModelUtilities extends JModelList {
 		$db->setQuery((string)$query);
 		// Check if we have an error and output it
 		try {
-			$db->query();
+			$db->execute();
 		} catch (Exception $e) {
 			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_ADD_VALUES_TEMP_TABLE'));
 			return false;
@@ -263,7 +263,7 @@ class TrackerModelUtilities extends JModelList {
 		$db->setQuery((string)$query);
 		// Check if we have an error and output it
 		try {
-			$db->query();
+			$db->execute();
 		} catch (Exception $e) {
 			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_ALTER_TORRENTS_TABLE'));
 			return false;
@@ -287,7 +287,7 @@ class TrackerModelUtilities extends JModelList {
 		$query .= "SET tt.download_multiplier = fl.download_multiplier, tt.flags = 2";
 		$db->setQuery((string)$query);
 		try {
-			$db->query();
+			$db->execute();
 		} catch (Exception $e) {
 			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_SET_ORIGINAL_VALUES'));
 			return false;
@@ -298,7 +298,7 @@ class TrackerModelUtilities extends JModelList {
 		$db->setQuery((string)$query);
 		// Check if we have an error and output it
 		try {
-			$db->query();
+			$db->execute();
 		} catch (Exception $e) {
 			$this->setError(JText::_( 'COM_TRACKER_UTILITY_FREE_LEECH_COULDNT_DELETE_TEMP_TABLE'));
 			return false;
@@ -544,7 +544,7 @@ class TrackerModelUtilities extends JModelList {
 				$query->delete('#__tracker_files_in_torrents');
 				$query->where('torrent='.$db->quote($torrent_id));
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				if ($error = $db->getErrorMsg()) {
 					$this->setError($error);
 					return false;
@@ -554,7 +554,7 @@ class TrackerModelUtilities extends JModelList {
 				$query->delete('#__tracker_torrents');
 				$query->where('fid='.$db->quote($torrent_id));
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename']);
 				if ($image_type == 1) @unlink(JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value);
 				continue;

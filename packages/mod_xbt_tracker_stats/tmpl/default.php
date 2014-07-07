@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user	= JFactory::getUser();
 $appParams = $app->getParams('com_tracker');
 
-JHTML::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
+JHtml::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
 $session	= JFactory::getSession();
 $tab_options = array(
 		'onActive' => 'function(title, description){

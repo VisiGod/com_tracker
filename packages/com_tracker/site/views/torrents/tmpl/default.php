@@ -22,10 +22,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 if ($this->params->get('menu_text')) echo '<h2>'.$this->escape($this->params->get('menu-anchor_title')).'</h2>';
 
 $torrentType = array(
-		JHTML::_('select.option', '1', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_PEERS') ),
-		JHTML::_('select.option', '2', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_SEEDERS') ),
-		JHTML::_('select.option', '3', JText::_('COM_TRACKER_SELECT_TORRENTS_ONLY_LEECHERS') ),
-		JHTML::_('select.option', '4', JText::_('COM_TRACKER_SELECT_TORRENTS_DEAD') ),
+		JHtml::_('select.option', '1', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_PEERS') ),
+		JHtml::_('select.option', '2', JText::_('COM_TRACKER_SELECT_TORRENTS_WITH_SEEDERS') ),
+		JHtml::_('select.option', '3', JText::_('COM_TRACKER_SELECT_TORRENTS_ONLY_LEECHERS') ),
+		JHtml::_('select.option', '4', JText::_('COM_TRACKER_SELECT_TORRENTS_DEAD') ),
 );
 
 ?>
@@ -53,7 +53,7 @@ $torrentType = array(
 		<div style="float: right; margin-right: 3px;">
 			<select name="filter_license_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_TRACKER_SELECT_LICENSE');?></option>
-				<?php echo JHTML::_('select.options', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'value', 'text', $this->state->get('filter.license_id')); ?>
+				<?php echo JHtml::_('select.options', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'value', 'text', $this->state->get('filter.license_id')); ?>
 			</select>
 		</div>
 		<?php } ?>

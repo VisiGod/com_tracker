@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
-JHTML::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
+JHtml::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
 $session	= JFactory::getSession();
 
 $doc = JFactory::getDocument();

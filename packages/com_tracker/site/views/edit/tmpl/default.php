@@ -74,10 +74,10 @@ jQuery.noConflict();
 				$torrent_file = array(0 => JText::_('COM_TRACKER_EDIT_TORRENT_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_TORRENT_CHOOSE_NEW_FILE'));
 				$torrent_options = array();
 				foreach($torrent_file as $key=>$value) :
-					$torrent_options[] = JHTML::_('select.option', $key, $value);
+					$torrent_options[] = JHtml::_('select.option', $key, $value);
 				endforeach;
 			?>
-			<span style="width:1%; wrap:nowrap; align:left;"><?php echo JHTML::_('select.genericlist', $torrent_options, 'default_torrent_file', 'class="inputbox"', 'value', 'text', 0); ?></span>
+			<span style="width:1%; wrap:nowrap; align:left;"><?php echo JHtml::_('select.genericlist', $torrent_options, 'default_torrent_file', 'class="inputbox"', 'value', 'text', 0); ?></span>
 
 			<div style="clear: both;"></div><br />
 
@@ -121,7 +121,7 @@ jQuery.noConflict();
 			<?php if ($params->get('enable_licenses') == 1) { ?>
 			<span style="width:1%; wrap:nowrap; align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_LICENSE' );?>:</span>
 			<span style="width:1%;">
-				<?php echo JHTML::_('select.genericlist', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'licenseID', 'class="inputbox"', 'value', 'text', $this->item->licenseID); ?>
+				<?php echo JHtml::_('select.genericlist', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'licenseID', 'class="inputbox"', 'value', 'text', $this->item->licenseID); ?>
 			</span>
 			<?php } else { ?>
 			<input type="hidden" name="licenseID" value="<?php echo $this->item->licenseID; ?>" />
@@ -135,9 +135,9 @@ jQuery.noConflict();
 					$anonymous = array(0 => JText::_('JNO'), 1 => JText::_('JYES'));
 					$options = array();
 					foreach($anonymous as $key=>$value) :
-						$options[] = JHTML::_('select.option', $key, $value);
+						$options[] = JHtml::_('select.option', $key, $value);
 					endforeach;
-					echo JHTML::_('select.genericlist', $options, 'uploader_anonymous', 'class="inputbox"', 'value', 'text', $this->item->uploader_anonymous);
+					echo JHtml::_('select.genericlist', $options, 'uploader_anonymous', 'class="inputbox"', 'value', 'text', $this->item->uploader_anonymous);
 				?>
 			</span>
 			<?php } else { ?>
@@ -155,10 +155,10 @@ jQuery.noConflict();
 					$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
 					$options = array();
 					foreach($image_type as $key=>$value) :
-						$options[] = JHTML::_('select.option', $key, $value);
+						$options[] = JHtml::_('select.option', $key, $value);
 					endforeach;
 				?>
-				<span style="width:1%; wrap:nowrap; align:left;"><?php echo JHTML::_('select.genericlist', $options, 'default_image_type', 'class="inputbox"', 'value', 'text', 0); ?></span>
+				<span style="width:1%; wrap:nowrap; align:left;"><?php echo JHtml::_('select.genericlist', $options, 'default_image_type', 'class="inputbox"', 'value', 'text', 0); ?></span>
 			</div>
 		<?php } ?>
 			<div style="clear: both;"></div>

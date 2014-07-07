@@ -9,54 +9,81 @@
 
 // No direct access
 defined('_JEXEC') or die('Restricted access');
- 
-// import Joomla view library
+
 jimport('joomla.application.component.view');
 
-class TrackerViewTorrents extends JView {
+class TrackerViewTorrents extends JViewLegacy {
+
+	protected $items;
+	protected $pagination;
+	protected $state;
 
 	public function display($tpl = null) {
-		// Get data from the model
-		$state			= $this->get('State');
-		$items 			= $this->get('Items');
-		$pagination 	= $this->get('Pagination');
 
-		$user = JFactory::getUser();
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+
+		$this->user = JFactory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode('<br />', $errors));
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		// Assign data to the view
-		$this->state = $state;
-		$this->items = $items;
-		$this->pagination = $pagination;
-		$this->user = $user;
-
-		// Set the toolbar
 		$this->addToolbar();
 
-		// Display the template
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
 	protected function addToolbar() {
-		$canDo = TrackerHelper::getActions();
-		JToolBarHelper::title(JText::_('COM_TRACKER_TORRENTS'), 'torrents');
-		
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own')) {
-			JToolBarHelper::editList('torrent.edit','JTOOLBAR_EDIT');
+		$canDo = JHelperContent::getActions('com_tracker', 'category', $this->state->get('filter.category_id'));
+		$user = JFactory::getUser();
+	
+		$bar = JToolBar::getInstance('toolbar');
+	
+		JToolbarHelper::title(JText::_('COM_TRACKER_TORRENTS'), 'torrents');
+	
+		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
+			JToolbarHelper::addNew('torrent.add');
 		}
-
+	
+		if (($canDo->get('core.edit'))) {
+			JToolbarHelper::editList('torrent.edit');
+		}
+	
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::deleteList('', 'torrents.delete','JTOOLBAR_DELETE');
+			JToolbarHelper::trash('torrent.delete');
+		}
+	
+		if ($user->authorise('core.admin', 'com_tracker')) {
+			JToolbarHelper::preferences('com_tracker');
 		}
 
-		if ($canDo->get('core.admin')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_tracker');
-		}
+		// Need to be built and available on next major version
+		//$help_url  = 'http://www.visigod.com/{language}/help-server';
+		//JToolBarHelper::help( 'COM_TRACKER_HELP_TORRENTS', false, $help_url );
+	}
+	
+	protected function getSortFields() {
+		return array(
+				'a.fid' => JText::_('JGLOBAL_FIELD_ID_LABEL'),
+				'a.name' => JText::_('COM_TRACKER_TORRENT_NAME'),
+				'a.categoryid' => JText::_('JCATEGORY'),
+				'a.size' => JText::_('COM_TRACKER_TORRENT_SIZE'),
+				'a.created_time' => JText::_('COM_TRACKER_TORRENT_UPLOADED'),
+				'a.leechers' => JText::_('COM_TRACKER_TORRENT_LEECHERS'),
+				'a.seeders' => JText::_('COM_TRACKER_TORRENT_SEEDERS'),
+				'a.completed' => JText::_('COM_TRACKER_TORRENT_COMPLETED'),
+				'a.download_multiplier' => JText::_('COM_TRACKER_DOWNLOAD_MULTIPLIER'),
+				'a.upload_multiplier' => JText::_('COM_TRACKER_UPLOAD_MULTIPLIER'),
+				'a.uploader' => JText::_('COM_TRACKER_TORRENT_UPLOADER'),
+				'a.state' => JText::_('JSTATUS'),
+		);
 	}
 }

@@ -21,7 +21,7 @@ class TrackerTableThankyou extends JTable {
 	public function store($updateNulls = false)
 	{
 		// Initialise variables.
-		$date = JFactory::getDate()->toMySQL();
+		$date = JFactory::getDate()->toSql();
 		$this->created_time = $date;
 
 		// Attempt to store the data.
@@ -75,7 +75,7 @@ class TrackerTableThankyou extends JTable {
 			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
 			' WHERE ('.$where.')'
 		);
-		$this->_db->query();
+		$this->_db->execute();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {

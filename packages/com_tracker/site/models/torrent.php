@@ -701,7 +701,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->delete('#__tracker_files_in_torrents');
 			$query->where('torrent='.$db->quote($torrent_id));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			if ($error = $db->getErrorMsg()) {
 				$this->setError($error);
 				return false;
@@ -711,7 +711,7 @@ class TrackerModelTorrent extends JModelItem {
 			$query->delete('#__tracker_torrents');
 			$query->where('fid='.$db->quote($torrent_id));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_*");
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 		}

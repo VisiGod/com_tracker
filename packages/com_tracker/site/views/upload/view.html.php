@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
-class TrackerViewUpload extends JView {
+class TrackerViewUpload extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 		$state	= $this->get('State');
 		$item		= $this->get('Item');
 		$user		= JFactory::getUser();
@@ -36,7 +36,7 @@ class TrackerViewUpload extends JView {
 		$this->assignRef('item',		$item);
 		$this->assignRef('params',		$params);
 
-		parent::display($tpl);
+		parent::display();
 	}
 
 }

@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewBanHosts extends JView {
+class TrackerViewBanHosts extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 
 		// Get data from the model
@@ -41,7 +41,7 @@ class TrackerViewBanHosts extends JView {
 		$this->addToolbar();
 
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 	}
 
 	protected function addToolbar() {

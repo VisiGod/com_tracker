@@ -18,6 +18,6 @@ class JFormFieldCUSTOMSQL extends JFormField {
 		$db->setQuery($this->element['query']);
 		$key = ($this->element['key_field'] ? $this->element['key_field'] : 'value');
 		$val = ($this->element['value_field'] ? $this->element['value_field'] : $this->name);
-		return JHTML::_('select.genericlist',  $db->loadObjectList(), $this->name, 'multiple="multiple" size="5"', $key, $val, $this->value, $this->id);
+		return JHtml::_('select.genericlist',  $db->loadObjectList(), $this->name, 'multiple="multiple" size="5"', $key, $val, $this->value, $this->id);
 	}
 }

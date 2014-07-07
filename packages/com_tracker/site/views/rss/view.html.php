@@ -15,7 +15,7 @@ class TrackerViewRSS extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 		$params		= $app->getParams();
@@ -43,7 +43,7 @@ class TrackerViewRSS extends JViewLegacy {
 			header('Content-Type: application/rss+xml; charset=ISO-8859-1');
 			echo TrackerHelper::getRSS($items[0]);
 			die();
-		} else parent::display($tpl);
+		} else parent::display();
 		
 	}
 

@@ -12,9 +12,9 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewComment extends JView {
+class TrackerViewComment extends JViewLegacy {
 
-	public function display($tpl = null) {
+	public function display($cachable = false, $urlparams = false) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		if ($params->get('enable_comments') == 0) {
@@ -41,7 +41,7 @@ class TrackerViewComment extends JView {
 		$this->addToolBar();
  
 		// Display the template
-		parent::display($tpl);
+		parent::display();
 
 	}
 

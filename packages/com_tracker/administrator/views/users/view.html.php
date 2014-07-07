@@ -10,59 +10,76 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewUsers extends JView {
+class TrackerViewUsers extends JViewLegacy {
+
+	protected $items;
+	protected $pagination;
+	protected $state;
 
 	public function display($tpl = null) {
-
-		// Get data from the model
-		$state			= $this->get('State');
-		$items 			= $this->get('Items');
-		$pagination 	= $this->get('Pagination');
-
-		$user = JFactory::getUser();
-
+	
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+	
+//		$this->filterForm    = $this->get('FilterForm');
+//		$this->activeFilters = $this->get('ActiveFilters');
+	
+		$this->user = JFactory::getUser();
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode('<br />', $errors));
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
-		// Assign data to the view
-		$this->state = $state;
-		$this->items = $items;
-		$this->pagination = $pagination;
-		$this->user = $user;
-
-		// Set the toolbar
+	
 		$this->addToolbar();
-
-		// Display the template
+	
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
-
+	
 	protected function addToolbar() {
-		$canDo = TrackerHelper::getActions();
-		JToolBarHelper::title(JText::_('COM_TRACKER_USERS'), 'users');
-
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own')) {
-			JToolBarHelper::editList('user.edit','JTOOLBAR_EDIT');
-		}
-
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::custom('users.unblock', 'publish.png', 'publish_f2.png','unblock', true);
-			JToolBarHelper::custom('users.block', 'unpublish.png', 'unpublish_f2.png', 'block', true);
-			JToolBarHelper::divider();
+		$canDo = JHelperContent::getActions('com_tracker', 'category', $this->state->get('filter.category_id'));
+		$user = JFactory::getUser();
+	
+		$bar = JToolBar::getInstance('toolbar');
+	
+		JToolbarHelper::title(JText::_('COM_TRACKER_USERS'), 'users');
+	
+		if (($canDo->get('core.edit'))) {
+			JToolbarHelper::editList('user.edit');
 			JToolBarHelper::custom('users.leech', 'publish.png', 'publish_f2.png','leech', true);
 			JToolBarHelper::custom('users.unleech', 'unpublish.png', 'unpublish_f2.png', 'unleech', true);
 		}
-        
-		if ($canDo->get('core.admin')) {
-	    JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_tracker');
+	
+		if ($user->authorise('core.admin', 'com_tracker')) {
+			JToolbarHelper::preferences('com_tracker');
 		}
+	
+		// Need to be built and available on next major version
+		//$help_url  = 'http://www.visigod.com/{language}/help-server';
+		//JToolBarHelper::help( 'COM_TRACKER_HELP_USERS', false, $help_url );
+	}
+	
+	protected function getSortFields() {
+		return array(
+				'a.id' => JText::_('JGLOBAL_FIELD_ID_LABEL'),
+				'u.name' => JText::_('COM_TRACKER_NAME'),
+				'u.username' => JText::_('JGLOBAL_USERNAME'),
+				'u.email' => JText::_('JGLOBAL_EMAIL'),
+				'u.block' => JText::_('JENABLED'),
+				'a.downloaded' => JText::_('COM_TRACKER_USER_DOWNLOADED'),
+				'a.uploaded' => JText::_('COM_TRACKER_USER_UPLOADED'),
+				'ratio' => JText::_('COM_TRACKER_USER_RATIO'),
+				'a.donated' => JText::_('COM_TRACKER_USER_DONATED'),
+				'a.groupID' => JText::_('COM_TRACKER_USER_GROUP'),
+				'a.countryID' => JText::_('COM_TRACKER_USER_COUNTRY'),
+				'a.download_multiplier' => JText::_('COM_TRACKER_DOWNLOAD_MULTIPLIER'),
+				'a.upload_multiplier' => JText::_('COM_TRACKER_UPLOAD_MULTIPLIER'),
+				'a.can_leech' => JText::_('COM_TRACKER_USER_CAN_LEECH'),
+				'u.block' => JText::_('JSTATUS'),
+		);
 	}
 }
