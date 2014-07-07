@@ -190,7 +190,7 @@ $sortFields = $this->getSortFields();
 
 				<td>
 				<?php
-					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=group.edit&fid='.(int) $item->id).">".$this->escape($item->name)."</a>";
+					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=group.edit&id='.(int) $item->id).">".$this->escape($item->name)."</a>";
 					else echo $item->name;
 				?>
 				</td>

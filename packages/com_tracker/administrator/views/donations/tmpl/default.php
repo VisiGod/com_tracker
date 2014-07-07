@@ -27,7 +27,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_tracker&task=donations.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'donationsList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	JHtml::_('sortablelist.sortable', 'donationList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
 ?>
@@ -158,7 +158,7 @@ $sortFields = $this->getSortFields();
 
 				<td>
 				<?php
-					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=donation.edit&fid='.(int) $item->id).">".$this->escape($item->donator)."</a>";
+					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=donation.edit&id='.(int) $item->id).">".$this->escape($item->donator)."</a>";
 					else echo $item->donator;
 				?>
 				</td>

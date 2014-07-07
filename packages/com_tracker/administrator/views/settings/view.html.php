@@ -10,51 +10,54 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla view library
 jimport('joomla.application.component.view');
 
 class TrackerViewSettings extends JViewLegacy {
 
-	public function display($cachable = false, $urlparams = false) {
-
-		// Get data from the model
-		$data		= $this->get('Items');
+	protected $items;
+	protected $pagination;
+	protected $state;
+	
+	public function display($tpl = null) {
+	
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+	
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->user = JFactory::getUser();
 
 		// Workaround to remove the objects from the array
-		foreach ($data as $names) {
-			$items[$names->name] = $names->value;
+		foreach ($this->items as $names) {
+			$this->items[$names->name] = $names->value;
 		}
-
-		$user = JFactory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode('<br />', $errors));
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
-		// Assign data to the view
-		$this->items = $items;
-		$this->user = $user;
-		
-		// Set the toolbar
+	
 		$this->addToolbar();
-
-		// Display the template
+	
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display();
 	}
-
+	
 	protected function addToolbar() {
-		$canDo = TrackerHelper::getActions();
+		$canDo = JHelperContent::getActions('com_tracker', 'category', $this->state->get('filter.category_id'));
+		$user = JFactory::getUser();
+	
+		$bar = JToolBar::getInstance('toolbar');
+	
 		JToolBarHelper::title(JText::_('COM_TRACKER_SETTINGS'), 'settings.png');
-
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own')) {
-			JToolBarHelper::editList('setting.edit','JTOOLBAR_EDIT');
+	
+		if (($canDo->get('core.edit'))) {
+			JToolbarHelper::editList('setting.edit');
 		}
-
-		if ($canDo->get('core.admin')) {
-	    JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_tracker');
+	
+		if ($user->authorise('core.admin', 'com_tracker')) {
+			JToolbarHelper::preferences('com_tracker');
 		}
 	}
 }

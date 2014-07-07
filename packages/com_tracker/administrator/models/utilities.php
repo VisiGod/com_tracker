@@ -8,11 +8,12 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-// import the Joomla modellist library
+
 jimport('joomla.application.component.modellist');
 
 class TrackerModelUtilities extends JModelList {
 
+/*
 	public function clearannounce() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
@@ -94,9 +95,9 @@ class TrackerModelUtilities extends JModelList {
 		}
 
 		$option = array(); //prevent problems
-		$option['driver']		= 'mysql';														// Database driver name
-		$option['user']			= $params->get('forum_db_user');			// User for database authentication
-		$option['password']	= $params->get('forum_db_password');	// Password for database authentication
+		$option['driver']		= 'mysql';								// Database driver name
+		$option['user']			= $params->get('forum_db_user');		// User for database authentication
+		$option['password']	= $params->get('forum_db_password');		// Password for database authentication
 		$option['database']	= $params->get('forum_database');			// Database name
 		$option['prefix']		= $params->get('forum_tableprefix');	// Database prefix (may be empty)
 
@@ -563,5 +564,6 @@ class TrackerModelUtilities extends JModelList {
 		}
 		return true;
 	}
-	
+
+*/
 }

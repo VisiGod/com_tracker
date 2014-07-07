@@ -10,13 +10,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted Access');
 
-// load tooltip behavior
 JHtml::_('behavior.tooltip');
 
-$user		= $this->user;
-$userId		= $user->get('id');
-
-$params = JComponentHelper::getParams('com_tracker');
 $app = JFactory::getApplication();
 
 if (!isset($this->items['table_deny_from_hosts'])) $this->items['table_deny_from_hosts'] = $app->getCfg('dbprefix', 1).'tracker_deny_from_hosts';

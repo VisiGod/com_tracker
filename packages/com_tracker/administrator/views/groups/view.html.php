@@ -24,7 +24,6 @@ class TrackerViewGroups extends JViewLegacy {
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 
-//		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		$this->user = JFactory::getUser();
