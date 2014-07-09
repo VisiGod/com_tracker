@@ -10,29 +10,44 @@
 // no direct access
 defined('_JEXEC') or die('Restricted Access');
 
-// load tooltip behavior
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
+
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+
+$app = JFactory::getApplication();
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'donation.cancel' || document.formvalidator.isValid(document.id('donation-form'))) {
+			Joomla.submitform(task, document.getElementById('donation-form'));
+		}
+	}
+</script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="donation-form" class="form-validate">
-	<div class="width-80 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_TRACKER_DONATION'); ?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('uid'); ?><?php echo $this->form->getInput('uid'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="donation-form" class="form-validate form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('uid'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('uid'); ?></div>
 
-				<li><?php echo $this->form->getLabel('ratio'); ?><?php echo $this->form->getInput('ratio'); ?></li>
+			<div class="control-label"><?php echo $this->form->getLabel('ratio'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('ratio'); ?></div>
 
-				<li><?php echo $this->form->getLabel('donated'); ?><?php echo $this->form->getInput('donated'); ?></li>
+			<div class="control-label"><?php echo $this->form->getLabel('donated'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('donated'); ?></div>
 
-				<li><?php echo $this->form->getLabel('donation_date'); ?><?php echo $this->form->getInput('donation_date'); ?></li>
+			<div class="control-label"><?php echo $this->form->getLabel('donation_date'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('donation_date'); ?></div>
 
-				<li><?php echo $this->form->getLabel('comments'); ?><?php echo $this->form->getInput('comments'); ?></li>
-			</ul>
-		</fieldset>
-	</div>
+			<div class="control-label"><?php echo $this->form->getLabel('comments'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('comments'); ?></div>
+		</div>
+	</fieldset>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	<div class="clr"></div>
 </form>

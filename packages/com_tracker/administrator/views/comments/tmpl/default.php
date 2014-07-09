@@ -94,7 +94,7 @@ $sortFields = $this->getSortFields();
 				</th>
 
 				<th class="nowrap">
-					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_COMMENT_COMMENT', 'a.comment', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_COMMENT', 'a.comment', $listDirn, $listOrder); ?>
 				</th>
 
 				<th class="nowrap">

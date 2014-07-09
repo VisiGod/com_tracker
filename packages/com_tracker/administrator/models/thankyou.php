@@ -14,6 +14,11 @@ jimport('joomla.application.component.modeladmin');
 
 class TrackerModelThankyou extends JModelAdmin {
 
+	protected function allowEdit($data = array(), $key = 'id') {
+		// Check specific edit permission then general edit permission.
+		return JFactory::getUser()->authorise('core.edit', 'com_tracker.thankyou.'.((int) isset($data[$key]) ? $data[$key] : 0)) or parent::allowEdit($data, $key);
+	}
+
 	public function getTable($type = 'Thankyou', $prefix = 'TrackerTable', $config = array()) {
 		return JTable::getInstance($type, $prefix, $config);
 	}

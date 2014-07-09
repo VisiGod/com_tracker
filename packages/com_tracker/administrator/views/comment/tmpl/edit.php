@@ -10,24 +10,35 @@
 // no direct access
 defined('_JEXEC') or die('Restricted Access');
 
-// load tooltip behavior
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
+
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+
+$app = JFactory::getApplication();
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'comment.cancel' || document.formvalidator.isValid(document.id('comment-form'))) {
+			Joomla.submitform(task, document.getElementById('comment-form'));
+		}
+	}
+</script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="comment-form" class="form-validate">
-	<div class="width-80 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_TRACKER_DONATION'); ?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('torrentID'); ?><?php echo $this->form->getInput('torrentID'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="comment-form" class="form-validate form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('torrentID'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('torrentID'); ?></div>
 
-				<li><?php echo $this->form->getLabel('comment'); ?><?php echo $this->form->getInput('comment'); ?></li>
-
-			</ul>
-		</fieldset>
-	</div>
+			<div class="control-label left"><?php echo $this->form->getLabel('comment'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('comment'); ?></div>
+		</div>
+	</fieldset>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	<div class="clr"></div>
 </form>

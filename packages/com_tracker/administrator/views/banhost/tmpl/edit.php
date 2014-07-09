@@ -10,10 +10,38 @@
 // no direct access
 defined('_JEXEC') or die;
 
-?>
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banhost-form" class="form-validate">
-				<li><?php echo $this->form->getLabel('id'); ?><?php echo $this->form->getInput('id'); ?></li>
-				<li><?php echo $this->form->getLabel('begin'); ?><?php echo $this->form->getInput('begin');?></li>
-				<li><?php echo $this->form->getLabel('end'); ?><?php echo $this->form->getInput('end'); ?></li>
-				<li><?php echo $this->form->getLabel('comment'); ?><?php echo $this->form->getInput('comment'); ?></li>
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+
+$app = JFactory::getApplication();
+$params = JComponentHelper::getParams( 'com_tracker' );
+?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'banhost.cancel' || document.formvalidator.isValid(document.id('banhost-form'))) {
+			Joomla.submitform(task, document.getElementById('banhost-form'));
+		}
+	}
+</script>
+
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banhost-form" class="form-validate form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('begin'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('begin'); ?></div>
+
+			<div class="control-label"><?php echo $this->form->getLabel('end'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('end'); ?></div>
+
+			<div class="control-label"><?php echo $this->form->getLabel('comment'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('comment'); ?></div>
+		</div>
+	</fieldset>
+
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
+</form>

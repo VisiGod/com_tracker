@@ -3,9 +3,9 @@
 	<fieldset>
 		<field name="id" type="hidden" default="" />
 
-		<field name="fid" type="sql" default="" label="COM_TRACKER_TORRENT" description="" query="SELECT fid, name FROM #__tracker_torrents WHERE state = 1" key_field="fid" value_field="name" />
+		<field name="fid" type="sql" default="" label="COM_TRACKER_TORRENT_NAME" description="" query="SELECT fid, name FROM #__tracker_torrents WHERE state = 1" key_field="fid" value_field="name" />
 
-		<field name="reporter" type="user" label="COM_TRACKER_USER" description="" />
+		<field name="reporter" type="user" label="JGLOBAL_USERNAME" description="" />
 
 		<field name="created_time" type="calendar" label="JGLOBAL_CREATED_DATE" description="" class="inputbox" size="22" format="%Y-%m-%d" filter="user_utc" />
 

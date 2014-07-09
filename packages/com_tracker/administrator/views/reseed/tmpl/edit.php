@@ -8,7 +8,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted Access');
+defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
@@ -22,20 +22,20 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task) {
-		if (task == 'country.cancel' || document.formvalidator.isValid(document.id('country-form'))) {
-			Joomla.submitform(task, document.getElementById('country-form'));
+		if (task == 'reseed.cancel' || document.formvalidator.isValid(document.id('reseed-form'))) {
+			Joomla.submitform(task, document.getElementById('reseed-form'));
 		}
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="country-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="reseed-form" class="form-validate form-horizontal">
 	<fieldset>
 		<div class="control-group">
-			<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
-			<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
+			<div class="control-label"><?php echo $this->form->getLabel('fid'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('fid'); ?></div>
 
-			<div class="control-label"><?php echo $this->form->getLabel('image'); ?></div>
-			<div class="controls"><?php echo $this->form->getInput('image'); ?></div>
+			<div class="control-label"><?php echo $this->form->getLabel('requester'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('requester'); ?></div>
 		</div>
 	</fieldset>
 

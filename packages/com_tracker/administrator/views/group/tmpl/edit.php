@@ -10,72 +10,99 @@
 // no direct access
 defined('_JEXEC') or die('Restricted Access');
 
-// load tooltip behavior
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+
+$app = JFactory::getApplication();
 $params = JComponentHelper::getParams( 'com_tracker' );
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
-	<div class="width-40 fltlft">
-		<fieldset class="adminform">
-			<legend><?php	echo JText::_('COM_TRACKER_GROUP');	?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('name'); ?><?php echo $this->form->getInput('name'); ?></li>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'group.cancel' || document.formvalidator.isValid(document.id('group-form'))) {
+			Joomla.submitform(task, document.getElementById('group-form'));
+		}
+	}
+</script>
 
-				<li><?php echo $this->form->getLabel('wait_time'); ?><?php echo $this->form->getInput('wait_time'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate form-horizontal">
+	<fieldset>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'groupTorrent', array('active' => 'group')); ?>
 
-				<li><?php echo $this->form->getLabel('peer_limit'); ?><?php echo $this->form->getInput('peer_limit'); ?></li>
+		<?php echo JHtml::_('bootstrap.addTab', 'groupTorrent', 'group', JText::_('COM_TRACKER_GROUP', true)); ?>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
 
-				<li><?php echo $this->form->getLabel('torrent_limit'); ?><?php echo $this->form->getInput('torrent_limit'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('wait_time'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('wait_time'); ?></div>
 
-				<li><?php echo $this->form->getLabel('minimum_ratio'); ?><?php echo $this->form->getInput('minimum_ratio'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('peer_limit'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('peer_limit'); ?></div>
 
-				<li><?php echo $this->form->getLabel('download_multiplier'); ?><?php echo $this->form->getInput('download_multiplier'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('torrent_limit'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('torrent_limit'); ?></div>
 
-				<li><?php echo $this->form->getLabel('upload_multiplier'); ?><?php echo $this->form->getInput('upload_multiplier'); ?></li>
-			</ul>
-		</fieldset>
-	</div>
+				<div class="control-label"><?php echo $this->form->getLabel('minimum_ratio'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('minimum_ratio'); ?></div>
 
-	<div class="width-30 fltlft">
-		<fieldset class="adminform">
-			<legend><?php	echo JText::_('COM_TRACKER_TORRENTS');	?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('view_torrents'); ?><?php echo $this->form->getInput('view_torrents'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('download_multiplier'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('download_multiplier'); ?></div>
 
-				<li><?php echo $this->form->getLabel('edit_torrents'); ?><?php echo $this->form->getInput('edit_torrents'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('upload_multiplier'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('upload_multiplier'); ?></div>
+			</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<li><?php echo $this->form->getLabel('delete_torrents'); ?><?php echo $this->form->getInput('delete_torrents'); ?></li>
+		<?php echo JHtml::_('bootstrap.addTab', 'groupTorrent', 'torrents', JText::_('COM_TRACKER_TORRENTS', true)); ?>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('view_torrents'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('view_torrents'); ?></div>
 
-				<li><?php echo $this->form->getLabel('upload_torrents'); ?><?php echo $this->form->getInput('upload_torrents'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('edit_torrents'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('edit_torrents'); ?></div>
 
-				<li><?php echo $this->form->getLabel('download_torrents'); ?><?php echo $this->form->getInput('download_torrents'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('delete_torrents'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('delete_torrents'); ?></div>
 
-				<li><?php echo $this->form->getLabel('can_leech'); ?><?php echo $this->form->getInput('can_leech'); ?></li>
-			</ul>
-		</fieldset>
-	</div>
-	
-	<?php if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') {?>
-	<div class="width-30 fltlft">
-		<fieldset class="adminform">
-			<legend><?php	echo JText::_('COM_TRACKER_COMMENTS');	?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('view_comments'); ?><?php echo $this->form->getInput('view_comments'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('upload_torrents'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('upload_torrents'); ?></div>
 
-				<li><?php echo $this->form->getLabel('write_comments'); ?><?php echo $this->form->getInput('write_comments'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('download_torrents'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('download_torrents'); ?></div>
 
-				<li><?php echo $this->form->getLabel('edit_comments'); ?><?php echo $this->form->getInput('edit_comments'); ?></li>
+				<div class="control-label"><?php echo $this->form->getLabel('can_leech'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('can_leech'); ?></div>
+			</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<li><?php echo $this->form->getLabel('delete_comments'); ?><?php echo $this->form->getInput('delete_comments'); ?></li>
+		<?php if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') {?>
+			<?php echo JHtml::_('bootstrap.addTab', 'groupTorrent', 'comments', JText::_('COM_TRACKER_COMMENTS', true)); ?>
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('view_comments'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('view_comments'); ?></div>
 
-				<li><?php echo $this->form->getLabel('autopublish_comments'); ?><?php echo $this->form->getInput('autopublish_comments'); ?></li>
-			</ul>
-		</fieldset>
-	</div>
-	<?php } ?>
+					<div class="control-label"><?php echo $this->form->getLabel('write_comments'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('write_comments'); ?></div>
+
+					<div class="control-label"><?php echo $this->form->getLabel('edit_comments'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('edit_comments'); ?></div>
+
+					<div class="control-label"><?php echo $this->form->getLabel('delete_comments'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('delete_comments'); ?></div>
+
+					<div class="control-label"><?php echo $this->form->getLabel('autopublish_comments'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('autopublish_comments'); ?></div>
+				</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php } ?>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	</fieldset>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	<div class="clr"></div>
 </form>

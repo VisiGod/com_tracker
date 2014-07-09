@@ -10,28 +10,35 @@
 // no direct access
 defined('_JEXEC') or die('Restricted Access');
 
-// load tooltip behavior
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
+
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+
+$app = JFactory::getApplication();
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'filetype.cancel' || document.formvalidator.isValid(document.id('filetype-form'))) {
+			Joomla.submitform(task, document.getElementById('filetype-form'));
+		}
+	}
+</script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="filetype-form" class="form-validate">
-	<div class="width-60 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_TRACKER_FILETYPE'); ?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('id'); ?><?php echo $this->form->getInput('id'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="filetype-form" class="form-validate form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
 
-				<li><?php echo $this->form->getLabel('name'); ?><?php echo $this->form->getInput('name'); ?></li>
-
-				<li><?php echo $this->form->getLabel('image'); ?><?php echo $this->form->getInput('image'); ?></li>
-
-				<li><?php echo $this->form->getLabel('state'); ?><?php echo $this->form->getInput('state'); ?></li>
-
-			</ul>
-		</fieldset>
-	</div>
+			<div class="control-label left"><?php echo $this->form->getLabel('image'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('image'); ?></div>
+		</div>
+	</fieldset>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	<div class="clr"></div>
 </form>

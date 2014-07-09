@@ -19,7 +19,14 @@ class TrackerViewReports extends JViewLegacy {
 	protected $state;
 	
 	public function display($tpl = null) {
-	
+
+		$params = JComponentHelper::getParams( 'com_tracker' );
+		if ($params->get('enable_reporttorrent') == 0) {
+			$app		= JFactory::getApplication();
+			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_REPORTS_NOT_ENABLE'), 'error');
+			return false;
+		}
+
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');

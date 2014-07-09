@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die('Restricted access');
  
-// import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewBanHost extends JViewLegacy {
+class TrackerViewReport extends JViewLegacy {
 
 	protected $form;
 	protected $item;
@@ -21,9 +20,9 @@ class TrackerViewBanHost extends JViewLegacy {
 	public function display($tpl = null) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
-		if ($params->get('host_banning') == 0) {
+		if ($params->get('enable_reporttorrent') == 0) {
 			$app		= JFactory::getApplication();
-			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_BANHOST_NOT_ENABLE'), 'error');
+			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_REPORTS_NOT_ENABLE'), 'error');
 			return false;
 		}
 
@@ -50,28 +49,28 @@ class TrackerViewBanHost extends JViewLegacy {
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		
-		$canDo		= JHelperContent::getActions('com_tracker', 'banhost', $this->item->id);
+		$canDo		= JHelperContent::getActions('com_tracker', 'report', $this->item->id);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_BANHOSTS'), 'ipban');
+		JToolBarHelper::title(JText::_('COM_TRACKER_REPORTS'), 'report');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {
-			JToolBarHelper::apply('banhost.apply');
-			JToolBarHelper::save('banhost.save');
+			JToolBarHelper::apply('report.apply');
+			JToolBarHelper::save('report.save');
 		}
 		
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('banhost.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::custom('report.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('banhost.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::custom('report.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 		
 		if (empty($this->item->id)) {
-			JToolbarHelper::cancel('banhost.cancel');
+			JToolbarHelper::cancel('report.cancel');
 		} else {
-			JToolbarHelper::cancel('banhost.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('report.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }

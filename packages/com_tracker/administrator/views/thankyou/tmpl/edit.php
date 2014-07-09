@@ -22,24 +22,20 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task) {
-		if (task == 'banclient.cancel' || document.formvalidator.isValid(document.id('banclient-form'))) {
-			Joomla.submitform(task, document.getElementById('banclient-form'));
+		if (task == 'thankyou.cancel' || document.formvalidator.isValid(document.id('thankyou-form'))) {
+			Joomla.submitform(task, document.getElementById('thankyou-form'));
 		}
 	}
 </script>
 
-<label style="align: center;">
-	<b>You can check the list <a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" target="_blank">here</a></b>
-</label>
-
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banclient-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="thankyou-form" class="form-validate form-horizontal">
 	<fieldset>
 		<div class="control-group">
-			<div class="control-label"><?php echo $this->form->getLabel('peer_id'); ?></div>
-			<div class="controls"><?php echo $this->form->getInput('peer_id'); ?></div>
+			<div class="control-label"><?php echo $this->form->getLabel('torrentID'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('torrentID'); ?></div>
 
-			<div class="control-label"><?php echo $this->form->getLabel('peer_description'); ?></div>
-			<div class="controls"><?php echo $this->form->getInput('peer_description'); ?></div>
+			<div class="control-label"><?php echo $this->form->getLabel('uid'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('uid'); ?></div>
 
 			<div class="control-label"><?php echo $this->form->getLabel('comment'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('comment'); ?></div>

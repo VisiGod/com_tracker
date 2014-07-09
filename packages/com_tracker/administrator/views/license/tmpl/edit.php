@@ -10,32 +10,44 @@
 // no direct access
 defined('_JEXEC') or die('Restricted Access');
 
-// load tooltip behavior
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
+
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+
+$app = JFactory::getApplication();
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'license.cancel' || document.formvalidator.isValid(document.id('license-form'))) {
+			Joomla.submitform(task, document.getElementById('license-form'));
+		}
+	}
+</script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="license-form" class="form-validate">
-	<div class="width-80 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_TRACKER_LICENSE'); ?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('shortname'); ?><?php echo $this->form->getInput('shortname'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="license-form" class="form-validate form-horizontal">
+	<fieldset>
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('shortname'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('shortname'); ?></div>
 
-				<li><?php echo $this->form->getLabel('alias'); ?><?php echo $this->form->getInput('alias'); ?></li>
+			<div class="control-label left"><?php echo $this->form->getLabel('alias'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
 
-				<li><?php echo $this->form->getLabel('fullname'); ?><?php echo $this->form->getInput('fullname'); ?></li>
+			<div class="control-label left"><?php echo $this->form->getLabel('fullname'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('fullname'); ?></div>
 
-				<li><?php echo $this->form->getLabel('link'); ?><?php echo $this->form->getInput('link'); ?></li>
+			<div class="control-label left"><?php echo $this->form->getLabel('link'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('link'); ?></div>
 
-				<li><?php echo $this->form->getLabel('description'); ?><?php echo $this->form->getInput('description'); ?></li>
-
-				<li><?php echo $this->form->getLabel('state'); ?><?php echo $this->form->getInput('state'); ?></li>
-
-			</ul>
-		</fieldset>
-	</div>
+			<div class="control-label left"><?php echo $this->form->getLabel('description'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('description'); ?></div>
+		</div>
+	</fieldset>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	<div class="clr"></div>
 </form>

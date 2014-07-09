@@ -14,7 +14,11 @@ jimport('joomla.application.component.view');
 
 class TrackerViewDonation extends JViewLegacy {
 
-	public function display($cachable = false, $urlparams = false) {
+	protected $form;
+	protected $item;
+	protected $state;
+
+	public function display($tpl = null) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		if ($params->get('enable_donations') == 0) {
@@ -23,58 +27,51 @@ class TrackerViewDonation extends JViewLegacy {
 			return false;
 		}
 
-		JLoader::register('JTableUser', JPATH_LIBRARIES.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'table'.DIRECTORY_SEPARATOR.'user.php');
+		// Initialiase variables.
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
-		// get the Data
-		$form = $this->get('Form');
-		$item = $this->get('Item');
-
-		// Check for errors
-		if (count($errors = $this->get('Errors'))) 
-		{
-			JError::raiseError(500, implode('<br />', $errors));
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-		// Assign the Data
-		$this->form 	= $form;
-		$this->item 	= $item;
 
 		// Set the toolbar
 		$this->addToolBar();
  
 		// Display the template
 		parent::display();
-
 	}
 
 	protected function addToolbar() {
-		JRequest::setVar('hidemainmenu', true);
-
 		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
-    $checkedOut = false;
-		$canDo		= TrackerHelper::getActions();
-
+		
+		$canDo		= JHelperContent::getActions('com_tracker', 'donation', $this->item->id);
+		
 		JToolBarHelper::title(JText::_('COM_TRACKER_DONATIONS'), 'donations');
-
+		
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')||($canDo->get('core.create')))) {
-			JToolBarHelper::apply('donation.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('donation.save', 'JTOOLBAR_SAVE');
+		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {
+			JToolBarHelper::apply('donation.apply');
+			JToolBarHelper::save('donation.save');
 		}
-		if (!$checkedOut && ($canDo->get('core.create'))){
+		
+		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('donation.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('donation.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
-
+		
 		if (empty($this->item->id)) {
-			JToolBarHelper::cancel('donation.cancel', 'JTOOLBAR_CANCEL');
+			JToolbarHelper::cancel('donation.cancel');
 		} else {
-			JToolBarHelper::cancel('donation.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('donation.cancel', 'JTOOLBAR_CLOSE');
 		}
-
 	}
 }

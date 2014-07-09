@@ -14,7 +14,11 @@ jimport('joomla.application.component.view');
 
 class TrackerViewFiletype extends JViewLegacy {
 
-	public function display($cachable = false, $urlparams = false) {
+	protected $form;
+	protected $item;
+	protected $state;
+
+	public function display($tpl = null) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
 		if ($params->get('enable_filetypes') == 0) {
@@ -23,59 +27,51 @@ class TrackerViewFiletype extends JViewLegacy {
 			return false;
 		}
 
-		// get the Data
-		$form = $this->get('Form');
-		$item = $this->get('Item');
+		// Initialiase variables.
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
-		// Check for errors
-		if (count($errors = $this->get('Errors'))) 
-		{
-			JError::raiseError(500, implode('<br />', $errors));
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-		// Assign the Data
-		$this->form 	= $form;
-		$this->item 	= $item;
 
 		// Set the toolbar
 		$this->addToolBar();
  
 		// Display the template
 		parent::display();
-
 	}
 
 	protected function addToolbar() {
-		JRequest::setVar('hidemainmenu', true);
-
 		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
-    	$checkedOut = false;
-		$canDo		= TrackerHelper::getActions();
-
+		
+		$canDo		= JHelperContent::getActions('com_tracker', 'filetype', $this->item->id);
+		
 		JToolBarHelper::title(JText::_('COM_TRACKER_FILETYPE'), 'filetype');
-
+		
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')||($canDo->get('core.create'))))
-		{
-
-			JToolBarHelper::apply('filetype.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('filetype.save', 'JTOOLBAR_SAVE');
+		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {
+			JToolBarHelper::apply('filetype.apply');
+			JToolBarHelper::save('filetype.save');
 		}
-		if (!$checkedOut && ($canDo->get('core.create'))){
+		
+		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('filetype.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('filetype.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
-
+		
 		if (empty($this->item->id)) {
-			JToolBarHelper::cancel('filetype.cancel', 'JTOOLBAR_CANCEL');
+			JToolbarHelper::cancel('filetype.cancel');
+		} else {
+			JToolbarHelper::cancel('filetype.cancel', 'JTOOLBAR_CLOSE');
 		}
-		else {
-			JToolBarHelper::cancel('filetype.cancel', 'JTOOLBAR_CLOSE');
-		}
-
 	}
 }

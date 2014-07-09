@@ -19,7 +19,14 @@ class TrackerViewThankyous extends JViewLegacy {
 	protected $state;
 	
 	public function display($tpl = null) {
-	
+
+		$params = JComponentHelper::getParams( 'com_tracker' );
+		if ($params->get('enable_thankyou') == 0) {
+			$app		= JFactory::getApplication();
+			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_THANKYOUS_NOT_ENABLE'), 'error');
+			return false;
+		}
+
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
@@ -55,11 +62,28 @@ class TrackerViewThankyous extends JViewLegacy {
 		if (($canDo->get('core.edit'))) {
 			JToolbarHelper::editList('thankyou.edit');
 		}
-	
+
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('thankyou.delete');
+			if ($this->state->get('filter.state') != 2) {
+				JToolbarHelper::publish('thankyous.publish', 'JTOOLBAR_PUBLISH', true);
+				JToolbarHelper::unpublish('thankyous.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			}
+		
+			if ($this->state->get('filter.state') != -1) {
+				if ($this->state->get('filter.state') != 2) {
+					JToolbarHelper::archiveList('thankyous.archive');
+				} elseif ($this->state->get('filter.state') == 2) {
+					JToolbarHelper::unarchiveList('thankyous.publish');
+				}
+			}
 		}
-	
+
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+			JToolbarHelper::deleteList('', 'thankyous.delete', 'JTOOLBAR_EMPTY_TRASH');
+		} elseif ($canDo->get('core.edit.state')) {
+			JToolbarHelper::trash('thankyous.trash');
+		}
+
 		if ($user->authorise('core.admin', 'com_tracker')) {
 			JToolbarHelper::preferences('com_tracker');
 		}

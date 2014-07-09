@@ -2,9 +2,9 @@
 /**
  * @version			3.3.1-dev
  * @package			Joomla
- * @subpackage		com_tracker
+ * @subpackage	com_tracker
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
- * @license		GNU General Public user version 2 or later; see USER.txt
+ * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die('Restricted access');
@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewUser extends JViewLegacy {
+class TrackerViewReseed extends JViewLegacy {
 
 	protected $form;
 	protected $item;
@@ -20,7 +20,12 @@ class TrackerViewUser extends JViewLegacy {
 
 	public function display($tpl = null) {
 
-		JLoader::register('JTableUser', JPATH_LIBRARIES.DIRECTORY_SEPARATOR.'joomla'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'table'.DIRECTORY_SEPARATOR.'user.php');
+		$params = JComponentHelper::getParams( 'com_tracker' );
+		if ($params->get('enable_reseedrequest') == 0) {
+			$app		= JFactory::getApplication();
+			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_RESEEDS_NOT_ENABLE'), 'error');
+			return false;
+		}
 
 		// Initialiase variables.
 		$this->form		= $this->get('Form');
@@ -44,21 +49,29 @@ class TrackerViewUser extends JViewLegacy {
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
-
-		$canDo = JHelperContent::getActions('com_users');
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_USERS'), 'users');
+		$canDo		= JHelperContent::getActions('com_tracker', 'reseed', $this->item->id);
+		
+		JToolBarHelper::title(JText::_('COM_TRACKER_THANKYOUS'), 'reseed');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {
-			JToolBarHelper::apply('user.apply');
-			JToolBarHelper::save('user.save');
+			JToolBarHelper::apply('reseed.apply');
+			JToolBarHelper::save('reseed.save');
+		}
+		
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::custom('reseed.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')) {
+			JToolBarHelper::custom('reseed.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 		
 		if (empty($this->item->id)) {
-			JToolbarHelper::cancel('user.cancel');
+			JToolbarHelper::cancel('reseed.cancel');
 		} else {
-			JToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('reseed.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }

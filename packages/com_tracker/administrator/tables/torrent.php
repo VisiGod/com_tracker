@@ -33,9 +33,9 @@ class TrackerTableTorrent extends JTable {
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
-		if (!JFactory::getUser()->authorise('core.admin', 'com_tracker.torrent.' . $array['id'])) {
+		if (!JFactory::getUser()->authorise('core.admin', 'com_tracker.torrent.' . $array['fid'])) {
 			$actions = JFactory::getACL()->getActions('com_tracker', 'torrent');
-			$default_actions = JFactory::getACL()->getAssetRules('com_tracker.torrent.' . $array['id'])->getData();
+			$default_actions = JFactory::getACL()->getAssetRules('com_tracker.torrent.' . $array['fid'])->getData();
 			$array_jaccess = array();
 			foreach ($actions as $action) {
 				$array_jaccess[$action->name] = $default_actions[$action->name];

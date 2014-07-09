@@ -10,19 +10,31 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+
+$app = JFactory::getApplication();
 $params = JComponentHelper::getParams( 'com_tracker' );
 
 $doc = JFactory::getDocument();
-$doc->addScript($params->get('jquery_url'));
-$doc->addScript($params->get('jquery_ui_url'));
 $jquery_drag_style='span.choosable {border: 1px solid red;}';
 $doc->addStyleDeclaration($jquery_drag_style);
 $style = '.hide { display:none; }';
 $doc->addStyleDeclaration( $style );
 ?>
+
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'rss.cancel' || document.formvalidator.isValid(document.id('rss-form'))) {
+			Joomla.submitform(task, document.getElementById('rss-form'));
+		}
+	}
+</script>
+
 <script>
 $("#rss_params").ready(function(){
 	function default_dropdown() {
@@ -103,73 +115,64 @@ $(document).ready(function() {
 	#field_list span{cursor:pointer;}
 </style>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int)	$this->item->id); ?>" method="post" name="adminForm" id="rss-form" class="form-validate">
-	<div class="width-100 fltlft" id="rss_params">
-		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_TRACKER_RSS_CHANNEL'); ?></legend>
-			<ul	class="adminformlist">
-				<li><?php echo $this->form->getLabel('name'); ?><?php echo $this->form->getInput('name'); ?></li>
 
-				<li><?php echo $this->form->getLabel('channel_title'); ?><?php echo $this->form->getInput('channel_title');	?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="rss-form" class="form-validate form-horizontal">
+	<fieldset>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'rss', array('active' => 'channel')); ?>
 
-				<li><?php echo $this->form->getLabel('channel_description'); ?><?php echo $this->form->getInput('channel_description');	?></li>
+		<?php echo JHtml::_('bootstrap.addTab', 'rss', 'channel', JText::_('COM_TRACKER_RSS_CHANNEL', true)); ?>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
+			
+				<div class="control-label"><?php echo $this->form->getLabel('channel_title'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('channel_title'); ?></div>
+			
+				<div class="control-label"><?php echo $this->form->getLabel('channel_description'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('channel_description'); ?></div>
 
-				<li><?php
-						echo $this->form->getLabel('rss_authentication');
+				<div class="control-label"><?php echo $this->form->getLabel('rss_authentication'); ?></div>
+				<div class="controls">
+					<?php
 						echo $this->form->getInput('rss_authentication');
-				
 						echo '<span class="hide" id="authentication_groups">&nbsp;&nbsp;&nbsp;';
 						echo '<span>'.$this->form->getLabel('rss_authentication_group').$this->form->getInput('rss_authentication_group').'</span>';
 						echo '<div class="clear"></div>';
 						echo '</span>';
 					?>
-				</li>
+				</div>
 
-				<li><?php
-						echo $this->form->getLabel('rss_type');
+				<div class="control-label"><?php echo $this->form->getLabel('rss_type'); ?></div>
+				<div class="controls">
+					<?php
 						echo $this->form->getInput('rss_type');
-
 						echo '<span class="hide" id="rss_type_category">&nbsp;&nbsp;&nbsp;';
 						echo '<span>'.$this->form->getLabel('rss_type_category').$this->form->getInput('rss_type_category').'</span>';
 						echo '<div class="clear"></div>';
 						echo '</span>';
-
 						echo '<span class="hide" id="rss_type_license">&nbsp;&nbsp;&nbsp;';
 						echo '<span>'.$this->form->getLabel('rss_type_license').$this->form->getInput('rss_type_license').'</span>';
 						echo '<div class="clear"></div>';
 						echo '</span>';
-
 					?>
-				</li>
-			</ul>
-		</fieldset>
-	</div>
-	<div class="width-100 fltlft">
-		<div class="width-65 fltlft">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_TRACKER_RSS_ITEMS'); ?></legend>
-				<ul	class="adminformlist">
-					<li><?php echo $this->form->getLabel('item_count'); ?><?php echo $this->form->getInput('item_count'); ?></li>
-	
-					<li>
-						<?php echo $this->form->getLabel('item_title'); ?>
-						<textarea name="jform[item_title]" id="jform_item_title" class="txtDropTarget" cols="85" rows="1"><?php echo $this->form->getValue('item_title'); ?></textarea>
-					</li>
-						<li>
-						<?php echo $this->form->getLabel('item_description'); ?>
-						<textarea name="jform[item_description]" id="jform_item_description" class="txtDropTarget" cols="85" rows="19"><?php echo $this->form->getValue('item_description'); ?></textarea>
-					</li>
-				</ul>
-			</fieldset>
-		</div>
-		
-		<div class="width-25 fltrgt" id="field_list">
-			<fieldset class="adminform">
+				</div>
+			</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.addTab', 'rss', 'items', JText::_('COM_TRACKER_RSS_ITEMS', true)); ?>
+			<div class="control-group">
+				<div class="control-label"><?php echo $this->form->getLabel('item_count'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('item_count'); ?></div>
+
+				<div class="control-label"><?php echo $this->form->getLabel('item_title'); ?></div>
+				<div class="controls"><textarea name="jform[item_title]" id="jform_item_title" class="txtDropTarget" cols="85" rows="1"><?php echo $this->form->getValue('item_title'); ?></textarea></div>
+
+				<div class="control-label"><?php echo $this->form->getLabel('item_description'); ?></div>
+				<div class="controls"><textarea name="jform[item_description]" id="jform_item_description" class="txtDropTarget" cols="85" rows="19"><?php echo $this->form->getValue('item_description'); ?></textarea></div>
+
 				<legend><?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER'); ?></legend>
 				<?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_DESCRIPTION_PRE').JText::_('COM_TRACKER_RSS_ITEM_DESCRIPTION').JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_DESCRIPTION_POST'); ?>
-				<br /><br />
-			    <legend><?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_DRAG_TO_INSERT'); ?></legend>
-			    <br />
+				<br />
 				<ul id="DragWordList">
 					<li><span class="choosable" id="DragWordList">{name}</span><span id="NoDrag"> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_NAME'); ?></span></li>
 					<li><span class="choosable" id="DragWordList">{description}</span><span id="NoDrag"> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_DESCRIPTION'); ?></span></li>
@@ -183,11 +186,12 @@ $(document).ready(function() {
 					<li><span class="choosable" id="DragWordList">{leechers}</span><span id="NoDrag"> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_LEECHERS'); ?></span></li>
 					<li><span class="choosable" id="DragWordList">{completed}</span><span id="NoDrag"> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_COMPLETED'); ?></span></li>
 			    </ul>
-			</fieldset>
-		</div>
-	</div>
+			</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<input type="hidden" name="task" value=""	/>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	</fieldset>
+
+	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	<div class="clr"></div>
 </form>
