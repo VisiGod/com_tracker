@@ -46,7 +46,7 @@ class TrackerViewGroups extends JViewLegacy {
 		
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolbarHelper::title(JText::_('COM_TRACKER_GROUPS'), 'groups');
+		JToolbarHelper::title(JText::_('COM_TRACKER_GROUPS'), 'users');
 
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('group.add');

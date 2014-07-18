@@ -52,7 +52,7 @@ class TrackerViewCountry extends JViewLegacy {
 		
 		$canDo		= JHelperContent::getActions('com_tracker', 'country', $this->item->id);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_COUNTRY'), 'countries');
+		JToolBarHelper::title(JText::_('COM_TRACKER_COUNTRY'), 'flag-3');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {

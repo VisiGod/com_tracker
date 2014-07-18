@@ -46,7 +46,7 @@ class TrackerViewDonations extends JViewLegacy {
 		
 		$bar = JToolBar::getInstance('toolbar');
 		
-		JToolbarHelper::title(JText::_('COM_TRACKER_DONATIONS'), 'donations');
+		JToolbarHelper::title(JText::_('COM_TRACKER_DONATIONS'), 'credit');
 
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('donation.add');

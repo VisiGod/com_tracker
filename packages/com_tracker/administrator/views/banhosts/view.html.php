@@ -46,7 +46,7 @@ class TrackerViewBanHosts extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_BANHOSTS'), 'ipban.png');
+		JToolBarHelper::title(JText::_('COM_TRACKER_BANHOSTS'), 'locked');
 	
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('banhost.add');

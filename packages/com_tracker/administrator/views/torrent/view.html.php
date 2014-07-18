@@ -47,7 +47,7 @@ class TrackerViewTorrent extends JViewLegacy {
 		
 		$canDo		= JHelperContent::getActions('com_tracker', 'category', $this->item->categoryID);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_TORRENTS'), 'torrents');
+		JToolBarHelper::title(JText::_('COM_TRACKER_TORRENTS'), 'attachment');
 
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {

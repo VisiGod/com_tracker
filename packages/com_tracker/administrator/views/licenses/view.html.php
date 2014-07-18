@@ -46,7 +46,7 @@ class TrackerViewLicenses extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_LICENSES'), 'licenses');
+		JToolBarHelper::title(JText::_('COM_TRACKER_LICENSES'), 'file-2');
 	
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('license.add');

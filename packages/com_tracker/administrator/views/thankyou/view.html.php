@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 // import Joomla view library
 jimport('joomla.application.component.view');
 
-class TrackerViewReseed extends JViewLegacy {
+class TrackerViewThankyou extends JViewLegacy {
 
 	protected $form;
 	protected $item;
@@ -21,9 +21,9 @@ class TrackerViewReseed extends JViewLegacy {
 	public function display($tpl = null) {
 
 		$params = JComponentHelper::getParams( 'com_tracker' );
-		if ($params->get('enable_reseedrequest') == 0) {
+		if ($params->get('enable_thankyou') == 0) {
 			$app		= JFactory::getApplication();
-			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_RESEEDS_NOT_ENABLE'), 'error');
+			$app->redirect('index.php?option=com_tracker', JText::_('COM_TRACKER_THANKYOUS_NOT_ENABLE'), 'error');
 			return false;
 		}
 
@@ -50,28 +50,28 @@ class TrackerViewReseed extends JViewLegacy {
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		
-		$canDo		= JHelperContent::getActions('com_tracker', 'reseed', $this->item->id);
+		$canDo		= JHelperContent::getActions('com_tracker', 'thankyou', $this->item->id);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_THANKYOUS'), 'reseed');
+		JToolBarHelper::title(JText::_('COM_TRACKER_THANKYOUS'), 'thumbs-up');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {
-			JToolBarHelper::apply('reseed.apply');
-			JToolBarHelper::save('reseed.save');
+			JToolBarHelper::apply('thankyou.apply');
+			JToolBarHelper::save('thankyou.save');
 		}
 		
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('reseed.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::custom('thankyou.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('reseed.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::custom('thankyou.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 		
 		if (empty($this->item->id)) {
-			JToolbarHelper::cancel('reseed.cancel');
+			JToolbarHelper::cancel('thankyou.cancel');
 		} else {
-			JToolbarHelper::cancel('reseed.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('thankyou.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }

@@ -46,7 +46,7 @@ class TrackerViewFiletypes extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_FILETYPES'), 'filetype');
+		JToolBarHelper::title(JText::_('COM_TRACKER_FILETYPES'), 'pictures');
 	
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('filetype.add');

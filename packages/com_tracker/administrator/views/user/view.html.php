@@ -47,7 +47,7 @@ class TrackerViewUser extends JViewLegacy {
 
 		$canDo = JHelperContent::getActions('com_users');
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_USERS'), 'users');
+		JToolBarHelper::title(JText::_('COM_TRACKER_USER'), 'user');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {

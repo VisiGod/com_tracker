@@ -50,7 +50,7 @@ class TrackerViewSettings extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_SETTINGS'), 'settings.png');
+		JToolBarHelper::title(JText::_('COM_TRACKER_SETTINGS'), 'tools');
 	
 		if (($canDo->get('core.edit'))) {
 			JToolbarHelper::editList('setting.edit');

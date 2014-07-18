@@ -52,7 +52,7 @@ class TrackerViewRSS extends JViewLegacy {
 		
 		$canDo		= JHelperContent::getActions('com_tracker', 'rss', $this->item->id);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_RSSES'), 'rsses');
+		JToolBarHelper::title(JText::_('COM_TRACKER_RSSES'), 'feed');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {

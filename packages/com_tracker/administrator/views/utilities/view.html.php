@@ -33,7 +33,7 @@ class TrackerViewUtilities extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_UTILITIES'), 'utilities');
+		JToolBarHelper::title(JText::_('COM_TRACKER_UTILITIES'), 'wrench');
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {
 			JToolbarHelper::preferences('com_tracker');

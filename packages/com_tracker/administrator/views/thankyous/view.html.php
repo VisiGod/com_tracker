@@ -53,7 +53,7 @@ class TrackerViewThankyous extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_THANKYOUS'), 'thankyou');
+		JToolBarHelper::title(JText::_('COM_TRACKER_THANKYOUS'), 'thumbs-up');
 	
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('thankyou.add');

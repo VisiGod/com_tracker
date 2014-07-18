@@ -31,30 +31,44 @@ abstract class TrackerHelper {
 		if ($params->get('enable_filetypes')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_FILETYPES'), 'index.php?option=com_tracker&view=filetypes', $submenu == 'filetypes');
 		if ($params->get('enable_reseedrequest')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_RESEEDS'), 'index.php?option=com_tracker&view=reseeds', $submenu == 'reseeds');
 		if ($params->get('enable_reporttorrent')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_REPORTS'), 'index.php?option=com_tracker&view=reports', $submenu == 'reports');
+		if ($params->get('enable_rss')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_RSSES'), 'index.php?option=com_tracker&view=rsses', $submenu == 'rsses');
 		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_SETTINGS'), 'index.php?option=com_tracker&view=settings', $submenu == 'settings');
 		JSubMenuHelper::addEntry( JText::_('COM_TRACKER_UTILITIES'), 'index.php?option=com_tracker&view=utilities', $submenu == 'utilities');
-		if ($params->get('enable_rss')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_RSSES'), 'index.php?option=com_tracker&view=rsses', $submenu == 'rsses');
 		// set some global property
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('.icon-48-trackerpanel {background-image: url(components/com_tracker/images/panel/logo-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-torrents {background-image: url(components/com_tracker/images/panel/torrent-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-users {background-image: url(components/com_tracker/images/panel/tuser-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-groups {background-image: url(components/com_tracker/images/panel/group-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-comments {background-image: url(components/com_tracker/images/panel/comments-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-donations {background-image: url(components/com_tracker/images/panel/donations-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-licenses {background-image: url(components/com_tracker/images/panel/licenses-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-countries {background-image: url(components/com_tracker/images/panel/countries-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-clientban {background-image: url(components/com_tracker/images/panel/clientban-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-ipban {background-image: url(components/com_tracker/images/panel/ipban-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-thankyou {background-image: url(components/com_tracker/images/panel/thankyou-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-filetype {background-image: url(components/com_tracker/images/panel/filetype-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-reseed {background-image: url(components/com_tracker/images/panel/reseed-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-report {background-image: url(components/com_tracker/images/panel/report-48x48.png);}');
+		if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') $document->addStyleDeclaration('.icon-48-comments {background-image: url(components/com_tracker/images/panel/comments-48x48.png);}');
+		if ($params->get('enable_donations')) $document->addStyleDeclaration('.icon-48-donations {background-image: url(components/com_tracker/images/panel/donations-48x48.png);}');
+		if ($params->get('enable_licenses')) $document->addStyleDeclaration('.icon-48-licenses {background-image: url(components/com_tracker/images/panel/licenses-48x48.png);}');
+		if ($params->get('enable_countries')) $document->addStyleDeclaration('.icon-48-countries {background-image: url(components/com_tracker/images/panel/countries-48x48.png);}');
+		if ($params->get('peer_banning')) $document->addStyleDeclaration('.icon-48-clientban {background-image: url(components/com_tracker/images/panel/clientban-48x48.png);}');
+		if ($params->get('host_banning')) $document->addStyleDeclaration('.icon-48-ipban {background-image: url(components/com_tracker/images/panel/ipban-48x48.png);}');
+		if ($params->get('enable_thankyou')) $document->addStyleDeclaration('.icon-48-thankyou {background-image: url(components/com_tracker/images/panel/thankyou-48x48.png);}');
+		if ($params->get('enable_filetypes')) $document->addStyleDeclaration('.icon-48-filetype {background-image: url(components/com_tracker/images/panel/filetype-48x48.png);}');
+		if ($params->get('enable_reseedrequest')) $document->addStyleDeclaration('.icon-48-reseed {background-image: url(components/com_tracker/images/panel/reseed-48x48.png);}');
+		if ($params->get('enable_reporttorrent')) $document->addStyleDeclaration('.icon-48-report {background-image: url(components/com_tracker/images/panel/report-48x48.png);}');
+		if ($params->get('enable_rss')) $document->addStyleDeclaration('.icon-48-rsses {background-image: url(components/com_tracker/images/panel/rss-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-settings {background-image: url(components/com_tracker/images/panel/settings-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-utilities {background-image: url(components/com_tracker/images/panel/utilities-48x48.png);}');
-		$document->addStyleDeclaration('.icon-48-rsses {background-image: url(components/com_tracker/images/panel/rss-48x48.png);}');
+		// set small icons 
+		$document->addStyleDeclaration('.icon-torrents {background-image: url(components/com_tracker/images/views/torrents.png);}');
 	}
 
+	public static function quickiconButton( $link, $image, $text ) {
+		$lang = JFactory::getLanguage()->isRTL() ? 'right' : 'left';
+		?>
+    	<div class="span12 text-center middle">
+        	<a href="<?php echo $link; ?>"><?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/'.$image , $text, null, false, false);?></a>
+        	<div class="row-fluid">
+          		<div class="span12"><a href="<?php echo $link; ?>"><?php echo $text; ?></a></div>
+        	</div>
+		</div>
+		<?php 
+	}
+	
 	public static function getActions() {
 		$user = JFactory::getUser();
 		$result = new JObject;

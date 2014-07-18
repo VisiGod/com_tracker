@@ -92,7 +92,7 @@ class TrackerViewSetting extends JViewLegacy {
 		//$user = JFactory::getUser();
 		//$userId = $user->id;
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_SETTINGS'), 'settings.png');
+		JToolBarHelper::title(JText::_('COM_TRACKER_SETTINGS'), 'tools');
 		JToolBarHelper::save('setting.save', 'JTOOLBAR_SAVE');
 		JToolBarHelper::cancel('setting.cancel', 'JTOOLBAR_CANCEL');
 	}

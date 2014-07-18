@@ -46,7 +46,7 @@ class TrackerViewRSSes extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_RSSES'), 'rsses');
+		JToolBarHelper::title(JText::_('COM_TRACKER_RSSES'), 'feed');
 	
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('rss.add');

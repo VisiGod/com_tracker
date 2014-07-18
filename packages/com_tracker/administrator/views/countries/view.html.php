@@ -46,7 +46,7 @@ class TrackerViewCountries extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_COUNTRIES'), 'countries');
+		JToolBarHelper::title(JText::_('COM_TRACKER_COUNTRIES'), 'flag-3');
 	
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('country.add');

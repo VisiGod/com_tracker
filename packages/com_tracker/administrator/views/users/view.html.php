@@ -45,7 +45,7 @@ class TrackerViewUsers extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolbarHelper::title(JText::_('COM_TRACKER_USERS'), 'users');
+		JToolbarHelper::title(JText::_('COM_TRACKER_USERS'), 'user');
 	
 		if (($canDo->get('core.edit'))) {
 			JToolbarHelper::editList('user.edit');

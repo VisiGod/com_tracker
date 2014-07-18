@@ -52,7 +52,7 @@ class TrackerViewBanClient extends JViewLegacy {
 		
 		$canDo		= JHelperContent::getActions('com_tracker', 'banclient', $this->item->id);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_BANCLIENTS'), 'clientban');
+		JToolBarHelper::title(JText::_('COM_TRACKER_BANCLIENTS'), 'eye-blocked');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {

@@ -53,7 +53,7 @@ class TrackerViewReports extends JViewLegacy {
 	
 		$bar = JToolBar::getInstance('toolbar');
 	
-		JToolBarHelper::title(JText::_('COM_TRACKER_REPORTS'), 'report');
+		JToolBarHelper::title(JText::_('COM_TRACKER_REPORTS'), 'warning-2');
 	
 		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
 			JToolbarHelper::addNew('report.add');

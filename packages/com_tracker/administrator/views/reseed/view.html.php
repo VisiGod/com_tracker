@@ -52,7 +52,7 @@ class TrackerViewReseed extends JViewLegacy {
 		
 		$canDo		= JHelperContent::getActions('com_tracker', 'reseed', $this->item->id);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_RESEEDS'), 'reseed');
+		JToolBarHelper::title(JText::_('COM_TRACKER_RESEEDS'), 'upload');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {

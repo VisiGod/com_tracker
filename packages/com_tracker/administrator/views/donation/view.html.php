@@ -52,7 +52,7 @@ class TrackerViewDonation extends JViewLegacy {
 		
 		$canDo		= JHelperContent::getActions('com_tracker', 'donation', $this->item->id);
 		
-		JToolBarHelper::title(JText::_('COM_TRACKER_DONATIONS'), 'donations');
+		JToolBarHelper::title(JText::_('COM_TRACKER_DONATIONS'), 'credit');
 		
 		// If not checked out, can save the item.
 		if (($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0)) {
