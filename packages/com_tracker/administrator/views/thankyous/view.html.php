@@ -78,10 +78,8 @@ class TrackerViewThankyous extends JViewLegacy {
 			}
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolbarHelper::deleteList('', 'thankyous.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('thankyous.trash');
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::deleteList('', 'thankyous.delete','JTOOLBAR_DELETE');
 		}
 
 		if ($user->authorise('core.admin', 'com_tracker')) {

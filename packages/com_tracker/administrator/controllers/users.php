@@ -14,6 +14,13 @@ jimport('joomla.application.component.controlleradmin');
 
 class TrackerControllerUsers extends JControllerAdmin {
 
+	public function __construct($config = array()) {
+		parent::__construct($config);
+	
+		$this->registerTask('leech',   'changeLeech');
+		$this->registerTask('unleech', 'changeLeech');
+	}
+
 	public function getModel($name = 'user', $prefix = 'TrackerModel') {
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
@@ -41,13 +48,6 @@ class TrackerControllerUsers extends JControllerAdmin {
 	
 		// Close the application
 		JFactory::getApplication()->close();
-	}
-	
-	public function __construct($config = array()) {
-		parent::__construct($config);
-	
-		$this->registerTask('leech',   'changeLeech');
-		$this->registerTask('unleech', 'changeLeech');
 	}
 
 	public function changeLeech() {

@@ -57,7 +57,7 @@ class TrackerViewFiletypes extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('filetype.delete');
+			JToolBarHelper::deleteList('', 'filetypes.delete','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

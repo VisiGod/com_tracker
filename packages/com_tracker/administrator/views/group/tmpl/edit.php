@@ -36,22 +36,34 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('wait_time'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('wait_time'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('peer_limit'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('peer_limit'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('torrent_limit'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('torrent_limit'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('minimum_ratio'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('minimum_ratio'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('download_multiplier'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('download_multiplier'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('upload_multiplier'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('upload_multiplier'); ?></div>
 			</div>
@@ -61,19 +73,29 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('view_torrents'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('view_torrents'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('edit_torrents'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('edit_torrents'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('delete_torrents'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('delete_torrents'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('upload_torrents'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('upload_torrents'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('download_torrents'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('download_torrents'); ?></div>
-
+			</div>
+			
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('can_leech'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('can_leech'); ?></div>
 			</div>
@@ -84,16 +106,24 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('view_comments'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('view_comments'); ?></div>
-
+				</div>
+			
+				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('write_comments'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('write_comments'); ?></div>
-
+				</div>
+			
+				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('edit_comments'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('edit_comments'); ?></div>
-
+				</div>
+			
+				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('delete_comments'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('delete_comments'); ?></div>
-
+				</div>
+			
+				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('autopublish_comments'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('autopublish_comments'); ?></div>
 				</div>

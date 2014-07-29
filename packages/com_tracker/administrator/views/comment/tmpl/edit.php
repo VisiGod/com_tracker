@@ -17,6 +17,8 @@ JHtml::_('formbehavior.chosen', 'select');
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 
+$user		= JFactory::getUser()->get('id');
+
 $app = JFactory::getApplication();
 $params = JComponentHelper::getParams( 'com_tracker' );
 ?>
@@ -33,12 +35,16 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('torrentID'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('torrentID'); ?></div>
-
-			<div class="control-label left"><?php echo $this->form->getLabel('comment'); ?></div>
+		</div>
+			
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('comment'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('comment'); ?></div>
 		</div>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="created_user_id" value="<?php echo $user; ?>" />
+	<input type="hidden" name="created_time" value="<?php echo date("Y-m-d H:i:s"); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

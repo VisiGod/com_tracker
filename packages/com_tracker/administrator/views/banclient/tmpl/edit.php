@@ -17,6 +17,8 @@ JHtml::_('formbehavior.chosen', 'select');
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 
+$user		= JFactory::getUser()->get('id');
+
 $app = JFactory::getApplication();
 $params = JComponentHelper::getParams( 'com_tracker' );
 ?>
@@ -29,7 +31,7 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 </script>
 
 <label style="align: center;">
-	<b>You can check the list <a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" target="_blank">here</a></b>
+	<b><?php echo JText::_('COM_TRACKER_BANCLIENT_YOU_CAN_CHECK');?>&nbsp;<a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" target="_blank"><?php echo JText::_('COM_TRACKER_BANCLIENT_HERE');?></a></b>
 </label>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banclient-form" class="form-validate form-horizontal">
@@ -37,10 +39,14 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('peer_id'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('peer_id'); ?></div>
+		</div>
 
+		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('peer_description'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('peer_description'); ?></div>
+		</div>
 
+		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('comment'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('comment'); ?></div>
 		</div>

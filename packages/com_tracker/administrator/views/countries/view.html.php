@@ -57,7 +57,7 @@ class TrackerViewCountries extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('country.delete');
+			JToolBarHelper::deleteList('', 'countries.deleteXXX','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

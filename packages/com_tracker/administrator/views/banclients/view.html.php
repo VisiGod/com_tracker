@@ -58,7 +58,7 @@ class TrackerViewBanClients extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('banclient.delete');
+			JToolBarHelper::deleteList('', 'banclients.delete','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

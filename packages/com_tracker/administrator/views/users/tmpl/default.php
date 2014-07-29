@@ -24,8 +24,7 @@ $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $canOrder	= $user->authorise('core.edit.state', 'com_tracker');
 $saveOrder	= $listOrder == 'a.ordering';
-if ($saveOrder)
-{
+if ($saveOrder) {
 	$saveOrderingUrl = 'index.php?option=com_tracker&task=users.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'userList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
@@ -46,7 +45,14 @@ $sortFields = $this->getSortFields();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=users'); ?>" method="post" name="adminForm" id="adminForm">
-<div id="j-main-container">
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+	<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
+	<div id="j-main-container">
+	<?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER');?></label>
@@ -102,30 +108,30 @@ $sortFields = $this->getSortFields();
 				</th>
 
 				<?php if ($params->get('enable_countries')) { ?>
-					<th width="10%" class="nowrap">
+					<th width="10%" class="center nowrap">
 						<?php echo JHtml::_('grid.sort',  'COM_TRACKER_USER_COUNTRY', 'a.countryID', $listDirn, $listOrder); ?>
 					</th>
 				<?php } ?>
 
-				<th width="10%" class="nowrap">
+				<th width="10%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_TRACKER_USER_DOWNLOADED', 'a.downloaded', $listDirn, $listOrder); ?>
 				</th>
 
-				<th width="10%" class="nowrap">
+				<th width="10%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_TRACKER_USER_UPLOADED', 'a.uploaded', $listDirn, $listOrder); ?>
 				</th>
 
-				<th width="10%" class="nowrap">
+				<th width="10%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_TRACKER_USER_RATIO', 'ratio', $listDirn, $listOrder); ?>
 				</th>
 
 				<?php if ($params->get('enable_donations')) { ?>
-					<th width="10%" class="nowrap">
+					<th width="10%" class="center nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_TRACKER_USER_DONATED', 'donated', $listDirn, $listOrder); ?>
 					</th>
 				<?php } ?>
 				
-				<th width="10%" class="nowrap">
+				<th width="10%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_TRACKER_USER_GROUP', 'a.groupID', $listDirn, $listOrder); ?>
 				</th>
 
@@ -152,10 +158,9 @@ $sortFields = $this->getSortFields();
 			</thead>
 			<tfoot>
                 <?php 
-                if(isset($this->items[0])){
+                if(isset($this->items[0])) {
                     $colspan = count(get_object_vars($this->items[0]));
-                }
-                else{
+                } else {
                     $colspan = 14;
                 }
             ?>

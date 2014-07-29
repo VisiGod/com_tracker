@@ -3,7 +3,7 @@
 	<fieldset>
 		<field name="id" type="hidden" default="" />
 
-		<field name="name" type="text" size="40" class="inputbox" label="COM_TRACKER_FILETYPE_NAME" description="" required="true" filter="safehtml" />
+		<field name="name" type="text" size="80" class="inputbox" label="COM_TRACKER_FILETYPE_NAME" description="" required="true" filter="safehtml" />
 
 		<field name="image" type="media" label="COM_TRACKER_FILETYPE_IMAGE" directory="tracker/filetypes" preview="true" />
 

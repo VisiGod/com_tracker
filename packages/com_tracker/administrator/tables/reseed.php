@@ -160,4 +160,18 @@ class TrackerTableReseed extends JTable {
 		}
 		return $result;
 	}
+
+	public function store($updateNulls = false) {
+		$date	= JFactory::getDate();
+		$user	= JFactory::getUser();
+		if (!$this->id) {
+			if (!(int) $this->created_time) {
+				$this->created_time = $date->toSql();
+			}
+			if (empty($this->requester)) {
+				$this->requester = $user->get('id');
+			}
+		}
+		return parent::store($updateNulls);
+	}
 }

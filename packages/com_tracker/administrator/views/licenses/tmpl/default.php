@@ -46,7 +46,14 @@ $sortFields = $this->getSortFields();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=licenses'); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+	<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
 	<div id="j-main-container">
+	<?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER');?></label>

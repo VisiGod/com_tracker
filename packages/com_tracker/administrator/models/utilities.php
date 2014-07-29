@@ -13,7 +13,6 @@ jimport('joomla.application.component.modellist');
 
 class TrackerModelUtilities extends JModelList {
 
-/*
 	public function clearannounce() {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
@@ -565,5 +564,4 @@ class TrackerModelUtilities extends JModelList {
 		return true;
 	}
 
-*/
 }

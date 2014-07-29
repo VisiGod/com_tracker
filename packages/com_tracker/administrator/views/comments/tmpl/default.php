@@ -46,7 +46,14 @@ $sortFields = $this->getSortFields();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=comments'); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+	<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
 	<div id="j-main-container">
+	<?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER');?></label>
@@ -142,17 +149,15 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
                     
-				<td><?php echo $item->id; ?></td>
-
 				<td>
 				<?php
-					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=comment.edit&id='.(int) $item->torrentID).">".$this->escape($item->torrentID)."</a>";
-					else echo $item->torrentID;
+					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=comment.edit&id='.(int) $item->id).">".$item->id."</a>";
+					else echo $item->id;
 				?>
 				</td>
 				
 				<?php if (isset($this->items[0]->torrent)) { ?>
-				<td class="center">
+				<td class="left">
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=comment.edit&id='.(int) $item->id); ?>">
 					<?php echo $this->escape($item->torrent); ?></a>
@@ -162,9 +167,9 @@ $sortFields = $this->getSortFields();
 				</td>
 				<?php } ?>
 
-				<td><?php echo $this->escape($item->comment); ?></td>
+				<td><?php echo $item->comment; ?></td>
 
-				<td><?php echo $this->escape($item->username); ?></td>
+				<td><?php echo $item->username; ?></td>
 
 				<td><?php echo date('Y.m.d', strtotime($item->created_time)); ?></td>
 

@@ -18,15 +18,6 @@ class TrackerTableThankyou extends JTable {
 		parent::__construct('#__tracker_torrent_thanks', 'id', $db);
 	}
 
-	public function store($updateNulls = false) {
-		// Initialise variables.
-		$date = JFactory::getDate()->toSql();
-		$this->created_time = $date;
-
-		// Attempt to store the data.
-		return parent::store($updateNulls);
-	}
-
 	public function bind($array, $ignore = '') {
 		$input = JFactory::getApplication()->input;
 		$task = $input->getString('task', '');
@@ -168,5 +159,19 @@ class TrackerTableThankyou extends JTable {
 			/* DO SOMETHING HERE */
 		}
 		return $result;
+	}
+
+	public function store($updateNulls = false) {
+		$date	= JFactory::getDate();
+		$user	= JFactory::getUser();
+		if (!$this->id) {
+			if (!(int) $this->created_time) {
+				$this->created_time = $date->toSql();
+			}
+			if (empty($this->uid)) {
+				$this->uid = $user->get('id');
+			}
+		}
+		return parent::store($updateNulls);
 	}
 }

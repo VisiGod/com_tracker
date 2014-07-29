@@ -5,32 +5,32 @@
 
 		<field name="name" type="text" size="35" class="inputbox" label="COM_TRACKER_GROUP_NAME" description="" required="true" filter="safehtml" /> 
 
-		<field  name="view_torrents" type="list" label="COM_TRACKER_GROUP_VIEW_TORRENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="view_torrents" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_VIEW_TORRENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="edit_torrents" type="list" label="COM_TRACKER_GROUP_EDIT_TORRENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="edit_torrents" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_EDIT_TORRENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="delete_torrents" type="list" label="COM_TRACKER_GROUP_DELETE_TORRENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="delete_torrents" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_DELETE_TORRENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="upload_torrents" type="list" label="COM_TRACKER_GROUP_UPLOAD_TORRENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="upload_torrents" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_UPLOAD_TORRENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="download_torrents" type="list" label="COM_TRACKER_GROUP_DOWNLOAD_TORRENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="download_torrents" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_DOWNLOAD_TORRENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="can_leech" type="list" label="COM_TRACKER_GROUP_CAN_LEECH" description="" class="inputbox" size="1" default="0">
+		<field  name="can_leech" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_CAN_LEECH" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -47,27 +47,27 @@
 
 		<field name="upload_multiplier" type="text" size="5" class="inputbox" label="COM_TRACKER_GROUP_UPLOAD_MULTIPLIER" required="true" /> 
 
-		<field  name="view_comments" type="list" label="COM_TRACKER_GROUP_VIEW_COMMENTS" description="" class="inputbox" size="1" default="1">
+		<field  name="view_comments" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_VIEW_COMMENTS" description="" default="1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="write_comments" type="list" label="COM_TRACKER_GROUP_WRITE_COMMENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="write_comments" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_WRITE_COMMENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="edit_comments" type="list" label="COM_TRACKER_GROUP_EDIT_COMMENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="edit_comments" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_EDIT_COMMENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="delete_comments" type="list" label="COM_TRACKER_GROUP_DELETE_COMMENTS" description="" class="inputbox" size="1" default="0">
+		<field  name="delete_comments" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_DELETE_COMMENTS" description="" default="0">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field  name="autopublish_comments" type="list" label="COM_TRACKER_GROUP_AUTOPUBLISH_COMMENTS" description="" class="inputbox" size="1" default="1">
+		<field  name="autopublish_comments" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_GROUP_AUTOPUBLISH_COMMENTS" description="" default="1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>

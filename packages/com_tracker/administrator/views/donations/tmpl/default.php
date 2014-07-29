@@ -46,7 +46,14 @@ $sortFields = $this->getSortFields();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=donations'); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+	<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
 	<div id="j-main-container">
+	<?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER');?></label>
@@ -93,27 +100,27 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_DONATION_UID', 'du.username', $listDirn, $listOrder); ?>
 				</th>
 
-				<th class="nowrap">
+				<th class="nowrap center">
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_DONATION_DONATED', 'a.donated', $listDirn, $listOrder); ?>
 				</th>
 				
-				<th class="nowrap">
+				<th class="nowrap center">
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_DONATION_RATIO', 'a.ratio', $listDirn, $listOrder); ?>
 				</th>
 
-				<th class="nowrap">
+				<th class="nowrap center">
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_DONATION_CREDITED', 'a.credited', $listDirn, $listOrder); ?>
 				</th>
 
-				<th class="nowrap">
+				<th class="nowrap center">
 					<?php echo JHtml::_('grid.sort',  'JGLOBAL_CREATED_DATE', 'a.created_time', $listDirn, $listOrder); ?>
 				</th>
 
-				<th class="nowrap">
+				<th class="nowrap center">
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_DONATION_USERNAME', 'u.username', $listDirn, $listOrder); ?>
 				</th>
 
-				<th class="nowrap">
+				<th class="nowrap center">
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_DONATION_COMMENTS', 'a.comments', $listDirn, $listOrder); ?>
 				</th>
 
@@ -163,17 +170,17 @@ $sortFields = $this->getSortFields();
 				?>
 				</td>
 
-				<td><?php echo $item->donated; ?></td>
+				<td class="center"><?php echo $item->donated; ?></td>
 
-				<td><?php echo $item->ratio; ?></td>
+				<td class="center"><?php echo $item->ratio; ?></td>
 
-				<td><?php echo $item->credited; ?></td>
+				<td class="center"><?php echo $item->credited; ?></td>
 
-				<td><?php echo date('Y.m.d', strtotime($item->created_time)); ?></td>
+				<td class="center"><?php echo date('Y.m.d', strtotime($item->created_time)); ?></td>
 
-				<td><?php echo $item->username; ?></td>
+				<td class="center"><?php echo $item->username; ?></td>
 
-				<td><?php echo $item->comments; ?></td>
+				<td class="center"><?php echo $item->comments; ?></td>
 
                 <?php if (isset($this->items[0]->state)): ?>
 					<td class="center">

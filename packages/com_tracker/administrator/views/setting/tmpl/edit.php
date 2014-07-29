@@ -10,105 +10,154 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
+// Get the form fieldsets.
+$fieldsets = $this->form->getFieldsets();
+$app = JFactory::getApplication();
+$params = JComponentHelper::getParams( 'com_tracker' );
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_tracker&view=setting&layout=edit'); ?>" method="post" name="adminForm" id="settingform" class="form-validate">
-<table style="width:100%;">
-		<tr>
-			<td width="50%" valign="top">
-				<table class="adminlist">
-					<thead>
-						<tr>
-							<td class="key" nowrap><label for="announce_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_ANNOUNCE_INTERVAL' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="announce_interval" id="announce_interval" class="inputbox" size="11" value="<?php echo $this->item['announce_interval']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="clean_up_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_CLEAN_UP_INTERVAL' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="clean_up_interval" id="clean_up_interval" class="inputbox" size="11" value="<?php echo $this->item['clean_up_interval']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="daemon" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_DAEMON' ); ?></b></label></td>
-							<td><?php echo $this->item['daemon']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="debug" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_DEBUG' ); ?></b></label></td>
-							<td><?php echo $this->item['debug']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="full_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_FULL_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->item['full_scrape']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="gzip_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_GZIP_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->item['gzip_scrape']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="listen_ipa" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LISTEN_IPA' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="listen_ipa" id="listen_ipa" class="inputbox" size="18" value="<?php echo $this->item['listen_ipa']; ?>" /></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="listen_port" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LISTEN_PORT' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="listen_port" id="listen_port" class="inputbox" maxlength="5" size="10" value="<?php echo $this->item['listen_port']; ?>" /></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="log_access" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_ACCESS' ); ?></b></label></td>
-							<td><?php echo $this->item['log_access']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="log_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->item['log_scrape']; ?></td>
-						</tr>
-					</thead>
-				</table>
-			</td>
-			<td width="50%" valign="top">
-				<table class="adminlist">
-					<thead>
-						<tr>
-							<td class="key" nowrap><label for="offline_message" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_OFFLINE_MESSAGE' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="offline_message" id="offline_message" class="inputbox" size="50" value="<?php echo $this->item['offline_message']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="pid_file" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_PID_FILE' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="pid_file" id="pid_file" class="inputbox" size="20" value="<?php echo $this->item['pid_file']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="query_log" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_QUERY_LOG' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="query_log" id="query_log" class="inputbox" size="20" value="<?php echo $this->item['query_log']; ?>" /></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="read_config_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_CONFIG_INTERVAL' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="read_config_interval" id="read_config_interval" class="inputbox" size="11" value="<?php echo $this->item['read_config_interval']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="read_db_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_DB_INTERVAL' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="read_db_interval" id="read_db_interval" class="inputbox" size="11" value="<?php echo $this->item['read_db_interval']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="redirect_url" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_REDIRECT_URL' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="redirect_url" id="redirect_url" class="inputbox" size="50" value="<?php echo $this->item['redirect_url']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="scrape_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_SCRAPE_INTERVAL' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="scrape_interval" id="scrape_interval" class="inputbox" size="11" value="<?php echo $this->item['scrape_interval']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="write_db_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_WRITE_DB_INTERVAL' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="write_db_interval" id="write_db_interval" class="inputbox" size="11" value="<?php echo $this->item['write_db_interval']; ?>" /></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="torrent_pass_private_key" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TORRENT_PASS_PRIVATE_KEY' ); ?></b></label></td>
-							<td>&nbsp;&nbsp;<input type="text" name="torrent_pass_private_key" id="torrent_pass_private_key" class="inputbox" size="40" value="<?php echo $this->item['torrent_pass_private_key']; ?>" /></td>
-						</tr>
-					</thead>
-				</table>
-			</td>
-		</tr>
-	</table>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task) {
+		if (task == 'setting.cancel' || document.formvalidator.isValid(document.id('setting-form'))) {
+			Joomla.submitform(task, document.getElementById('setting-form'));
+		}
+	}
+</script>
 
+
+<form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit'); ?>" method="post" name="adminForm" id="setting-form" class="form-validate form-horizontal">
+	<div class="row-fluid">
+		<div class="span5 offset1">
+			<fieldset>
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('announce_interval'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('announce_interval'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('clean_up_interval'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('clean_up_interval'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('daemon'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('daemon'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('debug'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('debug'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('full_scrape'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('full_scrape'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('gzip_scrape'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('gzip_scrape'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('listen_ipa'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('listen_ipa'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('listen_port'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('listen_port'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('log_access'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('log_access'); ?></div>
+				</div>
+
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('log_scrape'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('log_scrape'); ?></div>
+				</div>
+			</fieldset>
+		</div>
+		<div class="span5">
+			<fieldset>
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('offline_message'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('offline_message'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('pid_file'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('pid_file'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('query_log'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('query_log'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('read_config_interval'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('read_config_interval'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('read_db_interval'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('read_db_interval'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('redirect_url'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('redirect_url'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('scrape_interval'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('scrape_interval'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('write_db_interval'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('write_db_interval'); ?></div>
+				</div>
+				
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('torrent_pass_private_key'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('torrent_pass_private_key'); ?></div>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="clr"></div>
+
+	<!-- Now we need to pass the "static values" -->
+	<input type="hidden" name="jform[anonymous_announce]" value="<?php echo $this->form->getValue('anonymous_announce'); ?>" />
+	<input type="hidden" name="jform[anonymous_scrape]" value="<?php echo $this->form->getValue('anonymous_scrape'); ?>" />
+	<input type="hidden" name="jform[auto_register]" value="<?php echo $this->form->getValue('auto_register'); ?>" />
+	<input type="hidden" name="jform[log_announce]" value="<?php echo $this->form->getValue('log_announce'); ?>" />
+	<input type="hidden" name="jform[column_files_completed]" value="<?php echo $this->form->getValue('column_files_completed'); ?>" />
+	<input type="hidden" name="jform[column_files_fid]" value="<?php echo $this->form->getValue('column_files_fid'); ?>" />
+	<input type="hidden" name="jform[column_files_leechers]" value="<?php echo $this->form->getValue('column_files_leechers'); ?>" />
+	<input type="hidden" name="jform[column_files_seeders]" value="<?php echo $this->form->getValue('column_files_seeders'); ?>" />
+	<input type="hidden" name="jform[column_users_uid]" value="<?php echo $this->form->getValue('column_users_uid'); ?>" />
+	<input type="hidden" name="jform[table_announce_log]" value="<?php echo $app->getCfg('dbprefix', 1).'tracker_announce_log'; ?>" />
+	<input type="hidden" name="jform[table_files]" value="<?php echo $app->getCfg('dbprefix', 1).'tracker_torrents'; ?>" />
+	<input type="hidden" name="jform[table_files_users]" value="<?php echo $app->getCfg('dbprefix', 1).'tracker_files_users'; ?>" />
+	<input type="hidden" name="jform[table_scrape_log]" value="<?php echo $app->getCfg('dbprefix', 1).'tracker_scrape_log'; ?>" />
+	<input type="hidden" name="jform[table_users]" value="<?php echo $app->getCfg('dbprefix', 1).'tracker_users'; ?>" />
+	<?php if ($params->get('peer_banning')) { ?>
+			<input type="hidden" name="jform[table_deny_from_clients]" value="<?php echo $app->getCfg('dbprefix', 1).'tracker_deny_from_clients'; ?>" />
+	<?php } ?>
+	<?php  if ($params->get('host_banning')) { ?>
+			<input type="hidden" name="jform[table_deny_from_hosts]" value="<?php echo $app->getCfg('dbprefix', 1).'tracker_deny_from_hosts'; ?>" />
+	<?php } ?>
+	
+	
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	<div class="clr"></div>
 </form>

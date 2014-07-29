@@ -57,7 +57,7 @@ class TrackerViewReseeds extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('reseed.delete');
+			JToolBarHelper::deleteList('', 'reseeds.delete','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

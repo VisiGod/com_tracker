@@ -46,10 +46,17 @@ $sortFields = $this->getSortFields();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=banclients'); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+	<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
 	<div id="j-main-container">
+	<?php endif;?>
 		<div class="filter-select fltrt">
 			<label>
-				<b>You can check the list <a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" target="_blank">here</a></b>
+				<b><?php echo JText::_('COM_TRACKER_BANCLIENT_YOU_CAN_CHECK');?>&nbsp;<a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" target="_blank"><?php echo JText::_('COM_TRACKER_BANCLIENT_HERE');?></a></b>
 			</label>
 		</div>
 	

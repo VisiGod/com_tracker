@@ -22,14 +22,12 @@ $app = JFactory::getApplication();
 $params = JComponentHelper::getParams( 'com_tracker' );
 ?>
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.id('user-form'))) {
-			Joomla.submitform(task, document.getElementById('user-form'));
-		}
+Joomla.submitbutton = function(task) {
+	if (task == 'user.cancel' || document.formvalidator.isValid(document.id('user-form'))) {
+		Joomla.submitform(task, document.getElementById('user-form'));
 	}
-</script>
+}
 
-<script type="text/javascript">
 function changedownloaded() {
 	var addRemoveDownloadDropDown = document.adminForm.addRemoveDownload;
 	var addRemoveDownload = addRemoveDownloadDropDown.options[addRemoveDownloadDropDown.selectedIndex].value;
@@ -71,18 +69,31 @@ function changeuploaded() {
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
+			</div>
 
-				<div class="control-label"><label id="jform_username-lbl" for="jform_username" class=""><?php echo JText::_('JGLOBAL_USERNAME');?></label></div>
-				<div class="controls"><input type="text" name="jform[username]" id="jform_username" value="<?php echo $this->item->name;?>" class="inputbox readonly" size="20"/></div>
+			<div class="control-group">
+				<div class="control-label"><label id="jform_username-lbl" for="jform_username" class=""><?php echo JText::_('COM_TRACKER_NAME');?></label></div>
+				<div class="controls disabled"><input type="text" name="jform[username]" id="jform_username" value="<?php echo $this->item->name;?>" class="inputbox" size="20"/></div>
+			</div>
 
+			<div class="control-group">
+				<div class="control-label"><label id="jform_name-lbl" for="jform_name" class=""><?php echo JText::_('JGLOBAL_USERNAME');?></label></div>
+				<div class="controls disabled"><input type="text" name="jform[name]" id="jform_name" value="<?php echo $this->item->username;?>" class="inputbox" size="20"/></div>
+			</div>
+
+			<div class="control-group">
 				<div class="control-label"><label id="jform_email-lbl" for="jform_email" class=""><?php echo JText::_('JGLOBAL_EMAIL');?></label></div>
-				<div class="controls"><input type="text" name="jform[email]" id="jform_email" value="<?php echo $this->item->email;?>" class="inputbox readonly" size="20"/></div>
- 
-				<?php if ($params->get('enable_countries')) { ?>
+				<div class="controls"><input type="text" name="jform[email]" id="jform_email" value="<?php echo $this->item->email;?>" class="inputbox" size="20"/></div>
+			</div>
+
+			<?php if ($params->get('enable_countries')) { ?>
+				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('countryID'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('countryID'); ?></div>
-				<?php } ?>
+				</div>
+			<?php } ?>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('groupID'); ?></div>
 				<div class="controls"><?php echo $params->get('forum_integration') ? $this->form->getValue('groupID') : $this->form->getInput('groupID'); ?></div>
 			</div>
@@ -92,13 +103,19 @@ function changeuploaded() {
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('can_leech'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('can_leech'); ?></div>
+			</div>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('wait_time'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('wait_time'); ?></div>
+			</div>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('peer_limit'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('peer_limit'); ?></div>
+			</div>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('torrent_limit'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('torrent_limit'); ?></div>
 			</div>
@@ -106,39 +123,40 @@ function changeuploaded() {
 
 		<?php echo JHtml::_('bootstrap.addTab', 'trackerUser', 'tracker_info', JText::_('COM_TRACKER_USER_TRACKER_INFORMATION', true)); ?>
 			<div class="control-group">
-				<div class="control-label"><?php JText::_( 'COM_TRACKER_USER_LASTIP' ); ?></div>
+				<div class="control-label"><?php echo JText::_( 'COM_TRACKER_USER_LASTIP' ); ?></div>
 				<div class="controls"><input disabled value="<?php echo ($this->item->ipa) ? long2ip($this->item->ipa) : JText::_( 'COM_TRACKER_USER_NO_IP_DETAILS' );?>" /></div>
 			</div>
 
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('downloaded'); ?></div>
 				<div class="controls">
-					<input type="text" name="jform[downloaded]" id="jform_downloaded" value="<?php echo $this->item->downloaded;?>" class="inputbox" size="20"/>
-					<select id="addRemoveDownload">
+					<input type="text" name="jform[downloaded]" id="jform_downloaded" value="<?php echo $this->item->downloaded;?>" class="inputbox text-right" size="20"/>
+					<select id="addRemoveDownload" class="span2">
 						<option value="add"><?php echo JText::_( 'COM_TRACKER_ADD' );?></option>
 						<option value="remove"><?php echo JText::_( 'COM_TRACKER_REMOVE' );?></option>
 					</select>
-					<input type="text" id="valueDownload" size="5" />
-					<select id="unitDownload">
+					<input type="text" id="valueDownload" class="span2" />
+					<select id="unitDownload" class="span1">
 						<option value="1024"><?php echo JText::_( 'COM_TRACKER_KILOBYTES' );?></option>
 						<option value="1048576"><?php echo JText::_( 'COM_TRACKER_MEGABYTES' );?></option>
 						<option value="1073741824"><?php echo JText::_( 'COM_TRACKER_GIGABYTES' );?></option>
 						<option value="1099511627776"><?php echo JText::_( 'COM_TRACKER_TERABYTES' );?></option>
 					</select>
 					<input type='button' id='changeDownloaded' name='changeDownloaded' onclick='javascript: changedownloaded();' value='<?php echo JText::_( 'COM_TRACKER_USER_CHANGE_DOWNLOADED' );?>' />
+ 
 				</div>
 			</div>
 
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('uploaded'); ?></div>
 				<div class="controls">
-					<input type="text" name="jform[uploaded]" id="jform_uploaded" value="<?php echo $this->item->uploaded;?>" class="inputbox" size="20"/>
-					<select id="addRemoveUpload">
+					<input type="text" name="jform[uploaded]" id="jform_uploaded" value="<?php echo $this->item->uploaded;?>" class="inputbox text-right" size="20"/>
+					<select id="addRemoveUpload" class="span2">
 						<option value="add"><?php echo JText::_( 'COM_TRACKER_ADD' );?></option>
 						<option value="remove"><?php echo JText::_( 'COM_TRACKER_REMOVE' );?></option>
 					</select>
-					<input type="text" id="valueUpload" size="5" />
-					<select id="unitUpload">
+					<input type="text" id="valueUpload" class="span2" />
+					<select id="unitUpload" class="span1">
 						<option value="1024"><?php echo JText::_( 'COM_TRACKER_KILOBYTES' );?></option>
 						<option value="1048576"><?php echo JText::_( 'COM_TRACKER_MEGABYTES' );?></option>
 						<option value="1073741824"><?php echo JText::_( 'COM_TRACKER_GIGABYTES' );?></option>
@@ -151,11 +169,11 @@ function changeuploaded() {
 			<?php if ($params->get('enable_donations')) { ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_USER_DONATED' );?></div>
-					<div class="controls"><input disabled value="<?php echo ($this->item->donated) ? '$'.$this->item->donated : JText::_( 'COM_TRACKER_USER_NOTHING_DONATED' );?>" /></div>
+					<div class="controls"><input disabled class="text-right" value="<?php echo ($this->item->donated) ? '$'.$this->item->donated : JText::_( 'COM_TRACKER_USER_NOTHING_DONATED' );?>" /></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_USER_CREDITED' );?></div>
-					<div class="controls"><input disabled value="<?php echo ($this->item->credited) ? TrackerHelper::make_size($this->item->credited * 1073741824) : JText::_( 'COM_TRACKER_USER_NOTHING_CREDITED' );?>" /></div>
+					<div class="controls"><input disabled class="text-right" value="<?php echo ($this->item->credited) ? TrackerHelper::make_size($this->item->credited * 1073741824) : JText::_( 'COM_TRACKER_USER_NOTHING_CREDITED' );?>" /></div>
 				</div>
 			<?php } ?>
 
@@ -169,16 +187,15 @@ function changeuploaded() {
 			<div class="control-group">
 				<div class="control-label"><?php echo JText::_( 'COM_TRACKER_USER_RATIO' ); ?></div>
 				<div class="controls">
-					<input size="25" disabled="disabled" value="
-						<?php
-							if ($this->form->getvalue('downloaded') > 0 && $this->form->getvalue('uploaded') > 0 && $this->item->credited > 0) echo number_format(( (($this->item->credited * 1073741824) + $this->form->getvalue('uploaded')) / $this->form->getvalue('downloaded')), 3, '.', ' ');
-							elseif ($this->form->getvalue('downloaded') > 0 && $this->form->getvalue('uploaded') > 0) echo number_format(($this->form->getvalue('uploaded')/$this->form->getvalue('downloaded')), 3, '.', ' ');
-							elseif ($this->form->getvalue('downloaded') < 1 && $this->form->getvalue('uploaded') > 0) echo JText::_( 'COM_TRACKER_USER_SEEDER' );
-							elseif ($this->form->getvalue('downloaded') < 1 && $this->form->getvalue('uploaded') < 1) echo JText::_( 'COM_TRACKER_USER_NOT_ENOUGH_RATIO_INFORMATION' );
-							elseif ($this->form->getvalue('downloaded') > 0 && $this->form->getvalue('uploaded') < 1) echo JText::_( 'COM_TRACKER_USER_LEECHER' );
-							else echo JText::_( 'COM_TRACKER_USER_UNKNOWN' );
-						?>
-					" />
+					<?php
+						if ($this->form->getvalue('downloaded') > 0 && $this->form->getvalue('uploaded') > 0 && $this->item->credited > 0) $ratio = number_format(( (($this->item->credited * 1073741824) + $this->form->getvalue('uploaded')) / $this->form->getvalue('downloaded')), 3, '.', ' ');
+						elseif ($this->form->getvalue('downloaded') > 0 && $this->form->getvalue('uploaded') > 0) $ratio = number_format(($this->form->getvalue('uploaded')/$this->form->getvalue('downloaded')), 3, '.', ' ');
+						elseif ($this->form->getvalue('downloaded') < 1 && $this->form->getvalue('uploaded') > 0) $ratio = JText::_( 'COM_TRACKER_USER_SEEDER' );
+						elseif ($this->form->getvalue('downloaded') < 1 && $this->form->getvalue('uploaded') < 1) $ratio = JText::_( 'COM_TRACKER_USER_NOT_ENOUGH_RATIO_INFORMATION' );
+						elseif ($this->form->getvalue('downloaded') > 0 && $this->form->getvalue('uploaded') < 1) $ratio = JText::_( 'COM_TRACKER_USER_LEECHER' );
+						else $ratio = JText::_( 'COM_TRACKER_USER_UNKNOWN' );
+					?>
+					<input size="25" class="disabled" value="<?php echo $ratio; ?>" />
 				</div>
 			</div>
 
@@ -186,9 +203,9 @@ function changeuploaded() {
 				<div class="control-label"><?php echo $this->form->getLabel('minimum_ratio'); ?></div>
 				<div class="controls">
 					<?php if($this->form->getValue('exemption_type') == 2) { ?>
-						<input type="text" name="jform[minimum_ratio]" id="jform_minimum_ratio" value="<?php echo $this->item->minimum_ratio;?>" class="inputbox" disabled="disabled" size="5"/>
+						<input type="text" name="jform[minimum_ratio]" id="jform_minimum_ratio" value="<?php echo $this->item->minimum_ratio;?>" class="inputbox span1 disabled" />
 					<?php } else { ?>
-						<input type="text" name="jform[minimum_ratio]" id="jform_minimum_ratio" value="<?php echo $this->item->minimum_ratio;?>" class="inputbox" size="5"/>
+						<input type="text" name="jform[minimum_ratio]" id="jform_minimum_ratio" value="<?php echo $this->item->minimum_ratio;?>" class="inputbox span1"/>
 					<?php }	?>
 				</div>
 			</div>
@@ -208,12 +225,12 @@ function changeuploaded() {
 
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('download_multiplier'); ?></div>
-					<div class="controls"><input type="text" name="jform[download_multiplier]" id="jform_download_multiplier" value="<?php echo $this->item->download_multiplier;?>" class="inputbox" size="5"/></div>
+					<div class="controls"><input type="text" name="jform[download_multiplier]" id="jform_download_multiplier" value="<?php echo $this->item->download_multiplier;?>" class="inputbox span2"/></div>
 				</div>
 
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('upload_multiplier'); ?></div>
-					<div class="controls"><input type="text" name="jform[upload_multiplier]" id="jform_upload_multiplier" value="<?php echo $this->item->upload_multiplier;?>" class="inputbox" size="5"/></div>
+					<div class="controls"><input type="text" name="jform[upload_multiplier]" id="jform_upload_multiplier" value="<?php echo $this->item->upload_multiplier;?>" class="inputbox span2"/></div>
 				</div>
 				
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

@@ -64,7 +64,7 @@ class TrackerViewReports extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('report.delete');
+			JToolBarHelper::deleteList('', 'reports.delete','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

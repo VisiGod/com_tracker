@@ -33,19 +33,17 @@ class TrackerModelbanhost extends JModelAdmin {
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_tracker.edit.banhost.data', array());
 		if (empty($data)) $data = $this->getItem();
+
+		// Change values back to IP addreesses
+		if (is_array($data)){
+			$data['begin'] = long2ip($data['begin']);
+			$data['end'] = long2ip($data['end']);
+		} elseif (is_object($data)) {
+			$data->begin = long2ip($data->begin);
+			$data->end = long2ip($data->end);
+		}
+
 		return $data;
-	}
-
-	public function save($data) {
-
-		//$data['begin'] = sprintf("%u", ip2long(long2ip(ip2long($data['begin']))));
-		//$data['end'] = sprintf("%u", ip2long(long2ip(ip2long($data['end']))));
-		
-		$data['begin'] = sprintf("%010u", ip2long($data['begin']));
-		$data['end'] = sprintf("%010u", ip2long($data['end']));
-
-
-		parent::save($data);
 	}
 
 }

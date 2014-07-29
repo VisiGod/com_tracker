@@ -20,7 +20,7 @@ class TrackerController extends JControllerLegacy {
 
 		// Load the submenu.
 		TrackerHelper::addSubmenu(JRequest::getCmd('view', 'trackerpanel'));
-		parent::display($cachable, $urlparams);
+		parent::display();
 		
 		return $this;
 	}

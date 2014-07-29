@@ -33,17 +33,25 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('shortname'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('shortname'); ?></div>
-
-			<div class="control-label left"><?php echo $this->form->getLabel('alias'); ?></div>
+		</div>
+			
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
-
-			<div class="control-label left"><?php echo $this->form->getLabel('fullname'); ?></div>
+		</div>
+			
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('fullname'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('fullname'); ?></div>
-
-			<div class="control-label left"><?php echo $this->form->getLabel('link'); ?></div>
+		</div>
+			
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('link'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('link'); ?></div>
-
-			<div class="control-label left"><?php echo $this->form->getLabel('description'); ?></div>
+		</div>
+			
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('description'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('description'); ?></div>
 		</div>
 	</fieldset>

@@ -24,7 +24,6 @@ class TrackerViewTorrents extends JViewLegacy {
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 
-		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		$this->user = JFactory::getUser();
@@ -58,7 +57,7 @@ class TrackerViewTorrents extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('torrent.delete');
+			JToolBarHelper::deleteList('', 'torrents.deleteXXX','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

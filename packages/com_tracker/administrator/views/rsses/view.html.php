@@ -57,7 +57,7 @@ class TrackerViewRSSes extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('rss.delete');
+			JToolBarHelper::deleteList('', 'rsses.delete','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

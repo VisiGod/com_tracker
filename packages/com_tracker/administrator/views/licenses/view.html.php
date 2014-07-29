@@ -57,7 +57,7 @@ class TrackerViewLicenses extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('license.delete');
+			JToolBarHelper::deleteList('', 'licenses.delete','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

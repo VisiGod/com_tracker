@@ -57,7 +57,7 @@ class TrackerViewDonations extends JViewLegacy {
 		}
 		
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('donation.delete');
+			JToolBarHelper::deleteList('', 'donations.delete','JTOOLBAR_DELETE');
 		}
 		
 		if ($user->authorise('core.admin', 'com_tracker')) {

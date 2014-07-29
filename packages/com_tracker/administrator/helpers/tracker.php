@@ -11,29 +11,32 @@
 defined('_JEXEC') or die('Restricted access');
 require_once JPATH_ADMINISTRATOR.'/components/com_tracker/helpers/RSSFeed.php';
 
-abstract class TrackerHelper {
+class TrackerHelper extends JHelperContent {
 
-	public static function addSubmenu($submenu) {
+	public static $extension = 'com_tracker';
+	
+	public static function addSubmenu($vName) {
 		$params = JComponentHelper::getParams( 'com_tracker' );
 
-		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_CONTROL_PANEL'), 'index.php?option=com_tracker', $submenu == 'trackerpanel');
-		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_TORRENTS'), 'index.php?option=com_tracker&view=torrents', $submenu == 'torrents');
-		JSubMenuHelper::addEntry(JText::_('JCATEGORIES'), 'index.php?option=com_categories&view=categories&extension=com_tracker', $submenu == 'categories');
-		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_USERS'), 'index.php?option=com_tracker&view=users', $submenu == 'users');
-		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_GROUPS'), 'index.php?option=com_tracker&view=groups', $submenu == 'groups');
-		if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') JSubMenuHelper::addEntry(JText::_('COM_TRACKER_COMMENTS'), 'index.php?option=com_tracker&view=comments',  $submenu == 'comments');
-		if ($params->get('enable_donations')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_DONATIONS'), 'index.php?option=com_tracker&view=donations',  $submenu == 'donations');
-		if ($params->get('enable_licenses')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_LICENSES'), 'index.php?option=com_tracker&view=licenses', $submenu == 'licenses');
-		if ($params->get('enable_countries')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_COUNTRIES'), 'index.php?option=com_tracker&view=countries', $submenu == 'countries');
-		if ($params->get('peer_banning')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_BANCLIENTS'), 'index.php?option=com_tracker&view=banclients', $submenu == 'banclients');
-		if ($params->get('host_banning')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_BANHOSTS'), 'index.php?option=com_tracker&view=banhosts', $submenu == 'banhosts');
-		if ($params->get('enable_thankyou')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_THANKYOUS'), 'index.php?option=com_tracker&view=thankyous', $submenu == 'thankyous');
-		if ($params->get('enable_filetypes')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_FILETYPES'), 'index.php?option=com_tracker&view=filetypes', $submenu == 'filetypes');
-		if ($params->get('enable_reseedrequest')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_RESEEDS'), 'index.php?option=com_tracker&view=reseeds', $submenu == 'reseeds');
-		if ($params->get('enable_reporttorrent')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_REPORTS'), 'index.php?option=com_tracker&view=reports', $submenu == 'reports');
-		if ($params->get('enable_rss')) JSubMenuHelper::addEntry(JText::_('COM_TRACKER_RSSES'), 'index.php?option=com_tracker&view=rsses', $submenu == 'rsses');
-		JSubMenuHelper::addEntry(JText::_('COM_TRACKER_SETTINGS'), 'index.php?option=com_tracker&view=settings', $submenu == 'settings');
-		JSubMenuHelper::addEntry( JText::_('COM_TRACKER_UTILITIES'), 'index.php?option=com_tracker&view=utilities', $submenu == 'utilities');
+		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_CONTROL_PANEL'), 'index.php?option=com_tracker', 'trackerpanel');
+		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_TORRENTS'), 'index.php?option=com_tracker&view=torrents', $vName == 'torrents');
+		JHtmlSidebar::addEntry(JText::_('JCATEGORIES'), 'index.php?option=com_categories&extension=com_tracker', $vName == 'categories');
+		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_USERS'), 'index.php?option=com_tracker&view=users', $vName == 'users');
+		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_GROUPS'), 'index.php?option=com_tracker&view=groups', $vName == 'groups');
+		if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') JHtmlSidebar::addEntry(JText::_('COM_TRACKER_COMMENTS'), 'index.php?option=com_tracker&view=comments',  $vName == 'comments');
+		if ($params->get('enable_donations')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_DONATIONS'), 'index.php?option=com_tracker&view=donations',  $vName == 'donations');
+		if ($params->get('enable_licenses')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_LICENSES'), 'index.php?option=com_tracker&view=licenses', $vName == 'licenses');
+		if ($params->get('enable_countries')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_COUNTRIES'), 'index.php?option=com_tracker&view=countries', $vName == 'countries');
+		if ($params->get('peer_banning')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_BANCLIENTS'), 'index.php?option=com_tracker&view=banclients', $vName == 'banclients');
+		if ($params->get('host_banning')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_BANHOSTS'), 'index.php?option=com_tracker&view=banhosts', $vName == 'banhosts');
+		if ($params->get('enable_thankyou')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_THANKYOUS'), 'index.php?option=com_tracker&view=thankyous', $vName == 'thankyous');
+		if ($params->get('enable_filetypes')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_FILETYPES'), 'index.php?option=com_tracker&view=filetypes', $vName == 'filetypes');
+		if ($params->get('enable_reseedrequest')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_RESEEDS'), 'index.php?option=com_tracker&view=reseeds', $vName == 'reseeds');
+		if ($params->get('enable_reporttorrent')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_REPORTS'), 'index.php?option=com_tracker&view=reports', $vName == 'reports');
+		if ($params->get('enable_rss')) JHtmlSidebar::addEntry(JText::_('COM_TRACKER_RSSES'), 'index.php?option=com_tracker&view=rsses', $vName == 'rsses');
+		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_SETTINGS'), 'index.php?option=com_tracker&view=settings', $vName == 'settings');
+		JHtmlSidebar::addEntry( JText::_('COM_TRACKER_UTILITIES'), 'index.php?option=com_tracker&view=utilities', $vName == 'utilities');
+
 		// set some global property
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('.icon-48-trackerpanel {background-image: url(components/com_tracker/images/panel/logo-48x48.png);}');
@@ -53,8 +56,6 @@ abstract class TrackerHelper {
 		if ($params->get('enable_rss')) $document->addStyleDeclaration('.icon-48-rsses {background-image: url(components/com_tracker/images/panel/rss-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-settings {background-image: url(components/com_tracker/images/panel/settings-48x48.png);}');
 		$document->addStyleDeclaration('.icon-48-utilities {background-image: url(components/com_tracker/images/panel/utilities-48x48.png);}');
-		// set small icons 
-		$document->addStyleDeclaration('.icon-torrents {background-image: url(components/com_tracker/images/views/torrents.png);}');
 	}
 
 	public static function quickiconButton( $link, $image, $text ) {
@@ -68,8 +69,8 @@ abstract class TrackerHelper {
 		</div>
 		<?php 
 	}
-	
-	public static function getActions() {
+
+	public static function getActions($component = 'com_tracker', $section = '', $id = 0) {
 		$user = JFactory::getUser();
 		$result = new JObject;
 		$assetName = 'com_tracker';

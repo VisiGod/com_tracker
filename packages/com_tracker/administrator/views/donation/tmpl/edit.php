@@ -33,16 +33,24 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('uid'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('uid'); ?></div>
-
+		</div>
+			
+		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('ratio'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('ratio'); ?></div>
-
+		</div>
+			
+		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('donated'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('donated'); ?></div>
-
+		</div>
+			
+		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('donation_date'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('donation_date'); ?></div>
-
+		</div>
+			
+		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('comments'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('comments'); ?></div>
 		</div>

@@ -124,13 +124,19 @@ $(document).ready(function() {
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
-			
+			</div>
+
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('channel_title'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('channel_title'); ?></div>
-			
+			</div>
+
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('channel_description'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('channel_description'); ?></div>
+			</div>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('rss_authentication'); ?></div>
 				<div class="controls">
 					<?php
@@ -141,7 +147,9 @@ $(document).ready(function() {
 						echo '</span>';
 					?>
 				</div>
+			</div>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('rss_type'); ?></div>
 				<div class="controls">
 					<?php
@@ -163,10 +171,14 @@ $(document).ready(function() {
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('item_count'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('item_count'); ?></div>
+			</div>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('item_title'); ?></div>
 				<div class="controls"><textarea name="jform[item_title]" id="jform_item_title" class="txtDropTarget" cols="85" rows="1"><?php echo $this->form->getValue('item_title'); ?></textarea></div>
+			</div>
 
+			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('item_description'); ?></div>
 				<div class="controls"><textarea name="jform[item_description]" id="jform_item_description" class="txtDropTarget" cols="85" rows="19"><?php echo $this->form->getValue('item_description'); ?></textarea></div>
 

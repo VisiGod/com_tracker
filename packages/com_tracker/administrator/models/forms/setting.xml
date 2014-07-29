@@ -1,8 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset>
-		<field name="name" type="text" size="40" class="inputbox" label="COM_TRACKER_SETTINGS_NAME" description="" filter="safehtml" />
+<form addrulepath="/administrator/components/com_tracker/models/rules" >
+	<fieldset addfieldpath="/administrator/components/com_tracker/models/fields" >
+		<field name="announce_interval" type="text" maxlength="10" default="1800" class="inputbox" label="COM_TRACKER_SETTING_ANNOUNCE_INTERVAL" description="" filter="integer" required="true"/>
 
-		<field name="value" type="text" size="40" class="inputbox" label="COM_TRACKER_SETTINGS_VALUE" description="" filter="safehtml" />
+		<field name="clean_up_interval" type="text" maxlength="10" default="60" class="inputbox" label="COM_TRACKER_SETTING_CLEAN_UP_INTERVAL" description="" filter="integer" required="true"/>
+
+		<field name="daemon" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_SETTING_DAEMON" description="" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="debug" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_SETTING_DEBUG" description="" default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="full_scrape" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_SETTING_FULL_SCRAPE" description="" default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="gzip_scrape" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_SETTING_GZIP_SCRAPE" description="" default="1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="listen_ipa" type="ipaddress" description="" filter="raw" label="COM_TRACKER_SETTING_LISTEN_IPA" validate="ipaddress" field="ipaddress" /> 
+
+		<field name="listen_port" type="text" maxlength="5" default="2710" class="inputbox" label="COM_TRACKER_SETTING_LISTEN_PORT" description="" filter="integer" required="true"/>
+
+		<field name="log_access" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_SETTING_LOG_ACCESS" description="" default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="log_scrape" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_SETTING_LOG_SCRAPE" description="" default="0">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="offline_message" type="text" maxlength="100" default="" class="inputbox" label="COM_TRACKER_SETTING_OFFLINE_MESSAGE" description="" filter="safehtml" required="false"/>
+
+		<field name="pid_file" type="text" maxlength="100" default="xbt_tracker.pid" class="inputbox" label="COM_TRACKER_SETTING_PID_FILE" description="" filter="safehtml" required="true"/>
+
+		<field name="query_log" type="text" maxlength="100" default="xbt_tracker_query.log" class="inputbox" label="COM_TRACKER_SETTING_QUERY_LOG" description="" filter="safehtml" required="true"/>
+
+		<field name="read_config_interval" type="text" maxlength="10" default="60" class="inputbox" label="COM_TRACKER_SETTING_READ_CONFIG_INTERVAL" description="" filter="integer" required="true"/>
+
+		<field name="read_db_interval" type="text" maxlength="10" default="60" class="inputbox" label="COM_TRACKER_SETTING_READ_DB_INTERVAL" description="" filter="integer" required="true"/>
+
+		<field name="redirect_url" type="text" maxlength="100" default="http://avagis.hostsquadron.com/tracker3/" class="inputbox" label="COM_TRACKER_SETTING_REDIRECT_URL" description="" required="false"/>
+
+		<field name="scrape_interval" type="text" maxlength="10" default="0" class="inputbox" label="COM_TRACKER_SETTING_SCRAPE_INTERVAL" description="" filter="integer" required="true"/>
+
+		<field name="write_db_interval" type="text" maxlength="10" default="60" class="inputbox" label="COM_TRACKER_SETTING_WRITE_DB_INTERVAL" description="" filter="integer" required="true"/>
+
+		<field name="torrent_pass_private_key" type="text" maxlength="27" class="inputbox" label="COM_TRACKER_SETTING_TORRENT_PASS_PRIVATE_KEY" description="" filter="safehtml" required="true"/>
+
+		<!-- This are the default fixed values that shouldn't be changed -->
+		<field name="anonymous_announce" type="hidden" default="0" label="COM_TRACKER_SETTING_ANONYMOUS_ANNOUNCE" readonly="true" class="readonly" description="" />
+
+		<field name="anonymous_scrape" type="hidden" default="0" label="COM_TRACKER_SETTING_ANONYMOUS_SCRAPE" readonly="true" class="readonly" description="" />
+
+		<field name="auto_register" type="hidden" default="0" label="COM_TRACKER_SETTING_AUTO_REGISTER" readonly="true" class="readonly" description="" />
+
+		<field name="log_announce" type="hidden" default="1" label="COM_TRACKER_SETTING_LOG_ANNOUNCE" readonly="true" class="readonly" description="" />
+
+		<field name="column_files_completed" type="hidden" default="completed" label="COM_TRACKER_SETTING_COLUMN_FILES_COMPLETED" readonly="true" class="readonly" description="" />
+
+		<field name="column_files_fid" type="hidden" default="fid" label="COM_TRACKER_SETTING_COLUMN_FILES_FID" readonly="true" class="readonly" description="" />
+
+		<field name="column_files_leechers" type="hidden" default="leechers" label="COM_TRACKER_SETTING_COLUMN_FILES_LEECHERS" readonly="true" class="readonly" description="" />
+
+		<field name="column_files_seeders" type="hidden" default="leechers" label="COM_TRACKER_SETTING_COLUMN_FILES_SEEDERS" readonly="true" class="readonly" description="" />
+
+		<field name="column_users_uid" type="hidden" default="id" label="COM_TRACKER_SETTING_COLUMN_USERS_UID" readonly="true" class="readonly" description="" />
+		<!-- This are the default fixed values that shouldn't be changed -->
 	</fieldset>
 </form>

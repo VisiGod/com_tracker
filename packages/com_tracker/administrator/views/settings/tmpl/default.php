@@ -19,98 +19,97 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=settings'); ?>" method="post" name="adminForm" id="adminForm">
-	<table style="width:100%;">
-		<tr>
-			<td style="width:50%;" valign="top">
-				<table class="adminlist">
-					<thead>
-						<tr>
-							<td class="key" nowrap><label for="announce_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_ANNOUNCE_INTERVAL' ); ?></b></label></td>
-							<td style="width:50%;"><?php echo $this->items['announce_interval']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="clean_up_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_CLEAN_UP_INTERVAL' ); ?></b></label></td>
-							<td><?php echo $this->items['clean_up_interval']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="daemon" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_DAEMON' ); ?></b></label></td>
-							<td><?php echo $this->items['daemon'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="debug" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_DEBUG' ); ?></b></label></td>
-							<td><?php echo $this->items['debug'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="full_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_FULL_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->items['full_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="gzip_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_GZIP_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->items['gzip_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="listen_ipa" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LISTEN_IPA' ); ?></b></label></td>
-							<td><?php echo $this->items['listen_ipa']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="listen_port" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LISTEN_PORT' ); ?></b></label></td>
-							<td><?php echo $this->items['listen_port']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="log_access" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_ACCESS' ); ?></b></label></td>
-							<td width="50%"><?php echo $this->items['log_access'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="log_scrape" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_SCRAPE' ); ?></b></label></td>
-							<td><?php echo $this->items['log_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></td>
-						</tr>	
-					</thead>
-				</table>
-			</td>
-			<td style="width:50%;" valign="top">
-				<table class="adminlist">
-					<thead>
-						<tr>
-							<td class="key" nowrap><label for="offline_message" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_OFFLINE_MESSAGE' ); ?></b></label></td>
-							<td><?php echo $this->items['offline_message']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="pid_file" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_PID_FILE' ); ?></b></label></td>
-							<td><?php echo $this->items['pid_file']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="query_log" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_QUERY_LOG' ); ?></b></label></td>
-							<td><?php echo $this->items['query_log']; ?></td>
-						</tr>	
-						<tr>
-							<td class="key" nowrap><label for="read_config_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_CONFIG_INTERVAL' ); ?></b></label></td>
-							<td><?php echo $this->items['read_config_interval']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="read_db_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_DB_INTERVAL' ); ?></b></label></td>
-							<td><?php echo $this->items['read_db_interval']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="redirect_url" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_REDIRECT_URL' ); ?></b></label></td>
-							<td><?php echo $this->items['redirect_url']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="scrape_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_SCRAPE_INTERVAL' ); ?></b></label></td>
-							<td><?php echo $this->items['scrape_interval']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="write_db_interval" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_WRITE_DB_INTERVAL' ); ?></b></label></td>
-							<td><?php echo $this->items['write_db_interval']; ?></td>
-						</tr>
-						<tr>
-							<td class="key" nowrap><label for="torrent_pass_private_key" style="align:left"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TORRENT_PASS_PRIVATE_KEY' ); ?></b></label></td>
-							<td><?php echo $this->items['torrent_pass_private_key']; ?></td>
-						</tr>
-					</thead>
-				</table>
-			</td>
-		</tr>
-	</table>
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+	<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
+	<div id="j-main-container">
+	<?php endif;?>
+		<div class="clearfix"></div>
+
+		<table class="table">
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_ANNOUNCE_INTERVAL' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['announce_interval']; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_OFFLINE_MESSAGE' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['offline_message']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_CLEAN_UP_INTERVAL' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['clean_up_interval']; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_PID_FILE' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['pid_file']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_DAEMON' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['daemon']; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_QUERY_LOG' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['query_log']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_DEBUG' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['debug']; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_CONFIG_INTERVAL' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['read_config_interval']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_FULL_SCRAPE' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['full_scrape']; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_READ_DB_INTERVAL' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['read_db_interval']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_GZIP_SCRAPE' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['gzip_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_REDIRECT_URL' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['redirect_url']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LISTEN_IPA' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['listen_ipa']; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_SCRAPE_INTERVAL' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['scrape_interval']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LISTEN_PORT' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['listen_port']; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_WRITE_DB_INTERVAL' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['write_db_interval']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_ACCESS' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['log_access'] ? JText::_('JYES') : JText::_('JNO') ; ?></span>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_TORRENT_PASS_PRIVATE_KEY' ); ?></b></span>
+					<span class="span3"><?php echo $this->items['torrent_pass_private_key']; ?></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="span3"><b><?php echo JText::_( 'COM_TRACKER_SETTING_LOG_SCRAPE' ); ?></b></span>
+					<span class="span3"><?php echo$this->items['log_scrape'] ? JText::_('JYES') : JText::_('JNO') ; ?></span>
+				</td>
+			</tr>
+		</table>
+	</div>
 	<div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="1" />

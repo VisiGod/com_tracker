@@ -57,7 +57,7 @@ class TrackerViewGroups extends JViewLegacy {
 		}
 		
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('group.delete');
+			JToolBarHelper::deleteList('', 'groups.deleteXXX','JTOOLBAR_DELETE');
 		}
 		
 		if ($user->authorise('core.admin', 'com_tracker')) {

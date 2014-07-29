@@ -19,7 +19,7 @@
 
 		<field name="minimum_ratio" type="text" size="5" class="inputbox" label="COM_TRACKER_USER_MINIMUM_RATIO" description="" filter="safehtml" />
 
-		<field name="can_leech" type="list" default="0" label="COM_TRACKER_USER_CAN_LEECH" description="">
+		<field name="can_leech" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_USER_CAN_LEECH" description="">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -32,7 +32,7 @@
 
 		<field name="torrent_pass_version" type="text" size="5" class="inputbox" label="COM_TRACKER_USER_TORRENT_PASS_VERSION" description="" filter="integer" />
 
-		<field name="multiplier_type" type="list" default="0" label="COM_TRACKER_USER_MULTIPLIER_TYPE" description="">
+		<field name="multiplier_type" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_USER_MULTIPLIER_TYPE" description="">
 			<option value="0">COM_TRACKER_USER_MULTIPLIER_GROUP</option>
 			<option value="1">COM_TRACKER_USER_MULTIPLIER_USER</option>
 		</field>

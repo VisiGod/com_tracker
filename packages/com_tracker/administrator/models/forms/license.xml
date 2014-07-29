@@ -9,7 +9,7 @@
 
 		<field name="fullname" type="text" size="60" class="inputbox" label="COM_TRACKER_LICENSE_FULLNAME" description="" required="true" filter="safehtml" /> 
 
-		<field name="description" type="editor" buttons="true" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_LICENSE_DESCRIPTION" description=""	/> 
+		<field name="description" type="editor" buttons="true" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_LICENSE_DESCRIPTION" description="" /> 
 
 		<field name="link" type="text" size="80" class="inputbox" label="COM_TRACKER_LICENSE_LINK" description="" required="true" filter="safehtml" /> 
 

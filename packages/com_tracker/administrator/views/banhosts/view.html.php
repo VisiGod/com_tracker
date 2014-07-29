@@ -57,7 +57,7 @@ class TrackerViewBanHosts extends JViewLegacy {
 		}
 	
 		if ($canDo->get('core.edit.state')) {
-			JToolbarHelper::trash('banhost.delete');
+			JToolBarHelper::deleteList('', 'banhosts.delete','JTOOLBAR_DELETE');
 		}
 	
 		if ($user->authorise('core.admin', 'com_tracker')) {

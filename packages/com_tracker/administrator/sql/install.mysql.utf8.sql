@@ -99,7 +99,8 @@ CREATE TABLE IF NOT EXISTS `#__tracker_reseed_request` (
 `created_time` DATETIME DEFAULT NULL,
 `ordering` INT(11) NOT NULL,
 `state` TINYINT(1) NOT NULL DEFAULT '1',
-PRIMARY KEY (`id`)
+PRIMARY KEY (`id`),
+UNIQUE KEY (`fid`,`requester`)
 );
 
 CREATE TABLE IF NOT EXISTS `#__tracker_torrents` (

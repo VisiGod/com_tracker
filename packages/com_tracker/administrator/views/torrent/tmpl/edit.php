@@ -25,38 +25,8 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 $doc = JFactory::getDocument();
 $style = '.hide { display:none; }';
 $doc->addStyleDeclaration( $style );
-/*
-?>
-<script type="text/javascript">
-var elem = document.getElementById("security_question_1");
-elem.onchange = function(){
-    var hiddenDiv = document.getElementById("showMe");
-    hiddenDiv.style.display = (this.value == "") ? "none":"block";
-};
 
-$(document).ready(function(){
-	function default_dropdown() {
-		if ($("#default_image_type").val() == "1") $("#image_file_field").show();
-		if ($("#default_image_type").val() == "2") $("#image_file_link").show();
-	}
-	default_dropdown();
-	
-	$("#default_image_type").change(function(){
-		if ($(this).val() == "0" ) {
-			$("#image_file_field").hide();
-			$("#image_file_link").hide();
-		}
-		if ($(this).val() == "1" ) {
-			$("#image_file_field").show();
-			$("#image_file_link").hide();
-		}
-		if ($(this).val() == "2" ) {
-			$("#image_file_link").show();
-			$("#image_file_field").hide();
-		}
-    });
-});
-*/?>
+?>
 <script type="text/javascript">
 function check_dd() {
 	if(document.getElementById('default_image_type').value == "1") {
@@ -77,7 +47,6 @@ Joomla.submitbutton = function(task) {
 	}
 }
 </script>
-
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&layout=edit&fid='.(int) $this->item->fid); ?>" method="post" name="adminForm" id="torrent-form" class="form-validate form-horizontal" enctype="multipart/form-data">
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'trackerTorrent', array('active' => 'basic_info')); ?>
@@ -87,6 +56,7 @@ Joomla.submitbutton = function(task) {
 				<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
 			</div>
+ 
 			<div class="control-group">
 				<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
