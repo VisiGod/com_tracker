@@ -32,6 +32,9 @@ class TrackerModelThankyous extends JModelList {
 		$app = JFactory::getApplication('administrator');
 		$context	= $this->context;
 
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
 		$state = $this->getUserStateFromRequest($context.'.filter.state', 'filter_state', '');
 		$this->setState('filter.state', $state);
 
@@ -66,6 +69,17 @@ class TrackerModelThankyous extends JModelList {
 				$query->where('a.state = '.(int) $state);
 		} else if ($state === '') {
 				$query->where('(a.state IN (0, 1))');
+		}
+
+		// Filter by search in title
+		$search = $this->getState('filter.search');
+		if (!empty($search)) {
+			if (stripos($search, 'id:') === 0) {
+				$query->where('a.id = ' . (int) substr($search, 3));
+			} else {
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('( tt.name LIKE '.$search.' OR u.username LIKE '.$search.' )');
+			}
 		}
 
 		// Add the list ordering clause.

@@ -10,24 +10,17 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-jimport('joomla.application.component.model');
-jimport( 'joomla.html.parameter' );
-
 class TrackerModelTorrents extends JModelList {
 
-	public $_context = 'com_tracker.torrents';
-
-	public function __construct($config = array()) {
+	public function __construct($config = array())  {
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-							'fid', 't.fid',
 							'name', 't.name',
 							'alias', 't.alias',
 							'info_hash', 't.info_hash',
 							'filename', 't.filename',
 							'category', 'c.title',
-							'torrent_license', 'torrent_license',
+							'license',
 							'size', 't.size',
 							'created_time', 't.created_time',
 							'leechers', 't.leechers',
@@ -40,154 +33,138 @@ class TrackerModelTorrents extends JModelList {
 							'info_post', 't.info_post',
 							'download_multiplier', 't.download_multiplier',
 							'upload_multiplier', 't.upload_multiplier',
-							'image_file', 't.image_file',
-							'license', 't.licenseID',
-							'ordering', 't.ordering',
-							'state', 't.state'
-				);
-			}
+							'thanks',
+			);
+		}
 		parent::__construct($config);
-
 	}
 
-	protected function populateState($ordering = null, $direction = null) {
-		// Initialise variables.
+	protected function populateState($ordering = 'ordering', $direction = 'DESC') {
 		$app = JFactory::getApplication();
-		$component = JComponentHelper::getComponent( 'com_tracker' );
-		
-		$params = json_decode($component->params);
 
-		$menuitemid = JRequest::getInt( 'Itemid' );
-		$menu = JSite::getMenu();
-		if ($menuitemid) {
-			$menuparams = $menu->getParams( $menuitemid );
-			$params->merge( $menuparams );
-		}
-
-		$this->setState('params', $params);
-
-		if ($params->get('torrent_tags')) $search = JRequest::getVar('tag');
-		else $search = '';
-
-		// Load the filter state.
-		$search .= $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
-		//Omit double (white-)spaces and set state
-		$this->setState('filter.search', preg_replace('/\s+/',' ', $search));
-		
 		// List state information
-		$value = JRequest::getUInt('limit', $app->getCfg('list_limit', 0));
-		$this->setState('list.limit', $value);
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+		$this->setState('list.limit', $limit);
+		
+		$limitstart = $app->input->get('limitstart', 0, 'uint');
+		$this->setState('list.start', $limitstart);
 
-		$value = JRequest::getInt('limitstart', 0);
-		$this->setState('list.start', $value);
-
-		$orderCol	= JRequest::getCmd('filter_order', 't.ordering');
+		$orderCol = $app->input->get('filter_order', 't.ordering');
+		
 		if (!in_array($orderCol, $this->filter_fields)) {
 			$orderCol = 't.ordering';
 		}
+		
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		$listOrder = $app->input->get('filter_order_Dir', 'DESC');
+		
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
-			$listOrder = 'ASC';
+			$listOrder = 'DESC';
 		}
+		
 		$this->setState('list.direction', $listOrder);
 
-		$filteredCategoryId = $this->getUserStateFromRequest('com_tracker.filter.category_id', 'filter_category_id', 0, 'uint', false);
-		$this->setState('filter.category_id', $filteredCategoryId);
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '');
+		$this->setState('filter.category_id', $categoryId);
+
+		$TorrentStatus = $app->getUserStateFromRequest('com_tracker.filter.torrent_status', 'filter_torrent_status', 0, 'uint', false);
+		$this->setState('filter.torrent_status', $TorrentStatus);
+
+		$params = JComponentHelper::getParams('com_tracker');
 
 		if ($params->get('enable_licenses')) {
-			$filteredLicenseId = $this->getUserStateFromRequest('com_tracker.filter.license_id', 'filter_license_id', 0, 'uint', false);
-			$this->setState('filter.license_id', $filteredLicenseId);
+			$LicenseId = $app->getUserStateFromRequest('com_tracker.filter.license_id', 'filter_license_id', 0, 'uint', false);
+			$this->setState('filter.license_id', $LicenseId);
 		}
 
-		$filteredTorrentStatus = $this->getUserStateFromRequest('com_tracker.filter.torrent_status', 'filter_torrent_status', 0, 'uint', false);
-		$this->setState('filter.torrent_status', $filteredTorrentStatus);
-
-		// List state information.
-		parent::populateState('t.fid', 'desc');
-		
-		$value = JRequest::getUInt('start');
-		$this->setState('list.start', $value);
+		// Load the parameters.
+		$this->setState('params', $params);
 	}
 
 	protected function getListQuery() {
+		$user = JFactory::getUser();
 		$params = JComponentHelper::getParams('com_tracker');
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$user	= JFactory::getUser();
 
+		// Create a new query object.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+	
+		// Select required fields
 		$query->select(
-			$this->getState(
-				'list.select',
-				't.*'
-				)
-			);
-		$query->from('`#__tracker_torrents` AS t');
-		$query->where('t.flags <> 1');
+				$this->getState('list.select', 't.*'))
+				->from($db->quoteName('#__tracker_torrents') . ' AS t')
+				->where('t.flags <> 1');
 
 		// Join over the user who added the torrent
-		$query->select('u.username AS uploader_username, u.name AS uploader_name');
-		$query->join('LEFT', '`#__users` AS u ON u.id = t.uploader');
-
+		$query->select('u.username AS uploader_username, u.name AS uploader_name')
+				->join('LEFT', '#__users AS u ON u.id = t.uploader');
+		
 		// Join over the torrent category
-		$query->select('c.title AS torrent_category, c.params as category_params');
-		$query->join('LEFT', '`#__categories` AS c ON c.id = t.categoryID');
+		$query->select('c.title AS torrent_category, c.params as category_params')
+			->join('LEFT', '#__categories AS c ON c.id = t.categoryID');
 
-		if ($params->get('enable_licenses')) {
-			// Join the torrent license
-			$query->select('l.shortname AS torrent_license');
-			$query->join('LEFT', '`#__tracker_licenses` AS l ON l.id = t.licenseID');
-		}
-
+		// Check if we're using Thank yous
 		if ($params->get('enable_thankyou')) {
-			$query->select('(select count(id) FROM `#__tracker_torrent_thanks` where torrentID = t.fid) as thanks ');
+			$subQuery = $db->getQuery(true);
+			// Create the base subQuery select statement.
+			$subQuery->select('COUNT(id)')
+					 ->from($db->quoteName('#__tracker_torrent_thanks'))
+					 ->where('torrentID = t.fid');
+				
+			// Create the base select statement.
+			$query->select("(".$subQuery->__toString().") AS thanks");
 		}
 
-		//**********************************************************************************************************
-		// Filter by a single category
-		$filteredCategoryId = $this->getState('filter.category_id');
-		if (is_numeric($filteredCategoryId) && ($filteredCategoryId != 0)) {
-			$query->where('(c.id = '.(int) $filteredCategoryId.' OR c.parent_id = '.(int) $filteredCategoryId.')');
+		// Check if we're using licenses
+		if ($params->get('enable_licenses')) {
+			$query->select('l.shortname as license')
+			->join('LEFT', '#__tracker_licenses AS l ON l.id = t.licenseID');
 		}
-
-		//**********************************************************************************************************
+		// Filter by category
+		$CategoryId = $this->getState('filter.category_id');
+		if (is_numeric($CategoryId) && ($CategoryId != 0)) {
+			$query->where('(c.id = '.(int) $CategoryId.' OR c.parent_id = '.(int) $CategoryId.')');
+		}
+		
+		// Filter by state
+		$state = $this->getState('filter.state');
+		if (is_numeric($state)) {
+			$query->where('t.state = ' . (int) $state);
+		}
+		// do not show trashed links on the front-end
+		$query->where('t.state != -2');
+	
 		// Filter by search in title
-		$search = $this->getState('filter.search');
-
+		$search = $this->getState('list.filter');
 		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
-				$query->where('t.fid = '.(int) substr($search, 3));
-			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('( t.name LIKE '.$search.' OR t.tags LIKE '.$search.' )');
-			}
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$query->where('(t.name LIKE ' . $search . ' OR t.tags LIKE '.$search. ')');
 		}
 
-		//**********************************************************************************************************
 		// Filter by license
 		if ($params->get('enable_licenses')) {
-			$filteredLicenseId = $this->getState('filter.license_id');
-			if (is_numeric($filteredLicenseId) && ($filteredLicenseId != 0)) {
-				$query->where('(l.id = '.(int) $filteredLicenseId.')');
+			$LicenseId = $this->getState('filter.license_id');
+			if (is_numeric($LicenseId) && ($LicenseId != 0)) {
+				$query->where('(l.id = '.(int) $LicenseId.')');
 			}
 		}
 
-		//**********************************************************************************************************
 		// Filter by torrent status
-		$filteredTorrentStatus = $this->getState('filter.torrent_status');
-		if (is_numeric($filteredTorrentStatus) && ($filteredTorrentStatus != 0)) {
+		$TorrentStatus = $this->getState('filter.torrent_status');
+		if (is_numeric($TorrentStatus) && ($TorrentStatus != 0)) {
 			// Torrents with peers
-			if ($filteredTorrentStatus == 1) $query->where('((t.leechers + t.seeders) > 0 )');
+			if ($TorrentStatus == 1) $query->where('((t.leechers + t.seeders) > 0 )');
 			// Torrents with seeders
-			if ($filteredTorrentStatus == 2) $query->where('(t.seeders > 0 )');
+			if ($TorrentStatus == 2) $query->where('(t.seeders > 0 )');
 			// Torrents needing seeds (with leechers and no seeders)
-			if ($filteredTorrentStatus == 3) $query->where('( t.leechers > 0 AND t.seeders = 0 )');
+			if ($TorrentStatus == 3) $query->where('( t.leechers > 0 AND t.seeders = 0 )');
 			// Dead torrents (no leechers and no seeders)
-			if ($filteredTorrentStatus == 3) $query->where('( t.leechers = 0 AND t.seeders = 0 )');
+			if ($TorrentStatus == 3) $query->where('( t.leechers = 0 AND t.seeders = 0 )');
 		}
 
-		$query->order($this->getState('list.ordering', 't.ordering').' '.$this->getState('list.direction', 'ASC'));
+		// Add the list ordering clause.
+		$query->order($this->getState('list.ordering', 't.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
 
 		return $query;
 	}

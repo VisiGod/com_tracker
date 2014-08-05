@@ -24,13 +24,14 @@ $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $canOrder	= $user->authorise('core.edit.state', 'com_tracker');
 $saveOrder	= $listOrder == 'a.ordering';
-if ($saveOrder)
-{
+if ($saveOrder) {
 	$saveOrderingUrl = 'index.php?option=com_tracker&task=torrents.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'torrentList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
 ?>
+
+
 <script type="text/javascript">
 	Joomla.orderTable = function() {
 		table = document.getElementById("sortTable");
@@ -143,24 +144,6 @@ $sortFields = $this->getSortFields();
 					</th>
                 <?php endif; ?>
 
-				<?php /*
-				<th width="1%" class="nowrap center">
-					<?php echo JHtml::_('grid.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-				</th>
-				<th width="1%" class="nowrap center">
-					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
-				</th>
-				*/?>
-<!--  *********************************************************************************************************** -->
-                
-                <?php /*    
-                <?php if (isset($this->items[0]->fid)): ?>
-					<th width="1%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.fid', $listDirn, $listOrder); ?>
-					</th>
-                <?php endif; ?>
-                
-                */?>
 				</tr>
 			</thead>
 			<tfoot>
@@ -191,39 +174,17 @@ $sortFields = $this->getSortFields();
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 
-<?php /*
-                <?php if (isset($this->items[0]->ordering)): ?>
-					<td class="order nowrap center hidden-phone">
-					<?php if ($canChange) :
-						$disableClassName = '';
-						$disabledLabel	  = '';
-						if (!$saveOrder) :
-							$disabledLabel    = JText::_('JORDERINGDISABLED');
-							$disableClassName = 'inactive tip-top';
-						endif; ?>
-						<span class="sortable-handler hasTooltip <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
-							<i class="icon-menu"></i>
-						</span>
-						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
-					<?php else : ?>
-						<span class="sortable-handler inactive" >
-							<i class="icon-menu"></i>
-						</span>
-					<?php endif; ?>
-					</td>
-                <?php endif; ?>
-*/ ?>
                 <td class="nowrap center hidden-phone">
 					<?php echo JHtml::_('grid.id', $i, $item->fid); ?>
 				</td>
                     
 				<td><?php echo $item->fid; ?></td>
 
-				<td class="small">
-				<?php
-					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=torrent.edit&fid='.(int) $item->fid).">".$this->escape($item->name)."</a>";
-					else echo $item->name;
-				?>
+				<td class="has-context">
+					<?php
+						if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=torrent.edit&fid='.(int) $item->fid).">".$this->escape($item->name)."</a>";
+						else echo $item->name;
+					?>
 				</td>
 				
 				<td class="center nowrap has-context">
@@ -235,32 +196,32 @@ $sortFields = $this->getSortFields();
 				?>
 				</td>
 
-				<td class="small nowrap">
+				<td class="nowrap">
 					<?php echo TrackerHelper::make_size($item->size); ?>
 				</td>
 
-				<td class="small">
+				<td>
 					<?php echo date('Y.m.d', strtotime($item->created_time)); ?>
 				</td>
-				<td class="center small">
+				<td class="center">
 					<?php echo $item->leechers; ?>
 				</td>
-				<td class="center small">
+				<td class="center">
 					<?php echo $item->seeders; ?>
 				</td>
-				<td class="center small">
+				<td class="center">
 					<?php echo $item->completed; ?>
 				</td>
 				<?php if ($params->get('torrent_multiplier')) {?>
-					<td class="center small">
+					<td class="center">
 						<?php echo $item->download_multiplier; ?>
 					</td>
-					<td class="center small">
+					<td class="center">
 						<?php echo $item->upload_multiplier; ?>
 					</td>
 				<?php } ?>
 				
-				<td class="center small">
+				<td class="center">
 					<?php
 						if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->uploaderID).">".$item->uploader."</a>";
 						else echo $item->uploader;
@@ -272,7 +233,6 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'torrents.', $canChange, 'cb'); ?>
 					</td>
                 <?php endif; ?>
-<!--  *********************************************************************************************************** -->
 
 				</tr>
 				<?php endforeach; ?>

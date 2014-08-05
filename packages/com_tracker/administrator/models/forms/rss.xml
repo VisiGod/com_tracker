@@ -3,11 +3,11 @@
 	<fieldset>
 		<field name="id" type="hidden" default="0" />
 
-		<field name="name" type="text" size="50" class="inputbox" label="COM_TRACKER_RSS_NAME" description="" required="true" filter="safehtml" />
+		<field name="name" type="text" size="50" class="input-xxlarge" label="COM_TRACKER_RSS_NAME" description="" required="true" filter="safehtml" />
 
-		<field name="channel_title" type="text" size="50" class="inputbox" label="COM_TRACKER_RSS_CHANNEL_TITLE" description="" required="true" filter="safehtml" />
+		<field name="channel_title" type="text" size="50" class="input-xxlarge" label="COM_TRACKER_RSS_CHANNEL_TITLE" description="" required="true" filter="safehtml" />
 		
-		<field name="channel_description" type="textarea" default="" label="COM_TRACKER_RSS_CHANNEL_DESCRIPTION" description="" rows="10" cols="5" filter="raw"/>
+		<field name="channel_description" type="input-xxlarge textarea" default="" label="COM_TRACKER_RSS_CHANNEL_DESCRIPTION" description="" rows="10" cols="5" filter="raw"/>
 
 		<field name="rss_authentication" type="list" default="0" label="COM_TRACKER_RSS_AUTHENTICATION" description="">
 			<option value="0">COM_TRACKER_RSS_AUTHENTICATION_GUEST_ACCESS</option>
@@ -33,9 +33,9 @@
 
 		<field name="item_count" type="text" default="10" label="COM_TRACKER_RSS_ITEM_COUNT" description="" filter="integer" />
 
-		<field name="item_title" type="text" size="50" class="inputbox" label="COM_TRACKER_RSS_ITEM_TITLE" description="" required="true" filter="safehtml" />
+		<field name="item_title" type="text" size="50" class="input-xxlarge" label="COM_TRACKER_RSS_ITEM_TITLE" description="" required="true" filter="safehtml" />
 		
-		<field name="item_description" type="textarea" default="" label="COM_TRACKER_RSS_ITEM_DESCRIPTION" description="" rows="10" cols="5" filter="raw"/>
+		<field name="item_description" type="input-xxlarge textarea" default="" label="COM_TRACKER_RSS_ITEM_DESCRIPTION" description="" rows="10" cols="5" filter="raw"/>
 
 		<field name="created_user_id" type="user" label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="JGLOBAL_FIELD_CREATED_BY_DESC" />
 

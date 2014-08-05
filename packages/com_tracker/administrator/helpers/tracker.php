@@ -602,32 +602,28 @@ class TrackerHelper extends JHelperContent {
 	}
 
 	public static function checkTorrentType($torrentID) {
-		$db 	= JFactory::getDBO();
-		
-		$query	= $db->getQuery(true);
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
 		$query->select('download_multiplier, created_time, seeders');
 		$query->from('#__tracker_torrents');
 		$query->where('fid ='.(int)$torrentID);
 		$db->setQuery($query);
-		$torrent_type = $db->loadNextObject();
 
+		$torrent_type = $db->loadObject();
 		$params = JComponentHelper::getParams( 'com_tracker' );
-		
+
 		// Check if torrent is free
-		if ($params->get('enable_torrent_type_free')) {
-			if ($torrent_type->download_multiplier == 0)
+		if ($params->get('enable_torrent_type_free') == 1 && $torrent_type->download_multiplier == 0) {
 				echo '<img id="'.$torrentID.'free" alt="'.JText::_('COM_TRACKER_FREE').'" src="'.JURI::base().$params->get('torrent_type_free_image').'" />';
 		}
 
 		// Check if torrent is semi-free
-		if ($params->get('enable_torrent_type_semifree')) {
-			if ($torrent_type->download_multiplier <= $params->get('torrent_type_semifree_value') && $torrent_type->download_multiplier > 0)
+		if ($params->get('enable_torrent_type_semifree') == 1 && ($torrent_type->download_multiplier <= $params->get('torrent_type_semifree_value') && $torrent_type->download_multiplier > 0)) {
 				echo '<img id="'.$torrentID.'semifree" alt="'.JText::_('COM_TRACKER_SEMIFREE').'" src="'.JURI::base().$params->get('torrent_type_semifree_image').'" />';
 		}
 
 		// Check if torrent is new
-		if ($params->get('enable_torrent_type_new')) {
-			if ((date("U") - strtotime($torrent_type->created_time)) < ($params->get('torrent_type_new_value') * 3600))
+		if ($params->get('enable_torrent_type_new') && ((date("U") - strtotime($torrent_type->created_time)) < ($params->get('torrent_type_new_value') * 3600))) {
 				echo '<img id="'.$torrentID.'new" alt="'.JText::_('COM_TRACKER_NEW').'" src="'.JURI::base().$params->get('torrent_type_new_image').'" />';
 		}
 

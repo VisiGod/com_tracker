@@ -194,9 +194,9 @@ $sortFields = $this->getSortFields();
 					?>
 					</td>
 				
-					<td class="nowrap"><?php echo $item->username; ?></td>
+					<td><?php echo $item->username; ?></td>
 				
-					<td class="small"><?php echo $item->email; ?></td>
+					<td><?php echo $item->email; ?></td>
 				
 					<?php if ($params->get('enable_countries')) { ?>
 						<td class="center" nowrap>
@@ -206,11 +206,11 @@ $sortFields = $this->getSortFields();
 						</td>
 					<?php } ?>
 				
-					<td class="small center nowrap">
+					<td class="center nowrap">
 						<?php echo TrackerHelper::make_size($item->downloaded); ?>
 					</td>
 
-					<td class="small center nowrap">
+					<td class="center nowrap">
 						<?php
 							if ($params->get('enable_donations') && $item->credited > 0) {
 								echo TrackerHelper::make_size($item->uploaded + ($item->credited * 1073741824));
@@ -219,7 +219,7 @@ $sortFields = $this->getSortFields();
 						?>
 					</td>
 				
-					<td class="small center nowrap">
+					<td class="center nowrap">
 						<?php
 							if ($params->get('enable_donations') &&  $item->credited > 0) echo TrackerHelper::make_ratio($item->downloaded,($item->uploaded + ($item->credited * 1073741824)));
 							else echo TrackerHelper::make_ratio($item->downloaded,$item->uploaded);
@@ -227,7 +227,7 @@ $sortFields = $this->getSortFields();
 					</td>
 
 					<?php if ($params->get('enable_donations')) { ?>
-						<td class="small center nowrap">
+						<td class="center nowrap">
 							<?php 
 								if ($item->donated > 0) echo '$'.$item->donated;
 								else echo JText::_( 'COM_TRACKER_NOTHING' );;
@@ -235,23 +235,26 @@ $sortFields = $this->getSortFields();
 						</td>
 					<?php } ?>
 					
-					<td class="small">
+					<td class="center">
 						<?php echo $item->group_name; ?>
 					</td>
 				
 					<?php if ($params->get('torrent_multiplier')) {?>
-						<td class="center small">
+						<td class="center">
 							<?php echo $item->download_multiplier; ?>
 						</td>
-						<td class="center small">
+						<td class="center">
 							<?php echo $item->upload_multiplier; ?>
 						</td>
 					<?php } ?>
 
-					<td class="center small">
+					<td class="center">
 						<?php echo JHtml::_('grid.boolean', $i, $item->can_leech, 'users.leech', 'users.unleech'); ?>
 					</td>
-                
+
+					<td class="nowrap center">
+						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'users.', $canChange, 'cb'); ?>
+					</td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>

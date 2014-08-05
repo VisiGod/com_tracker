@@ -9,50 +9,72 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.categories');
+class TrackerRouter extends JComponentRouterBase {
+
+	public function build(&$query) {
+		$segments = array();
+
+		if (isset($query['task'])) {
+			$segments[] = $query['task'];
+			unset($query['task']);
+		}
+
+		if (isset($query['id'])) {
+			$segments[] = $query['id'];
+			unset($query['id']);
+		}
+
+		$total = count($segments);
+
+		for ($i = 0; $i < $total; $i++) {
+			$segments[$i] = str_replace(':', '-', $segments[$i]);
+		}
+
+		return $segments;
+	}
+
+	public function parse(&$segments) {
+		$total = count($segments);
+		$vars = array();
+
+		for ($i = 0; $i < $total; $i++) {
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+		}
+
+		// View is always the first element of the array
+		$count = count($segments);
+
+		if ($count) {
+			$count--;
+			$segment = array_shift($segments);
+
+			if (is_numeric($segment)) {
+				$vars['id'] = $segment;
+			} else {
+				$vars['task'] = $segment;
+			}
+		}
+
+		if ($count) {
+			$segment = array_shift($segments);
+
+			if (is_numeric($segment)) {
+				$vars['id'] = $segment;
+			}
+		}
+
+		return $vars;
+	}
+}
 
 function TrackerBuildRoute(&$query) {
-	$segments = array();
+	$router = new TrackerRouter;
 
-	if(isset($query['view'])) {
-		$segments[] = $query['view'];
-		unset($query['view']);
-	}
-	if (isset($query['task'])) {
-		$segments[] = $query['task'];
-		unset($query['task']);
-	}
-	if (isset($query['id'])) {
-		$segments[] = $query['id'];
-		unset($query['id']);
-	}
-
-	return $segments;
+	return $router->build($query);
 }
 
 function TrackerParseRoute($segments) {
-	$vars = array();
+	$router = new TrackerRouter;
 
-	$count = count($segments);
-
-	if ($count) {
-		$count--;
-		$segment = array_shift($segments);
-		if (is_numeric($segment)) {
-			$vars['id'] = $segment;
-		} else {
-			$vars['task'] = $segment;
-			$vars['view'] = $segment;
-		}
-	}
-
-	if ($count) {
-		$count--;
-		$segment = array_shift($segments) ;
-		if (is_numeric($segment)) {
-			$vars['id'] = $segment;
-		}
-	}
-
-	return $vars;
+	return $router->parse($segments);
 }

@@ -36,7 +36,7 @@ class TrackerModelComments extends JModelList {
 		$app = JFactory::getApplication('administrator');
 		$context	= $this->context;
 
-		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		$state = $this->getUserStateFromRequest($context.'.filter.state', 'filter_state', '');
@@ -75,13 +75,13 @@ class TrackerModelComments extends JModelList {
 				$query->where('(a.state IN (0, 1))');
 		}
 
-		// Filter by search in title
+			// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
-				$query->where('a.id = '.(int) substr($search, 3));
+				$query->where('a.id = ' . (int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
 				$query->where('( t.name LIKE '.$search.' OR u.username LIKE '.$search.' OR a.comment LIKE '.$search.')');
 			}
 		}

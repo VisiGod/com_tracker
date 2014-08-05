@@ -32,7 +32,7 @@ class TrackerModelFiletypes extends JModelList {
 		$app = JFactory::getApplication('administrator');
 		$context	= $this->context;
 
-		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		$state = $this->getUserStateFromRequest($context.'.filter.state', 'filter_state', '');
@@ -67,9 +67,9 @@ class TrackerModelFiletypes extends JModelList {
 		$search = $this->getState('filter.search');
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
-				$query->where('a.id = '.(int) substr($search, 3));
+				$query->where('a.id = ' . (int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
 				$query->where('( a.name LIKE '.$search.' OR a.image LIKE '.$search.' )');
 			}
 		}

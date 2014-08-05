@@ -10,8 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controllerform');
-
 class TrackerControllerTorrent extends JControllerForm {
 
 	protected $view_item = 'torrent';
@@ -19,20 +17,18 @@ class TrackerControllerTorrent extends JControllerForm {
 
 	public function getModel($name = 'torrent', $prefix = '', $config = array('ignore_request' => true)) {
 		$model = parent::getModel($name, $prefix, $config);
-
 		return $model;
 	}
 
 	protected function getReturnPage() {
-		$return = JRequest::getVar('return', null, 'default', 'base64');
-
+		$return = $this->input->get('return', null, 'base64');
+		
 		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
-			return JURI::base();
+			return JUri::base();
 		} else {
 			return base64_decode($return);
 		}
 	}
-
 
 	public function download() {
 		$id = JRequest::getInt('id', 0);
@@ -82,16 +78,6 @@ class TrackerControllerTorrent extends JControllerForm {
 		$model->uploaded();
 	}
 
-/*
-	public function commented() {
-		$app	= JFactory::getApplication();
-		$model = $this->getModel('Comment','TrackerModel',array('ignore_request'=>true));
-
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		$app->setUserState('com_tracker.commented.torrent.data', $data);
-		$model->commented();
-	}
-*/
 	public function edited() {
 		$app	= JFactory::getApplication();
 		$model = $this->getModel('Edit','TrackerModel',array('ignore_request'=>true));
@@ -99,6 +85,17 @@ class TrackerControllerTorrent extends JControllerForm {
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		$app->setUserState('com_tracker.edited.torrent.data', $data);
 		$model->edited();
+	}
+
+	public function commented() {
+	/*
+	$app	= JFactory::getApplication();
+	$model = $this->getModel('Comment','TrackerModel',array('ignore_request'=>true));
+	
+	$data = JRequest::getVar('jform', array(), 'post', 'array');
+	$app->setUserState('com_tracker.commented.torrent.data', $data);
+	$model->commented();
+	*/
 	}
 
 }

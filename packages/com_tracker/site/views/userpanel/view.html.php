@@ -10,19 +10,20 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 class TrackerViewUserpanel extends JViewLegacy {
+
 	protected $state = null;
 	protected $item = null;
 
-	public function display($cachable = false, $urlparams = false) {
-		$state	= $this->get('State');
-		$item		= $this->get('Item');
-		$user		= JFactory::getUser();
-		$app		= JFactory::getApplication();
-		$session = JFactory::getSession();
-		$params		= $app->getParams();
+	public function display($tpl = null) {
+		$app			= JFactory::getApplication();
+
+		// Initialise variables
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->user		= JFactory::getUser();
+		$this->params	= $app->getParams();
+		$this->session	= JFactory::getSession();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -30,20 +31,14 @@ class TrackerViewUserpanel extends JViewLegacy {
 			return false;
 		}
 		
-		if ($user->get('guest')) {
+		if ($this->user->get('guest')) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
-		if ($item->id == 0) {
+		if ($this->item->id == 0) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_USER_INVALID'), 'error');
 		}
 		
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('params',		$params);
-		$this->assignRef('session',		$session);
-
-		parent::display();
+		return parent::display($tpl);
 	}
-
 }

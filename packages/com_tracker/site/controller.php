@@ -11,24 +11,4 @@ defined('_JEXEC') or die;
 
 class TrackerController extends JControllerLegacy {
 
-	public function display($cachable = false, $urlparams = false) {
-		require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/tracker.php';
-
-		$safeurlparams = array(
-			'fid'=>'INT',
-			'limit'=>'INT',
-			'limitstart'=>'INT',
-			'return'=>'BASE64',
-			'filter'=>'STRING',
-			'filter_order'=>'CMD',
-			'filter_order_Dir'=>'CMD',
-			'filter-search'=>'STRING',
-			'print'=>'BOOLEAN',
-			'lang'=>'CMD'
-		);
-
-		// call parent behavior
-		return parent::display($cachable, $safeurlparams);
-	}
-	
 }

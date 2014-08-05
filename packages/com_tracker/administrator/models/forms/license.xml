@@ -3,15 +3,15 @@
 	<fieldset>
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" readonly="true" class="readonly" description="JGLOBAL_FIELD_ID_DESC" /> 
 
-		<field name="shortname" type="text" size="40" class="inputbox" label="COM_TRACKER_LICENSE_SHORTNAME" description="" required="true" filter="safehtml" /> 
+		<field name="shortname" type="text" size="40" class="input-xxlarge" label="COM_TRACKER_LICENSE_SHORTNAME" description="" required="true" filter="safehtml" /> 
 
-		<field name="alias" type="text" size="40" class="inputbox" label="COM_TRACKER_LICENSE_ALIAS" description="" required="true" filter="safehtml" /> 
+		<field name="alias" type="text" size="40" class="input-xxlarge" label="COM_TRACKER_LICENSE_ALIAS" description="" required="true" filter="safehtml" /> 
 
-		<field name="fullname" type="text" size="60" class="inputbox" label="COM_TRACKER_LICENSE_FULLNAME" description="" required="true" filter="safehtml" /> 
+		<field name="fullname" type="text" size="60" class="input-xxlarge" label="COM_TRACKER_LICENSE_FULLNAME" description="" required="true" filter="safehtml" /> 
 
 		<field name="description" type="editor" buttons="true" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_LICENSE_DESCRIPTION" description="" /> 
 
-		<field name="link" type="text" size="80" class="inputbox" label="COM_TRACKER_LICENSE_LINK" description="" required="true" filter="safehtml" /> 
+		<field name="link" type="text" size="80" class="input-xxlarge" label="COM_TRACKER_LICENSE_LINK" description="" required="true" filter="safehtml" /> 
 
 		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 

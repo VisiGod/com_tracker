@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
-JTable::addIncludePath(JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'tables');
+
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 jimport('joomla.user.user');
 JLoader::register('JTableUser', JPATH_PLATFORM.'/joomla/database/table/user.php');
@@ -19,14 +19,14 @@ JLoader::register('JTableUser', JPATH_PLATFORM.'/joomla/database/table/user.php'
 class TrackerModelUserpanel extends JModelItem {
 
 	protected $_context = 'com_tracker.userpanel';
-	
-	public function getItem($pk = null) {
+
+	public function getItem($id = null) {
 		$app 		= JFactory::getApplication();
 		$session	= JFactory::getSession();
 		$db			= JFactory::getDBO();
 		$params 	= JComponentHelper::getParams('com_tracker');
 		$user_profile = null;
-		
+
 		if (JRequest::getVar( 'id', '', 'get','int' )) $userID = JRequest::getVar( 'id', '', 'get','int' );
 		else $userID = $session->get('user')->id;
 
@@ -36,11 +36,12 @@ class TrackerModelUserpanel extends JModelItem {
 		// Load the user from the database (and check if the id exists)
 		$query = $db->getQuery(true);
 		$query->clear();
-		$query->select('id');
-		$query->from('#__users');
-		$query->where('id = ' . (int)$userID);
-		$query->limit('0,1');
+		$query->select('id')
+			  ->from('#__users')
+			  ->where('id = ' . (int)$userID)
+			  ->limit('0,1');
 		$db->setQuery($query);
+$queryA="<br>query1 = ".$query;
 		$user_profileID = $db->loadResult();
 
 		if ($user_profileID <> 0) {
@@ -50,11 +51,12 @@ class TrackerModelUserpanel extends JModelItem {
 			// Get the user tracker information
 			$query = $db->getQuery(true);
 			$query->clear();
-			$query->select('*');
-			$query->from('#__tracker_users');
-			$query->where('id = ' . (int)$user_profile->id);
-			$query->limit('0,1');
+			$query->select('*')
+				  ->from('#__tracker_users')
+				  ->where('id = ' . (int)$user_profile->id)
+				  ->limit('0,1');
 			$db->setQuery($query);
+$queryA.="<br>query2 = ".$query;
 			$user_profile->tracker_info = $db->loadNextObject();
 
 			if ($params->get('enable_countries')) {
@@ -63,43 +65,47 @@ class TrackerModelUserpanel extends JModelItem {
 				
 				$query = $db->getQuery(true);
 				// Get the user country
-				$query->select('name, image');
-				$query->from('#__tracker_countries');
-				$query->where('id = ' . (int)$user_profile->tracker_info->countryID);
-				$query->limit('0,1');
+				$query->select('name, image')
+					  ->from('#__tracker_countries')
+					  ->where('id = ' . (int)$user_profile->tracker_info->countryID)
+					  ->limit('0,1');
 				$db->setQuery($query);
+$queryA.="<br>query3 = ".$query;
 				$user_profile->country_info = $db->loadNextObject();
 			}
 
 			if ($params->get('enable_thankyou')) {
 				// Get the number of times the user was thanked
 				$query->clear();
-				$query->select('COUNT(u.id) as total_thanks');
-				$query->from('`#__tracker_torrent_thanks` AS ttt');
-				$query->join('LEFT', '`#__tracker_torrents` AS tt ON tt.fid = ttt.torrentID');
-				$query->join('LEFT', '`#__users` AS u ON u.id = tt.uploader');
-				$query->where('u.id = ' . (int)$user_profile->id);
+				$query->select('COUNT(u.id) as total_thanks')
+					  ->from('`#__tracker_torrent_thanks` AS ttt')
+					  ->join('LEFT', '`#__tracker_torrents` AS tt ON tt.fid = ttt.torrentID')
+					  ->join('LEFT', '`#__users` AS u ON u.id = tt.uploader')
+					  ->where('u.id = ' . (int)$user_profile->id);
 				$db->setQuery($query);
+$queryA.="<br>query4 = ".$query;
 				$user_profile->total_thanks = $db->loadResult();
 
 				// Get the number of thanks the user gave
 				$query->clear();
-				$query->select('COUNT(uid) as thanker');
-				$query->from('#__tracker_torrent_thanks');
-				$query->where('uid = ' . (int)$user_profile->id);
+				$query->select('COUNT(uid) as thanker')
+					  ->from('#__tracker_torrent_thanks')
+					  ->where('uid = ' . (int)$user_profile->id);
 				$db->setQuery($query);
+$queryA.="<br>query5 = ".$query;
 				$user_profile->thanker = $db->loadResult();
 				
 			}
 			
 			// Get the user last IP and tracker activity
 			$query->clear();
-			$query->select('ipa, mtime');
-			$query->from('#__tracker_announce_log');
-			$query->where('uid = ' . (int)$user_profile->id);
-			$query->order('id DESC');
-			$query->limit('0,1');
+			$query->select('ipa, mtime')
+				  ->from('#__tracker_announce_log')
+				  ->where('uid = ' . (int)$user_profile->id)
+				  ->order('id DESC')
+				  ->limit('0,1');
 			$db->setQuery($query);
+$queryA.="<br>query6 = ".$query;
 			$user_profile->announce = $db->loadNextObject();
 			
 			if (!$user_profile->announce) {
@@ -114,128 +120,138 @@ class TrackerModelUserpanel extends JModelItem {
 
 			// Get the user group
 			$query->clear();
-			$query->select('*');
-			$query->from('#__tracker_groups');
-			$query->where('id = ' . (int)$user_profile->tracker_info->groupID);
-			$query->order('id DESC');
-			$query->limit('0,1');
+			$query->select('*')
+				  ->from('#__tracker_groups')
+				  ->where('id = ' . (int)$user_profile->tracker_info->groupID)
+				  ->order('id DESC')
+				  ->limit('0,1');
 			$db->setQuery($query);
+$queryA.="<br>query7 = ".$query;
 			$user_profile->group_info = $db->loadNextObject();
 
 			if ($params->get('enable_donations')) {
 				// Get the user donations
 				$query->clear();
-				$query->select('sum(donated) as donated, sum(credited) as credited');
-				$query->from('#__tracker_donations');
-				$query->where('uid = ' . (int)$user_profile->id);
-				$query->where('state = 1');
+				$query->select('sum(donated) as donated, sum(credited) as credited')
+					  ->from('#__tracker_donations')
+					  ->where('uid = ' . (int)$user_profile->id)
+					  ->where('state = 1');
 				$db->setQuery($query);
+$queryA.="<br>query8 = ".$query;
 				$user_profile->user_donations = $db->loadNextObject();
 			}
 			
 			// ---------------------------------------- Snatched Torrents
 			// Get total number of snatches
 			$query->clear();
-			$query->select('count(fu.fid)');
-			$query->from('#__tracker_files_users AS fu');
-			$query->join('LEFT', '#__tracker_torrents as t on t.fid = fu.fid');
-			$query->where('fu.uid = ' . (int)$user_profile->id);
-			$query->where('fu.completed > 0');
-			$query->where('t.uploader <> '.(int)$user_profile->id);
+			$query->select('count(fu.fid)')
+				  ->from('#__tracker_files_users AS fu')
+				  ->join('LEFT', '#__tracker_torrents as t on t.fid = fu.fid')
+				  ->where('fu.uid = ' . (int)$user_profile->id)
+				  ->where('fu.completed > 0')
+				  ->where('t.uploader <> '.(int)$user_profile->id);
 			$db->setQuery($query);
+$queryA.="<br>query9 = ".$query;
 			if ($user_profile->total_snatch = $db->loadResult()) {
 				// Get the user snatched torrents
 				$query->clear();
-				$query->select('DISTINCT(fu.fid), t.name, t.leechers, t.seeders, t.completed, fu.downloaded, fu.uploaded');
-				$query->from('#__tracker_files_users AS fu');
-				$query->join('LEFT', '#__tracker_torrents as t on t.fid = fu.fid');
-				$query->where('fu.uid = ' . (int)$user_profile->id);
-				$query->where('fu.completed > 0');
-				$query->where('t.uploader <> '.(int)$user_profile->id);
-				$query->order('fu.fid DESC');
+				$query->select('DISTINCT(fu.fid), t.name, t.leechers, t.seeders, t.completed, fu.downloaded, fu.uploaded')
+					  ->from('#__tracker_files_users AS fu')
+					  ->join('LEFT', '#__tracker_torrents as t on t.fid = fu.fid')
+					  ->where('fu.uid = ' . (int)$user_profile->id)
+					  ->where('fu.completed > 0')
+					  ->where('t.uploader <> '.(int)$user_profile->id)
+					  ->order('fu.fid DESC');
 				$db->setQuery($query);
+$queryA.="<br>query10 = ".$query;
 				$user_profile->user_snatches = $db->loadObjectList();
 			}
 
 			// ---------------------------------------- Uploaded Torrents
 			# Get total number of uploaded torrents
 			$query->clear();
-			$query->select('count(t.fid)');
-			$query->from('#__tracker_torrents AS t');
-			$query->join('LEFT', '#__users as u on u.id = t.uploader');
-			$query->where('t.uploader = ' . (int)$user_profile->id);
-			$query->where('t.name <> \'\'');
-			$query->order('t.fid DESC');
+			$query->select('count(t.fid)')
+				  ->from('#__tracker_torrents AS t')
+				  ->join('LEFT', '#__users as u on u.id = t.uploader')
+				  ->where('t.uploader = ' . (int)$user_profile->id)
+				  ->where('t.name <> \'\'')
+				  ->order('t.fid DESC');
 			$db->setQuery($query);
+$queryA.="<br>query11 = ".$query;
 			if ($user_profile->total_uploads = $db->loadResult()) {
 				# Get the user uploaded torrents
 				$query->clear();
-				$query->select('t.fid, t.name, t.leechers, t.seeders, t.completed');
-				$query->from('#__tracker_torrents AS t');
-				$query->join('LEFT', '#__users AS u ON u.id = t.uploader');
-				$query->where('t.uploader = ' . (int)$user_profile->id);
-				$query->where('t.name <> \'\'');
+				$query->select('t.fid, t.name, t.leechers, t.seeders, t.completed')
+					  ->from('#__tracker_torrents AS t')
+					  ->join('LEFT', '#__users AS u ON u.id = t.uploader')
+					  ->where('t.uploader = ' . (int)$user_profile->id)
+					  ->where('t.name <> \'\'');
 				// Show the anonymous uploaded torrent if the user is the owner. If it's another user it keeps the anonymous torrents hidden
 				if ($user_profile->id <> $session->get('user')->id || TrackerHelper::user_permissions('edit_torrents', $user_profile->tracker_info->groupID) == 0) $query->where('t.uploader_anonymous = 0');
 				$query->order('t.fid DESC');
 				$db->setQuery($query);
+$queryA.="<br>query12 = ".$query;
 				$user_profile->user_uploads = $db->loadObjectList();
 			}
 
 			// ---------------------------------------- Seeded Torrents
 			# Get the user seeded torrents
 			$query->clear();
-			$query->select('count(fu.fid)');
-			$query->from('#__tracker_files_users AS fu');
-			$query->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid');
-			$query->where('fu.uid = ' . (int)$user_profile->id);
-			$query->where('fu.left = 0');
-			$query->where('fu.active = 1');
-			$query->where('t.name <> \'\'');
-			$query->order('fu.fid DESC');
+			$query->select('count(fu.fid)')
+				  ->from('#__tracker_files_users AS fu')
+				  ->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid')
+				  ->where('fu.uid = ' . (int)$user_profile->id)
+				  ->where('fu.left = 0')
+				  ->where('fu.active = 1')
+				  ->where('t.name <> \'\'')
+				  ->order('fu.fid DESC');
 			$db->setQuery($query);
+$queryA.="<br>query13 = ".$query;
 			if ($user_profile->total_seeds = $db->loadResult()) {
 				# Get the user seeded torrents
 				$query->clear();
-				$query->select('DISTINCT(fu.fid), t.name, t.leechers, t.seeders, t.completed');
-				$query->from('#__tracker_files_users AS fu');
-				$query->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid');
-				$query->where('fu.uid = ' . (int)$user_profile->id);
-				$query->where('fu.left = 0');
-				$query->where('fu.active = 1');
-				$query->where('t.name <> \'\'');
-				$query->order('fu.fid DESC');
+				$query->select('DISTINCT(fu.fid), t.name, t.leechers, t.seeders, t.completed')
+					  ->from('#__tracker_files_users AS fu')
+					  ->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid')
+					  ->where('fu.uid = ' . (int)$user_profile->id)
+					  ->where('fu.left = 0')
+					  ->where('fu.active = 1')
+					  ->where('t.name <> \'\'')
+					  ->order('fu.fid DESC');
 				$db->setQuery($query);
+$queryA.="<br>query14 = ".$query;
 				$user_profile->user_seeds = $db->loadObjectList();
 			}
 
 			// ---------------------------------------- Leeched and Ran
 			# Get the leeched and run torrents
 			$query->clear();
-			$query->select('count(fu.fid)');
-			$query->from('#__tracker_files_users AS fu');
-			$query->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid');
-			$query->where('fu.uid = ' . (int)$user_profile->id);
-			$query->where('fu.left = 0');
-			$query->where('fu.active = 0');
-			$query->where('fu.uploaded = 0');
-			$query->where('fu.downloaded > 0');
-			$query->where('t.name <> \'\'');
-			$query->order('fu.fid DESC');
+			$query->select('count(fu.fid)')
+				  ->from('#__tracker_files_users AS fu')
+				  ->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid')
+				  ->where('fu.uid = ' . (int)$user_profile->id)
+				  ->where('fu.left = 0')
+				  ->where('fu.active = 0')
+				  ->where('fu.uploaded = 0')
+				  ->where('fu.downloaded > 0')
+				  ->where('t.name <> \'\'')
+				  ->order('fu.fid DESC');
 			$db->setQuery($query);
+$queryA.="<br>query15 = ".$query;
 			if ($user_profile->total_hitandran = $db->loadResult()) {
 				# Get the leeched and run torrents
 				$query->clear();
-				$query->select('DISTINCT(fu.fid), t.name, t.leechers, t.seeders, t.completed, fu.downloaded, fu.uploaded');
-				$query->from('#__tracker_files_users AS fu');
-				$query->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid');
-				$query->where('fu.uid = ' . (int)$user_profile->id);
-				$query->where('fu.left = 0');
-				$query->where('fu.active = 0');
-				$query->where('fu.uploaded = 0');
-				$query->where('fu.downloaded > 0');
-				$query->where('t.name <> \'\'');
-				$query->order('fu.fid DESC');
+				$query->select('DISTINCT(fu.fid), t.name, t.leechers, t.seeders, t.completed, fu.downloaded, fu.uploaded')
+					  ->from('#__tracker_files_users AS fu')
+					  ->join('LEFT', '#__tracker_torrents as t on fu.fid = t.fid')
+					  ->where('fu.uid = ' . (int)$user_profile->id)
+					  ->where('fu.left = 0')
+					  ->where('fu.active = 0')
+					  ->where('fu.uploaded = 0')
+					  ->where('fu.downloaded > 0')
+					  ->where('t.name <> \'\'')
+					  ->order('fu.fid DESC');
+$queryA.="<br>query16 = ".$query;
 				$db->setQuery($query);
 				$user_profile->user_hitruns = $db->loadObjectList();
 			}
@@ -244,9 +260,10 @@ class TrackerModelUserpanel extends JModelItem {
 			return $user_profile;
 		}
 
+//echo $queryA."<hr>";
 		return $user_profile;
 	}
-
+/*
 	public function resetpassversion() {
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
@@ -281,4 +298,5 @@ class TrackerModelUserpanel extends JModelItem {
 			else $app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel'.$view), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
 
 	}
+*/
 }

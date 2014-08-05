@@ -129,7 +129,7 @@ class TrackerTableTorrent extends JTable {
 		$this->setError('');
 		return true;
 	}
-	
+
 	protected function _getAssetName() {
 		$k = $this->_tbl_key;
 		return 'com_tracker.torrent.' . (int) $this->$k;

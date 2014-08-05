@@ -16,18 +16,15 @@ class TrackerViewTorrents extends JViewLegacy {
 	protected $items;
 	protected $pagination;
 
-	public function display($cachable = false, $urlparams = false) {
+	public function display($tpl = null) {
 		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
 
-		$limitstart = JRequest::getInt('limitstart');
-		JRequest::setVar('start',$limitstart,'get','true');
-		
 		// Initialise variables
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
-		$params		= $app->getParams();
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->params		= $app->getParams();
+		$this->user			= JFactory::getUser();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -35,22 +32,14 @@ class TrackerViewTorrents extends JViewLegacy {
 			return false;
 		}
 
-		if ($user->get('guest') && ($params->get('allow_guest') == 0)) {
-			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
+		if ($this->user->get('guest') && ($params->get('allow_guest') == 0)) {
+			$app>redirect(JRoute::_('index.php'), JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
-		if ($user->get('guest') && $params->get('allow_guest') == 1) {
-			$user->id = $params->get('guest_user');
+		if ($this->user->get('guest') && $params->get('allow_guest') == 1) {
+			$this->user->id = $params->get('guest_user');
 		}
 
-		$this->assignRef('state', $state);
-		$this->assignRef('items', $items);
-		$this->assignRef('item', $item);
-		$this->assignRef('params', $params);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('user', $user);
-
-		parent::display();
+		return parent::display($tpl);
 	}
-
 }

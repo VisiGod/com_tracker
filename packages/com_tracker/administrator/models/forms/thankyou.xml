@@ -3,7 +3,7 @@
 	<fieldset>
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" readonly="true" class="readonly" description="JGLOBAL_FIELD_ID_DESC" />
 
-		<field name="torrentID" type="sql" default="" label="COM_TRACKER_TORRENT_NAME" description="" query="SELECT fid, name FROM #__tracker_torrents WHERE state = 1" key_field="fid" value_field="name" />
+		<field name="torrentID" type="sql" class="input-xxlarge" default="" label="COM_TRACKER_TORRENT_NAME" description="" query="SELECT fid, name FROM #__tracker_torrents WHERE state = 1" key_field="fid" value_field="name" />
 
 		<field name="uid" type="user" label="JGLOBAL_USERNAME" description="" />
 

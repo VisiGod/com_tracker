@@ -20,13 +20,13 @@ $params = JComponentHelper::getParams('com_tracker');
 <?php else : ?>
 <div id="j-main-container">
 <?php endif;?>
-	<div class="row">
+	<div class="row-fluid">
 		<div class="span12 center">
 			<h1><a href="http://xbtt.sf.net" target="_blank">XBT Tracker</a> frontend for Joomla!</h1>
 		</div>
 	</div>
 	<br />
-	<div class="row-fluid">
+	<div class="row-fluid" style="margin-left: 15px;">
 		<div class="span4">
 			<div class="row"><?php echo JText::_('COM_TRACKER_CONTROL_PANEL_WEBSITE');?>:&nbsp;<a href="http://www.visigod.com" target="_blank">http://www.visigod.com</a></div>
 			<div class="row"><?php echo JText::_('COM_TRACKER_CONTROL_PANEL_FORUM');?>:&nbsp;<a href="http://www.visigod.com/forum" target="_blank">http://www.visigod.com/forum</a></div>

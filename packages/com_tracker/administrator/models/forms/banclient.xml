@@ -9,9 +9,9 @@
 
 		<field name="comment" type="editor" buttons="true" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_BANCLIENT_COMMENT" description=""	/>
 
-		<field name="peer_id" type="text" size="40" class="inputbox" label="COM_TRACKER_BANCLIENT_PEER_ID" description="" required="true" filter="safehtml" />
+		<field name="peer_id" type="text" size="40" class="input-xxlarge" label="COM_TRACKER_BANCLIENT_PEER_ID" description="" required="true" filter="safehtml" />
 
-		<field name="peer_description" type="textarea" rows="5" cols="20" class="textarea" label="COM_TRACKER_BANCLIENT_PEER_DESCRIPTION" description="" filter="safehtml" />
+		<field name="peer_description" type="textarea" rows="5" cols="20" class="input-xxlarge textarea" label="COM_TRACKER_BANCLIENT_PEER_DESCRIPTION" description="" filter="safehtml" />
 
 		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 	</fieldset>

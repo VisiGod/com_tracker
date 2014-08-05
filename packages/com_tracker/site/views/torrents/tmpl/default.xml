@@ -66,7 +66,7 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_username_username" type="list" default="0" label="COM_TRACKER_TORRENT_UPLOADER_USERNAME">
+			<field name="tl_uploader_username" type="list" default="0" label="COM_TRACKER_TORRENT_UPLOADER_USERNAME">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -124,6 +124,11 @@
 			<field name="tl_image_file_width" type="text" size="5" default="150" filter="integer" label="COM_TRACKER_IMAGE_WIDTH_LABEL" description="COM_TRACKER_IMAGE_WIDTH_DESCRIPTION" />
 
 			<field name="tl_search_bar" type="list" default="1" label="COM_TRACKER_TORRENT_SEARCH_BAR">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tl_torrent_thanks" type="list" default="0" label="COM_TRACKER_TORRENT_THANKS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
