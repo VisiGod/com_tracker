@@ -139,10 +139,10 @@ defined('_JEXEC') or die;
 					<dd>
 						<?php if ($this->item->tracker_info->torrent_pass_version) : ?>
 							<b><?php echo $this->item->tracker_info->torrent_pass_version; ?></b>&nbsp;-&nbsp;
-		 					<a href='<?php echo JRoute::_("index.php?option=com_tracker&task=user.resetpassversion&id=".$this->item->id); ?>'><?php echo JText::_( 'COM_TRACKER_RESET_TORRENT_PASS' );?></a>
+		 					<a href='<?php echo JRoute::_("index.php?option=com_tracker&task=userpanel.resetpassversion&id=".$this->item->id); ?>'><?php echo JText::_( 'COM_TRACKER_RESET_TORRENT_PASS' );?></a>
 		 				<?php else : ?>
 				 			<b><?php echo JText::_( 'COM_TRACKER_NO_TORRENT_PASS' ); ?></b>&nbsp;-&nbsp;
-			 				<a href='<?php echo JRoute::_("index.php?option=com_tracker&task=user.resetpassversion&id=".$this->item->id); ?>'><?php echo JText::_( 'COM_TRACKER_CREATE_TORRENT_PASS' );?></a>
+			 				<a href='<?php echo JRoute::_("index.php?option=com_tracker&task=userpanel.resetpassversion&id=".$this->item->id); ?>'><?php echo JText::_( 'COM_TRACKER_CREATE_TORRENT_PASS' );?></a>
 			 			<?php endif; ?>
 					</dd>
 				<?php endif; ?>

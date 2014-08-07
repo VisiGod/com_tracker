@@ -9,19 +9,22 @@
 
 // No direct access
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
 
 class TrackerViewStatistics extends JViewLegacy {
+
 	protected $state = null;
 	protected $item = null;
 
-	public function display($cachable = false, $urlparams = false) {
-		$state	= $this->get('State');
-		$item		= $this->get('Item');
-		$user		= JFactory::getUser();
-		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
+	public function display($tpl = null) {
+		$app	= JFactory::getApplication();
 
+		// Initialise variables
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->user		= JFactory::getUser();
+		$this->params	= $app->getParams();
+		$this->session	= JFactory::getSession();
+		
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
@@ -29,26 +32,21 @@ class TrackerViewStatistics extends JViewLegacy {
 		}
 
 		// No guests allowed
-		if (!$params->get('allow_guest') && $user->get('guest')) $noaccess = 1;
-			else $noaccess = 0;
+		if ($this->user->get('guest') && ($this->params->get('allow_guest') == 0)) $noaccess = 1;
+		else $noaccess = 0;
 
 		// Check if the user group is allowed to see the statistics
-		if (is_scalar($params->get('usergroups'))) {
-			foreach ($params->get('usergroups') as $group) {
-				if ($group == $user->get('id_level')) $noaccess = 0;
+		if (is_scalar($this->params->get('usergroups'))) {
+			foreach ($this->params->get('usergroups') as $group) {
+				if ($group == $this->user->get('id_level')) $noaccess = 0;
 				else $noaccess = 1;
 			}
 		}
-		
+
 		if ($noaccess) {
-			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
+			$app->redirect(JRoute::_('index.php'), JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('params',		$params);
-
-		parent::display();
+		return parent::display($tpl);
 	}
-
 }

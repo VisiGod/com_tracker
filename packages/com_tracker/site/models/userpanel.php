@@ -41,7 +41,6 @@ class TrackerModelUserpanel extends JModelItem {
 			  ->where('id = ' . (int)$userID)
 			  ->limit('0,1');
 		$db->setQuery($query);
-$queryA="<br>query1 = ".$query;
 		$user_profileID = $db->loadResult();
 
 		if ($user_profileID <> 0) {
@@ -56,7 +55,6 @@ $queryA="<br>query1 = ".$query;
 				  ->where('id = ' . (int)$user_profile->id)
 				  ->limit('0,1');
 			$db->setQuery($query);
-$queryA.="<br>query2 = ".$query;
 			$user_profile->tracker_info = $db->loadNextObject();
 
 			if ($params->get('enable_countries')) {
@@ -70,7 +68,6 @@ $queryA.="<br>query2 = ".$query;
 					  ->where('id = ' . (int)$user_profile->tracker_info->countryID)
 					  ->limit('0,1');
 				$db->setQuery($query);
-$queryA.="<br>query3 = ".$query;
 				$user_profile->country_info = $db->loadNextObject();
 			}
 
@@ -83,7 +80,6 @@ $queryA.="<br>query3 = ".$query;
 					  ->join('LEFT', '`#__users` AS u ON u.id = tt.uploader')
 					  ->where('u.id = ' . (int)$user_profile->id);
 				$db->setQuery($query);
-$queryA.="<br>query4 = ".$query;
 				$user_profile->total_thanks = $db->loadResult();
 
 				// Get the number of thanks the user gave
@@ -92,7 +88,6 @@ $queryA.="<br>query4 = ".$query;
 					  ->from('#__tracker_torrent_thanks')
 					  ->where('uid = ' . (int)$user_profile->id);
 				$db->setQuery($query);
-$queryA.="<br>query5 = ".$query;
 				$user_profile->thanker = $db->loadResult();
 				
 			}
@@ -105,7 +100,6 @@ $queryA.="<br>query5 = ".$query;
 				  ->order('id DESC')
 				  ->limit('0,1');
 			$db->setQuery($query);
-$queryA.="<br>query6 = ".$query;
 			$user_profile->announce = $db->loadNextObject();
 			
 			if (!$user_profile->announce) {
@@ -126,7 +120,6 @@ $queryA.="<br>query6 = ".$query;
 				  ->order('id DESC')
 				  ->limit('0,1');
 			$db->setQuery($query);
-$queryA.="<br>query7 = ".$query;
 			$user_profile->group_info = $db->loadNextObject();
 
 			if ($params->get('enable_donations')) {
@@ -137,7 +130,6 @@ $queryA.="<br>query7 = ".$query;
 					  ->where('uid = ' . (int)$user_profile->id)
 					  ->where('state = 1');
 				$db->setQuery($query);
-$queryA.="<br>query8 = ".$query;
 				$user_profile->user_donations = $db->loadNextObject();
 			}
 			
@@ -151,7 +143,7 @@ $queryA.="<br>query8 = ".$query;
 				  ->where('fu.completed > 0')
 				  ->where('t.uploader <> '.(int)$user_profile->id);
 			$db->setQuery($query);
-$queryA.="<br>query9 = ".$query;
+
 			if ($user_profile->total_snatch = $db->loadResult()) {
 				// Get the user snatched torrents
 				$query->clear();
@@ -163,7 +155,6 @@ $queryA.="<br>query9 = ".$query;
 					  ->where('t.uploader <> '.(int)$user_profile->id)
 					  ->order('fu.fid DESC');
 				$db->setQuery($query);
-$queryA.="<br>query10 = ".$query;
 				$user_profile->user_snatches = $db->loadObjectList();
 			}
 
@@ -177,7 +168,7 @@ $queryA.="<br>query10 = ".$query;
 				  ->where('t.name <> \'\'')
 				  ->order('t.fid DESC');
 			$db->setQuery($query);
-$queryA.="<br>query11 = ".$query;
+
 			if ($user_profile->total_uploads = $db->loadResult()) {
 				# Get the user uploaded torrents
 				$query->clear();
@@ -190,7 +181,6 @@ $queryA.="<br>query11 = ".$query;
 				if ($user_profile->id <> $session->get('user')->id || TrackerHelper::user_permissions('edit_torrents', $user_profile->tracker_info->groupID) == 0) $query->where('t.uploader_anonymous = 0');
 				$query->order('t.fid DESC');
 				$db->setQuery($query);
-$queryA.="<br>query12 = ".$query;
 				$user_profile->user_uploads = $db->loadObjectList();
 			}
 
@@ -206,7 +196,7 @@ $queryA.="<br>query12 = ".$query;
 				  ->where('t.name <> \'\'')
 				  ->order('fu.fid DESC');
 			$db->setQuery($query);
-$queryA.="<br>query13 = ".$query;
+
 			if ($user_profile->total_seeds = $db->loadResult()) {
 				# Get the user seeded torrents
 				$query->clear();
@@ -219,7 +209,6 @@ $queryA.="<br>query13 = ".$query;
 					  ->where('t.name <> \'\'')
 					  ->order('fu.fid DESC');
 				$db->setQuery($query);
-$queryA.="<br>query14 = ".$query;
 				$user_profile->user_seeds = $db->loadObjectList();
 			}
 
@@ -237,7 +226,7 @@ $queryA.="<br>query14 = ".$query;
 				  ->where('t.name <> \'\'')
 				  ->order('fu.fid DESC');
 			$db->setQuery($query);
-$queryA.="<br>query15 = ".$query;
+
 			if ($user_profile->total_hitandran = $db->loadResult()) {
 				# Get the leeched and run torrents
 				$query->clear();
@@ -251,7 +240,7 @@ $queryA.="<br>query15 = ".$query;
 					  ->where('fu.downloaded > 0')
 					  ->where('t.name <> \'\'')
 					  ->order('fu.fid DESC');
-$queryA.="<br>query16 = ".$query;
+
 				$db->setQuery($query);
 				$user_profile->user_hitruns = $db->loadObjectList();
 			}
@@ -260,10 +249,9 @@ $queryA.="<br>query16 = ".$query;
 			return $user_profile;
 		}
 
-//echo $queryA."<hr>";
 		return $user_profile;
 	}
-/*
+
 	public function resetpassversion() {
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
@@ -282,21 +270,20 @@ $queryA.="<br>query16 = ".$query;
 
 		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->update('#__tracker_users');
-		$query->set('torrent_pass_version = torrent_pass_version + 1');
-		$query->where('id = ' . (int) $user_to_reset);
+		$query->update('#__tracker_users')
+			  ->set('torrent_pass_version = torrent_pass_version + 1')
+			  ->where('id = ' . (int) $user_to_reset);
 
 		$db->setQuery($query);
-		if (!$db->query()) {
+		if (!$db->execute()) {
 			JError::raiseError(500, $db->getErrorMsg());
 		}
 
 		// Get SEF status
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		// If its on we dont add the view name, if its off we add it
-		if ($config->getValue( 'sef' ) == 1) $app->redirect(JRoute::_('index.php?option=com_tracker'), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
-			else $app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel'.$view), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
+		if ($config->get( 'sef' ) == 1) $app->redirect(JRoute::_('index.php?option=com_tracker'), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
+			else $app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel', false), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
 
 	}
-*/
 }

@@ -22,8 +22,8 @@ if ($user->guest && $params->get('allow_guest')) :
 	$user->id = $params->get('guest_user');
 endif;
 
-// Check if user is allowed to add/edit based on weblinks permissinos.
-$canEditState = $user->authorise('core.edit.state', 'com_weblinks');
+// Check if user is allowed to add/edit based on tracker permissinos.
+$canEditState = $user->authorise('core.edit.state', 'com_tracker');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));

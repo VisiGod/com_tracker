@@ -32,12 +32,12 @@ class TrackerViewTorrents extends JViewLegacy {
 			return false;
 		}
 
-		if ($this->user->get('guest') && ($params->get('allow_guest') == 0)) {
-			$app>redirect(JRoute::_('index.php'), JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
+		if ($this->user->get('guest') && ($this->params->get('allow_guest') == 0)) {
+			$app->redirect(JRoute::_('index.php'), JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
-		if ($this->user->get('guest') && $params->get('allow_guest') == 1) {
-			$this->user->id = $params->get('guest_user');
+		if ($this->user->get('guest') && $this->params->get('allow_guest') == 1) {
+			$this->user->id = $this->params->get('guest_user');
 		}
 
 		return parent::display($tpl);

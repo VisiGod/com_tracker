@@ -9,7 +9,7 @@
 		<fieldset name="basic" label="COM_TRACKER_MENU_STATISTICS_CHOOSE_STATS" addfieldpath="/administrator/components/com_tracker/models/fields">
 			<!-- Statistics Permissions -->
 			<field type="spacer" name="COM_TRACKER_STATS_PERMISSIONS" hr="false" />
-			<field name="allow_guests" type="list" default="0" label="COM_TRACKER_STATS_ALLOW_GUESTS">
+			<field name="allow_guests" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_STATS_ALLOW_GUESTS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -18,108 +18,108 @@
 			<!-- Transferred Data -->
 			<field type="spacer" name="transferred_data_space" hr="true" />
 			<field type="spacer" name="COM_TRACKER_STATS_GENERAL_STATS" hr="false" />
-			<field name="number_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_TORRENTS">
+			<field name="number_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_TORRENTS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="number_files" type="list" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_FILES">
+			<field name="number_files" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_FILES">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="total_seeders" type="list" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_SEEDERS">
+			<field name="total_seeders" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_SEEDERS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="total_leechers" type="list" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_LEECHERS">
+			<field name="total_leechers" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_NUMBER_LEECHERS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="total_completed" type="list" default="1" label="COM_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
+			<field name="total_completed" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="bytes_shared" type="list" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_SHARED">
+			<field name="bytes_shared" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_SHARED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="download_speed" type="list" default="1" label="COM_TRACKER_STATS_SHOW_DOWNLOAD_SPEED">
+			<field name="download_speed" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_DOWNLOAD_SPEED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="upload_speed" type="list" default="1" label="COM_TRACKER_STATS_SHOW_UPLOAD_SPEED">
+			<field name="upload_speed" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_UPLOAD_SPEED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="bytes_transfered" type="list" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_TRANSFERED">
+			<field name="bytes_transfered" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_TRANSFERED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="bytes_downloaded" type="list" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_DOWNLOADED">
+			<field name="bytes_downloaded" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_DOWNLOADED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="bytes_uploaded" type="list" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_UPLOADED">
+			<field name="bytes_uploaded" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_BYTES_UPLOADED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<!-- Top User -->
 			<field type="spacer" name="top_users_space" hr="true" />
 			<field type="spacer" name="COM_TRACKER_STATS_TOP_USERS" hr="false" />
-			<field name="top_downloaders" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_DOWNLOADERS">
+			<field name="top_downloaders" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_TOP_DOWNLOADERS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="top_downloaders_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_DOWNLOADERS_NAME_USERNAME">
+			<field name="top_downloaders_username" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_STATS_SHOW_TOP_DOWNLOADERS_NAME_USERNAME">
 				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
 				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
 			</field>
 			<field name="number_top_downloaders" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_DOWNLOADERS" filter="integer" />
 			<field type="spacer" name="top_users_space_1" label="" hr="false" />
-			<field name="top_uploaders" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_UPLOADERS">
+			<field name="top_uploaders" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_TOP_UPLOADERS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="top_uploaders_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_UPLOADERS_NAME_USERNAME">
+			<field name="top_uploaders_username" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_STATS_SHOW_TOP_UPLOADERS_NAME_USERNAME">
 				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
 				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
 			</field>
 			<field name="number_top_uploaders" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_UPLOADERS" filter="integer" />
 			<field type="spacer" name="top_users_space_2" label="" hr="false" />
-			<field name="top_sharers" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_RATIO">
+			<field name="top_sharers" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_TOP_RATIO">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="top_sharers_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_SHARERS_NAME_USERNAME">
+			<field name="top_sharers_username" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_STATS_SHOW_TOP_SHARERS_NAME_USERNAME">
 				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
 				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
 			</field>
 			<field name="number_top_sharers" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_SHARERS" filter="integer" />
 			<field type="spacer" name="top_users_space_3" label="" hr="false" />
-			<field name="worst_sharers" type="list" default="1" label="COM_TRACKER_STATS_SHOW_WORST_RATIO">
+			<field name="worst_sharers" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_WORST_RATIO">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="worst_sharers_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_WORST_SHARERS_NAME_USERNAME">
+			<field name="worst_sharers_username" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_STATS_SHOW_WORST_SHARERS_NAME_USERNAME">
 				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
 				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
 			</field>
 			<field name="number_worst_sharers" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_WORST_SHARERS" filter="integer" />
 			<field type="spacer" name="top_users_space_4" label="" hr="false" />
-			<field name="top_thanked" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKED">
+			<field name="top_thanked" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="top_thanked_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_THANKED_NAME_USERNAME">
+			<field name="top_thanked_username" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_STATS_SHOW_TOP_THANKED_NAME_USERNAME">
 				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
 				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
 			</field>
 			<field name="number_top_thanked" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_TOP_THANKED" filter="integer" />
 			<field type="spacer" name="top_users_space_5" label="" hr="false" />
-			<field name="top_thanker" type="list" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKER">
+			<field name="top_thanker" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_TOP_THANKER">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			<field name="top_thanker_username" type="list" default="0" label="COM_TRACKER_STATS_SHOW_TOP_THANKER_NAME_USERNAME">
+			<field name="top_thanker_username" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_STATS_SHOW_TOP_THANKER_NAME_USERNAME">
 				<option value="0">COM_TRACKER_STATS_SHOW_USER_NAME</option>
 				<option value="1">COM_TRACKER_STATS_SHOW_USER_USERNAME</option>
 			</field>
@@ -127,27 +127,27 @@
 			<!-- Top Torrents -->
 			<field type="spacer" name="top_torrents_space" hr="true" />
 			<field type="spacer" name="COM_TRACKER_STATS_TOP_TORRENTS" hr="false" />
-			<field name="most_active_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_MOST_ACTIVE">
+			<field name="most_active_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_MOST_ACTIVE">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_most_active_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_MOST_ACTIVE_TORRENTS" filter="integer" />
-			<field name="most_seeded_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_MOST_SEEDED">
+			<field name="most_seeded_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_MOST_SEEDED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_most_seeded_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_MOST_SEEDED_TORRENTS" filter="integer" />
-			<field name="most_leeched_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_MOST_LEECHED">
+			<field name="most_leeched_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_MOST_LEECHED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_most_leeched_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_MOST_LEECHED_TORRENTS" filter="integer" />
-			<field name="most_completed_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
+			<field name="most_completed_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_COMPLETED_TORRENTS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_most_completed_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_MOST_COMPLETED_TORRENTS" filter="integer" />
-			<field name="most_thanked_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_MOST_THANKED_TORRENTS">
+			<field name="most_thanked_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_MOST_THANKED_TORRENTS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -155,22 +155,22 @@
 			<!-- Worst Torrents -->
 			<field type="spacer" name="worst_torrents_space" hr="true" />
 			<field type="spacer" name="COM_TRACKER_STATS_WORST_TORRENTS" hr="false" />
-			<field name="worst_active_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_WORST_ACTIVE">
+			<field name="worst_active_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_WORST_ACTIVE">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_worst_active_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_WORST_ACTIVE_TORRENTS" filter="integer" />
-			<field name="worst_seeded_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_WORST_SEEDED">
+			<field name="worst_seeded_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_WORST_SEEDED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_worst_seeded_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_WORST_SEEDED_TORRENTS" filter="integer" />
-			<field name="worst_leeched_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_WORST_LEECHED">
+			<field name="worst_leeched_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_WORST_LEECHED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 			<field name="number_worst_leeched_torrents" type="text" size="3" default="5" label="COM_TRACKER_STATS_SHOW_NUMBER_WORST_LEECHED_TORRENTS" filter="integer" />
-			<field name="worst_completed_torrents" type="list" default="1" label="COM_TRACKER_STATS_SHOW_WORST_COMPLETED">
+			<field name="worst_completed_torrents" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_STATS_SHOW_WORST_COMPLETED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>

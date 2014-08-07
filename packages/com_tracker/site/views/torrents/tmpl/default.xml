@@ -6,134 +6,134 @@
 
 	<fields name="params">
 		<fieldset name="basic" label="COM_TRACKER_MENU_TORRENT_LIST_CHOOSE_VIEW" addfieldpath="/administrator/components/com_tracker/models/fields">
-			<field name="tl_name" type="list" default="1" label="COM_TRACKER_TORRENT_NAME">
+			<field name="tl_name" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_NAME">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_alias" type="list" default="0" label="COM_TRACKER_TORRENT_ALIAS">
+			<field name="tl_alias" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_ALIAS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_info_hash" type="list" default="0" label="COM_TRACKER_TORRENT_INFO_HASH">
+			<field name="tl_info_hash" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_INFO_HASH">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_filename" type="list" default="0" label="COM_TRACKER_TORRENT_FILENAME">
+			<field name="tl_filename" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_FILENAME">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_category" type="list" default="1" label="JCATEGORY">
+			<field name="tl_category" class="btn-group btn-group-yesno" type="radio" default="1" label="JCATEGORY">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_category_dropdown" type="list" default="1" label="COM_TRACKER_TORRENT_CATEGORY_DROPDOWN">
+			<field name="tl_category_dropdown" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_CATEGORY_DROPDOWN">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_size" type="list" default="1" label="COM_TRACKER_TORRENT_SIZE">
+			<field name="tl_size" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_SIZE">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_created_time" type="list" default="0" label="COM_TRACKER_TORRENT_UPLOADED">
+			<field name="tl_created_time" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_UPLOADED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_leechers" type="list" default="1" label="COM_TRACKER_TORRENT_LEECHERS">
+			<field name="tl_leechers" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_LEECHERS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_seeders" type="list" default="1" label="COM_TRACKER_TORRENT_SEEDERS">
+			<field name="tl_seeders" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_SEEDERS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_completed" type="list" default="1" label="COM_TRACKER_TORRENT_COMPLETED">
+			<field name="tl_completed" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_COMPLETED">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_uploader_name" type="list" default="1" label="COM_TRACKER_TORRENT_UPLOADER_NAME">
+			<field name="tl_uploader_name" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_UPLOADER_NAME">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_uploader_username" type="list" default="0" label="COM_TRACKER_TORRENT_UPLOADER_USERNAME">
+			<field name="tl_uploader_username" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_UPLOADER_USERNAME">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_download_image" type="list" default="1" label="COM_TRACKER_TORRENT_DOWNLOAD_IMAGE">
+			<field name="tl_download_image" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_DOWNLOAD_IMAGE">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_description" type="list" default="0" label="COM_TRACKER_TORRENT_DESCRIPTION">
+			<field name="tl_description" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_DESCRIPTION">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_number_files" type="list" default="0" label="COM_TRACKER_TORRENT_NUMBER_FILES">
+			<field name="tl_number_files" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_NUMBER_FILES">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_forum_post" type="list" default="0" label="COM_TRACKER_TORRENT_FORUM_POST">
+			<field name="tl_forum_post" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_FORUM_POST">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_info_post" type="list" default="0" label="COM_TRACKER_TORRENT_INFO_POST">
+			<field name="tl_info_post" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_INFO_POST">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_download_multiplier" type="list" default="0" label="COM_TRACKER_DOWNLOAD_MULTIPLIER">
+			<field name="tl_download_multiplier" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_DOWNLOAD_MULTIPLIER">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_upload_multiplier" type="list" default="0" label="COM_TRACKER_UPLOAD_MULTIPLIER">
+			<field name="tl_upload_multiplier" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_UPLOAD_MULTIPLIER">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_license" type="list" default="0" label="COM_TRACKER_TORRENT_LICENSE">
+			<field name="tl_license" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_LICENSE">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_license_dropdown" type="list" default="1" label="COM_TRACKER_TORRENT_LICENSE_DROPDOWN">
+			<field name="tl_license_dropdown" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_LICENSE_DROPDOWN">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_image_file" type="list" default="0" label="COM_TRACKER_TORRENT_IMAGE">
+			<field name="tl_image_file" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_IMAGE">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
 			<field name="tl_image_file_width" type="text" size="5" default="150" filter="integer" label="COM_TRACKER_IMAGE_WIDTH_LABEL" description="COM_TRACKER_IMAGE_WIDTH_DESCRIPTION" />
 
-			<field name="tl_search_bar" type="list" default="1" label="COM_TRACKER_TORRENT_SEARCH_BAR">
+			<field name="tl_search_bar" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_TORRENT_SEARCH_BAR">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_torrent_thanks" type="list" default="0" label="COM_TRACKER_TORRENT_THANKS">
+			<field name="tl_torrent_thanks" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_THANKS">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
-			<field name="tl_torrent_status_dropdown" type="list" default="0" label="COM_TRACKER_TORRENT_STATUS_DROPDOWN" description="COM_TRACKER_TORRENT_STATUS_DROPDOWN_DESCRIPTION" >
+			<field name="tl_torrent_status_dropdown" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_STATUS_DROPDOWN" description="COM_TRACKER_TORRENT_STATUS_DROPDOWN_DESCRIPTION" >
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
