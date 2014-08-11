@@ -9,525 +9,400 @@
 
 // no direct access
 defined('_JEXEC') or die;
-JHtml::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.modalpopup');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
-$params = JComponentHelper::getParams( 'com_tracker' );
-
-$doc = JFactory::getDocument();
-$doc->addScript($params->get('jquery_url'));
-$doc->addScript($params->get('jquery_ui_url'));
-$doc->addStyleSheet($params->get('jquery_smoothness_theme_url'));
-
-$user	= JFactory::getUser();
-if ($user->get('id') == 0) $this->item->groupID = 0;
+if ($this->user->get('id') == 0) $this->item->groupID = 0;
 ?>
-<script type="text/javascript">
-jQuery.noConflict();
-(function($, undefined) {
-	$(function() { // onload
-		var base_set = ($('base').length != 0);
-		var current_location = window.location.href.split('#')[0];
-	
-		function init_tabs(tabsid) {
-			if (base_set) {
-				$('#' + tabsid + ' > ul a').each(function() {
-					var link_hash = $(this).attr('href');
-					if (link_hash[0] === '#') {
-						$(this).attr('href', current_location + link_hash);
-					}
-				});
-			}
-			$('#' + tabsid).tabs();
-		}
-		init_tabs('tabs');
-	});
-})(jQuery);
+	<div class="text-center"><b><?php echo str_replace("_", " ", $this->item->name);?></b></div>
 
-jQuery(document).ready(function(){
-    jQuery(".row1").fadeIn(2000);
+	<div><?php echo $this->item->description;?></div>
 
-});
+	<ul class="nav nav-pills">
+		<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS'); ?></a></li>
 
-jQuery(document).ready(function(){
-    jQuery("#title").animate({width:'100%'},1000);
+		<li><a href="#files" data-toggle="tab"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_FILE_LIST'); ?></a></li>
 
-});
-</script>
+		<?php if (count($this->item->peers) > 0) : ?>
+			<li><a href="#peers" data-toggle="tab"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_PEER_LIST'); ?></a></li>
+		<?php endif; ?>
 
-<div id="title" style="width:0%; font-family: 'Lobster Two','Helvetica',arial,serif; text-align:center; text-shadow: 1px 1px 0 #FFFFFF; font-size:30px;" >
-	<p class="title info"><?php echo str_replace("_", " ", $this->item->name);?></p>
-</div>
+		<?php if (count($this->item->snatchers) > 0) : ?>
+			<li><a href="#snatchers" data-toggle="tab"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_SNATCHERS'); ?></a></li>
+		<?php endif; ?>
 
-<div class="row1" style="display:none; align:left; font-size: medium;">
-	<?php echo $this->item->description;?>
-</div>
-
-<div id="tabs">
-	<ul>
-		<li><a href="#torrent-details"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS'); ?></a></li>
-		<li><a href="#file-list"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_FILE_LIST'); ?></a></li>
-		<?php if (count($this->item->peers) > 0) { ?><li><a href="#peer-list"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_PEER_LIST'); ?></a></li><?php } ?>
-		<?php if (count($this->item->snatchers) > 0) { ?><li><a href="#snatchers"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_SNATCHERS'); ?></a></li><?php } ?>
-		<?php if (count($this->item->hitrunners) > 0) { ?><li><a href="#hit-runners"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_HIT_RUNNER'); ?></a></li><?php } ?>
+		<?php if (count($this->item->hitrunners) > 0) : ?>
+			<li><a href="#hit-runners" data-toggle="tab"><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_HIT_RUNNER'); ?></a></li>
+		<?php endif; ?>
 	</ul>
 
-	<div id="torrent-details"> <!-- Torrent Information -->
-	<table style="cellpadding: 0; cellspacing: 2; border: 0; width: 99%; align: center;">
-		<tr>
-			<td colspan="4">
-				<table style="width: 100%;">
-					<tr>
-						<td valign="middle" style="height: 16px; width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' );?></b>&nbsp;</td>
-						<td style="width: 99%;" colspan="2" nowrap><?php echo $this->item->name;?></td>
-					</tr>
-					<?php if (TrackerHelper::user_permissions('download_torrents', $user->id)) { ?>
-					<tr class="success">
-						<td valign="middle" style="height: 16px; width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_DOWNLOAD' );?></b>&nbsp;</td>
-						<td style="width: 99%;" colspan="2" nowrap>
-							<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>"><?php echo $this->item->name;?></a>
-							&nbsp;&nbsp;
-							<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>">
-								<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_INFO_HASH' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo bin2hex($this->item->info_hash); ?>
-						</td>
-					</tr>
-					<?php } else { ?>
-					<tr class="error">
-						<td valign="middle" style="height: 16px; width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_DOWNLOAD' );?></b>&nbsp;</td>
-						<td style="width: 99%;" colspan="2" nowrap>
-							<?php
-								echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_RATIO_LOW' );
-								if ($this->item->exemption_type == 2) echo $this->item->group_minimum_ratio; // shows the group minimum ratio
-								else echo $this->item->user_minimum_ratio; // shows the user minimum ratio
-							?>
-							
-							<br />
-							<b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION' );?></b><br />
+	<div class="tab-content">
+
+		<!-- Torrent Information -->
+		<div class="tab-pane active" id="details">
+			<div class="row-fluid">
+				<div class="span8">
+					<dl class="dl-horizontal">
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' ); ?>:</b></dt>
+						<dd><?php echo $this->item->name; ?></dd>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_DOWNLOAD' ); ?>:</b></dt>
+						<?php if (TrackerHelper::user_permissions('download_torrents', $this->user->id)) : ?>
+							<dd>
+								<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>"><?php echo $this->item->name;?></a>
+								&nbsp;&nbsp;
+								<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>">
+									<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
+								</a>
+							</dd>
+						<?php else : ?>
+						<?php //TODO: Check for different errors: Ratio, group blocked, user blocked, etc ?>
+							<dd>
+								<?php
+									echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_RATIO_LOW' );
+									if ($this->item->exemption_type == 2) echo $this->item->group_minimum_ratio; // shows the group minimum ratio
+									else echo $this->item->user_minimum_ratio; // shows the user minimum ratio
+								?>
+								<br />
+								<b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION' );?></b><br />
 								<ul>
 									<li><a href='<?php echo JRoute::_("index.php?view=upload"); ?>'><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION_UPLOAD' );?></a></li>
 									<li><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NO_DOWNLOAD_SOLUTION_DONATE' );?></li>
 								</ul>
-						</td>
-					</tr>
-					<?php } ?>
-					<tr>
-						<td style="width: 1%;" align="left"><b><?php echo JText::_( 'JCATEGORY' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo $this->item->category_title;?>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_SIZE' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo TrackerHelper::make_size($this->item->size)."	( ".number_format($this->item->size)." ".JText::_( 'COM_TRACKER_BYTES' )." )";?>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_CREATED_TIME' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo $this->item->created_time;?>
-						</td>
-					</tr>
-					<?php if ($params->get('use_licenses') == 1) {?>
-					<tr>
-						<td style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_LICENSE' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo $this->item->license;?>
-						</td>
-					</tr>
-					<?php }?>
-					<tr>
-						<td nowrap style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_UPLOADER' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2">
-						<?php
-							if (($params->get('allow_guest') == 1) && ($user->id == $params->get('guest_user'))) { 
-								echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
-							} elseif ($user->id == $this->item->uploader) { ?>
-							<a href='<?php echo JRoute::_("index.php?view=userpanel"); ?>'><?php echo $this->item->name;?></a>
-						<?php } elseif (($params->get('allow_upload_anonymous') == 0) || ($this->item->uploader_anonymous == 0) && ($this->item->uploader <> $params->get('guest_user'))) { ?>
-							<a href='<?php echo JRoute::_("index.php?view=userpanel&id=".$this->item->uploader); ?>'><?php echo $this->item->uname;?></a>
-						<?php } else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
+							</dd>
+						<?php endif; ?>
+
+						<dt><b><?php echo JText::_( 'JCATEGORY' ); ?>:</b></dt>
+						<dd><?php echo $this->item->category_title; ?></dd>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_SIZE' ); ?>:</b></dt>
+						<dd><?php echo TrackerHelper::make_size($this->item->size)." (".number_format($this->item->size)." ".JText::_( 'COM_TRACKER_BYTES' ).")"; ?></dd>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_CREATED_TIME' ); ?>:</b></dt>
+						<dd><?php echo $this->item->created_time; ?></dd>
+
+						<?php if ($this->params->get('use_licenses') == 1) : ?>
+							<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_LICENSE' ); ?>:</b></dt>
+							<dd><?php echo $this->item->license; ?></dd>
+						<?php endif; ?>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_UPLOADER' ); ?>:</b></dt>
+						<dd>
+							<?php
+								if (($this->params->get('allow_guest') == 1) && ($this->user->id == $this->params->get('guest_user'))) : 
+									echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
+								elseif ($this->user->id == $this->item->uploader) :
+									echo '<a href="'.JRoute::_("index.php?view=userpanel").'">'.$this->item->name.'</a>';
+								elseif (($this->params->get('allow_upload_anonymous') == 0) || ($this->item->uploader_anonymous == 0) && ($this->item->uploader <> $this->params->get('guest_user'))) :
+									echo '<a href="'.JRoute::_("index.php?view=userpanel&id=".$this->item->uploader).'">'.$this->item->uname.'</a>';
+								else : 
+									echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
+								endif;
+								// Show torrent edit
+								if ((TrackerHelper::user_permissions('edit_torrents', $this->user->id) || ($this->user->id == $this->item->uploader)) ) 		
+									echo '&nbsp;&nbsp;&nbsp;(<a href="'.JRoute::_("index.php?view=edit&id=".$this->item->fid).'"><b>'.JText::_('COM_TRACKER_TORRENT_DETAILS_EDIT_THIS_TORRENT').'</b></a>)';
+							?>
+						</dd>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUMBER_OF_FILES' ); ?>:</b></dt>
+						<dd><?php echo $this->item->number_files." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUMBER_OF_FILES_FILES' );?></dd>
+
+						<?php if ($this->params->get('torrent_multiplier') == 1) : ?>
+							<dt><b><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER' ); ?>:</b></dt>
+							<dd><?php echo $this->item->download_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );?></dd>
+
+							<dt><b><?php echo JText::_( 'COM_TRACKER_UPLOAD_MULTIPLIER' ); ?>:</b></dt>
+							<dd><?php echo $this->item->upload_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );?></dd>
+						<?php endif; ?>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_PEERS' ); ?>:</b></dt>
+						<dd><?php echo $this->item->seeders." ".JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ).", ".$this->item->leechers." ".JText::_( 'COM_TRACKER_TORRENT_LEECHERS' )." = ".($this->item->seeders+$this->item->leechers)." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_PEERS_TOTAL' );?></dd>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_SNATCHERS' ); ?>:</b></dt>
+						<dd><?php echo count( $this->item->snatchers )." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_SNATCHES' );?></dd>
+
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_HIT_RUNNER' ); ?>:</b></dt>
+						<dd><?php echo count( $this->item->hitrunners )." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_HIT_RUNNERS' );?></dd>
+
+						<?php if ($this->params->get('enable_thankyou') == 1) : ?>
+							<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_THANKYOUS' ); ?>:</b></dt>
+							<dd>
+								<?php
+									$totalThanks = count($this->item->thankyous);
+									if ($totalThanks == 0) :
+										echo JText::_( 'COM_TRACKER_TORRENT_NO_THANKS' );
+									else :
+									for ($i=0; $i < $totalThanks; $i++) {
+										echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->thankyous[$i]->thankerid)."'><b>".$this->item->thankyous[$i]->thanker."</b></a>";
+										if ($i < $totalThanks - 1) echo ', ';
+									}
+									endif;
+								?>
+							</dd>
+						<?php endif; ?>
+
+						<?php if (($this->item->seeders == 0) && $this->params->get('enable_reseedrequest')) : ?>
+							<dt><b><?php echo JText::_( 'COM_TRACKER_RESEED_REQUESTS' ); ?>:</b></dt>
+							<dd>
+								<?php
+									$totalReseeds = count($this->item->reseeds);
+									if ($totalReseeds == 0) :
+										echo JText::_( 'COM_TRACKER_NO_RESEEDS' );
+									else :
+										for ($i=0; $i < $totalReseeds; $i++) {
+											echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->reseeds[$i]->requester)."'><b>".$this->item->reseeds[$i]->requester."</b></a>";
+											if ($i < $totalReseeds - 1) echo ', ';
+										}
+									endif;
+								?>
+								<?php if ((TrackerHelper::checkReseedRequest($this->user->id, $this->item->fid) <> 0) && ($this->user->id <> $this->item->uploader)) : ?>
+									<img src="<?php echo JURI::base();?>images/tracker/other/reseed.png" alt="<?php echo JText::_( 'COM_TRACKER_REQUEST_RESEED' ); ?>" border="0" />
+									<a href="index.php?option=com_tracker&task=torrent.reseed&id=<?php echo $this->item->fid;?>">
+										<?php echo JText::_( 'COM_TRACKER_REQUEST_RESEED' );?>
+									</a>&nbsp;
+								<?php endif; ?>
+							</dd>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('torrent_tags')) : ?>
+							<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_TAGS' ); ?>:</b></dt>
+							<dd>
+								<?php
+									if (empty($this->item->tags)) :
+										echo JText::_( 'COM_TRACKER_NO_TORRENT_TAGS' );
+									else :
+										$Tags = explode(", ", $this->item->tags);
+										$totalTags = count($Tags);
+										for ($i=0; $i < $totalTags; $i++) {
+											echo '<a href="'.JRoute::_('index.php?view=torrents&tag='.$Tags[$i]).'">'.$Tags[$i].'</a>';
+											if ($i < $totalTags - 1) echo ', ';
+										}
+									endif;
+								?>
+							</dd>
+						<?php endif; ?>
+					</dl>
+				</div>
+
+				<?php if ($this->params->get('use_image_file')) : ?>
+				<div class="span4">
+					<?php 
+						$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+
+						// If we dont have a link in the field
+						if(!preg_match($reg_exUrl, $this->item->image_file)) :
+							if (file_exists($_SERVER['DOCUMENT_ROOT'].JURI::base(true).'/images/tracker/torrent_image/'.$this->item->image_file) && !empty($this->item->image_file)) :
+								$this->item->image_file = JURI::base().'images/tracker/torrent_image/'.$this->item->image_file;
+							else :
+								$this->item->image_file = JURI::base().$this->params->get('default_image_file');
+							endif;
+						endif;
+					?>
+					<a class="modalpopup" href="<?php echo $this->item->image_file; ?>" >
+						<img style="width: <?php echo $this->params->get('image_width'); ?>px;" src="<?php echo $this->item->image_file; ?>" />
+					</a>
+				</div>
+				<?php endif; ?>
+
+				<?php if ($this->params->get('forum_post_id') || $this->params->get('torrent_information') || $this->params->get('enable_reporttorrent') || $this->params->get('enable_thankyou')) : ?>
+					<div class="span10 center">
+						<!--  Forum post ID -->
+						<?php if ($this->params->get('forum_post_id') && $this->item->forum_post > 0) : ?>
+							<div class="span2">
+								<b><a href="<?php echo htmlspecialchars($this->params->get('forum_post_url').$this->item->forum_post);?>" target="_blank"><?php echo JText::_( 'COM_TRACKER_TORRENT_FORUM_POST' );?></a></b>
+							</div>
+						<?php endif; ?>
+
+						<!-- Torrent information page -->
+						<?php if ($this->params->get('torrent_information') && $this->item->info_post > 0) : ?>
+							<div class="span2">
+								<b><a href="<?php echo htmlspecialchars($this->params->get('info_post_url').$this->item->info_post);?>" target="_blank"><?php echo $this->params->get('info_post_description');?></a></b>
+							</div>
+						<?php endif; ?>
+
+						<!-- Torrent reporting -->
+						<?php if ($this->params->get('enable_reporttorrent')) : ?>
+							<div class="span3">
+							<?php if ((TrackerHelper::checkReportedTorrent($this->user->id, $this->item->fid) <> 0) && ($this->user->id <> $this->item->uploader)) : ?>
+								<img src="<?php echo JURI::base();?>images/tracker/other/report.png" alt="<?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' ); ?>" border="0" />
+								<a class="modalpopup" href="index.php?option=com_tracker&view=report&tmpl=component&id=<?php echo $this->item->fid;?>" title="Report Torrent" rel="{handler: 'iframe', size: {x: 800, y: 600}}">
+									<b><?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' );?></b>
+								</a>
+							<?php elseif ($this->item->uploader == $this->user->id) : ?>
+								<b><?php echo JText::_( 'COM_TRACKER_TORRENT_REPORT_OWN_TORRENT' );?></b>
+							<?php else : ?>
+								<b><?php echo JText::_( 'COM_TRACKER_TORRENT_REPORT_ALREADY_SENT' );?></b>
+							<?php endif; ?>
+							</div>
+						<?php endif; ?>
 						
-						// Show torrent edit
-						if ((TrackerHelper::user_permissions('edit_torrents', $user->id) || ($user->id == $this->item->uploader)) ) ?> 		
-							&nbsp;&nbsp;&nbsp;(<a href='<?php echo JRoute::_("index.php?view=edit&id=".$this->item->fid); ?>'><b><?php echo JText::_('COM_TRACKER_TORRENT_DETAILS_EDIT_THIS_TORRENT');?></b></a>)
-						</td>
-					</tr>
-					<tr>
-						<td nowrap style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUMBER_OF_FILES' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo $this->item->number_files." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUMBER_OF_FILES_FILES' );?>
-						</td>
-					</tr>
-					<?php if ($params->get('torrent_multiplier') == 1) {?>
-					<tr>
-						<td nowrap style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo $this->item->download_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );?>
-						</td>
-					</tr>
-					<tr>
-						<td nowrap style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_UPLOAD_MULTIPLIER' );?>
-						</b>&nbsp;</td>
-						<td style="width: 98%;" colspan="2"><?php echo $this->item->upload_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );?>
-						</td>
-					</tr>
-					<?php } ?>
-					<tr>
-						<td nowrap style="width: 1%;" align="left" valign="top"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_PEERS' );?>
-						</b>&nbsp;</td>
-						<td width="98%" valign="top" colspan="2"><?php echo $this->item->seeders." ".JText::_( 'COM_TRACKER_TORRENT_SEEDERS' ).", ".$this->item->leechers." ".JText::_( 'COM_TRACKER_TORRENT_LEECHERS' )." = ".($this->item->seeders+$this->item->leechers)." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_PEERS_TOTAL' );?>
-						</td>
-					</tr>
-					<tr>
-						<td nowrap style="width: 1%;" align="left" valign="top"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_SNATCHERS' );?>
-						</b>&nbsp;</td>
-						<td width="98%" valign="top" colspan="2"><?php echo count( $this->item->snatchers )." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_SNATCHES' );?>
-						</td>
-					</tr>
-					<tr>
-						<td nowrap style="width: 1%;" align="left" valign="top"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_HIT_RUNNER' );?></b>&nbsp;</td>
-						<td width="98%" valign="top" colspan="2"><?php echo count( $this->item->hitrunners )." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_HIT_RUNNERS' );?>
-						</td>
-					</tr>
-					<!-- Torrent Thanks -->
-					<?php if ($params->get('enable_thankyou') == 1) { ?>
-					<tr>
-						<td nowrap valign="top" style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_THANKYOUS' );?></b>&nbsp;</td>
-						<td width="98%" valign="top" style="wrap">
-						<?php
-							$totalThanks = count($this->item->thankyous);
-							if ($totalThanks == 0) echo JText::_( 'COM_TRACKER_TORRENT_NO_THANKS' );
-							else {
-								for ($i=0; $i < $totalThanks; $i++) {
-									echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->thankyous[$i]->thankerid)."'><b>".$this->item->thankyous[$i]->thanker."</b></a>";
-									if ($i < $totalThanks - 1) echo ', ';
-								}
-							}
-						?>
-						</td>
-					</tr>
-					<?php } ?>
-					
-					<!-- Reseed request -->
-					<?php if (($this->item->seeders == 0) && $params->get('enable_reseedrequest')) { ?>
-					<tr>
-						<td nowrap style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_RESEED_REQUESTS' );?></b>&nbsp;</td>
-						<td width="98%" valign="top" style="wrap">
-						<?php
-							$totalReseeds = count($this->item->reseeds);
-							if ($totalReseeds == 0) echo JText::_( 'COM_TRACKER_NO_RESEEDS' );
-							else {
-								for ($i=0; $i < $totalReseeds; $i++) {
-									echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->reseeds[$i]->requester)."'><b>".$this->item->reseeds[$i]->requester."</b></a>";
-									if ($i < $totalReseeds - 1) echo ', ';
-								}
-							}
-						?>
-						</td>
-						<?php if ((TrackerHelper::checkReseedRequest($user->id, $this->item->fid) <> 0) && ($user->id <> $this->item->uploader)) { ?>
-						<td nowrap style="width: 1%;" align="left">&nbsp;
-							<img src="<?php echo JURI::base();?>images/tracker/other/reseed.png" alt="<?php echo JText::_( 'COM_TRACKER_REQUEST_RESEED' ); ?>" border="0" />
-							<a href="index.php?option=com_tracker&task=torrent.reseed&id=<?php echo $this->item->fid;?>">
-								<?php echo JText::_( 'COM_TRACKER_REQUEST_RESEED' );?>
-							</a>&nbsp;
-						</td>
-						<?php } ?>
-					</tr>
-					<?php } ?>
-
-					<!-- Torrent Tags -->
-					<?php if ($params->get('torrent_tags')) { ?>
-					<tr>
-						<td nowrap style="width: 1%;" align="left"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_TAGS' );?></b>&nbsp;</td>
-						<td width="98%" colspan="2" valign="top" style="wrap">
-						<?php
-							if (empty($this->item->tags)) echo JText::_( 'COM_TRACKER_NO_TORRENT_TAGS' );
-							else {
-								$Tags = explode(", ", $this->item->tags);
-								$totalTags = count($Tags);
-								for ($i=0; $i < $totalTags; $i++) {
-									echo '<a href="'.JRoute::_('index.php?view=torrents&tag='.$Tags[$i]).'">'.$Tags[$i].'</a>';
-									if ($i < $totalTags - 1) echo ', ';
-								}
-							}
-						?>
-						</td>
-					</tr>
-
-					<?php } ?>
-				</table>
-			</td>
-			<?php if ($params->get('use_image_file')) { ?>
-			<?php 
-				$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-
-				// If we dont have a link in the field
-				if(!preg_match($reg_exUrl, $this->item->image_file)) {
-					if (file_exists($_SERVER['DOCUMENT_ROOT'].JURI::base(true).'/images/tracker/torrent_image/'.$this->item->image_file)) {
-						$this->item->image_file = JURI::base().'images/tracker/torrent_image/'.$this->item->image_file;
-					} else  {
-						$this->item->image_file = JURI::base().$params->get('default_image_file');
-					}
-				}
-				
-			?>
-			<td valign="middle">
-				<a href="<?php echo $this->item->image_file; ?>" class="modal" >
-					<img style="width: <?php echo $params->get('image_width'); ?>px; position: relative;" src="<?php echo $this->item->image_file; ?>" />
-				</a>
-			</td>
-			<?php } ?>
-		</tr>
-	</table>
-		<?php if ($params->get('forum_post_id') || $params->get('torrent_information') || $params->get('enable_reporttorrent') || $params->get('enable_thankyou')) { ?>
-		<div style="text-align: center; width: 100%;">
-			<!--  Forum post ID -->
-			<?php if ($params->get('forum_post_id') && $this->item->forum_post > 0) { ?>
-				<div style="display: inline-block; width: 25%;" class="row1">
-					<b><a href="<?php echo htmlspecialchars($params->get('forum_post_url').$this->item->forum_post);?>" target="_blank"><?php echo JText::_( 'COM_TRACKER_TORRENT_FORUM_POST' );?></a></b>
-				</div>
-			<?php } ?>
-			<!-- Torrent information page -->
-			<?php if ($params->get('torrent_information') && $this->item->info_post > 0) { ?>
-				<div style="display: inline-block; width: 25%;" class="row1">
-					<b><a href="<?php echo htmlspecialchars($params->get('info_post_url').$this->item->info_post);?>" target="_blank"><?php echo $params->get('info_post_description');?></a></b>
-				</div>
-			<?php } ?>
-			<!-- Torrent reporting -->
-			<?php if ($params->get('enable_reporttorrent')) { ?>
-				<?php if ((TrackerHelper::checkReportedTorrent($user->id, $this->item->fid) <> 0) && ($user->id <> $this->item->uploader)) { ?>
-					<div style="display: inline-block; width: 25%;" class="row1">
-						<img src="<?php echo JURI::base();?>images/tracker/other/report.png" alt="<?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' ); ?>" border="0" />
-						<b>
-							<a href="index.php?option=com_tracker&view=report&tmpl=component&id=<?php echo $this->item->fid;?>" class="modal" title="Report Torrent" rel="{handler: 'iframe', size: {x: 800, y: 600}}">
-								<?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' );?>
-							</a>
-						</b>
+						<!-- Torrent Thanks -->
+						<?php if ($this->params->get('enable_thankyou') == 1) : ?>
+							<?php if ((TrackerHelper::checkThanks($this->user->id, $this->item->fid) <> 0) && ($this->user->id <> $this->item->uploader)) : ?>
+								<div class="span3">
+									<img src="<?php echo JURI::base();?>images/tracker/other/thank_you.png" alt="<?php echo JText::_( 'COM_TRACKER_TORRENT_SAY_THANKYOU' ); ?>" border="0" />
+									<a href="index.php?option=com_tracker&task=torrent.thanks&id=<?php echo $this->item->fid;?>">
+										<b><?php echo JText::_( 'COM_TRACKER_TORRENT_SAY_THANKYOU' );?></b>
+									</a>
+								</div>
+							<?php endif; ?>
+						<?php endif; ?>
 					</div>
-				<?php } else if ($this->item->uploader == $user->id) { ?>
-					<div style="display: inline-block; width: 25%;" class="row1">
-						<b><?php echo JText::_( 'COM_TRACKER_TORRENT_REPORT_OWN_TORRENT' );?></b>
-					</div>
-				<?php } else { ?>
-					<div style="display: inline-block; width: 25%;" class="row1">
-						<b><?php echo JText::_( 'COM_TRACKER_TORRENT_REPORT_ALREADY_SENT' );?></b>
-					</div>
-				<?php } ?>
-			<?php } ?>
-			<!-- Torrent Thanks -->
-			<?php if ($params->get('enable_thankyou') == 1) { ?>
-				<?php if ((TrackerHelper::checkThanks($user->id, $this->item->fid) <> 0) && ($user->id <> $this->item->uploader)) { ?>
-					<div style="display: inline-block; width: 25%;" class="row1">
-						<img src="<?php echo JURI::base();?>images/tracker/other/thank_you.png" alt="<?php echo JText::_( 'COM_TRACKER_TORRENT_SAY_THANKYOU' ); ?>" border="0" />
-						<a href="index.php?option=com_tracker&task=torrent.thanks&id=<?php echo $this->item->fid;?>">
-							<?php echo JText::_( 'COM_TRACKER_TORRENT_SAY_THANKYOU' );?>
-						</a>&nbsp;
-					</div>
-				<?php } ?>
-			<?php } ?>
+				<?php endif; ?>
+			</div>
 		</div>
-		<div style="clear: both;height: 1px;">&nbsp;</div>
-		<?php } ?>
-	</div>
-	
-	<div id="file-list">
-	<table
-		style="cellpadding: 0; cellspacing: 2; border: 0; width: 99%; align: center;">
+
 		<!-- File List -->
-		<tr>
-			<td style="width: 70%;" valign="top">
-				<table
-					style="cellpadding: 0; cellspacing: 0; border: 0; width: 100%;">
-					<tr class="row1">
-						<td>&nbsp;<b><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' );?>&nbsp;</b></td>
-						<?php if ($params->get('enable_filetypes') == 1) { ?>
-						<td nowrap align="center">&nbsp;<b><?php echo JText::_( 'COM_TRACKER_TORRENT_FILETYPE' );?>&nbsp;</b></td>
-						<?php } ?>
-						<td align="right">&nbsp;<b><?php echo JText::_( 'COM_TRACKER_TORRENT_SIZE' );?>&nbsp;</b></td>
-					</tr>
+		<div class="tab-pane" id="files">
+			<table class="table table-striped">
+				<thead>
 					<tr>
-					<?php if ($params->get('enable_filetypes') == 1) { ?>
-						<td colspan="3"><hr /></td>
-					<?php } else { ?>
-						<td colspan="2"><hr /></td>
-					<?php } ?>
+						<th><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' ); ?></th>
+						<?php if ($this->params->get('enable_filetypes') == 1) : ?><th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILETYPE' ); ?></th><?php endif; ?>
+						<th style="white-space:nowrap; text-align:right;"><?php echo JText::_( 'COM_TRACKER_TORRENT_SIZE' ); ?></th>
 					</tr>
-					<?php
-					$k = 0;
-					for ($i=0, $n=count( $this->item->torrent_files ); $i < $n; $i++) {
-						$this->torrent_file =& $this->item->torrent_files[$i];
-						?>
-					<tr class="<?php echo "torrent_file".$k; ?>">
-						<td width="90%"><?php echo htmlspecialchars($this->torrent_file->filename); ?></td>
-						<?php if ($params->get('enable_filetypes') == 1) { ?>
-						<td nowrap align="center">&nbsp;<?php TrackerHelper::getFileImage($this->torrent_file->filename); ?>&nbsp;</td>
-						<?php } ?>
-						<td nowrap align="right">&nbsp;<?php echo TrackerHelper::make_size($this->torrent_file->size); ?>&nbsp;</td>
-					</tr>
-					<?php
-						$k = 1 - $k;
-					}
-				?>
+				</thead>
+				<tbody>
+					<?php foreach ($this->item->torrent_files as $i => $item) : ?>
+						<tr>
+							<td><?php echo $item->filename; ?></td>
+							<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::getFileImage($item->filename); ?></td>
+							<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($item->size); ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+
+		<?php if (count($this->item->peers) > 0) : ?>
+			<!-- Peer List -->
+			<div class="tab-pane" id="peers">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th><?php echo JText::_( 'COM_TRACKER_USER' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_COUNTRY' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_PROGRESS' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_DOWNLOADED' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?></th>
+							<?php if ($this->params->get('peer_speed') == 1) : ?><th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_SPEED' ); ?></th><?php endif; ?>
+							<?php if ($this->params->get('peer_speed') == 1) : ?><th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_UPLOAD_SPEED' ); ?></th><?php endif; ?>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_RATIO' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUM_TIMES' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($this->item->peers as $i => $peer) : ?>
+							<tr>
+								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
+								<td style="white-space:nowrap; text-align:center;">
+									<?php
+										if (empty($peer->countryname)) :
+											$peer->countryname = $peer->default_country[0]->name;
+											$peer->countryimage = $peer->default_country[0]->image;
+										endif;
+									?>
+									<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryname; ?>" src="<?php echo JURI::base().$peer->countryimage; ?>" width="32" />
+								</td>
+								<td style="white-space:nowrap; text-align:center;">
+									<?php
+										$peer->user_progress = number_format(100-(($peer->left*100)/$item->size), 0, ',', ' ');
+										if ($peer->user_progress < 33) $progress_class = "progress-danger";
+										else if ($peer->user_progress < 66) $progress_class = "progress-warning";
+										else $progress_class = "progress-success";
+									?>
+									<div class="progress progress-striped active <?php echo $progress_class;?>">
+										<div class="bar" style="width: <?php echo $peer->user_progress;?>%"><?php echo $peer->user_progress;?>%</div>
+									</div>
+								</td>
+								<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->downloaded); ?></td>
+								<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->uploaded); ?></td>
+								<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
+								<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
+								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_ratio($peer->downloaded,$peer->uploaded); ?></td>
+								<td style="white-space:nowrap; text-align:center;"><?php echo $peer->num_times; ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
 				</table>
-			</td>
-		</tr>
-	</table>
+			</div>
+		<?php endif; ?>
+
+		<?php if (count($this->item->snatchers) > 0) : ?>
+			<!-- Snatchers List -->
+			<div class="tab-pane" id="snatchers">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th><?php echo JText::_( 'COM_TRACKER_USER' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_COUNTRY' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_DOWNLOADED' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_RATIO' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($this->item->snatchers as $i => $snatcher) : ?>
+							<tr>
+								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$snatcher->id);?>"><?php echo $snatcher->name; ?></a></td>
+								<td style="white-space:nowrap; text-align:center;">
+									<?php
+										if (empty($snatcher->countryname)) :
+											$snatcher->countryname = $snatcher->default_country[0]->name;
+											$snatcher->countryimage = $snatcher->default_country[0]->image;
+										endif;
+									?>
+									<img id="snatchercountry<?php echo $i;?>" alt="<?php echo $snatcher->countryname; ?>" src="<?php echo JURI::base().$snatcher->countryimage; ?>" width="32" />
+								</td>
+								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($snatcher->downloaded); ?></td>
+								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($snatcher->uploaded); ?></td>
+								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_ratio($snatcher->downloaded,$snatcher->uploaded); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif; ?>
+
+		<?php if (count($this->item->hitrunners) > 0) : ?>
+			<!-- Hit and Runners List -->
+			<div class="tab-pane" id="hit-runners">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th><?php echo JText::_( 'COM_TRACKER_USER' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_COUNTRY' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_DOWNLOADED' ); ?></th>
+							<th style="white-space:nowrap; text-align:center;"><?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ($this->item->hitrunners as $i => $hitrunner) : ?>
+							<tr>
+								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$hitrunner->id);?>"><?php echo $hitrunner->name; ?></a></td>
+								<td style="white-space:nowrap; text-align:center;">
+									<?php
+										if (empty($hitrunner->countryname)) :
+											$hitrunner->countryname = $hitrunner->default_country[0]->name;
+											$hitrunner->countryimage = $hitrunner->default_country[0]->image;
+										endif;
+									?>
+									<img id="hitrunnercountry<?php echo $i;?>" alt="<?php echo $hitrunner->countryname; ?>" src="<?php echo JURI::base().$hitrunner->countryimage; ?>" width="32" />
+								</td>
+								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($hitrunner->downloaded); ?></td>
+								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($hitrunner->uploaded); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+		<?php endif; ?>
 	</div>
 
-	<?php if (count($this->item->peers) > 0) { // Peer List ?>
-	<div id="peer-list">
-	<table style="cellpadding: 0; cellspacing: 0; border: 0; width: 99%; align: center;">
-		<tr class="row1">
-			<td nowrap>&nbsp;<b><?php echo JText::_( 'COM_TRACKER_USER' );?></b></td>
-			<td width="10%" nowrap align="center"><b><?php echo JText::_( 'COM_TRACKER_COUNTRY' );?></b></td>
-			<td width="10%" nowrap align="center"><b><?php echo JText::_( 'COM_TRACKER_PROGRESS' );?></b></td>
-			<td width="10%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOADED' );?></b></td>
-			<td width="10%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOADED' );?></b></td>
-			<?php if ($params->get('peer_speed') == 1) { ?>
-				<td width="10%" align="right"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_SPEED' );?></b></td>
-				<td width="10%" align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOAD_SPEED' );?></b></td>
-			<?php } ?>
-			<td width="10%" nowrap align="center"><b><?php echo JText::_( 'COM_TRACKER_RATIO' );?></b></td>
-			<td width="10%" align="center"><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUM_TIMES' );?></b></td>
-		</tr>
-		<?php
-			$k = 0;
-			for ($i=0, $n=count( $this->item->peers ); $i < $n; $i++) {
-			$this->peer	=& $this->item->peers[$i];
-		?>
-		<tr class="<?php echo "peer$k"; ?>">
-			<td style="wrap: nowrap">
-				<a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$this->peer->id);?>"><?php echo $this->peer->name; ?></a>
-			</td>
-			<td width="10%" nowrap align="center"><?php
-					if (empty($this->peer->countryname)) {
-						$this->peer->countryname = $this->item->default_country[0]->name;
-						$this->peer->countryimage = $this->item->default_country[0]->image;
-					}
-				?> <img id="peercountry<?php echo $i;?>"
-				alt="<?php echo $this->peer->countryname; ?>"
-				src="<?php echo JURI::base().$this->peer->countryimage; ?>"
-				width="32" />
-			</td>
-			<td width="10%" nowrap align="center">
-				<?php
-					$user_progress = number_format(100-(($this->peer->left*100)/$this->item->size), 2, ',', ' ');
-					echo "&nbsp;".TrackerHelper::get_percent_completed_image($user_progress)."&nbsp;".$user_progress."&nbsp;%";	
-				?>
-			</td>
-			<td width="10%" nowrap align="right"><?php echo TrackerHelper::make_size($this->peer->downloaded); ?></td>
-			<td width="10%" nowrap align="right"><?php echo TrackerHelper::make_size($this->peer->uploaded); ?></td>
-			<?php if ($params->get('peer_speed') == 1) { ?>
-				<td width="10%" nowrap align="right"><?php echo TrackerHelper::make_size($this->peer->down_rate).'/s'; ?></td>
-				<td width="10%" nowrap align="right"><?php echo TrackerHelper::make_size($this->peer->up_rate).'/s'; ?></td>
-			<?php } ?>
-			<td width="10%" nowrap align="center"><?php echo TrackerHelper::make_ratio($this->peer->downloaded,$this->peer->uploaded); ?></td>
-			<td width="10%" nowrap align="center"><?php echo $this->peer->num_times; ?></td>
-		</tr>
-		<?php
-			$k = 1 - $k;
-			}
-		?>
-	</table>
-	</div>
-	<?php } ?>
-
-	<?php if (count($this->item->snatchers) > 0) { // Snatchers List ?>
-	<div id="snatchers">
-	<table
-		style="cellpadding: 0; cellspacing: 0; border: 0; width: 99%; align: center;">
-		<tr class="row1">
-			<td>&nbsp;<b><?php echo JText::_( 'COM_TRACKER_USER' );?></b></td>
-			<td width="10%" nowrap align="center"><b><?php echo JText::_( 'COM_TRACKER_COUNTRY' );?></b></td>
-			<td width="10%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOADED' );?></b></td>
-			<td width="10%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOADED' );?></b></td>
-			<td width="10%" nowrap align="center"><b><?php echo JText::_( 'COM_TRACKER_RATIO' );?></b></td>
-		</tr>
-		<?php
-					$k = 0;
-					for ($i=0, $n=count( $this->item->snatchers ); $i < $n; $i++) {
-					$this->snatcher =& $this->item->snatchers[$i];
-					?>
-		<tr class="<?php echo "snatcher$k"; ?>">
-			<td style="wrap: nowrap">&nbsp;<!-- USER -->
-				<a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$this->snatcher->id);?>"><?php echo $this->snatcher->name; ?></a>
-			</td>
-			<td width="10%" nowrap align="center">
-			<?php
-				if (empty($this->snatcher->countryname)) {
-					$this->snatcher->countryname = $this->item->default_country[0]->name;
-					$this->snatcher->countryimage = $this->item->default_country[0]->image;
-				}
-			?>
-			<img id="snatchercountry<?php echo $i;?>" alt="<?php echo $this->snatcher->countryname; ?>" src="<?php echo JURI::base().$this->snatcher->countryimage; ?>" width="32" /></td>
-			<td width="10%" nowrap align="right">&nbsp;<?php echo TrackerHelper::make_size($this->snatcher->downloaded); ?></td>
-			<td width="10%" nowrap align="right">&nbsp;<?php echo TrackerHelper::make_size($this->snatcher->uploaded); ?></td>
-			<td width="10%" nowrap align="center">&nbsp;<?php echo TrackerHelper::make_ratio($this->snatcher->downloaded,$this->snatcher->uploaded); ?>&nbsp;</td>
-		</tr>
-		<?php
-					$k = 1 - $k;
-					}
-				?>
-	</table>
-	</div>
-	<?php } ?>
-
-	<?php if (count($this->item->hitrunners) > 0) { // Hit and Runners List ?>
-	<div id="hit-runners">
-	<table
-		style="cellpadding: 0; cellspacing: 0; border: 0; width: 99%; align: center;">
-		<tr class="row1">
-			<td nowrap>&nbsp;<b><?php echo JText::_( 'COM_TRACKER_USER' );?></b></td>
-			<td width="10%" nowrap align="center"><b><?php echo JText::_( 'COM_TRACKER_COUNTRY' );?></b></td>
-			<td width="10%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_DOWNLOADED' );?></b></td>
-			<td width="10%" nowrap align="right"><b><?php echo JText::_( 'COM_TRACKER_UPLOADED' );?></b></td>
-		</tr>
-		<?php
-					$k = 0;
-					for ($i=0, $n=count( $this->item->hitrunners ); $i < $n; $i++) {
-					$this->hitrunner =& $this->item->hitrunners[$i];
-					?>
-		<tr class="<?php echo "hitrunner$k"; ?>">
-			<td style="wrap: nowrap"> <!-- USER -->
-			<?php
-				if ($params->get('allow_guest') && ($params->get('guest_user') == $user->id)) echo $this->hitrunner->name;
-				else echo '<a href="'.JRoute::_('index.php?view=userpanel&id='.$this->hitrunner->id).'">'.$this->hitrunner->name.'</a>';
-			?>
-			</td>
-			<td width="10%" nowrap align="center">
-				<?php
-					if (empty($this->hitrunner->countryname)) {
-						$this->hitrunner->countryname = $this->item->default_country[0]->name;
-						$this->hitrunner->countryimage = $this->item->default_country[0]->image;
-					}
-				?>
-				<img id="hitrunnercountry<?php echo $i;?>" alt="<?php echo $this->hitrunner->countryname; ?>" src="<?php echo JURI::base().$this->hitrunner->countryimage; ?>" width="32" />
-			</td>
-			<td width="10%" nowrap align="right"><?php echo TrackerHelper::make_size($this->hitrunner->downloaded); ?></td>
-			<td width="10%" nowrap align="right"><?php echo TrackerHelper::make_size($this->hitrunner->uploaded); ?></td>
-		</tr>
-		<?php
-			$k = 1 - $k;
-		}
-		?>
-	</table>
-	</div>
-	<?php } ?>
-
-</div>
-
-<?php
-// Enable the commenting system if we have it enabled
-	if ($params->get('enable_comments') && TrackerHelper::user_permissions('view_comments', $user->get('id'), 1)) {
+	<?php
+	// Enable the commenting system if we have it enabled
+	if ($this->params->get('enable_comments') && TrackerHelper::user_permissions('view_comments', $this->user->get('id'), 1)) :
+		echo '<div>';
 		TrackerHelper::comments($this->item->fid, $this->item->name);
-	}
+		echo '</div>';
+	endif;
 ?>

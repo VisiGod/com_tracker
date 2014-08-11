@@ -9,7 +9,6 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
 ?>
 	<div style="font-size: medium; margin-left:35px; wrap:nowrap;">
 		<span style="display:inline-block; vertical-align:middle"><b><?php echo JText::_( 'COM_TRACKER_DETAILS_FOR' ); ?>:</b>&nbsp;<i><?php echo $this->item->name;?></i>&nbsp;&nbsp;&nbsp;</span>

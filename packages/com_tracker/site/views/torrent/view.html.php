@@ -15,43 +15,39 @@ class TrackerViewTorrent extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
-	public function display($cachable = false, $urlparams = false) {
-		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$pathway 	= $app->getPathway();
-		$params		= $app->getParams();
-
-		// Initialise variables
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$pagination	= $this->get('Pagination');
+	public function display($tpl = null) {
+		$app			= JFactory::getApplication();
 		
-		$pathway->addItem(str_replace("_", " ", $item->name));
+		// Initialise variables
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->user		= JFactory::getUser();
+		$this->params	= $app->getParams();
+		$this->session	= JFactory::getSession();
+		$this->pathway 	= $app->getPathway();
+
+		$this->pathway->addItem(str_replace("_", " ", $this->item->name));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
-
-		if($item === false) {
+		
+		if ($this->item === false) {
 			return JError::raiseError(404, JText::_('COM_TRACKER_NO_TORRENT'));
 		}
-
-		if ($user->get('guest') && $params->get('allow_guest') == 0) {
+		
+		if ($this->user->get('guest') && $this->params->get('allow_guest') == 0) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
-		if ($user->get('guest') && $params->get('allow_guest') == 1) {
-			$user = JUser::getTable('user', 'TrackerTable');
-			$user->load($params->get('guest_user'));
+		if ($this->user->get('guest') && $this->params->get('allow_guest') == 1) {
+			$this->user = JUser::getTable('user', 'TrackerTable');
+			$this->user->load($params->get('guest_user'));
 		}
 
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('params', 	$params);
-
-		parent::display();
+		return parent::display($tpl);
 	}
 
 }
