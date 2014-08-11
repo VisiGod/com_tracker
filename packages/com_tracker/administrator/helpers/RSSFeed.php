@@ -65,7 +65,10 @@ class RSSFeed {
 	}
 	// output feed
 	function Output() {
+		/*
 		$output =  '<?xml version="1.0" encoding="iso-8859-1"?>'."\n";
+		*/
+		$output =  '<?xml version="1.0" encoding="'.mb_internal_encoding().'"?>'."\n";
 		$output .= '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0">'."\n";
 		$output .= '<channel rdf:about="'.htmlspecialchars($this->channel_url).'">'."\n";
 		$output .= '<title>'.$this->channel_title.'</title>'."\n";
@@ -90,7 +93,7 @@ class RSSFeed {
 			$output .= '<item rdf:about="'.htmlspecialchars($this->items[$k]['url']).'">'."\n";
 			$output .= '<title>'.$this->items[$k]['title'].'</title>'."\n";
 			$output .= '<link>'.htmlspecialchars($this->items[$k]['url']).'</link>'."\n";
-			$output .= '<description><![CDATA[<html><body>'.$this->items[$k]['description'].'</body></html>]]></description>'."\n";
+			$output .= '<description>'.$this->items[$k]['description'].'</description>'."\n";
 			$output .= '<feedburner:origLink>'.htmlspecialchars($this->items[$k]['url']).'</feedburner:origLink>'."\n";
 			$output .= '</item>'."\n";
 		};

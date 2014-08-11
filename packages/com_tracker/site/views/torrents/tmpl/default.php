@@ -118,7 +118,9 @@ $torrentType = array(
 					<?php endif; ?>
 					<?php if ($params->get('tl_category')) : ?>
 						<th id="torrentlist_header_category">
-							<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'c.title', $listDirn, $listOrder); ?>
+							<span class="text-center">
+								<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'c.title', $listDirn, $listOrder); ?>
+							</span>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_license')) : ?>
@@ -237,9 +239,9 @@ $torrentType = array(
 						<?php endif; ?>
 						<?php if ($params->get('enable_torrent_type')) : ?>
 							<td headers="torrentlist_header_torrenttype" class="list-torrenttype">
-								<span class="text-center">
+								<div class="text-center middle">
 									<?php echo TrackerHelper::checkTorrentType((int)$torrent->fid);?>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_info_hash')) : ?>
@@ -258,9 +260,11 @@ $torrentType = array(
 								$category_params->loadString($torrent->category_params);
 							?>
 							<td headers="torrentlist_header_category" class="list-category">
-								<?php if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image')) && $params->get('use_image_file')) { ?>
-									<img id="image<?php echo $torrent->fid;?>" alt="<?php echo $torrent->torrent_category; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="36" />
-								<?php } else echo '&nbsp;'.$torrent->torrent_category.'&nbsp;'; ?>
+								<div class="text-center middle">
+									<?php if (is_file($_SERVER['DOCUMENT_ROOT'].JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image')) && $params->get('use_image_file')) { ?>
+										<img id="image<?php echo $torrent->fid;?>" alt="<?php echo $torrent->torrent_category; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="36" />
+									<?php } else echo '&nbsp;'.$torrent->torrent_category.'&nbsp;'; ?>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_license')) : ?>
@@ -274,10 +278,10 @@ $torrentType = array(
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_size')) : ?>
-							<td headers="torrentlist_header_size" class="list-size" style="white-space:nowrap; text-align:right;">
-								<span>
+							<td headers="torrentlist_header_size" class="list-size" style="white-space:nowrap;">
+								<div class="text-right">
 									<?php echo TrackerHelper::make_size($torrent->size);?>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_created_time')) : ?>
@@ -310,18 +314,22 @@ $torrentType = array(
 						<?php endif; ?>
 						<?php if ($params->get('tl_uploader_name')) : ?>
 							<td headers="torrentlist_header_uploader" class="list-uploader">
-								<?php 
-									if (($params->get('allow_upload_anonymous') == 0) || ($torrent->uploader_anonymous == 0) || ($torrent->uploader == $user->id)) echo $torrent->uploader_name;
-									else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
-								?>
+								<div class="text-center">
+									<?php 
+										if (($params->get('allow_upload_anonymous') == 0) || ($torrent->uploader_anonymous == 0) || ($torrent->uploader == $user->id)) echo $torrent->uploader_name;
+										else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
+									?>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_uploader_username')) : ?>
 							<td headers="torrentlist_header_uploader" class="list-uploader">
-								<?php 
-									if (($params->get('allow_upload_anonymous') == 0) || ($torrent->uploader_anonymous == 0) || ($torrent->uploader == $user->id)) echo $torrent->uploader_username;
-									else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
-								?>
+								<div class="text-center">
+									<?php 
+										if (($params->get('allow_upload_anonymous') == 0) || ($torrent->uploader_anonymous == 0) || ($torrent->uploader == $user->id)) echo $torrent->uploader_username;
+										else echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
+									?>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_number_files')) : ?>

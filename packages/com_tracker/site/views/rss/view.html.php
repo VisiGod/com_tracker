@@ -15,36 +15,36 @@ class TrackerViewRSS extends JViewLegacy {
 	protected $state = null;
 	protected $item = null;
 
-	public function display($cachable = false, $urlparams = false) {
+	public function display($tpl = null) {
 		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$params		= $app->getParams();
 
 		// Initialise variables
-		$items		= $this->get('Items');
+		$this->items		= $this->get('Items');
+		$this->params		= $app->getParams();
+		$this->user			= JFactory::getUser();
 
 		// No guests allowed
-		if (!$params->get('allow_guest') && $user->get('guest')) {
+		if (!$this->params->get('allow_guest') && $this->user->get('guest')) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
-		
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
 
-		$this->assignRef('items', $items);
-		$this->assignRef('params', 	$params);
-		
-		$rss = JRequest::getVar('rss');
-		
-		if (!empty($rss)) {
-			header('Content-Type: application/rss+xml; charset=ISO-8859-1');
-			echo TrackerHelper::getRSS($items[0]);
-			die();
-		} else parent::display();
-		
-	}
+		// Check for empty rss feed (if we are a guest and try to get a logged in user rss feed
+		if (sizeof($this->items) == 0) {
+			$app->redirect('index.php', JText::_('COM_TRACKER_RSS_UNKOWN_RSS'), 'error');
+		}
 
+		$rss	= JRequest::getVar('rss');
+
+		if (!empty($rss)) {
+			header('Content-Type: application/rss+xml; '.mb_internal_encoding());
+			echo TrackerHelper::getRSS($this->items[0]);
+			die();
+		} else parent::display($tpl);
+	}
 }

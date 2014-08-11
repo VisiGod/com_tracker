@@ -59,13 +59,13 @@ class TrackerHelper extends JHelperContent {
 	}
 
 	public static function quickiconButton( $link, $image, $text ) {
-		$lang = JFactory::getLanguage()->isRTL() ? 'right' : 'left';
 		?>
-    	<div class="span12 text-center middle">
+    	<div class="text-center middle">
         	<a href="<?php echo $link; ?>"><?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/'.$image , $text, null, false, false);?></a>
         	<div class="row-fluid">
-          		<div class="span12"><a href="<?php echo $link; ?>"><?php echo $text; ?></a></div>
-        	</div>
+	        	<span><a href="<?php echo $link; ?>"><?php echo $text; ?></a></span>
+          	</div>
+          	<br />
 		</div>
 		<?php 
 	}
@@ -704,10 +704,10 @@ class TrackerHelper extends JHelperContent {
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
 		$db 	= JFactory::getDBO();
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$query	= $db->getQuery(true);
 		$params	= JComponentHelper::getParams('com_tracker');
-		$lang = JFactory::getLanguage();
+		$lang 	= JFactory::getLanguage();
 	
 		// Get the items for the RSS channel
 		$query->select('t.fid');
@@ -726,20 +726,20 @@ class TrackerHelper extends JHelperContent {
 	
 		// Join on category table.
 		if (preg_match('/{category}/',$used_fields) || $data->rss_type == 1) {
-			$query->select('c.title AS category');
-			$query->join('LEFT', '#__categories AS c on c.id = t.categoryID');
+			$query->select('c.title AS category')
+				  ->join('LEFT', '#__categories AS c on c.id = t.categoryID');
 		}
 	
 		// Join on user table.
 		if (preg_match('/{uploader}/',$used_fields)) {
-			$query->select('u.username as user');
-			$query->join('LEFT', '#__users AS u on u.id = r.created_user_id');
+			$query->select('u.username as user')
+				  ->join('LEFT', '#__users AS u on u.id = r.created_user_id');
 		}
 			
 		// Join on licenses table
 		if (preg_match('/{license}/',$used_fields) || $data->rss_type == 2) {
-			$query->select('l.shortname as license');
-			$query->join('LEFT', '#__tracker_licenses AS l on l.id = t.licenseID');
+			$query->select('l.shortname as license')
+				  ->join('LEFT', '#__tracker_licenses AS l on l.id = t.licenseID');
 		}
 			
 		$query->from('#__tracker_torrents AS t');
@@ -762,7 +762,7 @@ class TrackerHelper extends JHelperContent {
 				$data->channel_title,										// RSS Channel Title
 				$data->channel_description,									// RSS Channel Description
 				$lang->getTag(),											// RSS Language
-				'&#174;'.$config->getValue( 'config.sitename' ).date("Y"),	// RSS Copyright
+				'&#174;'.$config->get( 'config.sitename' ).date("Y"),		// RSS Copyright
 				$data->user,												// RSS Creator
 				$data->name);												// RSS Name
 	
@@ -781,7 +781,7 @@ class TrackerHelper extends JHelperContent {
 			}
 			if (preg_match('/{link}/',$used_fields)) {
 				array_push($source, '/{link}/');
-				array_push($destination, 'JRoute::_(JURI::base()."index.php?option=com_tracker&view=torrent&id=".$item->fid, true, -1)');
+				array_push($destination, JRoute::_(JURI::base().'index.php?option=com_tracker&view=torrent&id='.$item->fid, true, -1));
 			}
 			if (preg_match('/{size}/',$used_fields)) {
 				array_push($source, '/{size}/');
@@ -816,9 +816,9 @@ class TrackerHelper extends JHelperContent {
 				array_push($destination, $item->license);
 			}
 	
-			$name = preg_replace($source, $destination, $data->item_title);
-			$description = preg_replace($source, $destination, $data->item_description);
-	
+			$name = htmlspecialchars(preg_replace($source, $destination, $data->item_title));
+			$description = htmlspecialchars(preg_replace($source, $destination, $data->item_description));
+
 			$feed->SetItem(JRoute::_(JURI::base().'index.php?option=com_tracker&view=torrent&id='.$item->fid, true, -1), $name, $description);
 		}
 	

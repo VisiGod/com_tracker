@@ -9,7 +9,7 @@
 		
 		<field name="channel_description" type="input-xxlarge textarea" default="" label="COM_TRACKER_RSS_CHANNEL_DESCRIPTION" description="" rows="10" cols="5" filter="raw"/>
 
-		<field name="rss_authentication" type="list" default="0" label="COM_TRACKER_RSS_AUTHENTICATION" description="">
+		<field name="rss_authentication" type="list" onchange="Joomla.check_rss_auth()" default="0" label="COM_TRACKER_RSS_AUTHENTICATION" description="">
 			<option value="0">COM_TRACKER_RSS_AUTHENTICATION_GUEST_ACCESS</option>
 			<option value="1">COM_TRACKER_RSS_AUTHENTICATION_LOGGED_IN_ACCESS</option>
 			<option value="2">COM_TRACKER_RSS_AUTHENTICATION_GROUP_ACCESS</option>
@@ -19,7 +19,7 @@
 
 		<field name="rss_authentication_items" type="hidden" />
 
-		<field name="rss_type" type="list" default="0" label="COM_TRACKER_RSS_TYPE" description="">
+		<field name="rss_type" type="list" default="0" onchange="Joomla.check_rss_type()" label="COM_TRACKER_RSS_TYPE" description="">
 			<option value="0">COM_TRACKER_RSS_TYPE_LATEST</option>
 			<option value="1">COM_TRACKER_RSS_TYPE_CATEGORY</option>
 			<option value="2">COM_TRACKER_RSS_TYPE_LICENSE</option>
