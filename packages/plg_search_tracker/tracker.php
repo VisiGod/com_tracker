@@ -25,51 +25,25 @@ class PlgSearchTracker extends JPlugin {
 		return $areas;
 	}
  
-	public function onContentSearch( $text, $phrase='', $ordering='', $areas=null ) {
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null) {
 		$db     = JFactory::getDBO();
 		$user   = JFactory::getUser(); 
 	 
-		//If the array is not correct, return it:
 		if (is_array($areas)) {
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
 				return array();
 			}
 		}
 	 
-		$limit = $this->params->def('search_limit',		50);
+		$limit = $this->params->def('search_limit', 50);
 	 
-		//Use the function trim to delete spaces in front of or at the back of the searching terms
-		$text = trim( $text );
+		$text = trim($text);
 	 
-		//Return Array when nothing was filled in.
 		if ($text == '') {
 			return array();
 		}
 	 
-		$wheres = array();
-		switch ($phrase) {
-			case 'exact': //search exact
-				$text           = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
-				$wheres2        = array();
-				$wheres2[]      = 'LOWER(t.name) LIKE '.$text;
-				$where          = '(' . implode( ') OR (', $wheres2 ) . ')';
-				break;
-			case 'all': //search all
-			case 'any': //search any
-			default: //set default
-				$words  = explode( ' ', $text );
-				$wheres = array();
-				foreach ($words as $word) {
-					$word 		= $db->Quote( '%'.$db->getEscaped( $word, true ).'%', false );
-					$wheres2	= array();
-					$wheres2[]	= 'LOWER(t.name) LIKE '.$word;
-					$wheres[]	= implode( ' OR ', $wheres2 );
-				}
-				$where = '(' . implode( ($phrase == 'all' ? ') AND (' : ') OR ('), $wheres ) . ')';
-				break;
-		}
-
-		switch ( $ordering ) { //ordering of the results
+		switch ($ordering) {
 			case 'alpha': //alphabetic, ascending
 				$order = 't.name ASC';
 				break;
@@ -86,14 +60,18 @@ class PlgSearchTracker extends JPlugin {
 				$order = 't.created_time DESC';
 		}
 
-		$searchTracker = JText::_( 'Tracker' );
+		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
+		$section = JText::_('Tracker');
 
 		//the database query
-		$query->select('t.fid, t.name AS title, t.created_time as created, t.seeders, t.leechers, t.completed')
-			  ->select('CONCAT_WS( " / ", '. $db->Quote($searchTracker) .', b.title ) AS section, "1" AS browsernav')
+		$query	= $db->getQuery(true);
+		$query->select(
+			't.fid, t.name AS title, t.created_time as created, t.seeders, t.leechers, t.completed, '
+			. $query->concatenate(array($db->quote($section), "b.title"), " / ") . ' AS section,'
+			. '\'2\' AS browsernav')
 			  ->from('#__tracker_torrents AS t')
-			  ->join('INNER', 'JOIN #__categories AS b ON b.extension = "com_tracker"')
-			  ->where('(' . $where . ') AND t.flags <> 1 ')
+			  ->join('INNER', '#__categories AS b ON b.extension = "com_tracker" AND b.id = t.categoryID')
+			  ->where('t.name LIKE ' . $text . ' AND t.flags <> 1 ')
 			  ->group('t.fid')
 			  ->order($order);
 		$db->setQuery( $query, 0, $limit );
