@@ -8,7 +8,6 @@
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-jimport( 'joomla.html.parameter' );
 
 $user	= JFactory::getUser();
 $appParams = $app->getParams('com_tracker');
@@ -31,7 +30,7 @@ if ($user->get('guest')) {
 			if ($params->get('name'))
 				echo '<div><h3>'.JText::_('MOD_TRACKER_USER_STATS_WELCOME_TEXT').' '.$user_stats->name.'</h3></div>';
 			if ($params->get('registration'))
-				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_REGISTERED_TEXT').' '.JFactory::getDate($user_stats->registerDate)->Format('%d %B %Y').'</div>';
+				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_REGISTERED_TEXT').' '.JHTML::Date($user_stats->registerDate, 'd M Y').'</div>';
 			if ($params->get('group'))
 				echo '<div>'.JText::_('MOD_TRACKER_USER_STATS_GROUP_TEXT').' '.$user_stats->groupname.'</div>';
 			if ($params->get('country')) {
@@ -139,8 +138,3 @@ if ($user->get('guest')) {
 			?>
 	</div>
 </div>
-
-
-
-
-

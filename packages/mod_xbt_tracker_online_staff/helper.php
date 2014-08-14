@@ -9,11 +9,9 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.model');
+class ModXBTTrackerOnlineStaffHelper {
 
-class modXbtTrackerOnlineStaffHelper {
-
-	public function getOnlineStaff(&$params) {
+	public static function getOnlineStaff(&$params) {
 		$db 	= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
@@ -23,13 +21,13 @@ class modXbtTrackerOnlineStaffHelper {
 		// Now we implode the selected groups
 		$group_list = implode( ',', $group_list );
 		
-		$query->select('u.name, tg.name as groupName, s.time');
-		$query->from('#__users as u');
-		$query->join('LEFT', '#__tracker_users AS tu ON tu.id = u.id');
-		$query->join('LEFT', '#__session AS s ON tu.id = s.userid');
-		$query->join('LEFT', '#__tracker_groups AS tg ON tu.groupID = tg.id');
-		$query->where('tu.groupID IN ( '.$group_list.' )');
-		$query->group('u.id');
+		$query->select('u.name, tg.name as groupName, s.time')
+			  ->from('#__users as u')
+			  ->join('LEFT', '#__tracker_users AS tu ON tu.id = u.id')
+			  ->join('LEFT', '#__session AS s ON tu.id = s.userid')
+			  ->join('LEFT', '#__tracker_groups AS tg ON tu.groupID = tg.id')
+			  ->where('tu.groupID IN ( '.$group_list.' )')
+			  ->group('u.id');
 		// Group ordering
 		if ($params->get('group_order') == 'ordering') $query->order('tg.ordering ASC');
 		elseif ($params->get('group_order') == 'name') $query->order('tg.name ASC');
@@ -45,5 +43,4 @@ class modXbtTrackerOnlineStaffHelper {
 
 		return $items;
 	}
-
 }

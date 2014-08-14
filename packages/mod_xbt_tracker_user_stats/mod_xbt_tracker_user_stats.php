@@ -6,13 +6,12 @@
  * @copyright	Copyright (C) 2007 - 2013 Hugo Carvalho and Psylodesign. All rights reserved.
  * @license		GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl.html
  */
- 
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once dirname(__FILE__).'/helper.php';
+defined('_JEXEC') or die;
 
-$user_stats = modXBTTrackerUserStats::getStats($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+require_once __DIR__ . '/helper.php';
 
-require JModuleHelper::getLayoutPath('mod_xbt_tracker_user_stats', $params->get('layout', 'default'));
-?>
+$user_stats = ModXBTTrackerUserStats::getStats($params);
+
+$class_sfx = htmlspecialchars($params->get('class_sfx'));
+require(JModuleHelper::getLayoutPath('mod_xbt_tracker_user_stats', $params->get('layout', 'default')));

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="module" version="3.0" client="site" method="upgrade">
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_xbt_tracker_online_staff</name>
-	<creationDate>2013-03-27</creationDate>
-	<copyright>Copyright (C) 2007 - 2013 Hugo Carvalho, PsyloDesign and Patlol. All rights reserved.</copyright>
-	<license>GNU General Public License version 3 or later</license>
-	<author>Hugo Carvalho, PsyloDesign and Patlol</author>
-	<authorEmail>visigod@visigod.com and psylodesign@share-on-underground.com</authorEmail>
-	<authorUrl>http://www.visigod.com and http://share-on-underground.com</authorUrl>
-	<description>MOD_XBT_TRACKER_ONLINE_STAFF</description>
+	<author>Hugo Carvalho</author>
+	<creationDate>August 2014</creationDate>
+	<copyright>Copyright (C) 2007 - 20124 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>visigod@visigod.com</authorEmail>
+	<authorUrl>http://www.visigod.com</authorUrl>
 	<version>3.3.1-dev</version>
-
+	<description>MOD_XBT_TRACKER_ONLINE_STAFF</description>
 	<files>
 		<filename module="mod_xbt_tracker_online_staff">mod_xbt_tracker_online_staff.php</filename>
 		<filename>mod_xbt_tracker_online_staff.xml</filename>
@@ -18,12 +17,10 @@
 		<folder>tmpl</folder>
 		<folder>images</folder>
 	</files>
-
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_online_staff.ini</language>
 		<language tag="en-GB">en-GB/en-GB.mod_xbt_tracker_online_staff.sys.ini</language>
 	</languages>
-
 	<config>
 		<fields name="params">
 			<fieldset name="basic" label="MOD_XBT_TRACKER_ONLINE_STAFF_MODULE_CONFIG">

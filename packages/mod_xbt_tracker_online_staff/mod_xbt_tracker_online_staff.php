@@ -7,11 +7,11 @@
  * @license		GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl.html
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
-require_once dirname(__FILE__).'/helper.php';
+defined('_JEXEC') or die;
 
-$online_staff = modXbtTrackerOnlineStaffHelper::getOnlineStaff($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+require_once __DIR__ . '/helper.php';
 
-require JModuleHelper::getLayoutPath('mod_xbt_tracker_online_staff', $params->get('layout', 'default'));
-?>
+$online_staff = ModXBTTrackerOnlineStaffHelper::getOnlineStaff($params);
+
+$class_sfx = htmlspecialchars($params->get('class_sfx'));
+require(JModuleHelper::getLayoutPath('mod_xbt_tracker_online_staff', $params->get('layout', 'default')));

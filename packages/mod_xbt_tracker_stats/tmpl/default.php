@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $user	= JFactory::getUser();
 $appParams = $app->getParams('com_tracker');
 
-JHtml::_('behavior.modal', 'a.modal', array('handler' => 'ajax'));
+JHtml::_('behavior.modal', 'a.modal');
 $session	= JFactory::getSession();
 $tab_options = array(
 		'onActive' => 'function(title, description){
@@ -314,7 +314,6 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$most_seeded_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_seeded_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_seeded_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($most_seeded_torrents->cat_params);
@@ -351,7 +350,6 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$most_leeched_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_leeched_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_leeched_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($most_leeched_torrents->cat_params);
@@ -388,7 +386,6 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$most_completed_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_completed_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$most_completed_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($most_completed_torrents->cat_params);
@@ -428,7 +425,6 @@ if (($params->get('most_active_torrents') && count($tracker_stats->most_active_t
 			echo '<div id="value-center">&nbsp;'.$top_thanked_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$top_thanked_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$top_thanked_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($top_thanked_torrents->cat_params);
@@ -468,7 +464,6 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_active_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_active_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_active_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($worst_active_torrents->cat_params);
@@ -505,7 +500,6 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_seeded_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_seeded_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_seeded_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($worst_seeded_torrents->cat_params);
@@ -542,7 +536,6 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_leeched_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_leeched_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_leeched_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($worst_leeched_torrents->cat_params);
@@ -579,7 +572,6 @@ if (($params->get('worst_active_torrents') && count($tracker_stats->worst_active
 			echo '<div id="value-center">&nbsp;'.$worst_completed_torrents->seeders.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_completed_torrents->leechers.'&nbsp;</div>';
 			echo '<div id="value-center">&nbsp;'.$worst_completed_torrents->completed.'&nbsp;</div>';
-			//if (empty($tracker_stats->country)) $tracker_stats->country = TrackerHelper::getCountryFlag($params->get('defaultcountry'));
 
 			$category_params = new JRegistry();
 			$category_params->loadString($worst_completed_torrents->cat_params);

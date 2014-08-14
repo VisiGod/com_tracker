@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="system" method="upgrade">
+<extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>plg_system_tracker</name>
-	<creationDate>2012-02-12</creationDate>
-	<copyright>Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<author>Hugo Carvalho</author>
+	<creationDate>August 2014</creationDate>
+	<copyright>Copyright (C) 2007 - 20124 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
 	<version>3.3.1-dev</version>
@@ -20,7 +20,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="COM_TRACKER_SYSPLUGIN_RATIO_HEADER">
-				<field name="ratio_plugin" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_RATIO_PLUGIN" description="COM_TRACKER_SYSPLUGIN_RATIO_PLUGIN_DESCRIPTION">
+				<field name="ratio_plugin" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_RATIO_PLUGIN" description="COM_TRACKER_SYSPLUGIN_RATIO_PLUGIN_DESCRIPTION">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -30,7 +30,7 @@
 				<field name="ratio_last_update" type="hidden" default="" />
 			</fieldset>
 			<fieldset name="COM_TRACKER_SYSPLUGIN_ANNOUNCE_HEADER">
-				<field name="announce_plugin" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_ANNOUNCE_PLUGIN" description="COM_TRACKER_SYSPLUGIN_ANNOUNCE_PLUGIN_DESCRIPTION">
+				<field name="announce_plugin" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_ANNOUNCE_PLUGIN" description="COM_TRACKER_SYSPLUGIN_ANNOUNCE_PLUGIN_DESCRIPTION">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -44,7 +44,7 @@
 			</fieldset>
 			
 			<fieldset name="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_HEADER">
-				<field name="forum_plugin" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN" description="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN_DESCRIPTION">
+				<field name="forum_plugin" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN" description="COM_TRACKER_SYSPLUGIN_FORUMGROUPS_PLUGIN_DESCRIPTION">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

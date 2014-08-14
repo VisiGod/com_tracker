@@ -7,10 +7,11 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  **/
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
- 
-class plgSearchTracker extends JPlugin {
+defined('_JEXEC') or die;
+
+class PlgSearchTracker extends JPlugin {
+
+	protected $autoloadLanguage = true;
 
 	public function __construct(& $subject, $config) {
 		parent::__construct($subject, $config);
@@ -84,20 +85,17 @@ class plgSearchTracker extends JPlugin {
 			default: //default setting: creation date, descending
 				$order = 't.created_time DESC';
 		}
-	 
+
 		$searchTracker = JText::_( 'Tracker' );
-	 
+
 		//the database query
-		$query  = 'SELECT t.fid, t.name AS title, t.created_time as created, t.seeders, t.leechers, t.completed,'
-				. ' CONCAT_WS( " / ", '. $db->Quote($searchTracker) .', b.title ) AS section,'
-				. ' "1" AS browsernav'
-				. ' FROM #__tracker_torrents AS t'
-				. ' INNER JOIN #__categories AS b ON b.extension = "com_tracker"'
-				. ' WHERE ( '. $where .' )'
-				. ' AND t.flags <> 1'
-				. ' GROUP BY t.fid'
-				. ' ORDER BY '. $order;
-	 
+		$query->select('t.fid, t.name AS title, t.created_time as created, t.seeders, t.leechers, t.completed')
+			  ->select('CONCAT_WS( " / ", '. $db->Quote($searchTracker) .', b.title ) AS section, "1" AS browsernav')
+			  ->from('#__tracker_torrents AS t')
+			  ->join('INNER', 'JOIN #__categories AS b ON b.extension = "com_tracker"')
+			  ->where('(' . $where . ') AND t.flags <> 1 ')
+			  ->group('t.fid')
+			  ->order($order);
 		$db->setQuery( $query, 0, $limit );
 		$rows = $db->loadObjectList();
 
@@ -107,7 +105,6 @@ class plgSearchTracker extends JPlugin {
 								JText::_('PLG_SEARCH_TRACKER_LEECHERS').$row->leechers.' , '.
 								JText::_('PLG_SEARCH_TRACKER_COMPLETED').$row->completed;
 		}
-		
 	return $rows;
 	}
 }

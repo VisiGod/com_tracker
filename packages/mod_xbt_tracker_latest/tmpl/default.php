@@ -9,7 +9,7 @@
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JHtml::_('behavior.modal');
+JHtml::_('behavior.modal', 'a.modalpopup');
 
 $user	= JFactory::getUser();
 $appParams = $app->getParams('com_tracker');
@@ -101,7 +101,7 @@ $document->addStyleDeclaration( $style );
 						$item->image_file = JURI::base().'images/tracker/torrent_image/'.$item->image_file;
 					}
 
-					$item->image_file = '<a href="'.$item->image_file.'" class="modal" ><img style="width: '.$params->get('image_file_width').'px;margin-top: 2px; margin-bottom: 2px;" src="'.$item->image_file.'" /></a>';
+					$item->image_file = '<a href="'.$item->image_file.'" class="modalpopup" ><img style="width: '.$params->get('image_file_width').'px;margin-top: 2px; margin-bottom: 2px;" src="'.$item->image_file.'" /></a>';
 				} else $item->image_file = '';
 				
 				if ($params->get('description_field')) $items .= '<div id="value">&nbsp;'.$item->description.'&nbsp;</div>';
