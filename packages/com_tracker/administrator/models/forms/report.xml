@@ -7,6 +7,15 @@
 
 		<field name="reporter" type="user" label="JGLOBAL_USERNAME" description="" />
 
+		<field name="report_type" type="list" default="1" label="COM_TRACKER_REPORTS_REPORT_TYPE" description="">
+			<option value="1">COM_TRACKER_REPORTS_REPORT_CAUSE_DUPLICATED</option>
+			<option value="2">COM_TRACKER_REPORTS_REPORT_CAUSE_FALSE</option>
+			<option value="3">COM_TRACKER_REPORTS_REPORT_CAUSE_BAD</option>
+			<option value="4">COM_TRACKER_REPORTS_REPORT_CAUSE_HAS_VIRUS</option>
+			<option value="5">COM_TRACKER_REPORTS_REPORT_CAUSE_NUKED</option>
+			<option value="6">COM_TRACKER_REPORTS_REPORT_CAUSE_OTHER_REASON</option>
+		</field>
+
 		<field name="created_time" type="calendar" label="JGLOBAL_CREATED_DATE" description="" class="inputbox" size="22" format="%Y-%m-%d" filter="user_utc" />
 
 		<field name="ordering" type="Ordering" class="inputbox" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />

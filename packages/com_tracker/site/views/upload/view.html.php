@@ -9,34 +9,37 @@
 
 // No direct access
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
 class TrackerViewUpload extends JViewLegacy {
+
 	protected $state = null;
 	protected $item = null;
 
-	public function display($cachable = false, $urlparams = false) {
-		$state	= $this->get('State');
-		$item		= $this->get('Item');
-		$user		= JFactory::getUser();
+	public function display($tpl = null) {
 		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
+		
+		// Initialise variables
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->user		= JFactory::getUser();
+		$this->params	= $app->getParams();
 		$this->form		= $this->get('Form');
+		
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseWarning(500, implode("\n", $errors));
+			return false;
+		}
 
-		if ($user->get('guest') && !$params->get('allow_guest')) {
+		if ($this->user->get('guest') && !$this->params->get('allow_guest')) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
-
-		if (TrackerHelper::user_permissions('upload_torrents', $user->id) == 0) {
+		
+		if (TrackerHelper::user_permissions('upload_torrents', $this->user->id) == 0) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_USER_CANT_UPLOAD'), 'error');
 		}
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('params',		$params);
-
-		parent::display();
+		
+		return parent::display($tpl);
 	}
 
 }

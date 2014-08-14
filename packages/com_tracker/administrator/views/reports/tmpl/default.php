@@ -104,6 +104,10 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_COMMENT_TORRENTNAME', 'a.torrent', $listDirn, $listOrder); ?>
 				</th>
 
+				<th class="nowrap center">
+					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_REPORTS_REPORT_TYPE', 'a.report_type', $listDirn, $listOrder); ?>
+				</th>
+				
 				<?php if (isset($this->items[0]->state)): ?>
 					<th width="1%" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -142,15 +146,31 @@ $sortFields = $this->getSortFields();
 				</td>
                     
 				<td>
-				<?php
-					if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=report.edit&id='.(int) $item->id).">".$this->escape($item->id)."</a>";
-					else echo $item->id;
-				?>
+					<?php
+						if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=report.edit&id='.(int) $item->id).">".$this->escape($item->id)."</a>";
+						else echo $item->id;
+					?>
 				</td>
 
 				<td><?php echo $this->escape($item->username); ?></td>
 
-				<td><?php echo $this->escape($item->torrent); ?></td>
+				<td>
+					<?php
+						if ($canEdit) echo "<a href=".JRoute::_('index.php?option=com_tracker&task=report.edit&id='.(int) $item->id).">".$this->escape($item->torrent)."</a>";
+						else echo $item->torrent;
+					?>
+				</td>
+
+				<td class="nowrap center">
+					<?php
+						if ($item->report_type == 1) echo JText::_( 'COM_TRACKER_REPORTS_REPORT_CAUSE_DUPLICATED' );
+						elseif ($item->report_type == 2) echo JText::_( 'COM_TRACKER_REPORTS_REPORT_CAUSE_FALSE' );
+						elseif ($item->report_type == 3) echo JText::_( 'COM_TRACKER_REPORTS_REPORT_CAUSE_BAD' );
+						elseif ($item->report_type == 4) echo JText::_( 'COM_TRACKER_REPORTS_REPORT_CAUSE_HAS_VIRUS' );
+						elseif ($item->report_type == 5) echo JText::_( 'COM_TRACKER_REPORTS_REPORT_CAUSE_NUKED' );
+						else echo JText::_( 'COM_TRACKER_REPORTS_REPORT_CAUSE_OTHER_REASON' );
+					?>
+				</td>
 
                 <?php if (isset($this->items[0]->state)): ?>
 					<td class="center">

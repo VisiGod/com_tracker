@@ -77,6 +77,7 @@ class TrackerViewReports extends JViewLegacy {
 				'a.id' => JText::_('JGLOBAL_FIELD_ID_LABEL'),
 				'a.username' => JText::_('JGLOBAL_USERNAME'),
 				'a.torrent' => JText::_('COM_TRACKER_COMMENT_TORRENTNAME'),
+				'a.report_type' => JText::_('COM_TRACKER_REPORTS_REPORT_TYPE'),
 				'a.state' => JText::_('JSTATUS'),
 		);
 	}

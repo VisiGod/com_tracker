@@ -230,7 +230,7 @@ $sortFields = $this->getSortFields();
 						<td class="center nowrap">
 							<?php 
 								if ($item->donated > 0) echo '$'.$item->donated;
-								else echo JText::_( 'COM_TRACKER_NOTHING' );;
+								else echo JText::_( 'COM_TRACKER_NOTHING' );
 							?>
 						</td>
 					<?php } ?>

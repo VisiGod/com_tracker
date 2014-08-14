@@ -10,20 +10,24 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
 class TrackerViewEdit extends JViewLegacy {
-	protected $state = null;
-	protected $item = null;
 
-	public function display($cachable = false, $urlparams = false) {
-		$state	= $this->get('State');
-		$item		= $this->get('Item');
-		$user		= JFactory::getUser();
+	protected $form;
+	protected $state;
+	protected $item;
+
+	public function display($tpl = null) {
 		$app		= JFactory::getApplication();
+		
+		// Initialise variables
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->user		= JFactory::getUser();
+		$this->params	= $app->getParams();
+		$this->form		= $this->get('Form');
 
 		$pathway 	= $app->getPathway();
-		$pathway->addItem(str_replace("_", " ", $item->name));
+		$pathway->addItem(str_replace("_", " ", $this->item->name));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -31,19 +35,15 @@ class TrackerViewEdit extends JViewLegacy {
 			return false;
 		}
 
-		if($item === false) {
+		if($this->item === false) {
 			return JError::raiseError(404, JText::_('COM_TRACKER_NO_TORRENT'));
 		}
-		
-		if ($user->get('guest')) {
+
+		if ($this->user->get('guest')) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
-		}			
+		}
 
-		$this->assignRef('params',		$params);
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-
-		parent::display();
+		return parent::display($tpl);
 	}
 
 }

@@ -224,7 +224,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 							<div class="span3">
 							<?php if ((TrackerHelper::checkReportedTorrent($this->user->id, $this->item->fid) <> 0) && ($this->user->id <> $this->item->uploader)) : ?>
 								<img src="<?php echo JURI::base();?>images/tracker/other/report.png" alt="<?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' ); ?>" border="0" />
-								<a class="modalpopup" href="index.php?option=com_tracker&view=report&tmpl=component&id=<?php echo $this->item->fid;?>" title="Report Torrent" rel="{handler: 'iframe', size: {x: 800, y: 600}}">
+								<a class="modalpopup" href="index.php?option=com_tracker&view=report&tmpl=component&id=<?php echo $this->item->fid;?>" title="Report Torrent" rel="{size: {x: 600, y: 430}, closable: true}">
 									<b><?php echo JText::_( 'COM_TRACKER_REPORT_TORRENT' );?></b>
 								</a>
 							<?php elseif ($this->item->uploader == $this->user->id) : ?>

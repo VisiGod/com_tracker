@@ -9,30 +9,31 @@
 
 // No direct access.
 defined('_JEXEC') or die;
-jimport('joomla.application.component.modelform');
 
 class TrackerModelReport extends JModelForm {
 	
-	public function &getItem() {
+	public function getItem($pk = null) {
 		$user	= JFactory::getUser();
 		$id 	= JRequest::getInt('id', 0);
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db 	= $this->getDbo();
+		$query 	= $db->getQuery(true);
 		
-		$query->select('name');
-		$query->from('#__tracker_torrents');
-		$query->where('fid = ' . (int) $id);
+		$query->select('name')
+			  ->from('#__tracker_torrents')
+			  ->where('fid = ' . (int) $id);
 		$db->setQuery($query);
 		$data = $db->loadObject();
 		$data->fid = $id;
 		$data->reporter = $user->id;
 		$data->reporter_name = $user->username;
-		
+
 		if (empty($data)) {
 			return JError::raiseError(404, JText::_('COM_TRACKER_NO_TORRENT'));
 		}
 		
-		return $data;
+		$this->_item[$pk] = $data;
+		
+		return $this->_item[$pk];
 	}
 
 	public function getForm($data = array(), $loadData = true) {
@@ -45,4 +46,5 @@ class TrackerModelReport extends JModelForm {
 		$data = JFactory::getApplication()->getUserState('com_tracker.reported.torrent.data', array());
 		return $data;
 	}
+
 }

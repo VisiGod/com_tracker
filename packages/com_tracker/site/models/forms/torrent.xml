@@ -3,7 +3,7 @@
 	<fieldset name="torrent">
 		<field name="fid" type="hidden" default="0" />
 
-		<field name="name" type="text" size="60" class="inputbox" label="COM_TRACKER_TORRENT_NAME" description="" filter="safehtml" />
+		<field name="name" type="text" size="60" class="input-xxlarge" label="COM_TRACKER_TORRENT_NAME" description="" filter="safehtml" />
 
 		<field name="filename" type="file" size="60" class="inputbox" label="COM_TRACKER_TORRENT_FILENAME" description="" filter="safehtml" required="true" />
 
@@ -13,9 +13,9 @@
 
 		<field name="licenseID" type="sql" default="10" label="COM_TRACKER_TORRENT_LICENSE" description="" query="SELECT id, shortname FROM #__tracker_licenses WHERE state = 1" key_field="id" value_field="shortname" />
 
-		<field  name="uploader_anonymous" class="btn-group btn-group-yesno" type="radio" label="COM_TRACKER_TORRENT_ANONYMOUS" description="" default="0">
-			<option value="1">JYES</option>
+		<field name="uploader_anonymous" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_ANONYMOUS" description="">
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 		
 		<field name="image_file" type="file" size="60" class="inputbox" label="COM_TRACKER_TORRENT_IMAGE_FILE" description="" filter="safehtml" required="false" />
@@ -28,13 +28,13 @@
 			<option value="2">COM_TRACKER_TORRENT_IMAGE_CHOOSE_LINK</option>
 		</field>
 		
-		<field name="description" type="editor" label="COM_TRACKER_TORRENT_DESCRIPTION" width="100%" height="500" buttons="false" filter="safehtml" required="true"/>
+		<field name="description" type="editor" buttons="false" height="400" class="inputbox" filter="safehtml" required="true" label="COM_TRACKER_TORRENT_DESCRIPTION" description="" />
 
 		<field name="forum_post" type="text" size="20" class="inputbox" label="COM_TRACKER_TORRENT_FORUM_POST" description="" filter="safehtml" required="true"/>
 
 		<field name="info_post" type="text" size="20" class="inputbox" label="COM_TRACKER_TORRENT_INFO_POST" description="" filter="safehtml" required="true"/>
 
-		<field name="tags" type="textarea" required="false" label="COM_TRACKER_TORRENT_TAGS" rows="3" cols="50" filter="raw" />
+		<field name="tags" type="text" size="60" class="input-xxlarge" label="COM_TRACKER_TORRENT_TAGS" description="" filter="safehtml" />
 
 		<field name="state" type="hidden" default="1" />
 	</fieldset>

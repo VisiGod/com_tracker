@@ -39,6 +39,11 @@ $params = JComponentHelper::getParams( 'com_tracker' );
 			<div class="control-label"><?php echo $this->form->getLabel('reporter'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('reporter'); ?></div>
 		</div>
+
+		<div class="control-group">
+			<div class="control-label"><?php echo $this->form->getLabel('report_type'); ?></div>
+			<div class="controls"><?php echo $this->form->getInput('report_type'); ?></div>
+		</div>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

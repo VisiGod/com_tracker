@@ -85,6 +85,7 @@ CREATE TABLE IF NOT EXISTS `#__tracker_reported_torrents` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,
 `fid` INT(11) UNSIGNED NOT NULL,
 `reporter` INT(11) UNSIGNED NOT NULL,
+`report_type` TINYINT(1) NOT NULL DEFAULT '1',
 `comments` VARCHAR(255) DEFAULT NULL,
 `created_time` DATETIME DEFAULT NULL,
 `ordering` INT(11) NOT NULL,

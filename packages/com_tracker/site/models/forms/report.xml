@@ -7,9 +7,16 @@
 
 		<field name="reporter" type="user" label="COM_TRACKER_REPORT_REPORTER" />
 
-		<field name="report_type" type="text" default="" label="COM_TRACKER_REPORT_TYPE" />
+		<field name="report_type" type="list" default="1" label="COM_TRACKER_REPORTS_REPORT_TYPE" description="">
+			<option value="1">COM_TRACKER_REPORTS_REPORT_CAUSE_DUPLICATED</option>
+			<option value="2">COM_TRACKER_REPORTS_REPORT_CAUSE_FALSE</option>
+			<option value="3">COM_TRACKER_REPORTS_REPORT_CAUSE_BAD</option>
+			<option value="4">COM_TRACKER_REPORTS_REPORT_CAUSE_HAS_VIRUS</option>
+			<option value="5">COM_TRACKER_REPORTS_REPORT_CAUSE_NUKED</option>
+			<option value="6">COM_TRACKER_REPORTS_REPORT_CAUSE_OTHER_REASON</option>
+		</field>
 
-		<field name="comments" type="editor" label="COM_TRACKER_COMMENTS" width="100%" height="330" buttons="false" filter="safehtml" required="true"/>
+		<field name="comments" type="textarea" rows="10" cols="10" label="COM_TRACKER_COMMENTS" filter="safehtml" required="true"/>
 
 		<field name="created_time" type="text" label="JGLOBAL_CREATED_DATE" class="readonly" filter="unset" readonly="true" />
 

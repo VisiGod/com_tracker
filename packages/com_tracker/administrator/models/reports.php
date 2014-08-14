@@ -19,6 +19,7 @@ class TrackerModelReports extends JModelList {
 					'id', 'a.id',
 					'fid', 'a.fid',
 					'reporter', 'a.reporter',
+					'report_type', 'a.report_type',
 		    	    'created_time', 'a.created_time',
 		    	    'ordering', 'a.ordering',
 		      	  'state', 'a.state',

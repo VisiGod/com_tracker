@@ -114,8 +114,8 @@ class TrackerHelper extends JHelperContent {
 	public static function getGroups() {
 		$db		= JFactory::getDBO();
 		$query  = $db->getQuery(true);
-		$query->select('a.id AS value, a.name AS text');
-		$query->from('`#__tracker_groups` AS a');
+		$query->select('a.id AS value, a.name AS text')
+			  ->from('`#__tracker_groups` AS a');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
@@ -135,9 +135,9 @@ class TrackerHelper extends JHelperContent {
 	public static function getAllCountries() {
 		$db		= JFactory::getDBO();
 		$query  = $db->getQuery(true);
-		$query->select('a.id AS value, a.name AS text');
-		$query->from('`#__tracker_countries` AS a');
-		$query->order('a.name ASC');
+		$query->select('a.id AS value, a.name AS text')
+			  ->from('`#__tracker_countries` AS a')
+			  ->order('a.name ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
@@ -159,12 +159,11 @@ class TrackerHelper extends JHelperContent {
 		$db		= JFactory::getDBO();
 		$query  = $db->getQuery(true);
 		
-		$query->select('DISTINCT(tu.countryID) AS value, c.name AS text');
-		$query->from('`#__tracker_countries` AS c');
-		$query->join('RIGHT', '`#__tracker_users` AS tu ON tu.countryID = c.id');
-		$query->where('tu.countryID <> 0');
-		$query->order('c.name ASC');
-		
+		$query->select('DISTINCT(tu.countryID) AS value, c.name AS text')
+			  ->from('`#__tracker_countries` AS c')
+			  ->join('RIGHT', '`#__tracker_users` AS tu ON tu.countryID = c.id')
+			  ->where('tu.countryID <> 0')
+			  ->order('c.name ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
@@ -190,26 +189,13 @@ class TrackerHelper extends JHelperContent {
 			$userid = $params->get('guest_user');
 		}
 
-		$query->select('tg.'.$type);
-		$query->from('`#__tracker_groups` AS tg');
-		$query->join('LEFT', '`#__tracker_users` AS tu ON tu.groupID = tg.id');
-		$query->where('tu.id = '.(int) $userid);
-
+		$query->select('tg.'.$type)
+			  ->from('`#__tracker_groups` AS tg')
+			  ->join('LEFT', '`#__tracker_users` AS tu ON tu.groupID = tg.id')
+			  ->where('tu.id = '.(int) $userid);
 		$db->setQuery($query);
 		$myuser = $db->loadResult();
 		return $myuser;
-	}
-
-	public static function get_percent_completed_image($p) {
-		$params = JComponentHelper::getParams( 'com_tracker' );
-		$config = new JConfig();
-
-		if ($p == 0) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
-		if ($p >= 100) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-green.gif' style='height: 9px' width='".$params->get('progress_bar_size')."' alt='".$config->sitename."'/>";
-		if ($p >= 1 && $p <= 30) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-red.gif' style='height: 9px' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
-		if ($p >= 31 && $p <= 65) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-yellow.gif' style='height: 9px' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
-		if ($p >= 66 && $p <= 99) $progress = "<img src='".JURI::base()."components/com_tracker/assets/images/progbar-green.gif' style='height: 9px' width='".round($p*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/><img src='".JURI::base()."components/com_tracker/assets/images/progbar-rest.gif' style='height: 9px' width='".round((100-$p)*($params->get('progress_bar_size')/100))."' alt='".$config->sitename."'/>";
-			return "<img src='".JURI::base()."components/com_tracker/assets/images/bar_left.gif' alt='".$config->sitename."'/>" . $progress ."<img src='".JURI::base()."components/com_tracker/assets/images/bar_right.gif' alt='".$config->sitename."'/>";
 	}
 
 	public static function sanitize_filename($str, $relative_path = FALSE) {
@@ -405,46 +391,44 @@ class TrackerHelper extends JHelperContent {
 		$params = JComponentHelper::getParams('com_tracker');
 		$query	= $db->getQuery(true);
 		
-		$query->select('minimum_ratio, download_torrents, wait_time, peer_limit, torrent_limit, download_multiplier, upload_multiplier');
-		$query->from('#__tracker_groups');
-		$query->where('id = '.(int)$params->get('base_group'));
+		$query->select('minimum_ratio, download_torrents, wait_time, peer_limit, torrent_limit, download_multiplier, upload_multiplier')
+			  ->from('#__tracker_groups')
+			  ->where('id = '.(int)$params->get('base_group'));
 		$db->setQuery($query);
 		$base_group = $db->loadAssoc();
 		
-		$query->clear();
-		$query->select('u.id as id');
-		$query->from('#__users as u');
-		$query->join('LEFT', '`#__tracker_users` AS tu ON u.id = tu.id');
-		$query->where('tu.id is null');
+		$query->clear()
+			  ->select('u.id as id')
+			  ->from('#__users as u')
+			  ->join('LEFT', '`#__tracker_users` AS tu ON u.id = tu.id')
+			  ->where('tu.id is null');
 		$db->setQuery($query);
 		$newusers = $db->loadAssocList();
 
 		foreach($newusers as $newuser) {
 			$query->clear();
 			$query = $db->getQuery(true);
-			$query->insert('#__tracker_users');
-
-			$query->set('id = '.(int)$newuser['id']);
-			$query->set('groupID = '.(int)$params->get('base_group'));
-			$query->set('countryID = '.(int)$params->get('defaultcountry'));
-			$query->set('downloaded = 0');
-			$query->set('uploaded = '.($params->get('welcome_gigs') * 1073741824));
-			$query->set('exemption_type = 2');
-			$query->set('minimum_ratio = '.$base_group['minimum_ratio']);
-			$query->set('can_leech = '.(int)$base_group['download_torrents']);
-			$query->set('wait_time = '.(int)$base_group['wait_time']);
-			$query->set('peer_limit = '.(int)$base_group['peer_limit']);
-			$query->set('torrent_limit = '.(int)$base_group['torrent_limit']);
-			$query->set('torrent_pass_version = 1');
-			$query->set('multiplier_type = 0');
-			$query->set('download_multiplier = '.$base_group['download_multiplier']);
-			$query->set('upload_multiplier = '.$base_group['upload_multiplier']);
-			$query->set('hash = "'.JUserHelper::genRandomPassword(32).'"');
-			$query->set('ordering = '.(int)$newuser['id']);
+			$query->insert('#__tracker_users')
+				  ->set('id = '.(int)$newuser['id'])
+				  ->set('groupID = '.(int)$params->get('base_group'))
+				  ->set('countryID = '.(int)$params->get('defaultcountry'))
+				  ->set('downloaded = 0')
+				  ->set('uploaded = '.($params->get('welcome_gigs') * 1073741824))
+				  ->set('exemption_type = 2')
+				  ->set('minimum_ratio = '.$base_group['minimum_ratio'])
+				  ->set('can_leech = '.(int)$base_group['download_torrents'])
+				  ->set('wait_time = '.(int)$base_group['wait_time'])
+				  ->set('peer_limit = '.(int)$base_group['peer_limit'])
+				  ->set('torrent_limit = '.(int)$base_group['torrent_limit'])
+				  ->set('torrent_pass_version = 1')
+				  ->set('multiplier_type = 0')
+				  ->set('download_multiplier = '.$base_group['download_multiplier'])
+				  ->set('upload_multiplier = '.$base_group['upload_multiplier'])
+				  ->set('hash = "'.JUserHelper::genRandomPassword(32).'"')
+				  ->set('ordering = '.(int)$newuser['id']);
 			$db->setQuery($query);
 			$db->execute();
 		}
-
 	}
 
 	public static function make_wait_time($difference, $long) {
@@ -502,10 +486,10 @@ class TrackerHelper extends JHelperContent {
 		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
-		$query->select('uid');
-		$query->from('#__tracker_torrent_thanks');
-		$query->where('uid ='.(int)$userID);
-		$query->where('torrentID ='.(int)$torrentID);
+		$query->select('uid')
+			  ->from('#__tracker_torrent_thanks')
+			  ->where('uid ='.(int)$userID)
+			  ->where('torrentID ='.(int)$torrentID);
 		$db->setQuery($query);
 		if ($db->loadResult()) return 0;
 		else return $userID;
@@ -514,8 +498,8 @@ class TrackerHelper extends JHelperContent {
 	public static function getLastOrder($tablename) { // Get the last ordering from the table we choose
 		$db		= JFactory::getDBO();
 		$query  = $db->getQuery(true);
-		$query->select('MAX(ordering)');
-		$query->from('`#__'.$tablename.'`');
+		$query->select('MAX(ordering)')
+			  ->from('`#__'.$tablename.'`');
 		$db->setQuery($query);
 		$max = $db->loadResult();
 		return $max+1;
@@ -525,9 +509,9 @@ class TrackerHelper extends JHelperContent {
 		// retrieve existing params
 		$db		= JFactory::getDBO();
 		$query  = $db->getQuery(true);
-		$query->select('params');
-		$query->from('`#__extensions`');
-		$query->where('name = "com_tracker"');
+		$query->select('params')
+			  ->from('`#__extensions`')
+			  ->where('name = "com_tracker"');
 		$db->setQuery($query);
 		$params = json_decode( $db->loadResult(), true );
 	
@@ -538,9 +522,9 @@ class TrackerHelper extends JHelperContent {
 		$paramsString = json_encode( $params );
 		$query->clear();
 		
-		$query->update('#__extensions');
-		$query->set('params = '.$db->quote($paramsString));
-		$query->where('name = "com_tracker"');
+		$query->update('#__extensions')
+			  ->set('params = '.$db->quote($paramsString))
+			  ->where('name = "com_tracker"');
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -559,10 +543,10 @@ class TrackerHelper extends JHelperContent {
 		$db 	= JFactory::getDBO();
 	
 		$query	= $db->getQuery(true);
-		$query->select('requester');
-		$query->from('#__tracker_reseed_request');
-		$query->where('requester ='.(int)$userID);
-		$query->where('fid ='.(int)$torrentID);
+		$query->select('requester')
+			  ->from('#__tracker_reseed_request')
+			  ->where('requester ='.(int)$userID)
+			  ->where('fid ='.(int)$torrentID);
 		$db->setQuery($query);
 		if ($db->loadResult()) return 0;
 		else return $userID;
@@ -572,9 +556,9 @@ class TrackerHelper extends JHelperContent {
 		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
-		$query->select('name, image');
-		$query->from('#__tracker_countries');
-		$query->where('id ='.(int)$countryID);
+		$query->select('name, image')
+			  ->from('#__tracker_countries')
+			  ->where('id ='.(int)$countryID);
 		$db->setQuery($query);
 		try {
 			$default_country = $db->loadNextObject();
@@ -582,7 +566,6 @@ class TrackerHelper extends JHelperContent {
 			// $this->setError(JText::_( 'COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'));
 			jimport('joomla.log.log');
 			JLog::add(JText::_('COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'), JLog::NOTICE);
-
 			return false;
 		}
 		return $default_country;
@@ -592,10 +575,10 @@ class TrackerHelper extends JHelperContent {
 		$db 	= JFactory::getDBO();
 	
 		$query	= $db->getQuery(true);
-		$query->select('reporter');
-		$query->from('#__tracker_reported_torrents');
-		$query->where('reporter ='.(int)$userID);
-		$query->where('fid ='.(int)$torrentID);
+		$query->select('reporter')
+			  ->from('#__tracker_reported_torrents')
+			  ->where('reporter ='.(int)$userID)
+			  ->where('fid ='.(int)$torrentID);
 		$db->setQuery($query);
 		if ($db->loadResult()) return 0;
 		else return $userID;
@@ -604,11 +587,10 @@ class TrackerHelper extends JHelperContent {
 	public static function checkTorrentType($torrentID) {
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('download_multiplier, created_time, seeders');
-		$query->from('#__tracker_torrents');
-		$query->where('fid ='.(int)$torrentID);
+		$query->select('download_multiplier, created_time, seeders')
+			  ->from('#__tracker_torrents')
+			  ->where('fid ='.(int)$torrentID);
 		$db->setQuery($query);
-
 		$torrent_type = $db->loadObject();
 		$params = JComponentHelper::getParams( 'com_tracker' );
 
@@ -670,11 +652,10 @@ class TrackerHelper extends JHelperContent {
 	public static function SelectList($table, $value, $text, $state) {
 		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select($value.' as value');
-		$query->select($text.' as text');
-		$query->from('`#__tracker_'.$table.'`');
+		$query->select($value.' as value')
+			  ->select($text.' as text')
+			  ->from('`#__tracker_'.$table.'`');
 		if (isset($state)) $query->where('state = ' . (int) $state);
-		
 		$db->setQuery($query);
 		return $db->loadObjectList();
 	}
@@ -685,10 +666,10 @@ class TrackerHelper extends JHelperContent {
 		
 		$db 	= JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__tracker_users'));
-		$query->set($db->quoteName($permission) . ' = '.$enable);
-		$query->where($db->quoteName('groupID') . ' IN ('.$groupID.')');
-		$query->where($db->quoteName('exemption_type') . ' = 2');
+		$query->update($db->quoteName('#__tracker_users'))
+			  ->set($db->quoteName($permission) . ' = '.$enable)
+			  ->where($db->quoteName('groupID') . ' IN ('.$groupID.')')
+			  ->where($db->quoteName('exemption_type') . ' = 2');
 		$db->setQuery($query);
 		
 		try {
@@ -824,46 +805,4 @@ class TrackerHelper extends JHelperContent {
 	
 		echo $feed->output();
 	}
-	
-
-// ########################################################################################################################################
-/*
-	public static function checkComponentConfigured() {
-		$db			= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-		$query->select('name, value');
-		$query->from('xbt_config');
-		$db->setQuery( $query );
-		$data = $db->loadObjectList('name');
-		if ($data) return '&nbsp;-&nbsp;<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/ok.png" />&nbsp;-&nbsp;'.JText::_( 'COM_TRACKER_PANEL_COMPONENT_CONFIGURED' );
-		else return '&nbsp;-&nbsp;<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/nok.png" />&nbsp;-&nbsp;'.JText::_( 'COM_TRACKER_PANEL_COMPONENT_NOT_CONFIGURED' );
-	}
-
-	public static function checkFolder($full_folder, $folder) {
-		if (JFolder::exists($full_folder) && strlen($folder) > 0 && TrackerHelper::is_folder_writable($full_folder)) return '<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/ok.png" />&nbsp;-&nbsp;'.JText::_( "COM_TRACKER_PANEL_DIRECTORY_EXIST" );
-			else if (JFolder::exists($full_folder) && strlen($folder) > 0 && !TrackerHelper::is_folder_writable($full_folder)) return '<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/nok.png" />&nbsp;-&nbsp;'.JText::_( "COM_TRACKER_PANEL_DIRECTORY_EXIST_CANT_WRITE" );
-				else return '<img style="vertical-align:middle;" src="'.JURI::root(true).'/administrator/components/com_tracker/images/nok.png" />&nbsp;-&nbsp;'.JText::_( "COM_TRACKER_PANEL_DIRECTORY_DONT_EXIST" );
-	}
-
-	public static function is_folder_writable($path) {
-	//will work in despite of Windows ACLs bug
-	//NOTE: use a trailing slash for folders!!!
-	//see http://bugs.php.net/bug.php?id=27609
-	//see http://bugs.php.net/bug.php?id=30931
-		if ($path{strlen($path)-1}=='/') // recursively return a temporary file path
-			return TrackerHelper::is_folder_writable($path.uniqid(mt_rand()).'.tmp');
-		else if (is_dir($path))
-			return TrackerHelper::is_folder_writable($path.'/'.uniqid(mt_rand()).'.tmp');
-		// check tmp file for read/write capabilities
-		$rm = file_exists($path);
-		$f = @fopen($path, 'a');
-		if ($f===false)
-			return false;
-		fclose($f);
-		if (!$rm)
-			unlink($path);
-		return true;
-	}
-
-*/
 }

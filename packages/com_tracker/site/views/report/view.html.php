@@ -9,27 +9,29 @@
 
 // No direct access
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
 class TrackerViewReport extends JViewLegacy {
+
 	protected $state = null;
 	protected $item = null;
 
-	public function display($cachable = false, $urlparams = false) {
-		$user		= JFactory::getUser();
+	public function display($tpl = null) {
 		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
 		
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$this->form	= $this->get('Form');
-		
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('params',		$params);
+		// Initialise variables
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->user		= JFactory::getUser();
+		$this->params	= $app->getParams();
+		$this->form		= $this->get('Form');
 
-		parent::display();
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseWarning(500, implode("\n", $errors));
+			return false;
+		}
+
+		return parent::display($tpl);
 	}
 
 }
