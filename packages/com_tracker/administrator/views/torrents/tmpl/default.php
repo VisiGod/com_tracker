@@ -31,7 +31,6 @@ if ($saveOrder) {
 $sortFields = $this->getSortFields();
 ?>
 
-
 <script type="text/javascript">
 	Joomla.orderTable = function() {
 		table = document.getElementById("sortTable");

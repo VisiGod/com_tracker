@@ -321,20 +321,20 @@ class TrackerModelUtilities extends JModelList {
 		$user 	= JFactory::getUser();
 
 
-		$filename = $params->get('import_filename');
-		$source_folder = $params->get('import_source_folder');
+		$filename = $_POST['import_filename'];
+		$source_folder = 'tmp';
 
-		if (empty($filename) || $filename == '-1') {
+		if (empty($filename)) {
 			$this->setError(JText::_('COM_TRACKER_UTILITY_IMPORT_INVALID_FILE'));
 			return false;
 		}
 
-		$filename = JUri::root().DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.$filename;
+		$filename = JUri::root().DIRECTORY_SEPARATOR.$source_folder.DIRECTORY_SEPARATOR.$filename;
 		@$handle = fopen($filename, "r");
 		$header = NULL;
 		$data = array();
 		if (($handle = fopen($filename, 'r')) !== FALSE) {
-			while (($row = fgetcsv($handle, 1000, $params->get('field_separator'))) !== FALSE) {
+			while (($row = fgetcsv($handle, 1000, $_POST['field_separator'])) !== FALSE) {
 				if(!$header) $header = $row;
 				else $data[] = array_combine($header, $row);
 			}

@@ -805,4 +805,5 @@ class TrackerHelper extends JHelperContent {
 	
 		echo $feed->output();
 	}
+
 }

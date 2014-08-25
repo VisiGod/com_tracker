@@ -44,7 +44,7 @@ class TrackerViewTorrent extends JViewLegacy {
 
 		if ($this->user->get('guest') && $this->params->get('allow_guest') == 1) {
 			$this->user = JUser::getTable('user', 'TrackerTable');
-			$this->user->load($params->get('guest_user'));
+			$this->user->load($this->params->get('guest_user'));
 		}
 
 		return parent::display($tpl);

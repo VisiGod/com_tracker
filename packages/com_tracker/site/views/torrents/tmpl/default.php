@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework');
+JHtml::_('bootstrap.tooltip');
 
 // Create a shortcut for params.
 $params = &$this->params;

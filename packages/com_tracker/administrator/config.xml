@@ -153,13 +153,13 @@
 		<field name="info_post_description" type="text" default="Torrent Information" label="COM_TRACKER_OPTIONS_COMPONENT_INFO_POST_DESCRIPTION" size="50" />
 		<field name="info_post_url" type="text" default="http://www.site.com/index.php?info=" label="COM_TRACKER_OPTIONS_COMPONENT_INFO_POST_URL" size="50" />
 	</fieldset>
-
+<!-- 
 	<fieldset name="utilities" label="COM_TRACKER_OPTIONS_UTILITIES" >
 		<field name="import_source_folder" type="folderlist" default="" label="COM_TRACKER_OPTIONS_UTILITIES_SOURCE_FOLDER" directory="" filter="" exclude="" stripext="" />
 		<field name="import_filename" type="filelist" default="" label="COM_TRACKER_OPTIONS_UTILITIES_IMPORT_FILENAME" description="" directory="tmp" filter="" exclude="" stripext="" />
 		<field name="field_separator" type="text" default=";" label="COM_TRACKER_OPTIONS_UTILITIES_FIELD_SEPARATOR" size="1" />
 	</fieldset>
-
+ -->
 	<fieldset name="external_link" label="COM_TRACKER_OPTIONS_EXTERNAL_LINKS" >
 		<field name="jquery_url" type="text" default="http://code.jquery.com/jquery-latest.js" label="COM_TRACKER_OPTIONS_EXTERNAL_LINKS_JQUERY" size="90" />
 		<field name="jquery_ui_url" type="text" default="http://code.jquery.com/ui/1.10.2/jquery-ui.js" label="COM_TRACKER_OPTIONS_EXTERNAL_LINKS_JQUERY_UI" size="90" />

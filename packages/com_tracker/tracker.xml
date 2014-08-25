@@ -49,7 +49,7 @@
 		<folder>torrenttype</folder>
 		<folder>ratios</folder>
 	</media>
-	
+
 	<administration>
 		<menu img="components/com_tracker/images/panel/logo-16x16.png" alt="XBT Tracker Frontend">COM_TRACKER</menu>
 		<files folder="administrator">
@@ -76,4 +76,3 @@
 		<server type="extension" priority="1" name="XBT Tracker Frontend Updates"><![CDATA[http://www.visigod.com/update.com_tracker.xml]]></server>
 	</updateservers>
 </extension>
-

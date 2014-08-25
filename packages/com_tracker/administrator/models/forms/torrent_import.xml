@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset>
+		<field name="import_filename" type="filelist" default="" label="COM_TRACKER_OPTIONS_UTILITIES_IMPORT_FILENAME" description="" directory="tmp" filter="csv" hide_none="true" hide_default="true" exclude="" stripext="" />
+
+		<field name="field_separator" type="text" default=";" label="COM_TRACKER_OPTIONS_UTILITIES_FIELD_SEPARATOR" size="1" />
+	</fieldset>
+</form>
