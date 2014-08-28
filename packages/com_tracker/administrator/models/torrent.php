@@ -41,7 +41,6 @@ class TrackerModelTorrent extends JModelAdmin {
 		return $data;
 	}
 
-
 	public function getItem($pk = null) {
 		if ($item = parent::getItem($pk)) {
 			//Do any procesing on fields here if needed
@@ -62,7 +61,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		}
 	}
 	
-	public function delete(&$itemIds) {
+	public function delete($itemIds) {
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$params = JComponentHelper::getParams( 'com_tracker' );

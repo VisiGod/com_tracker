@@ -7,8 +7,7 @@
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
-/**
+ /**
  * Torrent
  *
  * PHP version 5.2+ (with cURL extention enabled)
@@ -607,7 +606,7 @@ class Torrent {
 	 * @param string data
 	 * @return string packed data hash
 	 */
-	static function pack ( & $data ) {
+	static protected function pack ( & $data ) {
 		return pack('H*', sha1( $data ) ) . ( $data = null );
 	}
 
@@ -810,7 +809,12 @@ class Torrent {
 	 * @return boolean is the file a torrent or not
 	 */
 	static public function is_torrent ( $file, $timeout = self::timeout ) {
-		return ( $start = self::file_get_contents( $file, $timeout, 0, 11 ) ) &&  $start === 'd8:announce' || $start === 'd10:created';
+		return ( $start = self::file_get_contents( $file, $timeout, 0, 11 ) )
+			 && $start === 'd8:announce'
+			 || $start === 'd10:created'
+			 || $start === 'd13:creatio'
+			 || substr($start, 0, 7) === 'd4:info'
+			 || substr($start, 0, 3) === 'd9:'; // @see https://github.com/adriengibrat/torrent-rw/pull/17
 	}
 
 	/** Helper to get (distant) file content

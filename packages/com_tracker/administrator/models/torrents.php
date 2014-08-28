@@ -140,4 +140,5 @@ class TrackerModelTorrents extends JModelList {
 		$items = parent::getItems();
 		return $items;
 	}
+
 }

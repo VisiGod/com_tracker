@@ -330,7 +330,6 @@ class TrackerModelTorrent extends JModelItem {
 
 		$torrent = new Torrent( JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile );
 		// ###############################################################################################################################
-
 		// reset announce trackers
 		$torrent->announce(false);
 
@@ -355,7 +354,7 @@ class TrackerModelTorrent extends JModelItem {
 		}
 		
 		// Put some comment in the torrent
-		$torrent->comment('Torrent downloaded from '.$config->sitename);
+		$torrent->comment(JText::_( 'COM_TRACKER_TORRENT_DOWNLOADED_FROM' ).' '.$config->sitename);
 
 		// If we have tags enabled, put the site name in a Tag and send the torrent filename
 		if ($params->get('tag_in_torrent') == 1) $torrent->send('['.$config->sitename.']'.$row->name.'.torrent');
@@ -551,6 +550,7 @@ class TrackerModelTorrent extends JModelItem {
 
 		// Let's create our new torrent object
 		$torrent = new Torrent( $_FILES['jform']['tmp_name']['filename'] );
+
 		// And check for errors. Need to find a way to test them all :)
 		if ( $errors = $torrent->errors() ) var_dump( $errors );
 
@@ -560,8 +560,9 @@ class TrackerModelTorrent extends JModelItem {
 		// If the user didnt wrote a name for the torrent, we get it from the filename
 		if (empty($_POST['jform']['name'])) {
 			$filename = pathinfo($_FILES['jform']['name']['filename']);
-			$torrent->name($filename['filename']);
-		} else $torrent->name($_POST['jform']['name']);
+		} else {
+			$torrent->name($_POST['jform']['name']);
+		}
 
 		$query = $db->getQuery(true);
 		$query->select('count(fid)')
@@ -571,10 +572,10 @@ class TrackerModelTorrent extends JModelItem {
 		if ($db->loadResult() > 0) {
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_ALREADY_EXISTS'), 'error');
 		}		
-		
+
 		// ------------------------------------------------------------------------------------------------------------------------
 		// The .torrent file is valid, let's continue to our image file (if we choose to use it)
-		if ($params->get('use_image_file')) {
+		if ($params->get('use_image_file') && isset($_POST['jform']['image_type'])) {
 
 			// When image_type is don't use image
 			if ($_POST['jform']['image_type'] == 0) {

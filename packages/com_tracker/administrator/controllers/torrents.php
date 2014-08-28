@@ -14,7 +14,7 @@ jimport('joomla.application.component.controlleradmin');
 
 class TrackerControllerTorrents extends JControllerAdmin {
 
-	public function getModel($name = 'torrent', $prefix = 'TrackerModel') {
+	public function getModel($name = 'torrent', $prefix = 'TrackerModel', $config = array()) {
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
 	}
@@ -41,5 +41,33 @@ class TrackerControllerTorrents extends JControllerAdmin {
 	
 		// Close the application
 		JFactory::getApplication()->close();
+	}
+
+	public function delete() {
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+	
+		// Get items to remove from the request.
+		$cid = $this->input->get('cid', array(), 'array');
+	
+		if (!is_array($cid) || count($cid) < 1) {
+			JError::raiseWarning(500, JText::_('COM_TRACKER_TORRENTS_NO_TORRENTS_SELECTED'));
+		} else {
+			// Get the model.
+			$model = $this->getModel();
+	
+			// Make sure the item ids are integers
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
+	
+			// Remove the items.
+			if (!$model->delete($cid)) {
+				$this->setMessage($model->getError());
+			} else {
+				$this->setMessage(JText::plural('COM_TRACKER_TORRENTS_N_ITEMS_DELETED', count($cid)));
+			}
+		}
+	
+		$this->setRedirect('index.php?option=com_tracker&view=torrents');
 	}
 }
