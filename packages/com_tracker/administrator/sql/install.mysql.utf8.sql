@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS `#__tracker_announce_log` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,
-`ipa` INT(10) UNSIGNED DEFAULT NULL,
-`port` INT(11) DEFAULT NULL,
-`event` INT(11) DEFAULT NULL,
-`info_hash` BINARY(20) DEFAULT NULL,
-`peer_id` BINARY(20) DEFAULT NULL,
-`downloaded` BIGINT(20) DEFAULT NULL,
-`left0` BIGINT(20) DEFAULT NULL,
-`uploaded` BIGINT(20) DEFAULT NULL,
+`ipa` INT(10) UNSIGNED NOT NULL,
+`port` INT(11) NOT NULL,
+`event` INT(11) NOT NULL,
+`info_hash` BINARY(20) NOT NULL,
+`peer_id` BINARY(20) NOT NULL,
+`downloaded` BIGINT(20) UNSIGNED NOT NULL,
+`left0` BIGINT(20) UNSIGNED NOT NULL,
+`uploaded` BIGINT(20) UNSIGNED NOT NULL,
 `uid` INT(11) UNSIGNED NOT NULL,
-`mtime` INT(11) DEFAULT NULL,
+`mtime` INT(11) NOT NULL,
 PRIMARY KEY (`id`)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE IF NOT EXISTS `#__tracker_comments` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS `#__tracker_deny_from_hosts` (
 `created_time` DATETIME DEFAULT NULL,
 `created_user_id` INT(10) UNSIGNED NOT NULL,
 `comment` VARCHAR(255) NOT NULL,
-`begin` INT(10) UNSIGNED DEFAULT NULL,
-`end` INT(10) UNSIGNED DEFAULT NULL,
+`begin` INT(10) UNSIGNED NOT NULL,
+`end` INT(10) UNSIGNED NOT NULL,
 `ordering` INT(11) NOT NULL,
 PRIMARY KEY (`id`),
 UNIQUE KEY (`begin`,`end`)
@@ -105,14 +105,14 @@ UNIQUE KEY (`fid`,`requester`)
 );
 
 CREATE TABLE IF NOT EXISTS `#__tracker_torrents` (
-`fid` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+`fid` INT(11) NOT NULL AUTO_INCREMENT,
 `info_hash` BINARY(20) NOT NULL,
 `leechers` INT(11) NOT NULL DEFAULT '0',
 `seeders` INT(11) NOT NULL DEFAULT '0',
 `completed` INT(11) NOT NULL DEFAULT '0',
-`flags` INT(11) NOT NULL DEFAULT '2',
-`mtime` INT(11) NOT NULL DEFAULT '0',
-`ctime` INT(11) NOT NULL DEFAULT '0',
+`flags` INT(11) NOT NULL DEFAULT '0',
+`mtime` INT(11) NOT NULL,
+`ctime` INT(11) NOT NULL,
 `name` VARCHAR(255) NOT NULL,
 `alias` VARCHAR(255) NOT NULL,
 `filename` VARCHAR(255) NOT NULL,
@@ -156,17 +156,17 @@ PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `#__tracker_files_users` (
-`fid` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-`uid` INT(11) UNSIGNED NOT NULL,
-`active` TINYINT(4) NOT NULL DEFAULT '0',
-`announced` INT(11) NOT NULL DEFAULT '0',
-`completed` INT(11) NOT NULL DEFAULT '0',
-`downloaded` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0',
-`left` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0',
-`uploaded` BIGINT(20) NOT NULL DEFAULT '0',
-`mtime` INT(11) NOT NULL DEFAULT '0',
-`down_rate` INT(10) NOT NULL DEFAULT '0',
-`up_rate` INT(10) NOT NULL DEFAULT '0',
+`fid` INT(11) NOT NULL,
+`uid` INT(11) NOT NULL,
+`active` TINYINT(4) NOT NULL,
+`announced` INT(11) NOT NULL,
+`completed` INT(11) NOT NULL,
+`downloaded` BIGINT(20) UNSIGNED NOT NULL,
+`left` BIGINT(20) UNSIGNED NOT NULL,
+`uploaded` BIGINT(20) NOT NULL,
+`mtime` INT(11) NOT NULL,
+`down_rate` INT(10) UNSIGNED NOT NULL,
+`up_rate` INT(10) UNSIGNED NOT NULL,
 UNIQUE KEY (`fid`,`uid`),
 KEY (`uid`)
 );
@@ -184,26 +184,26 @@ PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `#__tracker_scrape_log` (
-`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-`ipa` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-`uid` INT(11) NOT NULL DEFAULT '0',
-`mtime` INT(11) NOT NULL DEFAULT '0',
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`ipa` INT(10) UNSIGNED NOT NULL,
+`uid` INT(11) NOT NULL,
+`mtime` INT(11) NOT NULL,
 PRIMARY KEY (`id`)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE IF NOT EXISTS `#__tracker_users` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,
 `groupID` INT(11) NOT NULL DEFAULT '1',
 `countryID` INT(11) NOT NULL,
-`downloaded` BIGINT(20) DEFAULT '0',
-`uploaded` BIGINT(20) DEFAULT '0',
+`downloaded` BIGINT(20) UNSIGNED DEFAULT '0',
+`uploaded` BIGINT(20) UNSIGNED DEFAULT '0',
 `exemption_type` TINYINT(4) NOT NULL DEFAULT '2',
 `minimum_ratio` FLOAT(11,2) NOT NULL DEFAULT '1',
 `can_leech` TINYINT(1) NOT NULL DEFAULT '0',
 `wait_time` INT(11) NOT NULL DEFAULT '0',
 `peer_limit` INT(11) NOT NULL DEFAULT '1',
 `torrent_limit` INT(11) NOT NULL DEFAULT '1',
-`torrent_pass_version` INT(11) NOT NULL DEFAULT '1',
+`torrent_pass_version` INT(11) NOT NULL DEFAULT '0',
 `multiplier_type` TINYINT(1) NOT NULL DEFAULT '0',
 `download_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
 `upload_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
@@ -258,6 +258,6 @@ PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `xbt_config` (
-`name` VARCHAR(255) DEFAULT NULL,
+`name` VARCHAR(255) NOT NULL,
 `value` VARCHAR(255) NOT NULL
 );
