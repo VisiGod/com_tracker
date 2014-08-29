@@ -42,6 +42,10 @@ class TrackerModelTorrents extends JModelList {
 	protected function populateState($ordering = 'ordering', $direction = 'DESC') {
 		$app = JFactory::getApplication();
 
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
 		// List state information
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 		$this->setState('list.limit', $limit);
@@ -136,12 +140,16 @@ class TrackerModelTorrents extends JModelList {
 		$query->where('t.state != -2');
 	
 		// Filter by search in title
-		$search = $this->getState('list.filter');
+		$search = $this->getState('filter.search');
 		if (!empty($search)) {
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
-			$query->where('(t.name LIKE ' . $search . ' OR t.tags LIKE '.$search. ')');
+			if (stripos($search, 'id:') === 0) {
+				$query->where('a.id = ' . (int) substr($search, 3));
+			} else {
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('(t.name LIKE ' . $search . ' OR t.tags LIKE '.$search. ')');
+			}
 		}
-
+		
 		// Filter by license
 		if ($params->get('enable_licenses')) {
 			$LicenseId = $this->getState('filter.license_id');

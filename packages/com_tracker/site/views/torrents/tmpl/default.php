@@ -39,15 +39,16 @@ $torrentType = array(
 		JHtml::_('select.option', '4', JText::_('COM_TRACKER_SELECT_TORRENTS_DEAD') ),
 );
 ?>
-<?php if (empty($this->items)) : ?>
-	<p><?php echo JText::_('COM_TRACKER_NO_TORRENTS'); ?></p>
-<?php else : ?>
-
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<fieldset class="filters btn-toolbar">
 			<?php if ($params->get('tl_search_bar')) : ?>
 			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_SUBMIT');?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" />
+				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></label>
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" />
+			</div>
+			<div class="btn-group pull-left">
+				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<?php endif; ?>
 
@@ -69,7 +70,7 @@ $torrentType = array(
 
 			<?php if ($params->get('tl_license_dropdown')) : ?>
 			<div class="btn-group pull-right">
-				<select name="filter_license_id" class="inputbox" onchange="this.form.submit()">
+				<select name="filter_license_id" class="input-medium" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('COM_TRACKER_SELECT_LICENSE');?></option>
 					<?php echo JHtml::_('select.options', TrackerHelper::SelectList('licenses', 'id', 'shortname', '1'), 'value', 'text', $this->state->get('filter.license_id')); ?>
 				</select>
@@ -87,6 +88,12 @@ $torrentType = array(
 		</fieldset>
 		<div class="clr"></div>
 
+		<?php if (empty($this->items)) : ?>
+			<div class="text-center middle">
+				<h2><?php echo JText::_('COM_TRACKER_NO_TORRENTS'); ?></h2>
+			</div>
+		<?php else : ?>
+		
 		<table class="category table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
@@ -102,9 +109,9 @@ $torrentType = array(
 					<?php endif; ?>
 					<?php if ($params->get('enable_torrent_type')) : ?>
 						<th id="torrentlist_header_torrenttype" class="nowrap">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JText::_( 'COM_TRACKER_TORRENT_TYPE' ); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>					
 					<?php if ($params->get('tl_info_hash')) : ?>
@@ -119,9 +126,9 @@ $torrentType = array(
 					<?php endif; ?>
 					<?php if ($params->get('tl_category')) : ?>
 						<th id="torrentlist_header_category">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'c.title', $listDirn, $listOrder); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_license')) : ?>
@@ -136,48 +143,52 @@ $torrentType = array(
 					<?php endif; ?>
 					<?php if ($params->get('tl_size')) : ?>
 						<th id="torrentlist_header_size" class="nowrap">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_SIZE', 't.size', $listDirn, $listOrder); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_created_time')) : ?>
 						<th id="torrentlist_header_created_time">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_CREATED_TIME', 't.created_time', $listDirn, $listOrder); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_leechers')) : ?>
 						<th id="torrentlist_header_leechers">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_LEECHERS_SMALL', 't.leechers', $listDirn, $listOrder); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_seeders')) : ?>
 						<th id="torrentlist_header_seeders">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_SEEDERS_SMALL', 't.seeders', $listDirn, $listOrder); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_completed')) : ?>
 						<th id="torrentlist_header_completed">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_COMPLETED_SMALL', 't.completed', $listDirn, $listOrder); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 
 					<?php if ($params->get('tl_uploader_name')) : ?>
 						<th id="torrentlist_header_uploader_name">
-							<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_UPLOADER', 'uploader_name', $listDirn, $listOrder); ?>
+							<div class="text-center middle">
+								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_UPLOADER', 'uploader_name', $listDirn, $listOrder); ?>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_uploader_username')) : ?>
 						<th id="torrentlist_header_uploader_username">
-							<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_UPLOADER', 'uploader_username', $listDirn, $listOrder); ?>
+							<div class="text-center middle">
+								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_UPLOADER', 'uploader_username', $listDirn, $listOrder); ?>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_number_files')) : ?>
@@ -207,16 +218,16 @@ $torrentType = array(
 					<?php endif; ?>
 					<?php if ($params->get('tl_torrent_thanks')) : ?>
 						<th id="torrentlist_header_torrent_thanks">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_USER_THANKS', 'thanks', $listDirn, $listOrder); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 					<?php if (TrackerHelper::user_permissions('download_torrents', $this->user->id) && $params->get('tl_download_image')) : ?>
 						<th id="torrentlist_header_download_torrents">
-							<span class="text-center">
+							<div class="text-center middle">
 								<?php echo JText::_( 'COM_TRACKER_DOWNLOAD_IMAGE_TEXT' ); ?>
-							</span>
+							</div>
 						</th>
 					<?php endif; ?>
 				</tr>
@@ -287,30 +298,30 @@ $torrentType = array(
 						<?php endif; ?>
 						<?php if ($params->get('tl_created_time')) : ?>
 							<td headers="torrentlist_header_created_time" class="list-created_time">
-								<span class="text-right">
+								<div class="text-right">
 									<?php echo date('Y.m.d', strtotime($torrent->created_time));?>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_leechers')) : ?>
 							<td headers="torrentlist_header_leechers" class="list-leechers" style="text-align:center;">
-								<span class="text-center">
+								<div class="text-center middle">
 									<?php echo $torrent->leechers;?>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_seeders')) : ?>
 							<td headers="torrentlist_header_seeders" class="list-seeders" style="text-align:center;">
-								<span class="text-center">
+								<div class="text-center middle">
 									<?php echo $torrent->seeders;?>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_completed')) : ?>
 							<td headers="torrentlist_header_completed" class="list-completed" style="text-align:center;">
-								<span class="text-center">
+								<div class="text-center middle">
 									<?php echo $torrent->completed;?>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if ($params->get('tl_uploader_name')) : ?>
@@ -360,18 +371,18 @@ $torrentType = array(
 						<?php endif; ?>
 						<?php if ($params->get('tl_torrent_thanks')) : ?>
 							<td headers="torrentlist_header_torrent_thanks" class="list-torrent_thanks" style="text-align:center;">
-								<span class="text-center">
+								<div class="text-center middle">
 									<?php echo $torrent->thanks;?>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 						<?php if (TrackerHelper::user_permissions('download_torrents', $user->id) && $params->get('tl_download_image')) : ?>
 							<td headers="torrentlist_header_download_torrents" class="list-download_torrents">
-								<span class="text-center">
+								<div class="text-center middle">
 									<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$torrent->fid); ?>">
 										<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
 									</a>
-								</span>
+								</div>
 							</td>
 						<?php endif; ?>
 					</tr>

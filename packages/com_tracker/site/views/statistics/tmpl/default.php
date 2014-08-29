@@ -139,6 +139,7 @@ defined('_JEXEC') or die;
 										endif;
 									?>
 									<td style="white-space:nowrap; text-align:center;"><img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></td>
+								<?php else : echo '<td style="white-space:nowrap; text-align:center;">&nbsp;</td>'; ?>
 								<?php endif; ?>
 								<td style="white-space:nowrap; text-align:center;"><?php echo $item->usergroup; ?></td>
 							</tr>
@@ -176,6 +177,7 @@ defined('_JEXEC') or die;
 										endif;
 									?>
 									<td style="white-space:nowrap; text-align:center;"><img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></td>
+								<?php else : echo '<td style="white-space:nowrap; text-align:center;">&nbsp;</td>'; ?>
 								<?php endif; ?>
 								<td style="white-space:nowrap; text-align:center;"><?php echo $item->usergroup; ?></td>
 							</tr>
@@ -215,6 +217,7 @@ defined('_JEXEC') or die;
 										endif;
 									?>
 									<td style="white-space:nowrap; text-align:center;"><img style="vertical-align:middle;" id="tdcountry<?php echo $item->uid; ?>" alt="<?php echo $item->countryName; ?>" src="<?php echo JURI::base().$item->countryImage; ?>" width="32px" /></td>
+								<?php else : echo '<td style="white-space:nowrap; text-align:center;">&nbsp;</td>'; ?>
 								<?php endif; ?>
 								<td style="white-space:nowrap; text-align:center;"><?php echo $item->usergroup; ?></td>
 							</tr>
@@ -333,6 +336,7 @@ defined('_JEXEC') or die;
 			</div>
 		<?php endif; ?>
 	</div>
+	<div class="clearfix"></div>
 <?php endif; ?>
 
 <?php if (($this->params->get('most_active_torrents') && count($this->item->most_active_torrents)) || ($this->params->get('most_seeded_torrents') && count($this->item->most_seeded_torrents)) || 
@@ -604,6 +608,7 @@ defined('_JEXEC') or die;
 			</div>
 		<?php endif; ?>
 	</div>
+	<div class="clearfix"></div>
 <?php endif; ?>
 
 <?php if (($this->params->get('worst_active_torrents') && count($this->item->worst_active_torrents)) || ($this->params->get('worst_seeded_torrents') && count($this->item->worst_seeded_torrents)) || 
@@ -820,4 +825,5 @@ defined('_JEXEC') or die;
 			</div>
 		<?php endif; ?>
 	</div>
+	<div class="clearfix"></div>
 <?php endif; ?>

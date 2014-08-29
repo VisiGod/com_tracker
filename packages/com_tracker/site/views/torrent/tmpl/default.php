@@ -72,7 +72,13 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 						<?php endif; ?>
 
 						<dt><b><?php echo JText::_( 'JCATEGORY' ); ?>:</b></dt>
-						<dd><?php echo $this->item->category_title; ?></dd>
+						<dd>
+							<?php
+								// For some stupid reason, when there isnt a category, the line is supressed...
+								if (empty($this->item->category_title)) $this->item->category_title = '<br />';
+								echo $this->item->category_title;
+							?>
+						</dd>
 
 						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_SIZE' ); ?>:</b></dt>
 						<dd><?php echo TrackerHelper::make_size($this->item->size)." (".number_format($this->item->size)." ".JText::_( 'COM_TRACKER_BYTES' ).")"; ?></dd>
@@ -265,7 +271,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 					<?php foreach ($this->item->torrent_files as $i => $item) : ?>
 						<tr>
 							<td><?php echo $item->filename; ?></td>
-							<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::getFileImage($item->filename); ?></td>
+							<?php if ($this->params->get('enable_filetypes') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::getFileImage($item->filename); ?></td><?php endif; ?>
 							<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($item->size); ?></td>
 						</tr>
 					<?php endforeach; ?>

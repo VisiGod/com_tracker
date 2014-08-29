@@ -169,13 +169,16 @@ class TrackerModelTorrent extends JModelItem {
 		$db->setQuery($query);
 		$data->hitrunners = $db->loadObjectList();
 
-		// Get the default country and flagpic
-		$query->clear()
-			  ->select('tc.name as name, tc.image as image')
-			  ->from('#__tracker_countries AS tc')
-			  ->where('tc.id = '.$params->get('defaultcountry'));
-		$db->setQuery($query);
-		$data->default_country = $db->loadObjectList();
+		if ($params->get('enable_countries') == 1) {
+			if (!$params->get('defaultcountry')) $params->set('defaultcountry', 170);
+			// Get the default country and flagpic
+			$query->clear()
+				  ->select('tc.name as name, tc.image as image')
+				  ->from('#__tracker_countries AS tc')
+				  ->where('tc.id = '.$params->get('defaultcountry'));
+			$db->setQuery($query);
+			$data->default_country = $db->loadObjectList();
+		}
 
 		// Get the torrent thanks
 		if ($params->get('enable_thankyou') == 1) {

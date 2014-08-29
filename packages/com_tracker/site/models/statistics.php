@@ -58,6 +58,10 @@ class TrackerModelStatistics extends JModelItem {
 				  ->from('#__tracker_files_users');
 			$db->setQuery($query);
 			$total_torrents->total_speed = $db->loadObject();
+		} else {
+			$total_torrents->total_speed = new stdClass();
+			$total_torrents->total_speed->download_rate = 0;
+			$total_torrents->total_speed->upload_rate = 0;
 		}
 		
 		// User stats
