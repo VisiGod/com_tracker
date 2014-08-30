@@ -67,7 +67,7 @@ class TrackerModelTorrents extends JModelList {
 		
 		// Optional filter text
 		$this->setState('list.filter', $app->input->getString('filter-search'));
-		
+
 		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
 
@@ -138,12 +138,18 @@ class TrackerModelTorrents extends JModelList {
 		// do not show trashed links on the front-end
 		$query->where('t.state != -2');
 
-
 		// Filter by search in title
 		$search = $this->getState('list.filter');
 		if (!empty($search)) {
 			$search = $db->quote('%' . $db->escape($search, true) . '%');
 			$query->where('( t.name LIKE '.$search.'  OR  t.tags LIKE '.$search.' )');
+		}
+
+		//If we've selected a tag from another torrent
+		$search_tag = $this->getState('filter.torrent_tag');
+		if (!empty($search_tag)) {
+			$search_tag = $db->quote('%' . $db->escape($search_tag, true) . '%');
+			$query->where('(  t.tags LIKE '.$search_tag.' )');
 		}
 
 		// Filter by license

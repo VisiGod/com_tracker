@@ -112,6 +112,9 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUMBER_OF_FILES' ); ?>:</b></dt>
 						<dd><?php echo $this->item->number_files." ".JText::_( 'COM_TRACKER_TORRENT_DETAILS_NUMBER_OF_FILES_FILES' );?></dd>
 
+						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_INFO_HASH' ); ?>:</b></dt>
+						<dd><?php echo $this->item->info_hash;?></dd>
+
 						<?php if ($this->params->get('torrent_multiplier') == 1) : ?>
 							<dt><b><?php echo JText::_( 'COM_TRACKER_DOWNLOAD_MULTIPLIER' ); ?>:</b></dt>
 							<dd><?php echo $this->item->download_multiplier." ".JText::_( 'COM_TRACKER_TORRENT_TIMES' );?></dd>
@@ -176,10 +179,10 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									if (empty($this->item->tags)) :
 										echo JText::_( 'COM_TRACKER_NO_TORRENT_TAGS' );
 									else :
-										$Tags = explode(", ", $this->item->tags);
+										$Tags = explode(" ", $this->item->tags);
 										$totalTags = count($Tags);
 										for ($i=0; $i < $totalTags; $i++) {
-											echo '<a href="'.JRoute::_('index.php?view=torrents&tag='.$Tags[$i]).'">'.$Tags[$i].'</a>';
+											echo '<a href="'.JRoute::_('index.php?view=torrents&filter-search='.$Tags[$i]).'">'.$Tags[$i].'</a>';
 											if ($i < $totalTags - 1) echo ', ';
 										}
 									endif;
