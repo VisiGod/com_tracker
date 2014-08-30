@@ -10,7 +10,6 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-
 <?php if ($this->params->get('number_torrents') || $this->params->get('number_files') || $this->params->get('total_seeders') || 
 		  $this->params->get('total_leechers') || $this->params->get('total_completed') || $this->params->get('bytes_shared') ||
 		  $this->params->get('download_speed') || $this->params->get('upload_speed') || $this->params->get('bytes_downloaded') || $this->params->get('bytes_uploaded')) : ?>

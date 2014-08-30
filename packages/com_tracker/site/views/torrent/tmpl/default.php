@@ -298,35 +298,70 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 					</thead>
 					<tbody>
 						<?php foreach ($this->item->peers as $i => $peer) : ?>
-							<tr>
-								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
-								<td style="white-space:nowrap; text-align:center;">
-									<?php
-										if (empty($peer->countryname)) :
-											$peer->countryname = $peer->default_country[0]->name;
-											$peer->countryimage = $peer->default_country[0]->image;
-										endif;
+							<?php if ($peer->num_times > 1) : ?> <!--  downloaded // left0 // uploaded -->
+								<?php foreach ($this->item->peers[$i]->list as $i => $list) : ?>
+								<tr>
+									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
+									<td style="white-space:nowrap; text-align:center;">
+										<?php
+											if (empty($peer->countryname)) :
+												$peer->countryname = $peer->default_country[0]->name;
+												$peer->countryimage = $peer->default_country[0]->image;
+											endif;
+										?>
+										<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryname; ?>" src="<?php echo JURI::base().$peer->countryimage; ?>" width="32" />
+									</td>
+									<td style="white-space:nowrap; text-align:center;">
+									<?php  
+											$list->user_progress = number_format(100-(($list->left0*100)/$item->size), 0, ',', ' ');
+											if ($list->user_progress < 33) $progress_class = "progress-danger";
+											else if ($list->user_progress < 66) $progress_class = "progress-warning";
+											else $progress_class = "progress-success";
 									?>
-									<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryname; ?>" src="<?php echo JURI::base().$peer->countryimage; ?>" width="32" />
-								</td>
-								<td style="white-space:nowrap; text-align:center;">
-									<?php
-										$peer->user_progress = number_format(100-(($peer->left*100)/$item->size), 0, ',', ' ');
-										if ($peer->user_progress < 33) $progress_class = "progress-danger";
-										else if ($peer->user_progress < 66) $progress_class = "progress-warning";
-										else $progress_class = "progress-success";
-									?>
-									<div class="progress progress-striped active <?php echo $progress_class;?>">
-										<div class="bar" style="width: <?php echo $peer->user_progress;?>%"><?php echo $peer->user_progress;?>%</div>
-									</div>
-								</td>
-								<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->downloaded); ?></td>
-								<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->uploaded); ?></td>
-								<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
-								<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
-								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_ratio($peer->downloaded,$peer->uploaded); ?></td>
-								<td style="white-space:nowrap; text-align:center;"><?php echo $peer->num_times; ?></td>
-							</tr>
+										<div class="progress progress-striped active <?php echo $progress_class;?>">
+											<div class="bar" style="width: <?php echo $list->user_progress;?>%;color: #000;"><?php echo $list->user_progress;?>%</div>
+										</div>
+									</td>
+									<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($list->downloaded);?></td>
+									
+									<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($list->uploaded); ?></td>
+									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($list->down_rate).'/s'; ?></td><?php endif; ?>
+									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($list->down_rate).'/s'; ?></td><?php endif; ?>
+									<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_ratio($list->downloaded,$list->uploaded); ?></td>
+									<td style="white-space:nowrap; text-align:center;"><?php echo $peer->num_times; ?></td>
+								</tr>
+								<?php endforeach; ?>
+							<?php else : ?>
+								<tr>
+									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
+									<td style="white-space:nowrap; text-align:center;">
+										<?php
+											if (empty($peer->countryname)) :
+												$peer->countryname = $peer->default_country[0]->name;
+												$peer->countryimage = $peer->default_country[0]->image;
+											endif;
+										?>
+										<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryname; ?>" src="<?php echo JURI::base().$peer->countryimage; ?>" width="32" />
+									</td>
+									<td style="white-space:nowrap; text-align:center;">
+										<?php 
+											$peer->user_progress = number_format(100-(($peer->left*100)/$item->size), 0, ',', ' ');
+											if ($peer->user_progress < 33) $progress_class = "progress-danger";
+											else if ($peer->user_progress < 66) $progress_class = "progress-warning";
+											else $progress_class = "progress-success";
+										?>
+										<div class="progress progress-striped active <?php echo $progress_class;?>">
+											<div class="bar" style="width: <?php echo $peer->user_progress;?>%;color: #000;"><?php echo $peer->user_progress;?>%</div>
+										</div>
+									</td>
+									<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->downloaded); ?></td>
+									<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->uploaded); ?></td>
+									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
+									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
+									<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_ratio($peer->downloaded,$peer->uploaded); ?></td>
+									<td style="white-space:nowrap; text-align:center;"><?php echo $peer->num_times; ?></td>
+								</tr>
+							<?php endif; ?>
 						<?php endforeach; ?>
 					</tbody>
 				</table>

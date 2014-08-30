@@ -46,7 +46,7 @@ class TrackerModelTorrent extends JModelItem {
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('t.fid, t.info_hash, t.leechers, t.seeders, t.completed, t.name, t.description, t.size, t.created_time, t.number_files, t.uploader');
+		$query->select('t.fid, HEX(t.info_hash) as info_hash, t.leechers, t.seeders, t.completed, t.name, t.description, t.size, t.created_time, t.number_files, t.uploader');
 		if ($params->get('allow_upload_anonymous')) {
 			$query->select('t.uploader_anonymous');
 		}
@@ -127,13 +127,28 @@ class TrackerModelTorrent extends JModelItem {
 			  ->select('tc.name as countryname, tc.image as countryimage')
 			  ->join('LEFT', '#__tracker_countries AS tc ON tc.id = tu.countryID')
 		// Get the number of times the peer is present
-		// for when we have the same user seeding/leeching more than once
-			  ->select('(SELECT count(distinct(peer_id)) FROM `#__tracker_announce_log` WHERE mtime >= ( UNIX_TIMESTAMP() - '.$time_difference.' ) AND uid = u.id) as num_times')
+		// for when we have the same user seeding/leeching more than once and didnt sent the stop event
+			  ->select('(SELECT count(distinct(peer_id)) FROM `#__tracker_announce_log` WHERE mtime >= ( UNIX_TIMESTAMP() - '.$time_difference.' ) AND event <> 3 AND uid = u.id) as num_times')
 			  ->where('fu.fid = ' . (int) $pk)
 			  ->where('fu.active = 1')
 			  ->order('fu.left ASC');
 		$db->setQuery($query);
 		$data->peers = $db->loadObjectList();
+
+		// If a peer has more than one connection, add it to a sublist objects
+		foreach ($data->peers as $i => $peer) {
+			if ($peer->num_times > 1) {
+				$query->clear()
+					  ->select('distinct(peer_id), downloaded, left0, uploaded')
+					  ->from('#__tracker_announce_log')
+					  ->where('mtime >= ( UNIX_TIMESTAMP() - '.$time_difference.' )')
+					  ->where('uid = '.$peer->id)
+					  ->where('info_hash = UNHEX("'.$data->info_hash.'")')
+					  ->where('event <> 3');
+				$db->setQuery($query,0,$peer->num_times);
+				$data->peers[$i]->list = $db->loadObjectList();
+			} 
+		}
 
 		// Get the users that snatched the torrent
 		//TODO: Remove the user who uploaded the torrent as a snatcher

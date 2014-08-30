@@ -474,7 +474,7 @@ class TrackerHelper extends JHelperContent {
 		$params = JComponentHelper::getParams('com_tracker');
 		
 		if ($params->get('comment_system') == 'jcomments') {
-			$comments = JPATH_SITE . DS .'components' . DS . 'com_jcomments' . DS . 'jcomments.php';
+			$comments = JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_jcomments'.DIRECTORY_SEPARATOR.'jcomments.php';
 			if (file_exists($comments)) {
 				require_once($comments);
 				echo JComments::showComments($torrent_id, 'com_tracker', $torrent_name);
@@ -568,6 +568,13 @@ class TrackerHelper extends JHelperContent {
 			JLog::add(JText::_('COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'), JLog::NOTICE);
 			return false;
 		}
+		
+		if (empty($default_country)) {
+			$default_country = new JObject;
+			$default_country->name = JText::_( 'JNONE' );
+			$default_country->image = 'images/tracker/flags/unknown.png' ;
+		}
+		
 		return $default_country;
 	}
 

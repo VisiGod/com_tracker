@@ -42,17 +42,13 @@ class TrackerModelTorrents extends JModelList {
 	protected function populateState($ordering = 'ordering', $direction = 'DESC') {
 		$app = JFactory::getApplication();
 
-		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
 		// List state information
 		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 		$this->setState('list.limit', $limit);
 		
 		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
-
+		
 		$orderCol = $app->input->get('filter_order', 't.ordering');
 		
 		if (!in_array($orderCol, $this->filter_fields)) {
@@ -60,7 +56,7 @@ class TrackerModelTorrents extends JModelList {
 		}
 		
 		$this->setState('list.ordering', $orderCol);
-
+		
 		$listOrder = $app->input->get('filter_order_Dir', 'DESC');
 		
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
@@ -68,7 +64,10 @@ class TrackerModelTorrents extends JModelList {
 		}
 		
 		$this->setState('list.direction', $listOrder);
-
+		
+		// Optional filter text
+		$this->setState('list.filter', $app->input->getString('filter-search'));
+		
 		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
 
@@ -138,18 +137,15 @@ class TrackerModelTorrents extends JModelList {
 		}
 		// do not show trashed links on the front-end
 		$query->where('t.state != -2');
-	
+
+
 		// Filter by search in title
-		$search = $this->getState('filter.search');
+		$search = $this->getState('list.filter');
 		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
-				$query->where('a.id = ' . (int) substr($search, 3));
-			} else {
-				$search = $db->Quote('%' . $db->escape($search, true) . '%');
-				$query->where('(t.name LIKE ' . $search . ' OR t.tags LIKE '.$search. ')');
-			}
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$query->where('( t.name LIKE '.$search.'  OR  t.tags LIKE '.$search.' )');
 		}
-		
+
 		// Filter by license
 		if ($params->get('enable_licenses')) {
 			$LicenseId = $this->getState('filter.license_id');
@@ -172,7 +168,7 @@ class TrackerModelTorrents extends JModelList {
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->getState('list.ordering', 't.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
+		$query->order($this->getState('list.ordering', 't.ordering') . ' ' . $this->getState('list.direction', 'DESC'));
 
 		return $query;
 	}

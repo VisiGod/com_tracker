@@ -42,17 +42,20 @@ $torrentType = array(
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<fieldset class="filters btn-toolbar">
 			<?php if ($params->get('tl_search_bar')) : ?>
-			<div class="filter-search btn-group pull-left">
-				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></label>
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" />
-			</div>
-			<div class="btn-group pull-left">
-				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+			<div class="btn-toolbar">
+				<div class="filter-search btn-group pull-left">
+					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="input-large" onchange="document.adminForm.submit();" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" placeholder="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" />
+				</div>
+				<div class="btn-group pull-left">
+					<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				</div>
+				<div class="btn-group pull-left">
+					<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter-search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				</div>
 			</div>
 			<?php endif; ?>
 
-			<div class="btn-group pull-right nowrap">
+			<div class="btn-group pull-right nowrap" style="margin-left: 5px;">
 				<label for="limit" class="element-invisible">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 					<?php echo $this->pagination->getLimitBox(); ?>
@@ -61,14 +64,14 @@ $torrentType = array(
 
 			<?php if ($params->get('tl_category_dropdown')) : ?>
 			<div class="btn-group pull-right">
-				<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
+				<select name="filter_category_id" class="input-medium" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 					<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_tracker'), 'value', 'text', $this->state->get('filter.category_id'));?>
 				</select>
 			</div>
 			<?php endif; ?>
 
-			<?php if ($params->get('tl_license_dropdown')) : ?>
+			<?php if ($params->get('tl_license_dropdown') && $params->get('enable_licenses')) : ?>
 			<div class="btn-group pull-right">
 				<select name="filter_license_id" class="input-medium" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('COM_TRACKER_SELECT_LICENSE');?></option>
@@ -79,7 +82,7 @@ $torrentType = array(
 
 			<?php if ($params->get('tl_torrent_status_dropdown')) : ?>
 			<div class="btn-group pull-right">
-				<select name="filter_torrent_status" class="inputbox" onchange="this.form.submit()">
+				<select name="filter_torrent_status" class="input-medium" onchange="this.form.submit()">
 					<option value=""><?php echo JText::_('COM_TRACKER_SELECT_ALL_TORRENTS');?></option>
 					<?php echo JHtml::_('select.options', $torrentType, 'value', 'text', $this->state->get('filter.torrent_status'));?>
 				</select>
