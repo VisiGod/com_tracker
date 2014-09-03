@@ -556,19 +556,19 @@ class TrackerHelper extends JHelperContent {
 		$db 	= JFactory::getDBO();
 		
 		$query	= $db->getQuery(true);
-		$query->select('name, image')
+		$query->clear()
+			  ->select('name, image')
 			  ->from('#__tracker_countries')
 			  ->where('id ='.(int)$countryID);
 		$db->setQuery($query);
 		try {
-			$default_country = $db->loadNextObject();
+			$default_country = $db->loadObject();
 		} catch (Exception $e) {
-			// $this->setError(JText::_( 'COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'));
 			jimport('joomla.log.log');
 			JLog::add(JText::_('COM_TRACKER_CANT_GET_DEFAULT_COUNTRY'), JLog::NOTICE);
 			return false;
 		}
-		
+
 		if (empty($default_country)) {
 			$default_country = new JObject;
 			$default_country->name = JText::_( 'JNONE' );

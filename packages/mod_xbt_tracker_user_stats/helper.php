@@ -71,6 +71,6 @@ class ModXBTTrackerUserStats {
 		$query->where('tu.id = '.$user->id);
 		$db->setQuery($query);
 
-		return $db->loadNextObject();
+		return $db->loadObject();
 	}
 }

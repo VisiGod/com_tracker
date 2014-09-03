@@ -9,6 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
 ?>
 <?php if ($this->params->get('number_torrents') || $this->params->get('number_files') || $this->params->get('total_seeders') || 
 		  $this->params->get('total_leechers') || $this->params->get('total_completed') || $this->params->get('bytes_shared') ||
@@ -81,35 +82,44 @@ defined('_JEXEC') or die;
 
 <?php if (($this->params->get('top_downloaders') && count($this->item->top_downloaders)) || ($this->params->get('top_uploaders') && count($this->item->top_uploaders)) || 
 		 ($this->params->get('top_sharers') && count($this->item->top_sharers)) || ($this->params->get('worst_sharers') && count($this->item->worst_sharers)) || 
-		 ($this->params->get('top_thanked') && count($this->item->top_thanked)) ||($this->params->get('top_thanker') && count($this->item->top_thanker))) : ?>
+		 ($this->params->get('top_thanked') && count($this->item->top_thanked)) || ($this->params->get('top_thanker') && count($this->item->top_thanker))) : ?>
 
+<?php // Define active <li>. Stupid solution but still works... 
+	$topdl_li = $topul_li = $topsh_li = $wstsh_li = $toptk_li = $topth_li = '';
+	if ($this->params->get('top_downloaders') && count($this->item->top_downloaders)) $topdl_li = 'class="active"';
+	elseif ($this->params->get('top_uploaders') && count($this->item->top_uploaders)) $topul_li = 'class="active"';
+	elseif ($this->params->get('top_sharers') && count($this->item->top_sharers)) $topsh_li = 'class="active"';
+	elseif ($this->params->get('worst_sharers') && count($this->item->worst_sharers)) $wstsh_li = 'class="active"';
+	elseif ($this->params->get('top_thanked') && count($this->item->top_thanked)) $toptk_li = 'class="active"';
+	elseif ($this->params->get('top_thanker') && count($this->item->top_thanker)) $topth_li = 'class="active"';
+?>
 	<ul class="nav nav-pills">
 		<?php if ($this->params->get('top_downloaders') && count($this->item->top_downloaders)) : ?>
-			<li class="active"><a href="#top_downloaders" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_DOWNLOADERS'); ?></a></li>
+			<li <?php echo $topdl_li; ?>><a href="#top_downloaders" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_DOWNLOADERS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('top_uploaders') && count($this->item->top_uploaders)) : ?>
-			<li><a href="#top_uploaders" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_UPLOADERS'); ?></a></li>
+			<li <?php echo $topul_li; ?>><a href="#top_uploaders" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_UPLOADERS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('top_sharers') && count($this->item->top_sharers)) : ?>
-			<li><a href="#top_sharers" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_SHARERS'); ?></a></li>
+			<li <?php echo $topsh_li; ?>><a href="#top_sharers" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_SHARERS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('worst_sharers') && count($this->item->worst_sharers)) : ?>
-			<li><a href="#worst_sharers" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_SHARERS'); ?></a></li>
+			<li <?php echo $wstsh_li; ?>><a href="#worst_sharers" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_SHARERS'); ?></a></li>
 		<?php endif; ?>
 				
 		<?php if ($this->params->get('top_thanked') && count($this->item->top_thanked)) : ?>
-			<li><a href="#top_thanked" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_THANKED'); ?></a></li>
+			<li <?php echo $toptk_li; ?>><a href="#top_thanked" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_THANKED'); ?></a></li>
 		<?php endif; ?>
 				
 		<?php if ($this->params->get('top_thanker') && count($this->item->top_thanker)) : ?>
-			<li><a href="#top_thanker" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_THANKERS'); ?></a></li>
+			<li <?php echo $topth_li; ?>><a href="#top_thanker" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_THANKERS'); ?></a></li>
 		<?php endif; ?>
 	</ul>
 
-	<div class="tab-content">
+	<div class="tab-content" id="top_div">
 		<?php if ($this->params->get('top_downloaders') && count($this->item->top_downloaders)) : ?>
 			<!-- Top Downloaders -->
 			<div class="tab-pane active" id="top_downloaders">
@@ -341,30 +351,37 @@ defined('_JEXEC') or die;
 <?php if (($this->params->get('most_active_torrents') && count($this->item->most_active_torrents)) || ($this->params->get('most_seeded_torrents') && count($this->item->most_seeded_torrents)) || 
 		 ($this->params->get('most_leeched_torrents') && count($this->item->most_leeched_torrents)) || ($this->params->get('most_completed_torrents') && count($this->item->most_completed_torrents)) ||
 		 ($this->params->get('most_thanked_torrents') && count($this->item->top_thanked_torrents))) : ?>
-
+<?php // Define active <li>. Stupid solution but still works... 
+	$mstac_li = $mstse_li = $mstle_li = $mstco_li = $msttk_li = '';
+	if ($this->params->get('most_active_torrents') && count($this->item->most_active_torrents)) $mstac_li = 'class="active"';
+	elseif ($this->params->get('most_seeded_torrents') && count($this->item->most_seeded_torrents)) $mstse_li = 'class="active"';
+	elseif ($this->params->get('most_leeched_torrents') && count($this->item->most_leeched_torrents)) $mstle_li = 'class="active"';
+	elseif ($this->params->get('most_completed_torrents') && count($this->item->most_completed_torrents)) $mstco_li = 'class="active"';
+	elseif ($this->params->get('most_thanked_torrents') && count($this->item->top_thanked_torrents)) $msttk_li = 'class="active"'; 
+?>
 	<ul class="nav nav-pills">
 		<?php if ($this->params->get('most_active_torrents') && count($this->item->most_active_torrents)) : ?>
-			<li class="active"><a href="#most_active_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_ACTIVE_TORRENTS'); ?></a></li>
+			<li <?php echo $mstac_li; ?>><a href="#most_active_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_ACTIVE_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('most_seeded_torrents') && count($this->item->most_seeded_torrents)) : ?>
-			<li><a href="#most_seeded_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_SEEDED_TORRENTS'); ?></a></li>
+			<li <?php echo $mstse_li; ?>><a href="#most_seeded_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_SEEDED_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('most_leeched_torrents') && count($this->item->most_leeched_torrents)) : ?>
-			<li><a href="#most_leeched_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_LEECHED_TORRENTS'); ?></a></li>
+			<li <?php echo $mstle_li; ?>><a href="#most_leeched_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_LEECHED_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('most_completed_torrents') && count($this->item->most_completed_torrents)) : ?>
-			<li><a href="#most_completed_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_COMPLETED_TORRENTS'); ?></a></li>
+			<li <?php echo $mstco_li; ?>><a href="#most_completed_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_COMPLETED_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 				
 		<?php if ($this->params->get('most_thanked_torrents') && count($this->item->top_thanked_torrents)) : ?>
-			<li><a href="#most_thanked_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_THANKED_TORRENTS'); ?></a></li>
+			<li <?php echo $msttk_li; ?>><a href="#most_thanked_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_TOP_THANKED_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 	</ul>
 
-	<div class="tab-content">
+	<div class="tab-content" id="most_div">
 		<?php if ($this->params->get('most_active_torrents') && count($this->item->most_active_torrents)) : ?>
 			<!-- Most Active Torrents -->
 			<div class="tab-pane active" id="most_active_torrents">
@@ -613,28 +630,35 @@ defined('_JEXEC') or die;
 <?php if (($this->params->get('worst_active_torrents') && count($this->item->worst_active_torrents)) || ($this->params->get('worst_seeded_torrents') && count($this->item->worst_seeded_torrents)) || 
 		 ($this->params->get('worst_leeched_torrents') && count($this->item->worst_leeched_torrents)) || ($this->params->get('worst_completed_torrents') && count($this->item->worst_completed_torrents))) : ?>
 
+<?php // Define active <li>. Stupid solution but still works... 
+$wstac_li = $wstse_li = $wstle_li = $wstco_li = '';
+if ($this->params->get('worst_active_torrents') && count($this->item->worst_active_torrents)) $wstac_li = 'class="active"';
+elseif ($this->params->get('worst_seeded_torrents') && count($this->item->worst_seeded_torrents)) $wstse_li = 'class="active"';
+elseif ($this->params->get('worst_leeched_torrents') && count($this->item->worst_leeched_torrents)) $wstle_li = 'class="active"';
+elseif ($this->params->get('worst_completed_torrents') && count($this->item->worst_completed_torrents)) $wstco_li = 'class="active"';
+?>
 	<ul class="nav nav-pills">
 		<?php if ($this->params->get('worst_active_torrents') && count($this->item->worst_active_torrents)) : ?>
-			<li class="active"><a href="#worst_active_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_ACTIVE_TORRENTS'); ?></a></li>
+			<li <?php echo $wstac_li; ?>><a href="#worst_active_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_ACTIVE_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('worst_seeded_torrents') && count($this->item->worst_seeded_torrents)) : ?>
-			<li><a href="#worst_seeded_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_SEEDED_TORRENTS'); ?></a></li>
+			<li <?php echo $wstse_li; ?>><a href="#worst_seeded_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_SEEDED_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('worst_leeched_torrents') && count($this->item->worst_leeched_torrents)) : ?>
-			<li><a href="#worst_leeched_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_LEECHED_TORRENTS'); ?></a></li>
+			<li <?php echo $wstle_li; ?>><a href="#worst_leeched_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_LEECHED_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('worst_completed_torrents') && count($this->item->worst_completed_torrents)) : ?>
-			<li><a href="#worst_completed_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_COMPLETED_TORRENTS'); ?></a></li>
+			<li <?php echo $wstco_li; ?>><a href="#worst_completed_torrents" data-toggle="tab"><?php echo JText::_('COM_TRACKER_STATS_WORST_COMPLETED_TORRENTS'); ?></a></li>
 		<?php endif; ?>
 	</ul>
 
-	<div class="tab-content">
+	<div class="tab-content" id="worst_div">
 		<?php if ($this->params->get('worst_active_torrents') && count($this->item->worst_active_torrents)) : ?>
 			<!-- Worst Active Torrents -->
-			<div class="tab-pane active" id=worst_active_torrents>
+			<div class="tab-pane active" id="worst_active_torrents">
 				<table class="table table-striped">
 					<thead>
 						<tr>

@@ -30,7 +30,6 @@ function check_dd() {
 </script>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="upload-form" id="upload-form" class="form-validate form-horizontal" enctype="multipart/form-data" >
-	<fieldset>
 		<div class="control-group">
 			<div class="control-label"><?php echo $this->form->getLabel('filename'); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('filename'); ?></div>
@@ -41,17 +40,23 @@ function check_dd() {
 			<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
 		</div>
 
-		<div class="control-group">
-			<div class="control-label"><?php echo $this->form->getLabel('categoryID'); ?></div>
-			<div class="controls"><?php echo $this->form->getInput('categoryID'); ?></div>
-		</div>
-
-		<?php if ($this->params->get('enable_licenses') == 1) : ?>
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('licenseID'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('licenseID'); ?></div>
+		<div class="row-fluid">
+			<div class="span5">
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('categoryID'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('categoryID'); ?></div>
+				</div>
 			</div>
-		<?php endif; ?>
+
+			<?php if ($this->params->get('enable_licenses')) : ?>
+				<div class="span5">
+					<div class="control-group">
+						<div class="control-label"><?php echo $this->form->getLabel('licenseID'); ?></div>
+						<div class="controls"><?php echo $this->form->getInput('licenseID'); ?></div>
+					</div>
+				</div>
+			<?php endif; ?>
+		</div>
 
 		<?php if ($this->params->get('allow_upload_anonymous') == 1) : ?>
 			<div class="control-group">
@@ -61,46 +66,63 @@ function check_dd() {
 		<?php endif; ?>
 
 		<?php if ($this->params->get('use_image_file') == 1) : ?>
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
-				<div class="controls">
-					<?php
-						$image_type = array(0 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_OPTION'), 1 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_FILE'), 2 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_LINK'));
-						$options = array();
-						foreach($image_type as $key=>$value) :
-							$options[] = JHtml::_('select.option', $key, $value);
-						endforeach;
-						echo JHtml::_('select.genericlist', $options, 'default_image_type', 'class="inputbox" onchange="check_dd();"', 'value', 'text', 0);
-					?>
+			<div class="row-fluid">
+				<div class="span5">
+					<div class="control-group">
+						<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
+						<div class="controls">
+							<?php
+								$image_type = array(0 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_OPTION'), 1 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_FILE'), 2 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_LINK'));
+								$options = array();
+								foreach($image_type as $key=>$value) :
+									$options[] = JHtml::_('select.option', $key, $value);
+								endforeach;
+								echo JHtml::_('select.genericlist', $options, 'default_image_type', 'class="inputbox" onchange="check_dd();"', 'value', 'text', 0);
+							?>
+						</div>
+					</div>
 				</div>
-			</div>
 
-			<span id="image_file_field" class="hide">
-				<div class="control-group">
-					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
-					<div class="controls"><input type="file" name="image_file" id="image_file" value="" class="inputbox" size="50" /></div>
+				<div class="span5">
+					<div id="image_file_field" class="control-group hide">
+						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
+						<div class="controls"><input type="file" name="image_file" id="image_file" value="" class="inputbox" size="50" /></div>
+					</div>
+
+					<div id="image_file_link" class="control-group hide">
+						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
+						<div class="controls"><input type="text" name="image_file" id="image_file" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
+					</div>
 				</div>
-			</span>
-
-			<span id="image_file_link" class="hide">
-				<div class="control-group">
-					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
-					<div class="controls"><input type="text" name="image_file" id="image_file" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
-				</div>
-			</span>
-		<?php endif; ?>
-
-		<?php if ($this->params->get('forum_post_id') == 1) : ?>
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('forum_post'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('forum_post'); ?></div>
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('torrent_information') == 1) : ?>
+		<?php if ($this->params->get('forum_post_id') || $this->params->get('torrent_information')) : ?>
+			<div class="row-fluid">
+				<?php if ($this->params->get('forum_post_id')) : ?>
+					<div class="span5">
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('forum_post'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('forum_post'); ?></div>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<?php if ($this->params->get('torrent_information')) : ?>
+					<div class="span5">
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('info_post'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('info_post'); ?></div>
+						</div>
+					</div>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+				
+		<?php if ($this->params->get('torrent_tags')) : ?>
 			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('info_post'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('info_post'); ?></div>
+				<div class="control-label"><?php echo $this->form->getLabel('tags'); ?></div>
+				<div class="controls"><?php echo $this->form->getInput('tags'); ?></div>
 			</div>
 		<?php endif; ?>
 
@@ -109,14 +131,6 @@ function check_dd() {
 			<div class="controls"><?php echo $this->form->getInput('description'); ?></div>
 		</div>
 
-		<?php if ($this->params->get('torrent_tags') == 1) : ?>
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('tags'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('tags'); ?></div>
-			</div>
-		<?php endif; ?>
-
-	</fieldset>
 	<div style="float: right;">
 		<button class="button validate" type="submit"><?php echo JText::_('COM_TRACKER_UPLOAD_TORRENT_BUTTON'); ?></button>
 	</div>

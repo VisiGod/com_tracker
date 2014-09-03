@@ -55,7 +55,7 @@ class TrackerModelUserpanel extends JModelItem {
 				  ->where('id = ' . (int)$user_profile->id)
 				  ->limit('0,1');
 			$db->setQuery($query);
-			$user_profile->tracker_info = $db->loadNextObject();
+			$user_profile->tracker_info = $db->loadObject();
 
 			if ($params->get('enable_countries')) {
 				// If the user doesn't have the country defined, get the default country for component parameters
@@ -68,7 +68,7 @@ class TrackerModelUserpanel extends JModelItem {
 					  ->where('id = ' . (int)$user_profile->tracker_info->countryID)
 					  ->limit('0,1');
 				$db->setQuery($query);
-				$user_profile->country_info = $db->loadNextObject();
+				$user_profile->country_info = $db->loadObject();
 			}
 
 			if ($params->get('enable_thankyou')) {
@@ -100,7 +100,7 @@ class TrackerModelUserpanel extends JModelItem {
 				  ->order('id DESC')
 				  ->limit('0,1');
 			$db->setQuery($query);
-			$user_profile->announce = $db->loadNextObject();
+			$user_profile->announce = $db->loadObject();
 			
 			if (!$user_profile->announce) {
 				$user_profile->lastseen = JText::_( 'COM_TRACKER_LAST_TRACKER_ACTIVITY_NEVER' );
@@ -120,7 +120,7 @@ class TrackerModelUserpanel extends JModelItem {
 				  ->order('id DESC')
 				  ->limit('0,1');
 			$db->setQuery($query);
-			$user_profile->group_info = $db->loadNextObject();
+			$user_profile->group_info = $db->loadObject();
 
 			if ($params->get('enable_donations')) {
 				// Get the user donations
@@ -130,7 +130,7 @@ class TrackerModelUserpanel extends JModelItem {
 					  ->where('uid = ' . (int)$user_profile->id)
 					  ->where('state = 1');
 				$db->setQuery($query);
-				$user_profile->user_donations = $db->loadNextObject();
+				$user_profile->user_donations = $db->loadObject();
 			}
 			
 			// ---------------------------------------- Snatched Torrents

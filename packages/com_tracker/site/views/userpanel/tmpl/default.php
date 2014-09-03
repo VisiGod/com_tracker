@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 			if ($this->params->get('enable_countries')) :
 				if (empty($this->item->country_info->name)) :
 					$this->item->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
-					$this->item->country_info = new stdClass();
+					$this->item->country_info = new JObject;
 					$this->item->country_info->name = $this->item->default_country->name; 
 					$this->item->country_info->image = $this->item->default_country->image;
 				endif;

@@ -179,6 +179,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									if (empty($this->item->tags)) :
 										echo JText::_( 'COM_TRACKER_NO_TORRENT_TAGS' );
 									else :
+										$Tags = preg_replace('/[^A-Za-z0-9\-\_]/', '', $Tags);
 										$Tags = explode(" ", $this->item->tags);
 										$totalTags = count($Tags);
 										for ($i=0; $i < $totalTags; $i++) {

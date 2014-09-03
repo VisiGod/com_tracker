@@ -145,13 +145,6 @@ class TrackerModelTorrents extends JModelList {
 			$query->where('( t.name LIKE '.$search.'  OR  t.tags LIKE '.$search.' )');
 		}
 
-		//If we've selected a tag from another torrent
-		$search_tag = $this->getState('filter.torrent_tag');
-		if (!empty($search_tag)) {
-			$search_tag = $db->quote('%' . $db->escape($search_tag, true) . '%');
-			$query->where('(  t.tags LIKE '.$search_tag.' )');
-		}
-
 		// Filter by license
 		if ($params->get('enable_licenses')) {
 			$LicenseId = $this->getState('filter.license_id');
