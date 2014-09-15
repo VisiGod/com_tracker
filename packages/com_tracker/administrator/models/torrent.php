@@ -61,20 +61,20 @@ class TrackerModelTorrent extends JModelAdmin {
 		}
 	}
 	
-	public function delete($itemIds) {
+	public function delete(&$pks) {
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$params = JComponentHelper::getParams( 'com_tracker' );
 
 		// Sanitize the ids.
-		$itemIds = array_unique($itemIds);
-		JArrayHelper::toInteger($itemIds);
+		$pks = array_unique($pks);
+		JArrayHelper::toInteger($pks);
 
 		// Update the flag type of all torrents (when flag = 1, torrent will be deleted).
 		$query->clear();
 		$query->update($db->quoteName('#__tracker_torrents'));
 		$query->set($db->quoteName('flags') . ' = 1');
-		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
+		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 		try {
 			$result = $db->execute();
@@ -84,7 +84,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		
 		// Delete the image file
 		if ($params->get('use_image_file')) {
-			foreach ($itemIds as $itemId) {
+			foreach ($pks as $itemId) {
 				$query = $db->getQuery(true);
 				$query->select('image_file');
 				$query->from('#__tracker_torrents');
@@ -102,7 +102,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		// Delete the torrent thanks
 		$query->clear();
 		$query->delete($db->quoteName('#__tracker_torrent_thanks'));
-		$query->where($db->quoteName('torrentID') . ' IN (' . implode(',', $itemIds) . ')');
+		$query->where($db->quoteName('torrentID') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 		try {
 			$result = $db->execute();
@@ -113,7 +113,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		// Delete the reported torrent
 		$query->clear();
 		$query->delete($db->quoteName('#__tracker_reported_torrents'));
-		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
+		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 		try {
 			$result = $db->execute();
@@ -124,7 +124,7 @@ class TrackerModelTorrent extends JModelAdmin {
 		// Delete the reseed requested torrent
 		$query->clear();
 		$query->delete($db->quoteName('#__tracker_reseed_request'));
-		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $itemIds) . ')');
+		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 		try {
 			$result = $db->execute();

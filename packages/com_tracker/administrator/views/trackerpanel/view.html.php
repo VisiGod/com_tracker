@@ -51,10 +51,4 @@ class TrackerViewTrackerPanel extends JViewLegacy {
 			JToolbarHelper::preferences('com_tracker');
 		}
 	}
-/*
-	protected function setDocument() {
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_TRACKER'));
-	}
-	*/
 }

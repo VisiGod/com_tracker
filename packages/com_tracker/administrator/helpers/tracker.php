@@ -61,7 +61,7 @@ class TrackerHelper extends JHelperContent {
 	public static function quickiconButton( $link, $image, $text ) {
 		?>
     	<div class="text-center middle">
-        	<a href="<?php echo $link; ?>"><?php echo JHtml::_('image', '/administrator/components/com_tracker/images/panel/'.$image , $text, null, false, false);?></a>
+        	<a href="<?php echo $link; ?>"><?php echo JHtml::_('image', JURI::root().'administrator/components/com_tracker/images/panel/'.$image , $text, null, false, false);?></a>
         	<div class="row-fluid">
 	        	<span><a href="<?php echo $link; ?>"><?php echo $text; ?></a></span>
           	</div>

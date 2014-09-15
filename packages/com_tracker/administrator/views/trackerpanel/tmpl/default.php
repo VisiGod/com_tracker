@@ -6,7 +6,6 @@
  * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see http://www.gnu.org/licenses/gpl-3.0.html
  */
-
 defined('_JEXEC') or die('Restricted access');
 
 $params = JComponentHelper::getParams('com_tracker');
@@ -39,37 +38,37 @@ $params = JComponentHelper::getParams('com_tracker');
 				<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_categories&amp;extension=com_tracker', 'category-48x48.png', JText::_( 'JCATEGORIES' ) );?></div>
 				<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=users', 'tuser-48x48.png', JText::_( 'COM_TRACKER_USERS' ) );?></div>
 				<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=groups', 'group-48x48.png', JText::_( 'COM_TRACKER_GROUPS' ) );?></div>
-				<?php if ($params->get('enable_comments') && $params->get('comment_system') == 'internal') { ?>
+				<?php if ($params->get('enable_comments') == 1 && $params->get('comment_system') == 'internal') { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=comments', 'comments-48x48.png', JText::_( 'COM_TRACKER_COMMENTS' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_donations')) { ?>
+				<?php if ($params->get('enable_donations') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=donations', 'donations-48x48.png', JText::_( 'COM_TRACKER_DONATIONS' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_licenses')) { ?>
+				<?php if ($params->get('enable_licenses') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=licenses', 'licenses-48x48.png', JText::_( 'COM_TRACKER_LICENSES' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_countries')) { ?>
+				<?php if ($params->get('enable_countries') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=countries', 'countries-48x48.png', JText::_( 'COM_TRACKER_COUNTRIES' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('peer_banning')) { ?>
+				<?php if ($params->get('peer_banning') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=banclients', 'clientban-48x48.png', JText::_( 'COM_TRACKER_BANCLIENTS' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('host_banning')) { ?>
+				<?php if ($params->get('host_banning') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=banhosts', 'ipban-48x48.png', JText::_( 'COM_TRACKER_BANHOSTS' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_thankyou')) { ?>
+				<?php if ($params->get('enable_thankyou') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=thankyous', 'thankyou-48x48.png', JText::_( 'COM_TRACKER_THANKYOUS' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_filetypes')) { ?>
+				<?php if ($params->get('enable_filetypes') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=filetypes', 'filetype-48x48.png', JText::_( 'COM_TRACKER_FILETYPES' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_reseedrequest')) { ?>
+				<?php if ($params->get('enable_reseedrequest') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=reseeds', 'reseed-48x48.png', JText::_( 'COM_TRACKER_RESEEDS' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_reporttorrent')) { ?>
+				<?php if ($params->get('enable_reporttorrent') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=reports', 'report-48x48.png', JText::_( 'COM_TRACKER_REPORTS' ) );?></div>
 				<?php } ?>
-				<?php if ($params->get('enable_rss')) { ?>
+				<?php if ($params->get('enable_rss') == 1) { ?>
 					<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=rsses', 'rss-48x48.png', JText::_( 'COM_TRACKER_RSSES' ) );?></div>
 				<?php } ?>
 				<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=settings', 'settings-48x48.png', JText::_( 'COM_TRACKER_SETTINGS' ) );?></div>

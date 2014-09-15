@@ -64,7 +64,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->update($db->quoteName('#__tracker_users'))
+					  ->update('`#__tracker_users`')
 					  ->set('can_leech = 0')
 					  ->where('id IN ( '.$uids.' )');
 				$db->setquery( $query );
@@ -88,7 +88,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->update($db->quoteName('#__tracker_users'))
+					  ->update('`#__tracker_users`')
 					  ->set('can_leech = 0')
 					  ->where('id IN ( '.$uids.' )');
 				$db->setQuery($query);
@@ -102,8 +102,8 @@ Follow group ratio rules = 2
 			// (check the user ratio)
 			$query->clear()
 				  ->select('u.id')
-				  ->from($db->quoteName('#__tracker_users').' AS u')
-				  ->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid')
+				  ->from('`#__tracker_users` AS u')
+				  ->join('LEFT OUTER', '`#__tracker_donations` AS d on u.id = d.uid')
 				  ->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(u.minimum_ratio,1)')
 				  ->where('u.exemption_type = 1')
 				  ->where('u.can_leech = 0')
@@ -114,7 +114,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->update($db->quoteName('#__tracker_users'))
+					  ->update('`#__tracker_users`')
 					  ->set('can_leech = 1')
 					  ->where('id IN ( '.$uids.' )');
 				$db->setQuery($query);
@@ -125,9 +125,9 @@ Follow group ratio rules = 2
 			// (check the group ratio)
 			$query->clear()
 				  ->select('u.id')
-				  ->from($db->quoteName('#__tracker_users').' AS u')
-				  ->join('LEFT', $db->quoteName('#__tracker_groups').' AS ug on ug.id = u.groupID')
-				  ->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid')
+				  ->from('#__tracker_users` AS u')
+				  ->join('LEFT', '`#__tracker_groups` AS ug on ug.id = u.groupID')
+				  ->join('LEFT OUTER', '`#__tracker_donations` AS d on u.id = d.uid')
 				  ->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(ug.minimum_ratio,0)')
 				  ->where('u.exemption_type = 2')
 				  ->where('u.can_leech = 0')
@@ -138,7 +138,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->update($db->quoteName('#__tracker_users'))
+					  ->update('`#__tracker_users`')
 					  ->set('can_leech = 1')
 					  ->where('id IN ( '.$uids.' )');
 				$db->setQuery($query);
@@ -151,8 +151,8 @@ Follow group ratio rules = 2
 			// Get all the users that dont follow ratio
 			$query->clear()
 				  ->select('id')
-				  ->from($db->quoteName('#__tracker_users'))
-				  ->join('LEFT OUTER', $db->quoteName('#__tracker_donations').' AS d on u.id = d.uid')
+				  ->from('`#__tracker_users`')
+				  ->join('LEFT OUTER', '`#__tracker_donations` AS d on u.id = d.uid')
 				  ->where('((IFNULL(u.uploaded,0) + (IFNULL(d.credited,0) * 1073741824)) / IFNULL(u.downloaded,0)) >= IFNULL(u.minimum_ratio,0)')
 				  ->where('exemption_type = 0');
 			$db->setQuery($query);
@@ -161,7 +161,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->update($db->quoteName('#__tracker_users'))
+					  ->update('`#__tracker_users`')
 					  ->set('can_leech = 1')
 					  ->where('id IN ( '.$uids.' )');
 				$db->setQuery($query);
@@ -174,7 +174,7 @@ Follow group ratio rules = 2
 			// Get all the groups that cant leech
 			$query->clear()
 				  ->select('id')
-				  ->from($db->quoteName('#__tracker_groups'))
+				  ->from('`#__tracker_groups`')
 				  ->where('can_leech = 0');
 			$db->setQuery($query);
 			if ($row = $db->loadResultArray()) {
@@ -182,7 +182,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->update($db->quoteName('#__tracker_users'))
+					  ->update('`#__tracker_users`')
 					  ->set('can_leech = 0')
 					  ->where('groupID IN ( '.$uids.' )');
 				$db->setQuery($query);
@@ -201,7 +201,7 @@ Follow group ratio rules = 2
 			// Get the latest rows from announce log where the IP and User ID is equal
 			$query->clear()
 				  ->select('id')
-				  ->from($db->quoteName('#__tracker_announce_log'))
+				  ->from('`#__tracker_announce_log`')
 				  ->group('uid, ipa')
 				  ->order('mtime DESC');
 			$db->setQuery($query);
@@ -210,7 +210,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->delete($db->quoteName('#__tracker_announce_log'))
+					  ->delete('`#__tracker_announce_log`')
 					  ->where('id NOT IN ( '.$uids.' )');
 				$db->setQuery($query);
 				$db->execute();
@@ -256,17 +256,17 @@ Follow group ratio rules = 2
 				$forumdb->setQuery($query);
 				$rows = $forumdb->loadObjectList();
 				$query	= $db->getQuery(true);
-				$query  = 'CREATE TABLE '.$db->quoteName('#__temp_users_check').' (name varchar(255) not null, ugroup smallint(3))';
+				$query  = 'CREATE TABLE `#__temp_users_check` (name varchar(255) not null, ugroup smallint(3))';
 				$db->setQuery($query);
 				$db->execute();
 				$query	= $db->getQuery(true);
-				$query = 'TRUNCATE '.$db->quoteName('#__temp_users_check');
+				$query = 'TRUNCATE `#__temp_users_check`';
 				$db->setQuery($query);
 				$db->execute();
 				$query	= $db->getQuery(true);
 				foreach ($rows as $row) {
 					$query->clear()
-						  ->insert($db->quoteName('#__temp_users_check'))
+						  ->insert('`#__temp_users_check`')
 						  ->set('`name` = "'.$row->name.'"')
 						  ->set('`ugroup` = "'.$row->ugroup.'"');
 					$db->setQuery((string) $query);
@@ -275,9 +275,9 @@ Follow group ratio rules = 2
 				// Get all the users that have a different group in the site and in the forum
 				$query->clear()
 					  ->select('DISTINCT(u.id)')
-					  ->from($db->quoteName('#__tracker_users').' AS u')
-					  ->join('LEFT', $db->quoteName('#__temp_users_check').' AS fmt')
-					  ->join('LEFT', $db->quoteName('#__users').' AS ju ON ju.username = fmt.name')
+					  ->from('`#__tracker_users` AS u')
+					  ->join('LEFT', '`#__temp_users_check` AS fmt')
+					  ->join('LEFT', '`#__users` AS ju ON ju.username = fmt.name')
 					  ->where('u.groupID <> fmt.ugroup')
 					  ->where('u.exemption_type = 0');
 				$db->setQuery($query);
@@ -288,9 +288,9 @@ Follow group ratio rules = 2
 					JArrayHelper::toInteger($changed_forum_users_id);
 					$uids = implode( ',', $changed_forum_users_id );
 					$query->clear();
-					$query  = 'UPDATE '.$db->quoteName('#__tracker_users').' AS u ';
-					$query .= 'LEFT JOIN #__temp_users_check AS fmt';
-					$query .= 'LEFT JOIN #__tracker_groups AS ul ON ul.id = fmt.ugroup ';
+					$query  = 'UPDATE `#__tracker_users` AS u ';
+					$query .= 'LEFT JOIN `#__temp_users_check` AS fmt';
+					$query .= 'LEFT JOIN `#__tracker_groups` AS ul ON ul.id = fmt.ugroup ';
 					$query .= 'SET u.groupID = fmt.ugroup, ';
 					$query .= 'u.wait_time = ul.wait_time, ';
 					$query .= 'u.peer_limit = ul.peer_limit, ';
@@ -316,7 +316,7 @@ Follow group ratio rules = 2
 					$db->setQuery($query);
 					$db->execute();
 				}
-				$query='DROP TABLE '.$db->quoteName('#__temp_users_check');
+				$query='DROP TABLE `#__temp_users_check`';
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -329,24 +329,26 @@ Follow group ratio rules = 2
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		// Updates the users without groups - START
 		$query	= $db->getQuery(true);
-		$query->select('download_multiplier, upload_multiplier, can_leech, wait_time, peer_limit, torrent_limit, minimum_ratio')
-			  ->from($db->quoteName('#__tracker_groups'))
-			  ->where('id = '.$component_params->get('base_group'));
-		$db->setQuery($query);
-		if ($result = $db->loadObject()) {
-			$query->clear()
-				  ->update($db->quoteName('#__tracker_users'))
-				  ->set('download_multiplier = '.$result->download_multiplier)
-				  ->set('upload_multiplier = '.$result->upload_multiplier)
-				  ->set('can_leech = '.$result->can_leech)
-				  ->set('wait_time = '.$result->wait_time)
-				  ->set('peer_limit = '.$result->peer_limit)
-				  ->set('torrent_limit = '.$result->torrent_limit)
-				  ->set('minimum_ratio = '.$result->minimum_ratio)
-				  ->set('groupID = '.$component_params->get('base_group'))
-				  ->where('groupID = 0');
+		if ($component_params->get('base_group')) {
+			$query->select('download_multiplier, upload_multiplier, can_leech, wait_time, peer_limit, torrent_limit, minimum_ratio')
+				  ->from('`#__tracker_groups`')
+				  ->where('id = '.$component_params->get('base_group'));
 			$db->setQuery($query);
-			$db->execute();
+			if ($result = $db->loadObject()) {
+				$query->clear()
+					  ->update('`#__tracker_users`')
+					  ->set('download_multiplier = '.$result->download_multiplier)
+					  ->set('upload_multiplier = '.$result->upload_multiplier)
+					  ->set('can_leech = '.$result->can_leech)
+					  ->set('wait_time = '.$result->wait_time)
+					  ->set('peer_limit = '.$result->peer_limit)
+					  ->set('torrent_limit = '.$result->torrent_limit)
+					  ->set('minimum_ratio = '.$result->minimum_ratio)
+					  ->set('groupID = '.$component_params->get('base_group'))
+					  ->where('groupID = 0');
+				$db->setQuery($query);
+				$db->execute();
+			}
 		}
 		// Updates the users without groups - END
 		// -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -354,7 +356,7 @@ Follow group ratio rules = 2
 			// Get the latest rows from announce log where the IP and User ID is equal
 			$query->clear()
 				  ->select('id')
-				  ->from($db->quoteName('#__tracker_announce_log'))
+				  ->from('`#__tracker_announce_log`')
 				  ->group('uid, ipa')
 				  ->order('mtime DESC');
 			$db->setQuery($query);
@@ -363,7 +365,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->delete($db->quoteName('#__tracker_announce_log'))
+					  ->delete('`#__tracker_announce_log`')
 					  ->where('id NOT IN ( '.$uids.' )');
 				$db->setQuery($query);
 				$db->execute();
@@ -376,7 +378,7 @@ Follow group ratio rules = 2
 			// Get the torrents that have peers
 			$query->clear()
 				  ->select('fid')
-				  ->from($db->quoteName('#__tracker_torrents'))
+				  ->from('`#__tracker_torrents`')
 				  ->where('(leechers + seeders) > 0');
 			$db->setQuery($query);
 			if ($row = $db->loadResultArray()) {
@@ -384,7 +386,7 @@ Follow group ratio rules = 2
 				JArrayHelper::toInteger($row);
 				$uids = implode( ',', $row );
 				$query->clear()
-					  ->delete($db->quoteName('#__tracker_reseed_request'))
+					  ->delete('`#__tracker_reseed_request`')
 					  ->where('fid IN ( '.$uids.' )');
 				$db->setQuery($query);
 				$db->execute();
@@ -398,7 +400,7 @@ Follow group ratio rules = 2
 		// Update the plugin parameters
 		// ----------------------------------------------------------------------
 		$query	= $db->getQuery(true);
-		$query->update($db->quoteName('#__extensions'));
+		$query->update('`#__extensions`');
 		$defaults  = '{"ratio_plugin":"'.$ratio_plugin.'",';
 		$defaults .= '"ratio_timeframe":"'.$ratio_timeframe.'",';
 		$defaults .= '"ratio_mindownload":"'.$global_mindownload.'",';
@@ -428,7 +430,7 @@ Follow group ratio rules = 2
 
 		// Update the torrents to a new owner that was specified in the component configuration
 		$query->clear()
-			  ->update($db->quoteName('#__tracker_torrents'))
+			  ->update('`#__tracker_torrents`')
 			  ->set('uploader = '.(int)$component_params->get('torrent_user'))
 			  ->where('uploader = '.(int)$user['id']);
 		$db->setQuery($query);
@@ -436,35 +438,35 @@ Follow group ratio rules = 2
 		
 		// Delete the reseed requests from the users that were deleted
 		$query->clear()
-			  ->delete($db->quoteName('#__tracker_reseed_request'))
+			  ->delete('`#__tracker_reseed_request`')
 			  ->where('requester = '.(int)$user['id']);
 		$db->setQuery($query);
 		$db->execute();
 
 		// Delete the thanks from the users that were deleted
 		$query->clear()
-			  ->delete($db->quoteName('#__tracker_torrent_thanks'))
+			  ->delete('`#__tracker_torrent_thanks`')
 			  ->where('uid = '.(int)$user['id']);
 		$db->setQuery($query);
 		$db->execute();
 
 		// Delete the reports from the users that were deleted
 		$query->clear()
-			  ->delete($db->quoteName('#__tracker_reported_torrents'))
+			  ->delete('`#__tracker_reported_torrents`')
 			  ->where('reporter = '.(int)$user['id']);
 		$db->setQuery($query);
 		$db->execute();
 
 		// Delete the downloads made from the users that were deleted
 		$query->clear()
-			  ->delete($db->quoteName('#__tracker_files_users'))
+			  ->delete('`#__tracker_files_users`')
 			  ->where('uid = '.(int)$user['id']);
 		$db->setQuery($query);
 		$db->execute();
 
 		// Delete the announce logs made from the users that were deleted
 		$query->clear()
-			  ->delete($db->quoteName('#__tracker_announce_log'))
+			  ->delete('`#__tracker_announce_log`')
 			  ->where('uid = '.(int)$user['id']);
 		$db->setQuery($query);
 		$db->execute();
