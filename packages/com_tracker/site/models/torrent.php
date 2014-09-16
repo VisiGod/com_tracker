@@ -346,6 +346,17 @@ class TrackerModelTorrent extends JModelItem {
 		$db->setQuery($query);
 		$torrent_pass_version = $db->loadResult();
 
+		if ($torrent_pass_version == 0) :
+			$query->clear()
+			->update('#__tracker_users')
+			->set('torrent_pass_version = torrent_pass_version + 1')
+			->where('id = '.$user->id);
+			$db->setQuery($query);
+			if (!$db->execute()) {
+				$app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel', false), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_NOK'), 'error');
+			}
+		endif;
+
 		$torrent = new Torrent( JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile );
 		// ###############################################################################################################################
 		// reset announce trackers

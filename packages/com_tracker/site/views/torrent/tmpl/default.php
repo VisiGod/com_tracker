@@ -308,12 +308,13 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
 									<td style="white-space:nowrap; text-align:center;">
 										<?php
-											if (empty($peer->countryname)) :
-												$peer->countryname = $peer->default_country[0]->name;
-												$peer->countryimage = $peer->default_country[0]->image;
+											if (empty($peer->countryName)) :
+												$peer->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+												$peer->countryName = $peer->default_country->name;
+												$peer->countryImage = $peer->default_country->image;
 											endif;
 										?>
-										<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryname; ?>" src="<?php echo JURI::base().$peer->countryimage; ?>" width="32" />
+										<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryName; ?>" src="<?php echo JURI::base().$peer->countryImage; ?>" width="32" />
 									</td>
 									<td style="white-space:nowrap; text-align:center;">
 									<?php  
@@ -340,12 +341,13 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
 									<td style="white-space:nowrap; text-align:center;">
 										<?php
-											if (empty($peer->countryname)) :
-												$peer->countryname = $peer->default_country[0]->name;
-												$peer->countryimage = $peer->default_country[0]->image;
+											if (empty($peer->countryName)) :
+												$peer->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+												$peer->countryName = $peer->default_country->name;
+												$peer->countryImage = $peer->default_country->image;
 											endif;
 										?>
-										<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryname; ?>" src="<?php echo JURI::base().$peer->countryimage; ?>" width="32" />
+										<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryName; ?>" src="<?php echo JURI::base().$peer->countryImage; ?>" width="32" />
 									</td>
 									<td style="white-space:nowrap; text-align:center;">
 										<?php 
@@ -391,12 +393,13 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$snatcher->id);?>"><?php echo $snatcher->name; ?></a></td>
 								<td style="white-space:nowrap; text-align:center;">
 									<?php
-										if (empty($snatcher->countryname)) :
-											$snatcher->countryname = $snatcher->default_country[0]->name;
-											$snatcher->countryimage = $snatcher->default_country[0]->image;
+										if (empty($snatcher->countryName)) :
+											$snatcher->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+											$snatcher->countryName = $snatcher->default_country->name;
+											$snatcher->countryImage = $snatcher->default_country->image;
 										endif;
 									?>
-									<img id="snatchercountry<?php echo $i;?>" alt="<?php echo $snatcher->countryname; ?>" src="<?php echo JURI::base().$snatcher->countryimage; ?>" width="32" />
+									<img id="snatchercountry<?php echo $i;?>" alt="<?php echo $snatcher->countryName; ?>" src="<?php echo JURI::base().$snatcher->countryImage; ?>" width="32" />
 								</td>
 								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($snatcher->downloaded); ?></td>
 								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($snatcher->uploaded); ?></td>
@@ -426,12 +429,13 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$hitrunner->id);?>"><?php echo $hitrunner->name; ?></a></td>
 								<td style="white-space:nowrap; text-align:center;">
 									<?php
-										if (empty($hitrunner->countryname)) :
-											$hitrunner->countryname = $hitrunner->default_country[0]->name;
-											$hitrunner->countryimage = $hitrunner->default_country[0]->image;
+										if (empty($hitrunner->countryName)) :
+											$hitrunner->default_country = TrackerHelper::getCountryDetails($this->params->get('defaultcountry'));
+											$hitrunner->countryName = $hitrunner->default_country->name;
+											$hitrunner->countryImage = $hitrunner->default_country->image;
 										endif;
 									?>
-									<img id="hitrunnercountry<?php echo $i;?>" alt="<?php echo $hitrunner->countryname; ?>" src="<?php echo JURI::base().$hitrunner->countryimage; ?>" width="32" />
+									<img id="hitrunnercountry<?php echo $i;?>" alt="<?php echo $hitrunner->countryName; ?>" src="<?php echo JURI::base().$hitrunner->countryImage; ?>" width="32" />
 								</td>
 								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($hitrunner->downloaded); ?></td>
 								<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($hitrunner->uploaded); ?></td>

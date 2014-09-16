@@ -273,7 +273,6 @@ class TrackerModelUserpanel extends JModelItem {
 		$query->update('#__tracker_users')
 			  ->set('torrent_pass_version = torrent_pass_version + 1')
 			  ->where('id = ' . (int) $user_to_reset);
-
 		$db->setQuery($query);
 		if (!$db->execute()) {
 			JError::raiseError(500, $db->getErrorMsg());
@@ -283,7 +282,6 @@ class TrackerModelUserpanel extends JModelItem {
 		$config = JFactory::getConfig();
 		// If its on we dont add the view name, if its off we add it
 		if ($config->get( 'sef' ) == 1) $app->redirect(JRoute::_('index.php?option=com_tracker'), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
-			else $app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel', false), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
-
+		else $app->redirect(JRoute::_('index.php?option=com_tracker&view=userpanel', false), JText::_('COM_TRACKER_CHANGE_TORRENT_PASS_VERSION_OK'), 'notice');
 	}
 }
