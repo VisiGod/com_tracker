@@ -69,17 +69,26 @@ function check_dd() {
 			<div class="row-fluid">
 				<div class="span5">
 					<div class="control-group">
-						<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
-						<div class="controls">
-							<?php
-								$image_type = array(0 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_OPTION'), 1 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_FILE'), 2 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_LINK'));
-								$options = array();
-								foreach($image_type as $key=>$value) :
-									$options[] = JHtml::_('select.option', $key, $value);
-								endforeach;
-								echo JHtml::_('select.genericlist', $options, 'default_image_type', 'class="inputbox" onchange="check_dd();"', 'value', 'text', 0);
-							?>
-						</div>
+						<!--  Check for choosen option in the backend -->
+						<?php if ($this->params->get('image_type') == 1) : ?>
+							<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
+							<div class="controls"><input type="file" name="image_file" id="image_file" value="" class="inputbox" size="50" /></div>
+						<?php elseif ($this->params->get('image_type') == 2) : ?>
+							<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
+							<div class="controls"><input type="text" name="image_file" id="image_file" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
+						<?php else : ?>
+							<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
+							<div class="controls">
+								<?php
+									$image_type = array(0 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_OPTION'), 1 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_FILE'), 2 => JText::_('COM_TRACKER_TORRENT_IMAGE_CHOOSE_LINK'));
+									$options = array();
+									foreach($image_type as $key=>$value) :
+										$options[] = JHtml::_('select.option', $key, $value);
+									endforeach;
+									echo JHtml::_('select.genericlist', $options, 'default_image_type', 'class="inputbox" onchange="check_dd();"', 'value', 'text', 0);
+								?>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
 
