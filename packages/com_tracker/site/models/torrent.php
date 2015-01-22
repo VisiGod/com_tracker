@@ -80,7 +80,7 @@ class TrackerModelTorrent extends JModelItem {
 		$query->join('LEFT', '#__tracker_groups AS tg on tg.id = tu.groupID');		
 		
 		// Join on user table.
-		$query->select('u.username as uname');
+		$query->select('u.username as user_username, u.name as user_name');
 		$query->join('LEFT', '#__users AS u on u.id = t.uploader');
 
 		if ($params->get('enable_licenses')) {

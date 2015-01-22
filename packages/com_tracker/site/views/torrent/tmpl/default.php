@@ -94,18 +94,24 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_UPLOADER' ); ?>:</b></dt>
 						<dd>
 							<?php
+								// First we need to know if we chose to display the user 'username' or the user 'name'
+								if ($this->params->get('user_in_torrent_details') == 1) $display_user = $this->item->user_name; //the name
+									else $display_user = $this->item->user_username; //the username
+
+								// If we allow to upload as anonymous and it's a guest user who is viewing the torrent, we show the uploader as anonymous
 								if (($this->params->get('allow_guest') == 1) && ($this->user->id == $this->params->get('guest_user'))) : 
 									echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
-								elseif ($this->user->id == $this->item->uploader) :
-									echo '<a href="'.JRoute::_("index.php?view=userpanel").'">'.$this->item->name.'</a>';
+								// If the user who is viewing the torrent is the one who uploaded it OR the user who is viewing the torrent can edit it, we show his name/username and the edit option
+								elseif ( ($this->user->id == $this->item->uploader) || TrackerHelper::user_permissions('edit_torrents', $this->user->id)):
+									echo '<a href="'.JRoute::_("index.php?view=userpanel").'">'.$display_user.'</a>';
+									echo '&nbsp;&nbsp;&nbsp;(<a href="'.JRoute::_("index.php?view=edit&id=".$this->item->fid).'"><b>'.JText::_('COM_TRACKER_TORRENT_DETAILS_EDIT_THIS_TORRENT').'</b></a>)';
+								// If we don't allow upload as anonymous OR the uploader didn't upload as anonymous and the user viewing the torrent isn't the original uploader
 								elseif (($this->params->get('allow_upload_anonymous') == 0) || ($this->item->uploader_anonymous == 0) && ($this->item->uploader <> $this->params->get('guest_user'))) :
-									echo '<a href="'.JRoute::_("index.php?view=userpanel&id=".$this->item->uploader).'">'.$this->item->uname.'</a>';
+									echo '<a href="'.JRoute::_("index.php?view=userpanel&id=".$this->item->uploader).'">'.$display_user.'</a>';
+								// If none of the previous situation occur, we show the uploader as anonymous
 								else : 
 									echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );
 								endif;
-								// Show torrent edit
-								if ((TrackerHelper::user_permissions('edit_torrents', $this->user->id) || ($this->user->id == $this->item->uploader)) ) 		
-									echo '&nbsp;&nbsp;&nbsp;(<a href="'.JRoute::_("index.php?view=edit&id=".$this->item->fid).'"><b>'.JText::_('COM_TRACKER_TORRENT_DETAILS_EDIT_THIS_TORRENT').'</b></a>)';
 							?>
 						</dd>
 
