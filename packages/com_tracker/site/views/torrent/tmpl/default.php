@@ -107,7 +107,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									echo '&nbsp;&nbsp;&nbsp;(<a href="'.JRoute::_("index.php?view=edit&id=".$this->item->fid).'"><b>'.JText::_('COM_TRACKER_TORRENT_DETAILS_EDIT_THIS_TORRENT').'</b></a>)';
 								// If we don't allow upload as anonymous OR the uploader didn't upload as anonymous and the user viewing the torrent isn't the original uploader
 								elseif (($this->params->get('allow_upload_anonymous') == 0) || ($this->item->uploader_anonymous == 0) && ($this->item->uploader <> $this->params->get('guest_user'))) :
-									echo '<a href="'.JRoute::_("index.php?view=userpanel&id=".$this->item->uploader).'">'.$display_user.'</a>';
+									echo '<a href="'.JRoute::_("index.php?view=userpanel&id=".(int)$this->item->uploader).'">'.$display_user.'</a>';
 								// If none of the previous situation occur, we show the uploader as anonymous
 								else : 
 									echo JText::_( 'COM_TRACKER_TORRENT_ANONYMOUS' );

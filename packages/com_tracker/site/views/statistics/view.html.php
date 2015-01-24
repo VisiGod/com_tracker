@@ -44,7 +44,7 @@ class TrackerViewStatistics extends JViewLegacy {
 		}
 
 		if ($noaccess) {
-			$app->redirect(JRoute::_('index.php'), JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
+			$app->redirect(JUri::base() . 'index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
 		return parent::display($tpl);

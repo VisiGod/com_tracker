@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.helper');
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
-
 jimport('joomla.user.user');
 JLoader::register('JTableUser', JPATH_PLATFORM.'/joomla/database/table/user.php');
 
@@ -20,14 +21,29 @@ class TrackerModelUserpanel extends JModelItem {
 
 	protected $_context = 'com_tracker.userpanel';
 
-	public function getItem($id = null) {
+	protected function populateState() {
+		$app = JFactory::getApplication();
+	
+		// Load state from the request.
+		$pk = JRequest::getInt('id');
+		$this->setState('user.id', $pk);
+	
+		// Load the parameters.
+		$params = $app->getParams();
+		$this->setState('params', $params);
+	
+	}
+
+	public function getItem($pk = null) {
 		$app 		= JFactory::getApplication();
 		$session	= JFactory::getSession();
 		$db			= JFactory::getDBO();
 		$params 	= JComponentHelper::getParams('com_tracker');
 		$user_profile = null;
+		
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('user.id');
 
-		if (JRequest::getVar( 'id', '', 'get','int' )) $userID = JRequest::getVar( 'id', '', 'get','int' );
+		if ($pk) $userID = $pk;
 		else $userID = $session->get('user')->id;
 
 		// In case the user is new, check the database and add it to the #__tracker_users
