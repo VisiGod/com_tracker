@@ -70,80 +70,80 @@ class TrackerModelTorrent extends JModelAdmin {
 		$pks = array_unique($pks);
 		JArrayHelper::toInteger($pks);
 
-		// Update the flag type of all torrents (when flag = 1, torrent will be deleted).
-		$query->clear();
-		$query->update($db->quoteName('#__tracker_torrents'));
-		$query->set($db->quoteName('flags') . ' = 1');
-		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $pks) . ')');
-		$db->setQuery($query);
-		try {
-			$result = $db->execute();
-		} catch (Exception $e) {
-			return false;
-		}
+		foreach ($pks as &$itemId) {
+			// Update the flag type of all torrents (when flag = 1, torrent will be deleted).
+			$query->clear();
+			$query->update($db->quoteName('#__tracker_torrents'));
+			$query->set($db->quoteName('flags') . ' = 1');
+			$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+			$db->setQuery($query);
+			try {
+				$result = $db->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 		
-		// Delete the image file
-		if ($params->get('use_image_file')) {
-			foreach ($pks as $itemId) {
-				$query = $db->getQuery(true);
-				$query->select('image_file');
-				$query->from('#__tracker_torrents');
-				$query->where('fid = ' . (int) $itemId);
-				$db->setQuery($query);
-				$image_file = $db->loadResult();
-				
-				if ($image_file) {
-					// Delete the image
-					@unlink (JPATH_SITE.'/images/tracker/torrent_image/'.$itemId.'_'.$image_file);
+			// Delete the image file
+			if ($params->get('use_image_file')) {
+				foreach ($pks as $itemId) {
+					$query = $db->getQuery(true);
+					$query->select($db->quoteName('image_file'));
+					$query->from($db->quoteName('#__tracker_torrents'));
+					$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+					$db->setQuery($query);
+					$image_file = $db->loadResult();
+					if ($image_file) {
+						// Delete the image
+						@unlink (JPATH_SITE.'/images/tracker/torrent_image/'.$itemId.'_'.$image_file);
+					}
 				}
 			}
-		}
 
-		// Delete the torrent thanks
-		$query->clear();
-		$query->delete($db->quoteName('#__tracker_torrent_thanks'));
-		$query->where($db->quoteName('torrentID') . ' IN (' . implode(',', $pks) . ')');
-		$db->setQuery($query);
-		try {
-			$result = $db->execute();
-		} catch (Exception $e) {
-			return false;
-		}
+			// Delete the torrent thanks
+			$query->clear();
+			$query->delete($db->quoteName('#__tracker_torrent_thanks'));
+			$query->where($db->quoteName('torrentID') . ' = ' . (int) $itemId );
+			$db->setQuery($query);
+			try {
+				$result = $db->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 
-		// Delete the reported torrent
-		$query->clear();
-		$query->delete($db->quoteName('#__tracker_reported_torrents'));
-		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $pks) . ')');
-		$db->setQuery($query);
-		try {
-			$result = $db->execute();
-		} catch (Exception $e) {
-			return false;
-		}
+			// Delete the reported torrent
+			$query->clear();
+			$query->delete($db->quoteName('#__tracker_reported_torrents'));
+			$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+			$db->setQuery($query);
+			try {
+				$result = $db->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 
-		// Delete the reseed requested torrent
-		$query->clear();
-		$query->delete($db->quoteName('#__tracker_reseed_request'));
-		$query->where($db->quoteName('fid') . ' IN (' . implode(',', $pks) . ')');
-		$db->setQuery($query);
-		try {
-			$result = $db->execute();
-		} catch (Exception $e) {
-			return false;
-		}
+			// Delete the reseed requested torrent
+			$query->clear();
+			$query->delete($db->quoteName('#__tracker_reseed_request'));
+			$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+			$db->setQuery($query);
+			try {
+				$result = $db->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 
-		// Delete the torrent file
-		$query = $db->getQuery(true);
-		$query->select('filename');
-		$query->from('#__tracker_torrents');
-		$query->where('fid = ' . (int) $itemId);
-		$db->setQuery($query);
-		$file = $db->loadResult();
+			// Delete the torrent file
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('filename'));
+			$query->from($db->quoteName('#__tracker_torrents'));
+			$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+			$db->setQuery($query);
+			$file = $db->loadResult();
+
+			// Delete the real torrent file
+			@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$file);
 		
-		// Delete the real torrent file
-		@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$file);
-		
-
+		}
 		return true;
 	}
 

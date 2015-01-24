@@ -167,6 +167,7 @@ CREATE TABLE IF NOT EXISTS `#__tracker_files_users` (
 `mtime` INT(11) NOT NULL,
 `down_rate` INT(10) UNSIGNED NOT NULL,
 `up_rate` INT(10) UNSIGNED NOT NULL,
+`seeding_time` INT NOT NULL,
 UNIQUE KEY (`fid`,`uid`),
 KEY (`uid`)
 );

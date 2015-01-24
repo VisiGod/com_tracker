@@ -20,8 +20,14 @@ class com_trackerInstallerScript {
 
 		// First changes in database model since version 3.3.1-dev 
 		if ($this->release < '3.3.1-dev') { 
+			// Added Tags
 			$db = JFactory::getDbo();
 			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `tags` VARCHAR(16380) NOT NULL AFTER `image_file`');
+			$db->execute();
+
+			// Added Seeding Time
+			$db = JFactory::getDbo();
+			$db->setQuery('ALTER TABLE #__tracker_files_users ADD `seeding_time` INT NOT NULL AFTER `up_rate`');
 			$db->execute();
 		}
 		
