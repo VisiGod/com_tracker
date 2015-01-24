@@ -15,8 +15,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
 // Get the form fieldsets.
-$fieldsets = $this->form->getFieldsets();
-
+$fieldsets  = $this->form->getFieldsets();
 $user		= JFactory::getUser()->get('id');
 
 $app = JFactory::getApplication();

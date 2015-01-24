@@ -396,7 +396,7 @@ class TrackerHelper extends JHelperContent {
 			  ->where('id = '.(int)$params->get('base_group'));
 		$db->setQuery($query);
 		$base_group = $db->loadAssoc();
-		
+
 		$query->clear()
 			  ->select('u.id as id')
 			  ->from('#__users as u')
@@ -430,6 +430,31 @@ class TrackerHelper extends JHelperContent {
 			$db->execute();
 		}
 	}
+
+	public static function check_user_hash($uid) {
+		$db 	= JFactory::getDBO();
+		$params = JComponentHelper::getParams('com_tracker');
+		$query	= $db->getQuery(true);
+
+		$query->select('hash')
+			  ->from('#__tracker_users')
+			  ->where('id = '.(int)$uid);
+		$db->setQuery($query);
+		$user_hash = $db->loadResult();
+
+		if (empty($user_hash)) {
+			$query->clear();
+			$query = $db->getQuery(true);
+
+			$query->update($db->quoteName('#__tracker_users'))
+				  ->set('hash = "'.JUserHelper::genRandomPassword(32).'"')
+				  ->where('id = '.(int)$uid);
+			echo "<br>query = ".$query."<br>";
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+	} 
 
 	public static function make_wait_time($difference, $long) {
 		$wait_time = '';

@@ -48,7 +48,7 @@ class TrackerViewReseeds extends JViewLegacy {
 	
 		JToolBarHelper::title(JText::_('COM_TRACKER_RESEEDS'), 'upload');
 	
-		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
+		if (($canDo->get('core.create'))) {
 			JToolbarHelper::addNew('reseed.add');
 		}
 	

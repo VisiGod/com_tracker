@@ -47,7 +47,7 @@ class TrackerViewTorrents extends JViewLegacy {
 	
 		JToolbarHelper::title(JText::_('COM_TRACKER_TORRENTS'), 'attachment');
 	
-		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
+		if (($canDo->get('core.create'))) {
 			JToolbarHelper::addNew('torrent.add');
 		}
 	

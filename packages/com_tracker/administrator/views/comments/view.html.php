@@ -48,7 +48,7 @@ class TrackerViewComments extends JViewLegacy {
 	
 		JToolBarHelper::title(JText::_('COM_TRACKER_COMMENTS'), 'comments');
 	
-		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
+		if (($canDo->get('core.create'))) {
 			JToolbarHelper::addNew('comment.add');
 		}
 	

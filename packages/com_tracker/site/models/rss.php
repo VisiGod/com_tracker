@@ -30,7 +30,6 @@ class TrackerModelRSS extends JModelList {
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
-
 	}
 
 	protected function getListQuery($rss = null, $hash = null, $uid = null) {
@@ -43,6 +42,9 @@ class TrackerModelRSS extends JModelList {
 		$rss = (!empty($rss)) ? $rss : (int) $this->getState('rss');
 		$hash = (!empty($hash)) ? $hash : $this->getState('hash');
 		$uid = (!empty($uid)) ? $uid : (int) $this->getState('uid');
+
+		// Generate the hash for the user if it doesn't exists
+		if ($uid) TrackerHelper::check_user_hash($uid);
 
 		// If we don't request a specific rss we will get the default page with the available RSS's
 		if (empty($rss) && empty($hash) && empty($uid)) {

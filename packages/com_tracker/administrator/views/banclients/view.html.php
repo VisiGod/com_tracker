@@ -49,7 +49,7 @@ class TrackerViewBanClients extends JViewLegacy {
 		JToolBarHelper::title(JText::_('COM_TRACKER_BANCLIENTS'), 'eye-blocked');
 		
 	
-		if (count($user->getAuthorisedCategories('com_tracker', 'core.create')) > 0) {
+		if (($canDo->get('core.create'))) {
 			JToolbarHelper::addNew('banclient.add');
 		}
 	

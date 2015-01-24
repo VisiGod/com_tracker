@@ -23,8 +23,8 @@ class TrackerViewRSS extends JViewLegacy {
 		$this->params		= $app->getParams();
 		$this->user			= JFactory::getUser();
 
-		// No guests allowed
-		if (!$this->params->get('allow_guest') && $this->user->get('guest')) {
+		// No guests allowed when no rss items exist
+		if (!$this->params->get('allow_guest') && $this->user->get('guest') && count($this->items) == 0) {
 			$app->redirect('index.php', JText::_('COM_TRACKER_NOT_LOGGED_IN'), 'error');
 		}
 
