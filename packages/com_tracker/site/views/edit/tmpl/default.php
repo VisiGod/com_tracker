@@ -60,20 +60,6 @@ function check_torrent() {
 		</div>
 	</div>
 
-	<span id="torrent_file_keep" class="hide">
-		<div class="control-group">
-			<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' ); ?></div>
-			<div class="controls">
-				<?php // Removes the extension from the filename. We'll add it in the end
-					$temp = explode( '.', $this->item->filename );
-					$ext = array_pop( $temp );
-					$this->item->filename = implode( '.', $temp );
-				?>
-				<input type="hidden" name="filename" value="<?php echo $this->item->filename; ?>" />
-			</div>
-		</div>
-	</span>
-			
 	<span id="new_torrent_file" class="hide">
 		<div class="control-group">
 			<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' ); ?></div>

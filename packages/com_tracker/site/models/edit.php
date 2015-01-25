@@ -77,7 +77,6 @@ class TrackerModelEdit extends JModelItem {
 
 		$temp_torrent['fid']				= (int)$_POST['fid'];
 		$temp_torrent['name'] 				= $_POST['name'];
-		$temp_torrent['filename']			= $_POST['filename'];
 		$temp_torrent['old_filename'] 		= $_POST['old_filename'];
 		$temp_torrent['description'] 		= $_POST['description'];
 		$temp_torrent['category'] 			= (int)$_POST['categoryID'];
@@ -100,7 +99,7 @@ class TrackerModelEdit extends JModelItem {
 			if (empty($temp_torrent['name'])) $temp_torrent['name'] = $temp_torrent['old_name'];
 		} else { // We've uploaded a new torrent file to replace the old one
 			// Let's take care of the .torrent file first. We'll make an unique md5 filename to prevent stupid and unsuported filenames
-			$temp_torrent['filename'] = md5(uniqid()).'.torrent';
+			$temp_torrent['filename'] = md5(uniqid());
 
 			// If something wrong happened during the file upload, we bail out
 			if (!is_uploaded_file($_FILES['filename']['tmp_name'])) {
@@ -128,10 +127,8 @@ class TrackerModelEdit extends JModelItem {
 			
 			// If the user didnt wrote a name for the torrent, we get it from the filename
 			if (empty($_POST['name'])) {
-				$torrent->name($_FILES['filename']['name']);
 				$temp_torrent['name'] = pathinfo($_FILES['filename']['name'],PATHINFO_FILENAME);
 			} else {
-				$torrent->name($_POST['name']);
 				$temp_torrent['name'] = $_POST['name'];
 			}
 
@@ -232,10 +229,8 @@ class TrackerModelEdit extends JModelItem {
 			$query->delete('#__tracker_files_in_torrents')
 				  ->where('torrentID ='.$db->quote($temp_torrent['fid']));
 			$db->setQuery($query);
-			$db->execute();
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
-				return false;
+			if (!$db->execute()) {
+				JError::raiseError(500, $db->getErrorMsg());
 			}
 			// And add the new ones
 			foreach ($torrent->content() as $filename => $filesize) {
@@ -252,11 +247,12 @@ class TrackerModelEdit extends JModelItem {
 			}
 
 			// We need to delete the old torrent file first
-			@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$temp_torrent['fid']."_".$temp_torrent['old_filename'].'.torrent');
+			$old_torrent = JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$temp_torrent['fid']."_".$temp_torrent['old_filename'].'.torrent';
+			@unlink($old_torrent);
 
 			// Now we copy the new one again
-			if (!move_uploaded_file($_FILES['filename']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$temp_torrent['fid']."_".$temp_torrent['filename']))
-				$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$temp_torrent['fid']), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
+			$torrent_file = JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$temp_torrent['fid']."_".$temp_torrent['filename'].'.torrent';
+			if (!$torrent->save($torrent_file)) $app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$temp_torrent['fid']), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 
 		}
 

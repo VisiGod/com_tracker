@@ -123,8 +123,8 @@ class TrackerModelTorrent extends JModelAdmin {
 
 			// Delete the reseed requested torrent
 			$query->clear();
-			$query->delete($db->quoteName('#__tracker_reseed_request'));
-			$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+			$query->delete($db->quoteName('#__tracker_reseed_request'))
+				  ->where($db->quoteName('fid') . ' = ' . (int) $itemId );
 			$db->setQuery($query);
 			try {
 				$result = $db->execute();
@@ -133,12 +133,23 @@ class TrackerModelTorrent extends JModelAdmin {
 			}
 
 			// Delete the torrent file
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('filename'));
-			$query->from($db->quoteName('#__tracker_torrents'));
-			$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+			$query->clear();
+			$query ->select($db->quoteName('filename'))
+				   ->from($db->quoteName('#__tracker_torrents'))
+				   ->where($db->quoteName('fid') . ' = ' . (int) $itemId );
 			$db->setQuery($query);
 			$file = $db->loadResult();
+
+			// We need to delete the old values
+			$query->clear();
+			$query->delete('#__tracker_files_in_torrents')
+				  ->where('torrentID ='.$db->quote($itemId));
+			$db->setQuery($query);
+			try {
+				$result = $db->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 
 			// Delete the real torrent file
 			@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$file.'.torrent');

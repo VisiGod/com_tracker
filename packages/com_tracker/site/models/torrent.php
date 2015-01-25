@@ -578,10 +578,8 @@ class TrackerModelTorrent extends JModelItem {
 
 		// If the user didnt wrote a name for the torrent, we get it from the filename
 		if (empty($_POST['jform']['name'])) {
-			$torrent->name($_FILES['jform']['name']['filename']);
 			$temp_torrent['name'] = pathinfo($_FILES['jform']['name']['filename'],PATHINFO_FILENAME);
 		} else {
-			$torrent->name($_POST['jform']['name']);
 			$temp_torrent['name'] = $_POST['jform']['name'];
 		}
 
@@ -695,7 +693,7 @@ class TrackerModelTorrent extends JModelItem {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
 		}
-		
+
 		// If we're in freeleech we need to add the record of the new torrent to the freeleech table
 		if ($params->get('freeleech') == 1) {
 			$query->clear();

@@ -356,8 +356,8 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 										<img id="peercountry<?php echo $i;?>" alt="<?php echo $peer->countryName; ?>" src="<?php echo JURI::base().$peer->countryImage; ?>" width="32" />
 									</td>
 									<td style="white-space:nowrap; text-align:center;">
-										<?php 
-											$peer->user_progress = number_format(100-(($peer->left*100)/$item->size), 0, ',', ' ');
+										<?php
+											$peer->user_progress = number_format(100-(($peer->left*100)/$this->item->size), 0, ',', ' ');
 											if ($peer->user_progress < 33) $progress_class = "progress-danger";
 											else if ($peer->user_progress < 66) $progress_class = "progress-warning";
 											else $progress_class = "progress-success";
