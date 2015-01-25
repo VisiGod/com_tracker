@@ -537,30 +537,18 @@ class TrackerModelTorrent extends JModelItem {
 		$app	= JFactory::getApplication();
 
 		// Let's start to play with it
-		$temp_torrent['name']		= $_POST['jform']['name'];
-		$temp_torrent['categoryID']	= $_POST['jform']['categoryID'];
+		$temp_torrent['category']	= $_POST['jform']['categoryID'];
 		$temp_torrent['description']= $_POST['jform']['description'];
-		if ($params->get('torrent_tags') == 1) $temp_torrent['tags']= $_POST['jform']['tags'];
-		else  $temp_torrent['tags'] = '';
-		if ($params->get('enable_licenses') == 1) $licenseID = $_POST['jform']['licenseID'];
-		else $licenseID = 0;
-		if ($params->get('forum_post_id') == 1) $forum_post = $_POST['jform']['forum_post'];
-		else $forum_post = 0;
-		if ($params->get('torrent_information') == 1) $info_post = $_POST['jform']['info_post'];
-		else $info_post = 0;
-		if ($params->get('allow_upload_anonymous') == 1) $uploader_anonymous = $_POST['jform']['uploader_anonymous'];
-		else $uploader_anonymous = 0;
-
-		if ($params->get('freeleech') == 1) $download_multiplier = 0;
-		else $download_multiplier = 1;
+		$params->get('torrent_tags') == 1 ? $temp_torrent['tags']= $_POST['jform']['tags'] : $temp_torrent['tags'] = '';
+		$params->get('enable_licenses') == 1 ? $temp_torrent['license'] = $_POST['jform']['licenseID'] : $temp_torrent['license'] = 0;
+		$params->get('forum_post_id') == 1 ? $temp_torrent['forum_post'] = $_POST['jform']['forum_post'] : $temp_torrent['forum_post'] = 0;
+		$params->get('torrent_information') == 1 ? $temp_torrent['info_post'] = $_POST['jform']['info_post'] : $temp_torrent['info_post'] = 0;
+		$params->get('allow_upload_anonymous') == 1 ? $temp_torrent['uploader_anonymous'] = $_POST['jform']['uploader_anonymous'] : $temp_torrent['uploader_anonymous'] = 0;
+		$params->get('freeleech') == 1 ? $temp_torrent['download_multiplier'] = 0 : $temp_torrent['download_multiplier'] = 1;
 
 		// ------------------------------------------------------------------------------------------------------------------------
-		// Let's take care of the .torrent file first
-		$temp_torrent['filename'] = $_FILES['jform']['name']['filename'];
-		$temp_torrent['temp_file'] = $_FILES['jform']['tmp_name']['filename'];
-
-		// Sanitize the filename
-		$temp_torrent['filename'] = TrackerHelper::sanitize_filename($temp_torrent['filename']);
+		// Let's take care of the .torrent file first. We'll make an unique md5 filename to prevent stupid and unsuported filenames
+		$temp_torrent['filename'] = md5(uniqid()).'.torrent';
 
 		// If something wrong happened during the file upload, we bail out
 		if (!is_uploaded_file($_FILES['jform']['tmp_name']['filename'])) {
@@ -588,9 +576,11 @@ class TrackerModelTorrent extends JModelItem {
 
 		// If the user didnt wrote a name for the torrent, we get it from the filename
 		if (empty($_POST['jform']['name'])) {
-			$filename = pathinfo($_FILES['jform']['name']['filename']);
+			$torrent->name($_FILES['jform']['name']['filename']);
+			$temp_torrent['name'] = pathinfo($_FILES['jform']['name']['filename'],PATHINFO_FILENAME);
 		} else {
 			$torrent->name($_POST['jform']['name']);
+			$temp_torrent['name'] = $_POST['jform']['name'];
 		}
 
 		$query = $db->getQuery(true);
@@ -600,49 +590,49 @@ class TrackerModelTorrent extends JModelItem {
 		$db->setQuery($query);
 		if ($db->loadResult() > 0) {
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_ALREADY_EXISTS'), 'error');
-		}		
+		}
 
 		// ------------------------------------------------------------------------------------------------------------------------
 		// The .torrent file is valid, let's continue to our image file (if we choose to use it)
-		if ($params->get('use_image_file') && isset($_POST['jform']['image_type'])) {
-
+		if ($params->get('use_image_file')) {
+			
 			// When image_type is don't use image
-			if ($_POST['jform']['image_type'] == 0) {
+			if ($_POST['default_image_type'] == 0) {
 				$image_file_query_value = "";
 			}
 			
 			// When image file is an uploaded file
-			if ($_POST['jform']['image_type'] == 1) {
-				if (!is_uploaded_file($_FILES['jform']['tmp_name']['image_file'])) {
+			if ($_POST['default_image_type'] == 1) {
+				if (!is_uploaded_file($_FILES['image_file_file']['tmp_name'])) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_OPS_SOMETHING_HAPPENED_IMAGE'), 'error');
 				}
 
-				if (!filesize($_FILES['jform']['tmp_name']['image_file']) || $_FILES['jform']['size']['image_file'] == 0) {
+				if (!filesize($_FILES['image_file_file']['tmp_name']) || $_FILES['image_file_file']['size'] == 0 || $_FILES['image_file_file']['error']) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_EMPTY_FILE_IMAGE'), 'error');
 				}
 
-				if (!TrackerHelper::is_image($_FILES['jform']['tmp_name']['image_file'])) {
+				if (!TrackerHelper::is_image($_FILES['image_file_file']['tmp_name'])) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_NOT_AN_IMAGE_FILE'), 'error');
 				}
 
-				$image_file_extension = end(explode(".", $_FILES['jform']['name']['image_file'])); 
-				$image_file_query_value = $torrent->hash_info().'.'.$image_file_extension;
-				$image_file_file = $_FILES['jform']['tmp_name']['image_file'];
+				$temp_torrent['torrent_image_extension'] = pathinfo($_FILES['image_file_file']['name'], PATHINFO_EXTENSION);
+				$image_file_query_value = $torrent->hash_info().'.'.$temp_torrent['torrent_image_extension'];
+				$temp_torrent['torrent_image_file'] = $_FILES['image_file_file']['tmp_name'];
 			}
-			
+
 			// When image file is an external link
-			if ($_POST['jform']['image_type'] == 2) {
+			if ($_POST['default_image_type'] == 2) {
 				// If the remote file is unavailable
-				if(@!file_get_contents($_POST['jform']['image_link'],0,NULL,0,1)) {
+				if(@!file_get_contents($_POST['image_file_link'],0,NULL,0,1)) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_INVALID_FILE'), 'error');
 				}
-				
+
 				// check if the remote file is not an image
-				if (!is_array(@getimagesize($_POST['jform']['image_link']))) {
+				if (!is_array(@getimagesize($_POST['image_file_link']))) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_NOT_IMAGE'), 'error');
 				}
 				
-				$image_file_query_value = $_POST['jform']['image_link'];
+				$image_file_query_value = $_POST['image_file_link'];
 			}
 		} else {
 			$image_file_query_value = "";
@@ -658,21 +648,21 @@ class TrackerModelTorrent extends JModelItem {
 		$query->insert('#__tracker_torrents')
 			  ->set('info_hash = UNHEX("'.$torrent->hash_info().'")')
 			  ->set('ctime = unix_timestamp()')
-			  ->set('name = '.$db->quote($torrent->name()))
-			  ->set('alias = '.$db->quote($torrent->name()))
-			  ->set('filename = '.$db->quote($_FILES['jform']['name']['filename']))
-			  ->set('description = '.$db->quote($_POST['jform']['description']))
-			  ->set('categoryID = '.$db->quote($_POST['jform']['categoryID']))
+			  ->set('name = '.$db->quote($temp_torrent['name']))
+			  ->set('alias = '.$db->quote($temp_torrent['name']))
+			  ->set('filename = '.$db->quote($temp_torrent['filename']))
+			  ->set('description = '.$db->quote($temp_torrent['description']))
+			  ->set('categoryID = '.$db->quote($temp_torrent['category']))
 			  ->set('size = '.$db->quote($torrent->size()))
 			  ->set('created_time = '.$db->quote(date("Y-m-d H:i:s")))
 			  ->set('uploader = '.$db->quote($user->id))
 			  ->set('number_files = '.$db->quote(count($torrent->content())))
-			  ->set('uploader_anonymous = '.$db->quote($uploader_anonymous))
-			  ->set('forum_post = '.$db->quote($forum_post))
-			  ->set('info_post = '.$db->quote($info_post))
-			  ->set('licenseID = '.$db->quote($licenseID))
+			  ->set('uploader_anonymous = '.$db->quote($temp_torrent['uploader_anonymous']))
+			  ->set('forum_post = '.$db->quote($temp_torrent['forum_post']))
+			  ->set('info_post = '.$db->quote($temp_torrent['info_post']))
+			  ->set('licenseID = '.$db->quote($temp_torrent['license']))
 			  ->set('upload_multiplier = 1')
-			  ->set('download_multiplier = '.$db->quote($download_multiplier))
+			  ->set('download_multiplier = '.$db->quote($temp_torrent['download_multiplier']))
 			  ->set('image_file = '.$db->quote($image_file_query_value))
 			  ->set('tags = '.$db->quote($temp_torrent['tags']))
 			  ->set('ordering = '.TrackerHelper::getLastOrder('tracker_torrents'))
@@ -718,12 +708,13 @@ class TrackerModelTorrent extends JModelItem {
 		}
 
 		$upload_error = 0;
+
 		// Lets try to save the torrent before we continue
-		if (!move_uploaded_file($_FILES['jform']['tmp_name']['filename'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$_FILES['jform']['name']['filename'])) $upload_error = 1;
+		if (!move_uploaded_file($_FILES['jform']['tmp_name']['filename'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'])) $upload_error = 1;
 
 		// And we should also move the image file if we're using it with the option of uploading an image file
-		if ($params->get('use_image_file') && $_POST['jform']['image_type'] == 1) {
-			if (!move_uploaded_file($_FILES['jform']['tmp_name']['image_file'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value)) $upload_error = 1;
+		if ($params->get('use_image_file') && ($_POST['default_image_type'] == 1) && isset($_FILES['image_file_file']['tmp_name'])) {
+			if (!move_uploaded_file($_FILES['image_file_file']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value)) $upload_error = 1;
 		}
 
 		if ($upload_error == 0) {
@@ -746,7 +737,10 @@ class TrackerModelTorrent extends JModelItem {
 				  ->where('fid='.$db->quote($torrent_id));
 			$db->setQuery($query);
 			$db->execute();
-			unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_*");
+			// We check if the file exists before deleting it
+			if (is_file(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'])) {
+				unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename']);
+			}
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 		}
 	}

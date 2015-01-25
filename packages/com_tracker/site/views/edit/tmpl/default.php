@@ -22,15 +22,15 @@ $doc->addStyleDeclaration( $style );
 ?>
 <script type="text/javascript">
 function check_dd() {
-	if(document.getElementById('image_type').value == "1") {
-		document.getElementById('image_file_field').style.display = 'block';
-		document.getElementById('image_file_link').style.display = 'none';
-	} else if (document.getElementById('image_type').value == "2"){
-		document.getElementById('image_file_field').style.display = 'none';
-		document.getElementById('image_file_link').style.display = 'block';
+	if(document.getElementById('default_image_type').value == "1") {
+		document.getElementById('image_file_file_div').style.display = 'block';
+		document.getElementById('image_file_link_div').style.display = 'none';
+	} else if (document.getElementById('default_image_type').value == "2"){
+		document.getElementById('image_file_file_div').style.display = 'none';
+		document.getElementById('image_file_link_div').style.display = 'block';
 	} else {
-		document.getElementById('image_file_field').style.display = 'none';
-		document.getElementById('image_file_link').style.display = 'none';
+		document.getElementById('image_file_file_div').style.display = 'none';
+		document.getElementById('image_file_link_div').style.display = 'none';
 	}
 }
 
@@ -124,35 +124,39 @@ function check_torrent() {
 	<?php endif; ?>
 
 	<?php if ($this->params->get('use_image_file') == 1) : ?>
-		<div class="control-group">
-			<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
-			<div class="controls">
-				<?php
-					$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
-					$options = array();
-					foreach($image_type as $key=>$value) :
-						$options[] = JHtml::_('select.option', $key, $value);
-					endforeach;
-					echo JHtml::_('select.genericlist', $options, 'image_type', 'class="inputbox" onchange="check_dd();"', 'value', 'text', 0);
-				?>
+		<div class="row-fluid">
+			<div class="span5">
+				<div class="control-group">
+					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
+					<div class="controls">
+						<?php
+							$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
+							$options = array();
+							foreach($image_type as $key=>$value) :
+								$options[] = JHtml::_('select.option', $key, $value);
+							endforeach;
+							echo JHtml::_('select.genericlist', $options, 'default_image_type', 'class="inputbox" onchange="check_dd();"', 'value', 'text', 0);
+						?>
+					</div>
+				</div>
+			</div>
+
+			<div class="span5">
+				<div id="image_file_file_div" class="control-group hide">
+					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
+					<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" /></div>
+				</div>
+
+				<div id="image_file_link_div" class="control-group hide">
+					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
+					<?php // Check if we're "editing" a link when we had a file
+					if (!filter_var($this->item->image_file, FILTER_VALIDATE_URL)) $image_file_link_temp = '';
+						else $image_file_link_temp = $this->item->image_file;
+					?>
+					<div class="controls"><input type="text" name="image_file_link" id="image_file_link" value="<?php echo $image_file_link_temp; ?>" class="inputbox" size="50" /></div>
+				</div>
 			</div>
 		</div>
-
-		<span id="image_file_field" class="hide">
-			<div class="control-group">
-				<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
-				<div class="controls"><input type="file" name="image_file" id="image_file" value="<?php echo $this->item->image_file; ?>" class="inputbox" size="60" /></div>
-			</div>
-		</span>
-
-		<span id="image_file_link" class="hide">
-			<div class="control-group">
-				<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
-				<div class="controls"><input type="text" name="image_file" id="image_file" value="<?php echo $this->item->image_file; ?>" class="inputbox" size="60" /></div>
-			</div>
-		</span>
-	<?php else: ?>
-		<input type="hidden" name="image_file" value="<?php echo $this->item->image_file; ?>" />
 	<?php endif; ?>
 
 	<?php if ($this->params->get('forum_post_id') == 1) : ?>
@@ -225,7 +229,9 @@ function check_torrent() {
 	</div>
 
 	<input type="hidden" name="fid" value="<?php echo $this->item->fid; ?>" />
+	<input type="hidden" name="old_name" value="<?php echo $this->item->name; ?>" />
 	<input type="hidden" name="old_filename" value="<?php echo $this->item->filename; ?>" />
+	<input type="hidden" name="old_image" value="<?php echo $this->item->image_file; ?>" />
 	<input type="hidden" name="info_hash" value="<?php echo bin2hex($this->item->info_hash); ?>" />
 	<input type="hidden" name="option" value="com_tracker" />
 	<input type="hidden" name="task" value="torrent.edited" />

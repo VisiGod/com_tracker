@@ -17,14 +17,14 @@ $doc->addStyleDeclaration( $style );
 <script type="text/javascript">
 function check_dd() {
 	if(document.getElementById('default_image_type').value == "1") {
-		document.getElementById('image_file_field').style.display = 'block';
-		document.getElementById('image_file_link').style.display = 'none';
+		document.getElementById('image_file_file_div').style.display = 'block';
+		document.getElementById('image_file_link_div').style.display = 'none';
 	} else if (document.getElementById('default_image_type').value == "2"){
-		document.getElementById('image_file_field').style.display = 'none';
-		document.getElementById('image_file_link').style.display = 'block';
+		document.getElementById('image_file_file_div').style.display = 'none';
+		document.getElementById('image_file_link_div').style.display = 'block';
 	} else {
-		document.getElementById('image_file_field').style.display = 'none';
-		document.getElementById('image_file_link').style.display = 'none';
+		document.getElementById('image_file_file_div').style.display = 'none';
+		document.getElementById('image_file_link_div').style.display = 'none';
 	}
 }
 </script>
@@ -72,10 +72,10 @@ function check_dd() {
 						<!--  Check for choosen option in the backend -->
 						<?php if ($this->params->get('image_type') == 1) : ?>
 							<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
-							<div class="controls"><input type="file" name="image_file" id="image_file" value="" class="inputbox" size="50" /></div>
+							<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" /></div>
 						<?php elseif ($this->params->get('image_type') == 2) : ?>
 							<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
-							<div class="controls"><input type="text" name="image_file" id="image_file" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
+							<div class="controls"><input type="text" name="image_file_link" id="image_file_link" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
 						<?php else : ?>
 							<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
 							<div class="controls">
@@ -93,14 +93,14 @@ function check_dd() {
 				</div>
 
 				<div class="span5">
-					<div id="image_file_field" class="control-group hide">
+					<div id="image_file_file_div" class="control-group hide">
 						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
-						<div class="controls"><input type="file" name="image_file" id="image_file" value="" class="inputbox" size="50" /></div>
+						<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" /></div>
 					</div>
 
-					<div id="image_file_link" class="control-group hide">
+					<div id="image_file_link_div" class="control-group hide">
 						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
-						<div class="controls"><input type="text" name="image_file" id="image_file" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
+						<div class="controls"><input type="text" name="image_file_link" id="image_file_link" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
 					</div>
 				</div>
 			</div>
