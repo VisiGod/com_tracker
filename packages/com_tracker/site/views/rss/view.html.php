@@ -42,6 +42,10 @@ class TrackerViewRSS extends JViewLegacy {
 		$rss	= JRequest::getVar('rss');
 
 		if (!empty($rss)) {
+			
+			// Change description to be viewer friendly
+			$this->items[0]->item_description = nl2br($this->items[0]->item_description);
+
 			header('Content-Type: application/rss+xml; '.mb_internal_encoding());
 			echo TrackerHelper::getRSS($this->items[0]);
 			die();

@@ -86,7 +86,10 @@ class TrackerModelEdit extends JModelItem {
 		$torrent['upload_multiplier']	= (float)$_POST['upload_multiplier'];
 		$torrent['forum_post'] 			= (int)$_POST['forum_post'];
 		$torrent['info_post'] 			= (int)$_POST['info_post'];
-		$torrent['tags'] 				= $_POST['tags'];
+
+		// Check if we're using tags
+		if ($params->get('torrent_tags') == 1) $torrent['tags'] = $_POST['tags'];
+		else $torrent['tags'] = '';
 
 		// If we're in freeleech
 		if ($params->get('freeleech') == 1) $torrent['download_multiplier'] = 0;
@@ -282,12 +285,13 @@ class TrackerModelEdit extends JModelItem {
 				}
 			}
 
-			// And we need to overwrite the previous torrent from the server with the new one
+			// We need to delete the old torrent file first
+			@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent['fid']."_".$torrent['old_filename'].'.torrent');
+
+			// Now we copy the new one again
 			if (!move_uploaded_file($_FILES['filename']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent['fid']."_".$_FILES['filename']['name']))
 				$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$torrent['fid']), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 
-			// But we also need to delete the old torrent file
-			@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent['fid']."_".$torrent['old_filename'].'.torrent');
 		}
 
 		// If we're in freeleech we need to edit the record of the torrent in the freeleech table

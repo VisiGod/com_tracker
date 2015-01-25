@@ -53,7 +53,7 @@ jQuery.noConflict();
 $(document).ready( function() {
 	$('#ClickName, #ClickDescription, #ClickLink, #ClickCategory, '+
 	  '#ClickSize, #ClickUpload, #ClickUploader, #ClickLicense, '+
-	  '#ClickSeeders, #ClickLeechers, #ClickCompleted').click(function() {
+	  '#ClickSeeders, #ClickLeechers, #ClickCompleted, #ClickImage').click(function() {
 		$("#jform_item_description").insertAtCaret($(this).text());
 			return false
 		});
@@ -92,7 +92,7 @@ $(document).ready( function() {
 	#ClickName, #ClickDescription,#ClickLink, 
 	#ClickCategory, #ClickSize, #ClickUpload, 
 	#ClickUploader, #ClickLicense, #ClickSeeders, 
-	#ClickLeechers, #ClickCompleted	{
+	#ClickLeechers, #ClickCompleted, #ClickImage {
 		cursor:pointer;
 	}
 </style>
@@ -179,6 +179,7 @@ $(document).ready( function() {
 							<li><span id="ClickSeeders">{seeders}</span><span> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_SEEDERS'); ?></span></li>
 							<li><span id="ClickLeechers">{leechers}</span><span> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_LEECHERS'); ?></span></li>
 							<li><span id="ClickCompleted">{completed}</span><span> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_COMPLETED'); ?></span></li>
+							<li><span id="ClickImage">{image}</span><span> - <?php echo JText::_('COM_TRACKER_RSS_FIELD_CHOOSER_TORRENT_IMAGE'); ?></span></li>
 						</ul>
 					</div>
 				</div>

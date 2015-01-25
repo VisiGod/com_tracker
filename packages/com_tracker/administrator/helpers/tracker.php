@@ -736,7 +736,8 @@ class TrackerHelper extends JHelperContent {
 		if (preg_match('/{seeders}/',$used_fields))		$query->select('t.seeders');
 		if (preg_match('/{leechers}/',$used_fields))	$query->select('t.leechers');
 		if (preg_match('/{completed}/',$used_fields))	$query->select('t.completed');
-	
+		if (preg_match('/{image}/',$used_fields))		$query->select('t.image_file');
+
 		// Join on category table.
 		if (preg_match('/{category}/',$used_fields) || $data->rss_type == 1) {
 			$query->select('c.title AS category')
@@ -769,7 +770,7 @@ class TrackerHelper extends JHelperContent {
 		// Limit the number of items we get from the DB
 		$db->setQuery($query,0,$data->item_count);
 		$items = $db->loadObjectList();
-	
+
 		$feed = new RSSFeed();
 		$feed->SetChannel(JURI::getInstance()->toString(), 					// RSS URL
 				$data->channel_title,										// RSS Channel Title
@@ -792,6 +793,7 @@ class TrackerHelper extends JHelperContent {
 				array_push($source, '/{description}/');
 				array_push($destination, $item->description);
 			}
+//TODO: CHANGE LINK FROM TEXT TO HREF
 			if (preg_match('/{link}/',$used_fields)) {
 				array_push($source, '/{link}/');
 				array_push($destination, JRoute::_(JURI::base().'index.php?option=com_tracker&view=torrent&id='.$item->fid, true, -1));
@@ -816,6 +818,24 @@ class TrackerHelper extends JHelperContent {
 				array_push($source, '/{completed}/');
 				array_push($destination, $item->completed);
 			}
+
+//TODO: CHANGE IMAGE FROM TEXT TO IMG
+			if (preg_match('/{image}/',$used_fields)) {
+				array_push($source, '/{image}/');
+
+				$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+				// If we dont have a link in the field
+				if(!preg_match($reg_exUrl, $item->image_file)) :
+					if (file_exists($_SERVER['DOCUMENT_ROOT'].JURI::base(true).'/images/tracker/torrent_image/'.$item->image_file) && !empty($item->image_file)) :
+			 			$item->image_file = JURI::base().'images/tracker/torrent_image/'.$item->image_file;
+				 	else :
+				 		$item->image_file = JURI::base().$params->get('default_image_file');
+				 	endif;
+				 endif;
+
+				array_push($destination, $item->image_file);
+				}
+			
 			if (preg_match('/{category}/',$used_fields)) {
 				array_push($source, '/{category}/');
 				array_push($destination, $item->category);
