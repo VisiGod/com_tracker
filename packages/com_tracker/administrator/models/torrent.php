@@ -141,7 +141,7 @@ class TrackerModelTorrent extends JModelAdmin {
 			$file = $db->loadResult();
 
 			// Delete the real torrent file
-			@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$file);
+			@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$file.'.torrent');
 		
 		}
 		return true;
