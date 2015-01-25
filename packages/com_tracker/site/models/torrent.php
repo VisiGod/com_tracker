@@ -302,7 +302,7 @@ class TrackerModelTorrent extends JModelItem {
 	 	}
 
 		// All OK so far, let's continue
-		# Get the torrent
+		// Get the torrent
 		$query->clear()
 			  ->select('*')
 			  ->from('#__tracker_torrents')
@@ -313,13 +313,13 @@ class TrackerModelTorrent extends JModelItem {
 
 		$torrentfile = $row->fid."_".$row->filename;
 
-		if (!is_file(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile)) {
+		if (!is_file(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile.'.torrent')) {
 			echo "<script> alert(\"".JText::_( 'COM_TRACKER_FILE_DOESNT_EXIST' )."\"); window.history.go(-1);</script>\n";
 			exit;
 		}
 		clearstatcache();
 
-		if (!is_readable(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile)) {
+		if (!is_readable(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile.'.torrent')) {
 			echo "<script> alert(\"".JText::_( 'COM_TRACKER_FILE_ISNT_READABLE' )."\"); window.history.go(-1);</script>\n";
 			exit;
 		}
@@ -357,7 +357,8 @@ class TrackerModelTorrent extends JModelItem {
 			}
 		endif;
 
-		$torrent = new Torrent( JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile );
+		$torrent = new Torrent( JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrentfile.'.torrent' );
+
 		// ###############################################################################################################################
 		// reset announce trackers
 		$torrent->announce(false);
@@ -388,7 +389,8 @@ class TrackerModelTorrent extends JModelItem {
 		// If we have tags enabled, put the site name in a Tag and send the torrent filename
 		if ($params->get('tag_in_torrent') == 1) $torrent->send('['.$config->sitename.']'.$row->name.'.torrent');
 		// Or we send the original torrent file without any tag
-		else $torrent->send();
+		$torrent->send($row->name.'.torrent');
+		
 	}
 
 	public function thanks() {
@@ -548,7 +550,7 @@ class TrackerModelTorrent extends JModelItem {
 
 		// ------------------------------------------------------------------------------------------------------------------------
 		// Let's take care of the .torrent file first. We'll make an unique md5 filename to prevent stupid and unsuported filenames
-		$temp_torrent['filename'] = md5(uniqid()).'.torrent';
+		$temp_torrent['filename'] = md5(uniqid());
 
 		// If something wrong happened during the file upload, we bail out
 		if (!is_uploaded_file($_FILES['jform']['tmp_name']['filename'])) {
@@ -566,7 +568,7 @@ class TrackerModelTorrent extends JModelItem {
 		}
 
 		// Let's create our new torrent object
-		$torrent = new Torrent( $_FILES['jform']['tmp_name']['filename'] );
+		$torrent = new Torrent($_FILES['jform']['tmp_name']['filename']);
 
 		// And check for errors. Need to find a way to test them all :)
 		if ( $errors = $torrent->errors() ) var_dump( $errors );
@@ -710,7 +712,9 @@ class TrackerModelTorrent extends JModelItem {
 		$upload_error = 0;
 
 		// Lets try to save the torrent before we continue
-		if (!move_uploaded_file($_FILES['jform']['tmp_name']['filename'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'])) $upload_error = 1;
+		//if (!move_uploaded_file($_FILES['jform']['tmp_name']['filename'], JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'])) $upload_error = 1;
+		$torrent_file = JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'].'.torrent';
+		if (!$torrent->save($torrent_file)) $upload_error = 1;
 
 		// And we should also move the image file if we're using it with the option of uploading an image file
 		if ($params->get('use_image_file') && ($_POST['default_image_type'] == 1) && isset($_FILES['image_file_file']['tmp_name'])) {
@@ -738,8 +742,8 @@ class TrackerModelTorrent extends JModelItem {
 			$db->setQuery($query);
 			$db->execute();
 			// We check if the file exists before deleting it
-			if (is_file(JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename'])) {
-				unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$torrent_id."_".$temp_torrent['filename']);
+			if (is_file($torrent_file)) {
+				unlink ($torrent_file);
 			}
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_PROBLEM_MOVING_FILE'), 'error');
 		}
