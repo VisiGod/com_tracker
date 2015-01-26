@@ -72,10 +72,16 @@ function check_dd() {
 						<!--  Check for choosen option in the backend -->
 						<?php if ($this->params->get('image_type') == 1) : ?>
 							<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
-							<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" /></div>
+							<div class="controls">
+								<input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" />
+								<input type="hidden" name="default_image_type" value="1" />
+							</div>
 						<?php elseif ($this->params->get('image_type') == 2) : ?>
 							<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
-							<div class="controls"><input type="text" name="image_file_link" id="image_file_link" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
+							<div class="controls">
+								<input type="text" name="image_file_link" id="image_file_link" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" />
+								<input type="hidden" name="default_image_type" value="2" />
+							</div>
 						<?php else : ?>
 							<div class="control-label"><?php echo $this->form->getLabel('image_file'); ?></div>
 							<div class="controls">
@@ -92,17 +98,19 @@ function check_dd() {
 					</div>
 				</div>
 
-				<div class="span5">
-					<div id="image_file_file_div" class="control-group hide">
-						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
-						<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" /></div>
-					</div>
+				<?php if ($this->params->get('image_type') == 0) : ?>
+					<div class="span5">
+						<div id="image_file_file_div" class="control-group hide">
+							<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
+							<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" /></div>
+						</div>
 
-					<div id="image_file_link_div" class="control-group hide">
-						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
-						<div class="controls"><input type="text" name="image_file_link" id="image_file_link" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
+						<div id="image_file_link_div" class="control-group hide">
+							<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_LINK' ); ?></div>
+							<div class="controls"><input type="text" name="image_file_link" id="image_file_link" value="<?php echo $this->form->getValue('image_file'); ?>" class="inputbox" size="50" /></div>
+						</div>
 					</div>
-				</div>
+				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 

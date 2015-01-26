@@ -85,17 +85,14 @@ class TrackerModelTorrent extends JModelAdmin {
 		
 			// Delete the image file
 			if ($params->get('use_image_file')) {
-				foreach ($pks as $itemId) {
-					$query = $db->getQuery(true);
-					$query->select($db->quoteName('image_file'));
-					$query->from($db->quoteName('#__tracker_torrents'));
-					$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
-					$db->setQuery($query);
-					$image_file = $db->loadResult();
-					if ($image_file) {
-						// Delete the image
-						@unlink (JPATH_SITE.'/images/tracker/torrent_image/'.$itemId.'_'.$image_file);
-					}
+				$query = $db->getQuery(true);
+				$query->select($db->quoteName('image_file'));
+				$query->from($db->quoteName('#__tracker_torrents'));
+				$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+				$db->setQuery($query);
+				$image_file = $db->loadResult();
+				if (is_file(JPATH_SITE.'/images/tracker/torrent_image/'.$image_file)) {
+					@unlink (JPATH_SITE.'/images/tracker/torrent_image/'.$image_file);
 				}
 			}
 
@@ -132,15 +129,7 @@ class TrackerModelTorrent extends JModelAdmin {
 				return false;
 			}
 
-			// Delete the torrent file
-			$query->clear();
-			$query ->select($db->quoteName('filename'))
-				   ->from($db->quoteName('#__tracker_torrents'))
-				   ->where($db->quoteName('fid') . ' = ' . (int) $itemId );
-			$db->setQuery($query);
-			$file = $db->loadResult();
-
-			// We need to delete the old values
+			// Delete the rows in files_in_torrents table (torrent contents)
 			$query->clear();
 			$query->delete('#__tracker_files_in_torrents')
 				  ->where('torrentID ='.$db->quote($itemId));
@@ -151,9 +140,24 @@ class TrackerModelTorrent extends JModelAdmin {
 				return false;
 			}
 
+			// Select the torrent file
+			$query->clear();
+			$query ->select($db->quoteName('filename'))
+				   ->from($db->quoteName('#__tracker_torrents'))
+				   ->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+			$db->setQuery($query);
+			try {
+				$filename = $db->loadResult();
+			} catch (Exception $e) {
+				return false;
+			}
+
 			// Delete the real torrent file
-			@unlink (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$file.'.torrent');
-		
+			$torrent = JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$itemId.'_'.$filename.'.torrent';
+			if (is_file($torrent)) {
+				@unlink ($torrent);
+			}
+
 		}
 		return true;
 	}

@@ -595,14 +595,14 @@ class TrackerModelTorrent extends JModelItem {
 		// ------------------------------------------------------------------------------------------------------------------------
 		// The .torrent file is valid, let's continue to our image file (if we choose to use it)
 		if ($params->get('use_image_file')) {
-			
+
 			// When image_type is don't use image
 			if ($_POST['default_image_type'] == 0) {
 				$image_file_query_value = "";
 			}
 			
 			// When image file is an uploaded file
-			if ($_POST['default_image_type'] == 1) {
+			if ($_POST['default_image_type'] == 1 || $params->get('image_type') == 1) {
 				if (!is_uploaded_file($_FILES['image_file_file']['tmp_name'])) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_OPS_SOMETHING_HAPPENED_IMAGE'), 'error');
 				}
@@ -621,7 +621,7 @@ class TrackerModelTorrent extends JModelItem {
 			}
 
 			// When image file is an external link
-			if ($_POST['default_image_type'] == 2) {
+			if ($_POST['default_image_type'] == 2 || $params->get('image_type') == 2) {
 				// If the remote file is unavailable
 				if(@!file_get_contents($_POST['image_file_link'],0,NULL,0,1)) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_INVALID_FILE'), 'error');

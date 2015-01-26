@@ -113,10 +113,19 @@ function check_torrent() {
 		<div class="row-fluid">
 			<div class="span5">
 				<div class="control-group">
+					<!--  Check for choosen option in the backend -->
+
 					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
 					<div class="controls">
 						<?php
-							$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
+							if ($this->params->get('image_type') == 1) :
+								$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
+							elseif ($this->params->get('image_type') == 2) :
+								$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
+							else :
+								$image_type = array(0 => JText::_('COM_TRACKER_EDIT_IMAGE_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_FILE'), 2 => JText::_('COM_TRACKER_EDIT_IMAGE_CHOOSE_NEW_LINK'), 3 => JText::_('COM_TRACKER_EDIT_IMAGE_REMOVE_PREVIOUS_IMAGE'));
+							endif;
+
 							$options = array();
 							foreach($image_type as $key=>$value) :
 								$options[] = JHtml::_('select.option', $key, $value);
@@ -142,6 +151,7 @@ function check_torrent() {
 					<div class="controls"><input type="text" name="image_file_link" id="image_file_link" value="<?php echo $image_file_link_temp; ?>" class="inputbox" size="50" /></div>
 				</div>
 			</div>
+
 		</div>
 	<?php endif; ?>
 
