@@ -117,7 +117,7 @@ class TrackerModelTorrent extends JModelItem {
 
 		// Get the torrent peers
 		$query->clear()
-			  ->select('u.id, u.name')
+			  ->select('u.id, u.name, u.username')
 			  ->from('#__users AS u')
 			  ->join('LEFT', '#__tracker_users AS tu on tu.id = u.id')
 			  ->select('fu.active, fu.left, fu.downloaded, fu.uploaded, fu.mtime');
@@ -153,7 +153,7 @@ class TrackerModelTorrent extends JModelItem {
 		// Get the users that snatched the torrent
 		//TODO: Remove the user who uploaded the torrent as a snatcher
 		$query->clear()
-			  ->select('u.id, u.name')
+			  ->select('u.id, u.name, u.username')
 			  ->from('#__users AS u')
 			  ->join('LEFT', '#__tracker_users AS tu on tu.id = u.id')
 			  ->select('fu.fid, fu.downloaded, fu.uploaded, fu.mtime')
@@ -168,7 +168,7 @@ class TrackerModelTorrent extends JModelItem {
 
 		// Get the Hit and Runners
 		$query->clear()
-			  ->select('u.id, u.name')
+			  ->select('u.id, u.name, u.username')
 			  ->from('#__users AS u')
 			  ->join('LEFT', '#__tracker_users AS tu on tu.id = u.id')
 			  ->select('fu.active as active, fu.left, fu.downloaded as downloaded, fu.uploaded as uploaded, fu.mtime as mtime')
@@ -198,7 +198,7 @@ class TrackerModelTorrent extends JModelItem {
 		// Get the torrent thanks
 		if ($params->get('enable_thankyou') == 1) {
 			$query->clear()
-				  ->select('u.username as thanker, ttt.uid as thankerid,  ttt.created_time as thankstime')
+				  ->select('u.name as thanker_name, u.username as thanker_username, ttt.uid as thankerid,  ttt.created_time as thankstime')
 				  ->from('#__tracker_torrent_thanks AS ttt')
 				  ->join('LEFT', '#__users AS u on u.id = ttt.uid')
 				  ->join('LEFT', '#__tracker_torrents AS tt on tt.fid = ttt.torrentID')
@@ -211,7 +211,7 @@ class TrackerModelTorrent extends JModelItem {
 		// Get the torrent reseed requests
 		if ($params->get('enable_reseedrequest') == 1) {
 			$query->clear()
-				  ->select('u.username as requester,  trr.created_time as requested_time')
+				  ->select('u.name as requester_name, u.username as requester_username, trr.requester as requesterid, trr.created_time as requested_time')
 				  ->from('#__tracker_reseed_request AS trr')
 				  ->join('LEFT', '#__users AS u on u.id = trr.requester')
 				  ->join('LEFT', '#__tracker_torrents AS tt on tt.fid = trr.fid')

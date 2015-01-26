@@ -9,9 +9,13 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+// First we need to know if we chose to display the user 'username' or the user 'name'
+if ($this->params->get('user_in_torrent_details') == 1) $display_user = 'name'; //the name
+else $display_user = 'username'; //the username
 ?>
 	<div style="font-size: medium; margin-left:35px; wrap:nowrap;">
-		<span style="display:inline-block; vertical-align:middle"><b><?php echo JText::_( 'COM_TRACKER_DETAILS_FOR' ); ?>:</b>&nbsp;<i><?php echo $this->item->name;?></i>&nbsp;&nbsp;&nbsp;</span>
+		<span style="display:inline-block; vertical-align:middle"><b><?php echo JText::_( 'COM_TRACKER_DETAILS_FOR' ); ?>:</b>&nbsp;<i><?php echo $this->item->$display_user;?></i>&nbsp;&nbsp;&nbsp;</span>
 		<?php
 			if ($this->params->get('enable_countries')) :
 				if (empty($this->item->country_info->name)) :

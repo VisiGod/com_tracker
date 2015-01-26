@@ -146,10 +146,14 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									if ($totalThanks == 0) :
 										echo JText::_( 'COM_TRACKER_TORRENT_NO_THANKS' );
 									else :
-									for ($i=0; $i < $totalThanks; $i++) {
-										echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->thankyous[$i]->thankerid)."'><b>".$this->item->thankyous[$i]->thanker."</b></a>";
-										if ($i < $totalThanks - 1) echo ', ';
-									}
+										// First we need to know if we chose to display the user 'username' or the user 'name'
+										if ($this->params->get('user_in_torrent_details') == 1) $display_thanker = 'thanker_name'; //the name
+										else $display_thanker = 'thanker_username'; //the username
+
+										for ($i=0; $i < $totalThanks; $i++) {
+											echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->thankyous[$i]->thankerid)."'><b>".$this->item->thankyous[$i]->$display_thanker."</b></a>";
+											if ($i < $totalThanks - 1) echo ', ';
+										}
 									endif;
 								?>
 							</dd>
@@ -163,8 +167,12 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									if ($totalReseeds == 0) :
 										echo JText::_( 'COM_TRACKER_NO_RESEEDS' );
 									else :
+										// First we need to know if we chose to display the user 'username' or the user 'name'
+										if ($this->params->get('user_in_torrent_details') == 1) $display_requester = 'requester_name'; //the name
+										else $display_requester = 'requester_username'; //the username
+
 										for ($i=0; $i < $totalReseeds; $i++) {
-											echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->reseeds[$i]->requester)."'><b>".$this->item->reseeds[$i]->requester."</b></a>";
+											echo "<a href='".JRoute::_('index.php?view=userpanel&id='.$this->item->reseeds[$i]->requesterid)."'><b>".$this->item->reseeds[$i]->$display_requester."</b></a>";
 											if ($i < $totalReseeds - 1) echo ', ';
 										}
 									endif;
@@ -250,7 +258,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 							<?php endif; ?>
 							</div>
 						<?php endif; ?>
-						
+<!--  name / username -->
 						<!-- Torrent Thanks -->
 						<?php if ($this->params->get('enable_thankyou') == 1) : ?>
 							<?php if ((TrackerHelper::checkThanks($this->user->id, $this->item->fid) <> 0) && ($this->user->id <> $this->item->uploader)) : ?>
@@ -311,7 +319,12 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 							<?php if ($peer->num_times > 1) : ?> <!--  downloaded // left0 // uploaded -->
 								<?php foreach ($this->item->peers[$i]->list as $i => $list) : ?>
 								<tr>
-									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
+									<?php 
+										// First we need to know if we chose to display the user 'username' or the user 'name'
+										if ($this->params->get('user_in_torrent_details') == 1) $display_peer = $peer->name; //the name
+										else $display_peer = $peer->username; //the username
+									?>
+									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $display_peer; ?></a></td>
 									<td style="white-space:nowrap; text-align:center;">
 										<?php
 											if (empty($peer->countryName)) :
@@ -344,7 +357,12 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 								<?php endforeach; ?>
 							<?php else : ?>
 								<tr>
-									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $peer->name; ?></a></td>
+									<?php 
+										// First we need to know if we chose to display the user 'username' or the user 'name'
+										if ($this->params->get('user_in_torrent_details') == 1) $display_peer = $peer->name; //the name
+										else $display_peer = $peer->username; //the username
+									?>
+									<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$peer->id);?>"><?php echo $display_peer; ?></a></td>
 									<td style="white-space:nowrap; text-align:center;">
 										<?php
 											if (empty($peer->countryName)) :
@@ -396,7 +414,12 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 					<tbody>
 						<?php foreach ($this->item->snatchers as $i => $snatcher) : ?>
 							<tr>
-								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$snatcher->id);?>"><?php echo $snatcher->name; ?></a></td>
+								<?php 
+									// First we need to know if we chose to display the user 'username' or the user 'name'
+									if ($this->params->get('user_in_torrent_details') == 1) $display_snatcher = $snatcher->name; //the name
+									else $display_snatcher = $snatcher->username; //the username
+								?>
+								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$snatcher->id);?>"><?php echo $display_snatcher; ?></a></td>
 								<td style="white-space:nowrap; text-align:center;">
 									<?php
 										if (empty($snatcher->countryName)) :
@@ -432,7 +455,12 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 					<tbody>
 						<?php foreach ($this->item->hitrunners as $i => $hitrunner) : ?>
 							<tr>
-								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$hitrunner->id);?>"><?php echo $hitrunner->name; ?></a></td>
+								<?php 
+									// First we need to know if we chose to display the user 'username' or the user 'name'
+									if ($this->params->get('user_in_torrent_details') == 1) $display_hitrunner = $hitrunner->name; //the name
+									else $display_hitrunner = $hitrunner->username; //the username
+								?>
+								<td><a href="<?php echo JRoute::_('index.php?view=userpanel&id='.$hitrunner->id);?>"><?php echo $display_hitrunner; ?></a></td>
 								<td style="white-space:nowrap; text-align:center;">
 									<?php
 										if (empty($hitrunner->countryName)) :
