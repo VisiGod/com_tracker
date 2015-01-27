@@ -350,7 +350,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									
 									<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($list->uploaded); ?></td>
 									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($list->down_rate).'/s'; ?></td><?php endif; ?>
-									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($list->down_rate).'/s'; ?></td><?php endif; ?>
+									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($list->up_rate).'/s'; ?></td><?php endif; ?>
 									<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_ratio($list->downloaded,$list->uploaded); ?></td>
 									<td style="white-space:nowrap; text-align:center;"><?php echo $peer->num_times; ?></td>
 								</tr>
@@ -387,7 +387,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 									<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->downloaded); ?></td>
 									<td style="white-space:nowrap; text-align:right;"><?php echo TrackerHelper::make_size($peer->uploaded); ?></td>
 									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
-									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->down_rate).'/s'; ?></td><?php endif; ?>
+									<?php if ($this->params->get('peer_speed') == 1) : ?><td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_size($peer->up_rate).'/s'; ?></td><?php endif; ?>
 									<td style="white-space:nowrap; text-align:center;"><?php echo TrackerHelper::make_ratio($peer->downloaded,$peer->uploaded); ?></td>
 									<td style="white-space:nowrap; text-align:center;"><?php echo $peer->num_times; ?></td>
 								</tr>

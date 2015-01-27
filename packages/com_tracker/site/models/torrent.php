@@ -113,7 +113,6 @@ class TrackerModelTorrent extends JModelItem {
 		$db->setQuery($query);
 		$data->xbt_config = $db->loadObjectList('name');
 		$time_difference = (int)($data->xbt_config['announce_interval']->value + $data->xbt_config['read_db_interval']->value);
-		
 
 		// Get the torrent peers
 		$query->clear()
