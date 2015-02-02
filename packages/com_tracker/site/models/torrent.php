@@ -233,37 +233,6 @@ class TrackerModelTorrent extends JModelItem {
 			$data->reports = $db->loadObjectList();
 		}
 
-		###############################################################################################################################
-		##### Torrent Comments #####
-		//TODO: Something to take care as soon as the base is working
-		/*
-		if ($params->get('use_comments') && TrackerHelper::user_permissions('view_comments', $user->get('id'), 1)) {
-			// Get the torrent comments
-			$query->clear();
-			$query->select('tu.id as userid, tu.name as username, tcom.commentdate as commentdate, tcom.description as description');
-			$query->from('#__tracker_comments AS tcom');
-			$query->join('LEFT', '#__users AS tu ON tu.id = tcom.id');
-			$query->where('tcom.torrentid = '.(int)$pk);
-			$query->where('tcom.state = 1');
-			$query->order('tcom.id DESC');
-			$db->setQuery($query);
-			$data->comments = $db->loadObjectList();
-
-			if ($params->get('comment_only_leecher')) {
-				$query->clear();
-				$query->select('(downloaded + uploaded ) AS total');
-				$query->from('#__tracker_files_users');
-				$query->where('fid = '.(int)$pk);
-				$query->where('uid = '.(int)$user->get('id'));
-				$db->setQuery($query);
-				$data->isleecher = $db->loadResult();
-			} else $data->isleecher = 1;
-
-		} else $data->comments = 0;
-		*/
-
-		###############################################################################################################################
-
 		if ($error = $db->getErrorMsg()) {
 			throw new Exception($error);
 		}

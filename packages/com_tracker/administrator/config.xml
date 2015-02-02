@@ -136,6 +136,10 @@
 		<field name="torrent_dir" type="text" default="torrents/" label="COM_TRACKER_OPTIONS_COMPONENT_TORRENT_DIR" size="20" />
 		<field name="max_torrent_size" type="text" default="1048576" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_MAX_TORRENT_SIZE" />
 		<field name="progress_bar_size" type="text" default="50" filter="integer" label="COM_TRACKER_OPTIONS_COMPONENT_PROGRESS_BAR_SIZE" size="3" />
+		<field name="bytes_octets" type="list" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_BYTES_OCTECTS" >
+			<option value="1">COM_TRACKER_BYTES</option>
+			<option value="0">COM_TRACKER_OCTETS</option>
+		</field>
 		<field name="user_in_torrent_details" type="list" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_USER_IN_TORRENT_DETAILS" >
 			<option value="0">JGLOBAL_USERNAME</option>
 			<option value="1">COM_TRACKER_NAME</option>
