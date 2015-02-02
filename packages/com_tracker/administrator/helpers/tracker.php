@@ -84,9 +84,10 @@ class TrackerHelper extends JHelperContent {
 	}
 
 	public static function make_size($raw_size) {
+		$params = JComponentHelper::getParams( 'com_tracker' );
 		$unit_measure = $params->get('bytes_octets');
 
-		if ($unit_measure == 1) {
+		if ($unit_measure <> 0) {
 			if ($raw_size < 1000 * 1024) return number_format($raw_size / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBYTES' );
 			elseif ($raw_size < 1000 * 1048576) return number_format($raw_size / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABYTES' );
 			elseif ($raw_size < 1000 * 1073741824) return number_format($raw_size / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABYTES' );
