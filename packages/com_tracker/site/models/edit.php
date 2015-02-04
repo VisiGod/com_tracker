@@ -77,7 +77,9 @@ class TrackerModelEdit extends JModelItem {
 
 		$temp_torrent['fid']				= (int)$_POST['fid'];
 		$temp_torrent['name'] 				= $_POST['name'];
+		$temp_torrent['old_name'] 			= $_POST['old_name'];
 		$temp_torrent['old_filename'] 		= $_POST['old_filename'];
+		$temp_torrent['info_hash']			= $_POST['info_hash'];
 		$temp_torrent['description'] 		= $_POST['description'];
 		$temp_torrent['category'] 			= (int)$_POST['categoryID'];
 		$temp_torrent['license'] 			= (int)$_POST['licenseID'];
@@ -97,6 +99,7 @@ class TrackerModelEdit extends JModelItem {
 		// ------------------------------------------------------------------------------------------------------------------------
 		if ($_POST['torrent_file'] == 0) { // We're keeping the original torrent
 			if (empty($temp_torrent['name'])) $temp_torrent['name'] = $temp_torrent['old_name'];
+			$temp_torrent['filename'] = $temp_torrent['old_filename'];
 		} else { // We've uploaded a new torrent file to replace the old one
 			// Let's take care of the .torrent file first. We'll make an unique md5 filename to prevent stupid and unsuported filenames
 			$temp_torrent['filename'] = md5(uniqid());
@@ -144,13 +147,20 @@ class TrackerModelEdit extends JModelItem {
 			}
 		}
 
+		// We must have a category on the torrent
+		if (!$temp_torrent['category']) {
+			$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$temp_torrent['fid']), JText::_('COM_TRACKER_NO_CATEGORY_CHOOSED'), 'error');
+		}
+
 		// ------------------------------------------------------------------------------------------------------------------------
 		// Let's process the image file if we use it
 		if ($params->get('use_image_file')) {
-			$image_file_query_value = "";
-			
-			// When image file is an uploaded file
-			if ($_POST['default_image_type'] == 1 || $params->get('image_type') == 1) {
+
+			// If we want to keep the previous file or link
+			if ($_POST['default_image_type'] == 0) {
+				$image_file_query_value = $temp_torrent['old_filename'];
+			// When image file is an uploaded file and we opted to upload a new image
+			} elseif (($params->get('image_type') == 0 || $params->get('image_type') == 1) && $_POST['default_image_type'] == 1) {
 				if (!is_uploaded_file($_FILES['image_file_file']['tmp_name'])) {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_OPS_SOMETHING_HAPPENED_IMAGE'), 'error');
 				}
@@ -163,27 +173,27 @@ class TrackerModelEdit extends JModelItem {
 					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_NOT_AN_IMAGE_FILE'), 'error');
 				}
 
-				// We need to check if we have a new torrent hash or if we are just updating the image file
-				$_POST['torrent_file'] ? $image_torrent_hash = $torrent->hash_info(): $image_torrent_hash = $_POST['info_hash']; 
-
 				$temp_torrent['torrent_image_extension'] = pathinfo($_FILES['image_file_file']['name'], PATHINFO_EXTENSION);
-				$image_file_query_value = $image_torrent_hash.'.'.$temp_torrent['torrent_image_extension'];
-				$temp_torrent['torrent_image_file'] = $_FILES['image_file_file']['tmp_name'];
-			}
-
-			// When image file is an external link
-			if ($_POST['default_image_type'] == 2 || $params->get('image_type') == 2) {
-				// If the remote file is unavailable
-				if(@!file_get_contents($_POST['image_file_link'],0,NULL,0,1)) {
-					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_INVALID_FILE'), 'error');
-				}
-
-				// check if the remote file is not an image
-				if (!is_array(@getimagesize($_POST['image_file_link']))) {
-					$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_NOT_IMAGE'), 'error');
-				}
 				
-				$image_file_query_value = $_POST['image_file_link'];
+				// We use the old hash info
+				if ($_POST['torrent_file'] == 0) $image_file_query_value = $temp_torrent['info_hash'].'.'.$temp_torrent['torrent_image_extension'];
+				else $image_file_query_value = $torrent->hash_info().'.'.$temp_torrent['torrent_image_extension'];
+				$temp_torrent['torrent_image_file'] = $_FILES['image_file_file']['tmp_name'];
+			// When image file is an external link and we opted to insert a new link
+			} elseif (($params->get('image_type') == 0 || $params->get('image_type') == 2) && $_POST['default_image_type'] == 2) {
+					// If the remote file is unavailable
+					if(@!file_get_contents($_POST['image_file_link'],0,NULL,0,1)) {
+						$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_INVALID_FILE'), 'error');
+					}
+		
+					// check if the remote file is not an image
+					if (!is_array(@getimagesize($_POST['image_file_link']))) {
+						$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_REMOTE_IMAGE_NOT_IMAGE'), 'error');
+					}
+		
+					$image_file_query_value = $_POST['image_file_link'];
+			} else {
+				$image_file_query_value = "";
 			}
 		}
 
@@ -258,13 +268,20 @@ class TrackerModelEdit extends JModelItem {
 
 		// And we should also move the image file if we're using it with the option of uploading an image file
 		if ($params->get('use_image_file') && ($_POST['default_image_type'] == 1) && isset($_FILES['image_file_file']['tmp_name'])) {
-			// We first delete the old image
-			@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['old_image']);
-			if (!move_uploaded_file($_FILES['image_file_file']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value)) $upload_error = 1;
+
+			// If we updated the torrent, we need to rename the old file for now
+			rename(JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['old_image'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/old_'.$_POST['old_image']); 
+
+			if (!move_uploaded_file($_FILES['image_file_file']['tmp_name'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$image_file_query_value)) { 
+				rename(JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/old_'.$_POST['old_image'], JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['old_image']);
+				$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$temp_torrent['fid']), JText::_('COM_TRACKER_THERE_WAS_A_PROBLEM_SAVING_NEW_IMAGE_FILE'), 'error');
+			} else {
+				@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/old_'.$_POST['old_image']);
+			}
 		}
 
 		// If we choose to switch between a local image file and an external link
-		if ($params->get('use_image_file') && ($_POST['default_image_type'] == (2 || 3))) {
+		if ($params->get('use_image_file') && (($_POST['default_image_type'] == 2 || $_POST['default_image_type'] == 3))) {
 			if (file_exists('file://' . JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['old_image'])) {
 				@unlink(JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/torrent_image/'.$_POST['old_image']);
 			}

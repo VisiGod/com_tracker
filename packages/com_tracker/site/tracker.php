@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/tracker.php';
 
+// Check if component is configured
+TrackerHelper::checkComponentConfig();
+
 // Execute the task.
 $controller	= JControllerLegacy::getInstance('Tracker');
 $controller->execute(JFactory::getApplication()->input->get('task'));

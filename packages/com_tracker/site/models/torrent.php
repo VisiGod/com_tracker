@@ -560,6 +560,11 @@ class TrackerModelTorrent extends JModelItem {
 			$app->redirect(JRoute::_('index.php?option=com_tracker&view=upload'), JText::_('COM_TRACKER_UPLOAD_ALREADY_EXISTS'), 'error');
 		}
 
+		// We must have a category on the torrent
+		if (!$temp_torrent['category']) {
+			$app->redirect(JRoute::_('index.php?option=com_tracker&view=edit&id='.$temp_torrent['fid']), JText::_('COM_TRACKER_NO_CATEGORY_CHOOSED'), 'error');
+		}
+
 		// ------------------------------------------------------------------------------------------------------------------------
 		// The .torrent file is valid, let's continue to our image file (if we choose to use it)
 		if ($params->get('use_image_file')) {

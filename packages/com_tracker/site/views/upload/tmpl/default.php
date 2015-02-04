@@ -31,7 +31,7 @@ function check_dd() {
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="upload-form" id="upload-form" class="form-validate form-horizontal" enctype="multipart/form-data" >
 		<div class="control-group">
-			<div class="control-label"><?php echo $this->form->getLabel('filename'); ?></div>
+			<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILE' ); ?></div>
 			<div class="controls"><?php echo $this->form->getInput('filename'); ?></div>
 		</div>
 

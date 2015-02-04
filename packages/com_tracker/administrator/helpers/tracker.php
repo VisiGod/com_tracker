@@ -821,4 +821,29 @@ class TrackerHelper extends JHelperContent {
 		echo $feed->output();
 	}
 
+	public static function checkComponentConfig() {
+		$app	= JFactory::getApplication();
+		$db 	= JFactory::getDBO();
+		$params = JComponentHelper::getParams( 'com_tracker' );
+		$torrent_dir = $params->get('torrent_dir');
+		$testFile = JPATH_SITE.DIRECTORY_SEPARATOR.$torrent_dir.'index.html';
+
+		// First we test if the torrent folder exists and it's writable
+		if (!is_writable(dirname($testFile))) {
+			$app->redirect(JRoute::_(JURI::root().'index.php'), JPATH_SITE.DIRECTORY_SEPARATOR.$torrent_dir.' '.JText::_('COM_TRACKER_DOESNT_EXISTS_OR_ISNT_WRITABLE'), 'error');
+		}
+
+		// Then we test if we have categories created
+		$query	= $db->getQuery(true);
+		$query->select('COUNT(*)')
+			  ->from('#__categories')
+			  ->where('extension = "com_tracker"')
+			  ->where('published = 1');
+		$db->setQuery($query);
+		if ($db->loadResult() == 0) {
+			$app->redirect(JRoute::_(JURI::root().'index.php'), JText::_('COM_TRACKER_THERE_ARENT_ANY_CATEGORIES_IN_TRACKER'), 'error');
+		}
+		
+	}
+
 }

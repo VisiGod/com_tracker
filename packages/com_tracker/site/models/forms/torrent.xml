@@ -7,7 +7,7 @@
 
 		<field name="filename" type="file" size="60" class="inputbox" label="COM_TRACKER_TORRENT_FILENAME" description="" filter="safehtml" required="true" />
 
-		<field name="categoryID" type="category" extension="com_tracker" label="JCATEGORY" description="" />
+		<field name="categoryID" type="category" extension="com_tracker" required="true" label="JCATEGORY" description="" />
 
 		<field name="created_time" type="calendar" format="%Y.%m.%d" label="COM_TRACKER_TORRENT_CREATED_TIME" description="" filter="safehtml" />
 

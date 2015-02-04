@@ -19,6 +19,13 @@ JHtml::_('jquery.framework');
 $doc = JFactory::getDocument();
 $style = '.hide { display:none; }';
 $doc->addStyleDeclaration( $style );
+
+//Save old information
+$torrent_old_name = $this->item->name;
+$torrent_old_filename = $this->item->filename;
+$torrent_old_image = $this->item->image_file;
+$torrent_old_info_hash = bin2hex($this->item->info_hash);
+
 ?>
 <script type="text/javascript">
 function check_dd() {
@@ -47,7 +54,7 @@ function check_torrent() {
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrent&id='.(int) $this->item->fid); ?>" method="post" name="edit-form" id="edit-form" class="form-validate form-horizontal" enctype="multipart/form-data" >
 	<div class="control-group">
-		<div class="control-label"><?php echo JText::_('COM_TRACKER_EDIT_TORRENT_FILE'); ?></div>
+		<div class="control-label"><?php echo JText::_('COM_TRACKER_TORRENT_FILE'); ?></div>
 		<div class="controls">
 			<?php
 				$torrent_file = array(0 => JText::_('COM_TRACKER_EDIT_TORRENT_KEEP_DEFAULT'), 1 => JText::_('COM_TRACKER_EDIT_TORRENT_CHOOSE_NEW_FILE'));
@@ -62,7 +69,7 @@ function check_torrent() {
 
 	<span id="new_torrent_file" class="hide">
 		<div class="control-group">
-			<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILENAME' ); ?></div>
+			<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_FILE' ); ?></div>
 			<div class="controls"><input type="file" id="filename" name="filename" class="inputbox" size="50" value="" /></div>
 		</div>
 	</span>
@@ -139,7 +146,11 @@ function check_torrent() {
 			<div class="span5">
 				<div id="image_file_file_div" class="control-group hide">
 					<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
-					<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="" class="inputbox" size="50" /></div>
+					<?php // Check if we're "editing" a link when we had a file
+					if (filter_var($this->item->image_file, FILTER_VALIDATE_URL)) $image_file_file_temp = '';
+						else $image_file_file_temp = $this->item->image_file;
+					?>
+					<div class="controls"><input type="file" name="image_file_file" id="image_file_file" value="<?php echo $image_file_file_temp; ?>" class="inputbox" size="50" /></div>
 				</div>
 
 				<div id="image_file_link_div" class="control-group hide">
@@ -225,10 +236,10 @@ function check_torrent() {
 	</div>
 
 	<input type="hidden" name="fid" value="<?php echo $this->item->fid; ?>" />
-	<input type="hidden" name="old_name" value="<?php echo $this->item->name; ?>" />
-	<input type="hidden" name="old_filename" value="<?php echo $this->item->filename; ?>" />
-	<input type="hidden" name="old_image" value="<?php echo $this->item->image_file; ?>" />
-	<input type="hidden" name="info_hash" value="<?php echo bin2hex($this->item->info_hash); ?>" />
+	<input type="hidden" name="old_name" value="<?php echo $torrent_old_name; ?>" />
+	<input type="hidden" name="old_filename" value="<?php echo $torrent_old_filename; ?>" />
+	<input type="hidden" name="old_image" value="<?php echo $torrent_old_image; ?>" />
+	<input type="hidden" name="info_hash" value="<?php echo $torrent_old_info_hash; ?>" />
 	<input type="hidden" name="option" value="com_tracker" />
 	<input type="hidden" name="task" value="torrent.edited" />
 	<?php echo JHtml::_('form.token'); ?>
