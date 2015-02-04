@@ -42,7 +42,7 @@ if ($user->get('guest')) {
 			}
 
 			if ($params->get('uploaded')) {
-				$this->params->get('bytes_octets') ? $multiplier = "1048576" : $multiplier = "1000000";
+				$params->get('bytes_octets') ? $multiplier = "1048576" : $multiplier = "1000000";
 				if ($appParams->get('enable_donations')) $user_stats->uploaded = ($user_stats->uploaded + ($user_stats->credited * $multiplier));
 				echo '<div style="margin-bottom: 2px;">';
 				echo '<div style="float: left;display:inline-block; vertical-align:middle;"><img id="'.$user_stats->uploaded.'" alt="'.$user_stats->uploaded.'" src="'.JURI::base().$params->get('uploaded_image').'" width="16px" /></div>';
