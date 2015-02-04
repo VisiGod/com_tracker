@@ -103,10 +103,22 @@ class TrackerHelper extends JHelperContent {
 	}
 
 	public static function make_speed($bits) {
-		if ($bits < 1000 * 1024) return number_format($bits / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBITS' );
-		elseif ($bits < 1000 * 1048576) return number_format($bits / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABITS' );
-		elseif ($bits < 1000 * 1073741824) return number_format($bits / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABTIS' );
-		else return number_format($bits / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABITS' );
+		$params = JComponentHelper::getParams( 'com_tracker' );
+		$unit_measure = $params->get('bytes_octets');
+		
+		if ($unit_measure <> 0) {
+			if ($bits < 1000 * 1024) return number_format($bits / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBITS' );
+			elseif ($bits < 1000 * 1048576) return number_format($bits / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABITS' );
+			elseif ($bits < 1000 * 1073741824) return number_format($bits / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABTIS' );
+			elseif ($bits < 1000 * 1099511627776) return number_format($bits / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABITS' );
+			else return number_format($bits / 1125899906842624, 2) . ' '.JText::_( 'COM_TRACKER_PETABITS' );
+		} else {
+			if ($bits < 1000 * 1000) return number_format($bits / 1000, 2) . ' '.JText::_( 'COM_TRACKER_KILOOCTECTS_SECOND' );
+			elseif ($bits < 1000 * 1000000) return number_format($bits / 1000000, 2) . ' '.JText::_( 'COM_TRACKER_MEGAOCTECTS_SECOND' );
+			elseif ($bits < 1000 * 1000000000) return number_format($bits / 1000000000, 2) . ' '.JText::_( 'COM_TRACKER_GIGAOCTECTS_SECOND' );
+			elseif ($bits < 1000 * 1000000000000) return number_format($bits / 1000000000000, 2) . ' '.JText::_( 'COM_TRACKER_TERAOCTECTS_SECOND' );
+			else return number_format($bits / 1000000000000000, 2) . ' '.JText::_( 'COM_TRACKER_PETAOCTECTS_SECOND' );
+		}
 	}
 	
 	public static function make_ratio($downloaded, $uploaded, $clean='0') {
