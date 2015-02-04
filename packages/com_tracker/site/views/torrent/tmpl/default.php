@@ -81,7 +81,13 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 						</dd>
 
 						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_SIZE' ); ?>:</b></dt>
-						<dd><?php echo TrackerHelper::make_size($this->item->size)." (".number_format($this->item->size)." ".JText::_( 'COM_TRACKER_BYTES' ).")"; ?></dd>
+						<dd>
+							<?php
+								echo TrackerHelper::make_size($this->item->size)." (".number_format($this->item->size)." ";
+								echo $this->params->get('bytes_octets') ? JText::_( 'COM_TRACKER_BYTES' ) : JText::_( 'COM_TRACKER_OCTETS' ); 
+								echo ")"; 
+							?>
+						</dd>
 
 						<dt><b><?php echo JText::_( 'COM_TRACKER_TORRENT_CREATED_TIME' ); ?>:</b></dt>
 						<dd><?php echo $this->item->created_time; ?></dd>

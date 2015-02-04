@@ -137,10 +137,21 @@ function changeuploaded() {
 					</select>
 					<input type="text" id="valueDownload" class="span2" />
 					<select id="unitDownload" class="span1">
-						<option value="1024"><?php echo JText::_( 'COM_TRACKER_KILOBYTES' );?></option>
-						<option value="1048576"><?php echo JText::_( 'COM_TRACKER_MEGABYTES' );?></option>
-						<option value="1073741824"><?php echo JText::_( 'COM_TRACKER_GIGABYTES' );?></option>
-						<option value="1099511627776"><?php echo JText::_( 'COM_TRACKER_TERABYTES' );?></option>
+						<?php // Check if we're using bytes or octects 
+							if ($params->get('bytes_octets')) { 
+								echo '<option value="1024">'.JText::_( 'COM_TRACKER_KILOBYTES' ).'</option>';
+								echo '<option value="1048576">'.JText::_( 'COM_TRACKER_MEGABYTES' ).'</option>';
+								echo '<option value="1073741824">'.JText::_( 'COM_TRACKER_GIGABYTES' ).'</option>';
+								echo '<option value="1099511627776">'.JText::_( 'COM_TRACKER_TERABYTES' ).'</option>';
+								echo '<option value="1125899906842624">'.JText::_( 'COM_TRACKER_PETABYTES' ).'</option>';
+							} else {
+								echo '<option value="1000">'.JText::_( 'COM_TRACKER_KILOOCTETS' ).'</option>';
+								echo '<option value="1000000">'.JText::_( 'COM_TRACKER_MEGAOCTETS' ).'</option>';
+								echo '<option value="1000000000">'.JText::_( 'COM_TRACKER_GIGAOCTETS' ).'</option>';
+								echo '<option value="1000000000000">'.JText::_( 'COM_TRACKER_TERAOCTETS' ).'</option>';
+								echo '<option value="1000000000000000">'.JText::_( 'COM_TRACKER_PETAOCTETS' ).'</option>';								
+							}
+						?>
 					</select>
 					<input type='button' id='changeDownloaded' name='changeDownloaded' onclick='javascript: changedownloaded();' value='<?php echo JText::_( 'COM_TRACKER_USER_CHANGE_DOWNLOADED' );?>' />
  
@@ -157,10 +168,21 @@ function changeuploaded() {
 					</select>
 					<input type="text" id="valueUpload" class="span2" />
 					<select id="unitUpload" class="span1">
-						<option value="1024"><?php echo JText::_( 'COM_TRACKER_KILOBYTES' );?></option>
-						<option value="1048576"><?php echo JText::_( 'COM_TRACKER_MEGABYTES' );?></option>
-						<option value="1073741824"><?php echo JText::_( 'COM_TRACKER_GIGABYTES' );?></option>
-						<option value="1099511627776"><?php echo JText::_( 'COM_TRACKER_TERABYTES' );?></option>
+						<?php // Check if we're using bytes or octects 
+							if ($params->get('bytes_octets')) { 
+								echo '<option value="1024">'.JText::_( 'COM_TRACKER_KILOBYTES' ).'</option>';
+								echo '<option value="1048576">'.JText::_( 'COM_TRACKER_MEGABYTES' ).'</option>';
+								echo '<option value="1073741824">'.JText::_( 'COM_TRACKER_GIGABYTES' ).'</option>';
+								echo '<option value="1099511627776">'.JText::_( 'COM_TRACKER_TERABYTES' ).'</option>';
+								echo '<option value="1125899906842624">'.JText::_( 'COM_TRACKER_PETABYTES' ).'</option>';
+							} else {
+								echo '<option value="1000">'.JText::_( 'COM_TRACKER_KILOOCTETS' ).'</option>';
+								echo '<option value="1000000">'.JText::_( 'COM_TRACKER_MEGAOCTETS' ).'</option>';
+								echo '<option value="1000000000">'.JText::_( 'COM_TRACKER_GIGAOCTETS' ).'</option>';
+								echo '<option value="1000000000000">'.JText::_( 'COM_TRACKER_TERAOCTETS' ).'</option>';
+								echo '<option value="1000000000000000">'.JText::_( 'COM_TRACKER_PETAOCTETS' ).'</option>';
+							}
+						?>
 					</select>
 					<input type='button' id='changeUploaded' name='changeUploaded' onclick='javascript: changeuploaded();' value='<?php echo JText::_( 'COM_TRACKER_USER_CHANGE_UPLOADED' );?>' />
 				</div>

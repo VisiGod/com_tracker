@@ -78,7 +78,8 @@ else $display_user = 'username'; //the username
 				<dt><b><?php echo JText::_( 'COM_TRACKER_UPLOADED' ); ?>:</b></dt>
 				<dd>
 					<?php
-						if ($this->params->get('enable_donations') && !empty($this->item->user_donations)) $this->item->tracker_info->uploaded = ($this->item->tracker_info->uploaded + ($this->item->user_donations->credited * 1048576));
+						$this->params->get('bytes_octets') ? $multiplier = "1048576" : $multiplier = "1000000";
+						if ($this->params->get('enable_donations') && !empty($this->item->user_donations)) $this->item->tracker_info->uploaded = ($this->item->tracker_info->uploaded + ($this->item->user_donations->credited * $multiplier));
 						echo TrackerHelper::make_size($this->item->tracker_info->uploaded)."&nbsp;(".TrackerHelper::traffic_per_day($this->item->tracker_info->uploaded, $this->item->id)."/".JText::_( 'COM_TRACKER_DAY' ).")";
 					?>
 				</dd>
