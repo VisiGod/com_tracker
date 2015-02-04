@@ -17,9 +17,13 @@ class ModXBTTrackerOnlineStaffHelper {
 
 		// Convert selected usergroups to integers just we case something goes wrong
 		$group_list = $params->get('usergroups');
+
 		JArrayHelper::toInteger($group_list);
 		// Now we implode the selected groups
 		$group_list = implode( ',', $group_list );
+
+		// If no group was chosen, we use 0 to prevent errors in sql
+		if (empty($group_list)) $group_list = 0;
 		
 		$query->select('u.name, tg.name as groupName, s.time')
 			  ->from('#__users as u')
