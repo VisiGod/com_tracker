@@ -382,6 +382,24 @@ class TrackerHelper extends JHelperContent {
 			$db->setQuery($query);
 			$db->execute();
 		}
+
+		// Delete the removed Joomla user from xbt user table
+		$query->clear()
+			  ->select('tu.id as id')
+			  ->from('#__tracker_users as tu')
+			  ->join('LEFT', '`#__users` AS u ON tu.id = u.id')
+			  ->where('u.id is null');
+		$db->setQuery($query);
+		$removed_users = $db->loadAssocList();
+		
+		foreach($removed_users as $removed_user) {
+			$query->clear()
+				  ->delete()
+				  ->from('#__tracker_users')
+				  ->where('id = '.(int)$removed_user['id']);
+			$db->setQuery($query);
+			$db->execute();
+		}
 	}
 
 	public static function check_user_hash($uid) {

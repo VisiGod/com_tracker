@@ -246,9 +246,6 @@ class TrackerModelTorrent extends JModelAdmin {
 			rename($pre_file.$_POST['old_filename'].'.torrent', $pre_file.$data['filename'].'.torrent');
 		}
 		
-		// We need to put back the file extension in the filename
-		$data['filename'] = $data['filename'].'.torrent';
-		
 		return parent::save($data);
 	}
 
