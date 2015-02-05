@@ -71,10 +71,9 @@ class TrackerModelUsers extends JModelList {
 		$query	= $db->getQuery(true);
 		$params = JComponentHelper::getParams('com_tracker');
 
-		// In case the user is new, check the database and add it to the #__tracker_users
-		//TrackerHelper::get_new_users();
-		// TODO: Check plugin for J!3
-		
+		// Check for new users and add them to the tracker user table
+		TrackerHelper::get_new_users();
+
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
