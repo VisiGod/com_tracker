@@ -61,15 +61,7 @@ Joomla.submitbutton = function(task) {
 				<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
 			</div>
 			<div class="control-group">
-				<div class="control-label">
-					<?php
-						echo $this->form->getLabel('filename');
-						// Removes the extension from the filename. We'll add it in the end
-						$temp = explode( '.', $this->form->getValue('filename') );
-						$ext = array_pop( $temp );
-						$this->form->setValue('filename', null, implode( '.', $temp ));
-					?>
-				</div>
+				<div class="control-label"><?php echo $this->form->getLabel('filename');?></div>
 				<div class="controls"><?php echo $this->form->getInput('filename'); ?></div>
 			</div>
 			<div class="control-group">

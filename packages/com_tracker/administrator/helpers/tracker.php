@@ -84,41 +84,19 @@ class TrackerHelper extends JHelperContent {
 	}
 
 	public static function make_size($raw_size) {
-		$params = JComponentHelper::getParams( 'com_tracker' );
-		$unit_measure = $params->get('bytes_octets');
-
-		if ($unit_measure <> 0) {
-			if ($raw_size < 1000 * 1024) return number_format($raw_size / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBYTES' );
-			elseif ($raw_size < 1000 * 1048576) return number_format($raw_size / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABYTES' );
-			elseif ($raw_size < 1000 * 1073741824) return number_format($raw_size / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABYTES' );
-			elseif ($raw_size < 1000 * 1099511627776) return number_format($raw_size / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABYTES' );
-			else return number_format($raw_size / 1125899906842624, 2) . ' '.JText::_( 'COM_TRACKER_PETABYTES' );
-		} else {
-			if ($raw_size < 1000 * 1000) return number_format($raw_size / 1000, 2) . ' '.JText::_( 'COM_TRACKER_KILOOCTETS' );
-			elseif ($raw_size < 1000 * 1000000) return number_format($raw_size / 1000000, 2) . ' '.JText::_( 'COM_TRACKER_MEGAOCTETS' );
-			elseif ($raw_size < 1000 * 1000000000) return number_format($raw_size / 1000000000, 2) . ' '.JText::_( 'COM_TRACKER_GIGAOCTETS' );
-			elseif ($raw_size < 1000 * 1000000000000) return number_format($raw_size / 1000000000000, 2) . ' '.JText::_( 'COM_TRACKER_TERAOCTETS' );
-			else return number_format($raw_size / 1000000000000000, 2) . ' '.JText::_( 'COM_TRACKER_PETAOCTETS' );
-		}
+		if ($raw_size < 1000 * 1024) return number_format($raw_size / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBYTES' );
+		elseif ($raw_size < 1000 * 1048576) return number_format($raw_size / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABYTES' );
+		elseif ($raw_size < 1000 * 1073741824) return number_format($raw_size / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABYTES' );
+		elseif ($raw_size < 1000 * 1099511627776) return number_format($raw_size / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABYTES' );
+		else return number_format($raw_size / 1125899906842624, 2) . ' '.JText::_( 'COM_TRACKER_PETABYTES' );
 	}
 
 	public static function make_speed($bits) {
-		$params = JComponentHelper::getParams( 'com_tracker' );
-		$unit_measure = $params->get('bytes_octets');
-		
-		if ($unit_measure <> 0) {
-			if ($bits < 1000 * 1024) return number_format($bits / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBITS' );
-			elseif ($bits < 1000 * 1048576) return number_format($bits / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABITS' );
-			elseif ($bits < 1000 * 1073741824) return number_format($bits / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABTIS' );
-			elseif ($bits < 1000 * 1099511627776) return number_format($bits / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABITS' );
-			else return number_format($bits / 1125899906842624, 2) . ' '.JText::_( 'COM_TRACKER_PETABITS' );
-		} else {
-			if ($bits < 1000 * 1000) return number_format($bits / 1000, 2) . ' '.JText::_( 'COM_TRACKER_KILOOCTECTS_SECOND' );
-			elseif ($bits < 1000 * 1000000) return number_format($bits / 1000000, 2) . ' '.JText::_( 'COM_TRACKER_MEGAOCTECTS_SECOND' );
-			elseif ($bits < 1000 * 1000000000) return number_format($bits / 1000000000, 2) . ' '.JText::_( 'COM_TRACKER_GIGAOCTECTS_SECOND' );
-			elseif ($bits < 1000 * 1000000000000) return number_format($bits / 1000000000000, 2) . ' '.JText::_( 'COM_TRACKER_TERAOCTECTS_SECOND' );
-			else return number_format($bits / 1000000000000000, 2) . ' '.JText::_( 'COM_TRACKER_PETAOCTECTS_SECOND' );
-		}
+		if ($bits < 1000 * 1024) return number_format($bits / 1024, 2) . ' '.JText::_( 'COM_TRACKER_KILOBITS' );
+		elseif ($bits < 1000 * 1048576) return number_format($bits / 1048576, 2) . ' '.JText::_( 'COM_TRACKER_MEGABITS' );
+		elseif ($bits < 1000 * 1073741824) return number_format($bits / 1073741824, 2) . ' '.JText::_( 'COM_TRACKER_GIGABTIS' );
+		elseif ($bits < 1000 * 1099511627776) return number_format($bits / 1099511627776, 2) . ' '.JText::_( 'COM_TRACKER_TERABITS' );
+		else return number_format($bits / 1125899906842624, 2) . ' '.JText::_( 'COM_TRACKER_PETABITS' );
 	}
 	
 	public static function make_ratio($downloaded, $uploaded, $clean='0') {

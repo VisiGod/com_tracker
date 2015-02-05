@@ -24,6 +24,9 @@ class TrackerViewUsers extends JViewLegacy {
 		$this->pagination	= $this->get('Pagination');
 	
 		$this->activeFilters = $this->get('ActiveFilters');
+
+		// Check for new users and add them to the tracker user table
+		TrackerHelper::get_new_users();
 	
 		$this->user = JFactory::getUser();
 		// Check for errors.
