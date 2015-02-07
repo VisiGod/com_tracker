@@ -238,7 +238,7 @@ class com_trackerInstallerScript {
 			$query .= "(229, 'Uzbekistan', 'images/tracker/flags/Uzbekistan.png', 229, 1), (230, 'Vanuatu', 'images/tracker/flags/Vanuatu.png', 230, 1), (231, 'Vatican City', 'images/tracker/flags/Vatican.City.png', 231, 1), ";
 			$query .= "(232, 'Venezuela', 'images/tracker/flags/Venezuela.png', 232, 1), (233, 'Vietnam', 'images/tracker/flags/Vietnam.png', 233, 1), (234, 'Virgin Islands', 'images/tracker/flags/Virgin.Islands.png', 234, 1), ";
 			$query .= "(235, 'Wales', 'images/tracker/flags/Wales.png', 235, 1), (236, 'Wallis and Futuna', 'images/tracker/flags/Wallis.and.Futuna.png', 236, 1), (237, 'Yemen', 'images/tracker/flags/Yemen.png', 237, 1), ";
-			$query .= "(238, 'Zambia', 'images/tracker/flags/Zambia.png', 238, 1), (239, 'Zimbabwe', 'images/tracker/flags/Zimbabwe.png', 239, 1), (240, 'Unknown', 'images/tracker/flags/unknown.png', 240, 1) ";
+			$query .= "(238, 'Zambia', 'images/tracker/flags/Zambia.png', 238, 1), (239, 'Zimbabwe', 'images/tracker/flags/Zimbabwe.png', 239, 1), (240, 'Antartica', 'images/tracker/flags/Antartica.png', 240, 1), (241, 'Unknown', 'images/tracker/flags/unknown.png', 241, 1) ";
 			$db->setQuery($query);
 			$db->execute();
 
