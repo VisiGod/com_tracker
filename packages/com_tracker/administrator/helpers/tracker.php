@@ -854,4 +854,12 @@ class TrackerHelper extends JHelperContent {
 		
 	}
 
+	public static function downloadArrowType($seeds, $leechers) {
+		if (($seeds > 0 && $leechers > 0) || $seeds > 0)
+			return '<img src="'.JURI::base().'components/com_tracker/assets/images/download_good.png" alt="'.JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ).'" border="0" />';
+		else if ($seeds == 0 && $leechers > 0)
+			return '<img src="'.JURI::base().'components/com_tracker/assets/images/download_medium.png" alt="'.JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ).'" border="0" />';
+		else
+			return '<img src="'.JURI::base().'components/com_tracker/assets/images/download_bad.png" alt="'.JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ).'" border="0" />';
+	}
 }

@@ -51,7 +51,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 								<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>"><?php echo $this->item->name;?></a>
 								&nbsp;&nbsp;
 								<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>">
-									<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
+									<?php echo TrackerHelper::downloadArrowType($torrent->seeders, $torrent->leechers); ?>
 								</a>
 							</dd>
 						<?php else : ?>

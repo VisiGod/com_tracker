@@ -158,17 +158,17 @@ $torrentType = array(
 							</div>
 						</th>
 					<?php endif; ?>
-					<?php if ($params->get('tl_leechers')) : ?>
-						<th id="torrentlist_header_leechers">
-							<div class="text-center middle">
-								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_LEECHERS_SMALL', 't.leechers', $listDirn, $listOrder); ?>
-							</div>
-						</th>
-					<?php endif; ?>
 					<?php if ($params->get('tl_seeders')) : ?>
 						<th id="torrentlist_header_seeders">
 							<div class="text-center middle">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_SEEDERS_SMALL', 't.seeders', $listDirn, $listOrder); ?>
+							</div>
+						</th>
+					<?php endif; ?>
+					<?php if ($params->get('tl_leechers')) : ?>
+						<th id="torrentlist_header_leechers">
+							<div class="text-center middle">
+								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_LEECHERS_SMALL', 't.leechers', $listDirn, $listOrder); ?>
 							</div>
 						</th>
 					<?php endif; ?>
@@ -306,17 +306,17 @@ $torrentType = array(
 								</div>
 							</td>
 						<?php endif; ?>
-						<?php if ($params->get('tl_leechers')) : ?>
-							<td headers="torrentlist_header_leechers" class="list-leechers" style="text-align:center;">
-								<div class="text-center middle">
-									<?php echo $torrent->leechers;?>
-								</div>
-							</td>
-						<?php endif; ?>
 						<?php if ($params->get('tl_seeders')) : ?>
 							<td headers="torrentlist_header_seeders" class="list-seeders" style="text-align:center;">
 								<div class="text-center middle">
 									<?php echo $torrent->seeders;?>
+								</div>
+							</td>
+						<?php endif; ?>
+						<?php if ($params->get('tl_leechers')) : ?>
+							<td headers="torrentlist_header_leechers" class="list-leechers" style="text-align:center;">
+								<div class="text-center middle">
+									<?php echo $torrent->leechers;?>
 								</div>
 							</td>
 						<?php endif; ?>
@@ -383,7 +383,7 @@ $torrentType = array(
 							<td headers="torrentlist_header_download_torrents" class="list-download_torrents">
 								<div class="text-center middle">
 									<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$torrent->fid); ?>">
-										<img src="<?php echo JURI::base();?>components/com_tracker/assets/images/download.gif" alt="<?php echo JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ); ?>" border="0" />
+										<?php echo TrackerHelper::downloadArrowType($torrent->seeders, $torrent->leechers); ?>
 									</a>
 								</div>
 							</td>
