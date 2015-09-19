@@ -36,6 +36,8 @@
 
 		<field name="tags" type="textarea" required="false" label="COM_TRACKER_TORRENT_TAGS" rows="3" cols="50" filter="raw" />
 
+		<field name="nfo_file" type="text" size="40" class="input-xxlarge" label="COM_TRACKER_TORRENT_NFO_FILE" description="" required="false" filter="safehtml" />
+
 		<field name="ordering" type="ordering" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" content_type="com_tracker.torrent" />
 
 		<field name="state" type="hidden" default="1" />

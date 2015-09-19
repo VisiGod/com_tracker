@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ class TrackerHelper extends JHelperContent {
 	public static function addSubmenu($vName) {
 		$params = JComponentHelper::getParams( 'com_tracker' );
 
-		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_CONTROL_PANEL'), 'index.php?option=com_tracker', 'trackerpanel');
+		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_CONTROL_PANEL'), 'index.php?option=com_tracker', $vName == 'trackerpanel');
 		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_TORRENTS'), 'index.php?option=com_tracker&view=torrents', $vName == 'torrents');
 		JHtmlSidebar::addEntry(JText::_('JCATEGORIES'), 'index.php?option=com_categories&extension=com_tracker', $vName == 'categories');
 		JHtmlSidebar::addEntry(JText::_('COM_TRACKER_USERS'), 'index.php?option=com_tracker&view=users', $vName == 'users');
@@ -862,4 +862,58 @@ class TrackerHelper extends JHelperContent {
 		else
 			return '<img src="'.JURI::base().'components/com_tracker/assets/images/download_bad.png" alt="'.JText::_( 'TORRENT_DOWNLOAD_TORRENT_LIST_ALT' ).'" border="0" />';
 	}
+
+	public static function createNFO($nfo_file, $nfo_image_file) {
+		$params = JComponentHelper::getParams( 'com_tracker' );
+
+		$filesize	=	filesize (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$nfo_file);
+		$filenum	=	fopen (JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$nfo_file, "r");
+		$cache_nfo	=	fread ($filenum, $filesize);
+		fclose ($filenum);
+
+		$nfolines = explode ("\n", $cache_nfo);
+		$font = imageloadfont (JPATH_SITE.DIRECTORY_SEPARATOR.'components/com_tracker/assets/terminal.phpfont');
+
+		$width = 0;
+		$height = 0;
+		$fontwidth 	= ImageFontWidth ($font);
+		$fontheight = ImageFontHeight ($font);
+
+		foreach ( $nfolines as $line ) {
+			if ( (strlen ($line)*$fontwidth) > $width ) {
+				$width = strlen ($line) * $fontwidth;
+			}
+			$height += $fontheight;
+		}
+
+		$width += $fontwidth*2;
+		$height += $fontheight*3;
+
+		$image = ImageCreate ($width, $height);
+
+		$white = ImageColorAllocate ($image, 255,255,255);
+		imagecolortransparent ($image, $white);
+
+		//nfo_background_color
+		//list($bk_red, $bk_green, $bk_blue) = split('[/.-]', $date);
+
+		$black = ImageColorAllocate ($image, 0, 0, 0);
+
+		$i = $fontheight;
+		foreach ( $nfolines as $line ) {
+			ImageString ($image, $font , $fontwidth, $i, $line, $black);
+			$i += $fontheight;
+		}
+
+		ImageString ($image, $font , $width, $i, '', $black);
+
+		ImageAlphaBlending($image, true);
+
+		$nfo_image_file_new = JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/nfofiles/'.$nfo_image_file;
+		ImagePNG ($image, $nfo_image_file_new);
+		ImageDestroy($image);
+
+		return (JURI::root(true).'/images/tracker/nfofiles/'.$nfo_image_file);
+	} 
+
 }

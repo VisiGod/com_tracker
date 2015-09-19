@@ -130,6 +130,7 @@ CREATE TABLE IF NOT EXISTS `#__tracker_torrents` (
 `licenseID` INT(11) NOT NULL,
 `image_file` VARCHAR(255) NOT NULL,
 `tags` VARCHAR(16380) NOT NULL,
+`nfo_file` VARCHAR(255) NOT NULL,
 `ordering` INT(11) NOT NULL,
 `state` TINYINT(1) NOT NULL DEFAULT '1',
 PRIMARY KEY (`fid`),
@@ -165,8 +166,8 @@ CREATE TABLE IF NOT EXISTS `#__tracker_files_users` (
 `left` BIGINT(20) UNSIGNED NOT NULL,
 `uploaded` BIGINT(20) NOT NULL,
 `mtime` INT(11) NOT NULL,
-`down_rate` INT(10) UNSIGNED NOT NULL,
-`up_rate` INT(10) UNSIGNED NOT NULL,
+`down_rate` INT(10) UNSIGNED NOT NULL DEFAULT '1',
+`up_rate` INT(10) UNSIGNED NOT NULL DEFAULT '1',
 `seeding_time` INT NOT NULL,
 UNIQUE KEY (`fid`,`uid`),
 KEY (`uid`)
@@ -195,7 +196,7 @@ PRIMARY KEY (`id`)
 CREATE TABLE IF NOT EXISTS `#__tracker_users` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,
 `groupID` INT(11) NOT NULL DEFAULT '1',
-`countryID` INT(11) NOT NULL,
+`countryID` INT(11) NOT NULL default '170',
 `downloaded` BIGINT(20) UNSIGNED DEFAULT '0',
 `uploaded` BIGINT(20) UNSIGNED DEFAULT '0',
 `exemption_type` TINYINT(4) NOT NULL DEFAULT '2',

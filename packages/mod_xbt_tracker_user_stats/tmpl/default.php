@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		3.3.1-dev
+ * @version		3.3.2-dev
  * @package		Joomla
  * @subpackage	mod_xbt_tracker_user_stats
- * @copyright	Copyright (C) 2007 - 2013 Hugo Carvalho and Psylodesign. All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho and Psylodesign. All rights reserved.
  * @license		GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl.html
  */
 

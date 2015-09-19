@@ -13,14 +13,14 @@
 
 		<field name="licenseID" type="sql" default="10" label="COM_TRACKER_TORRENT_LICENSE" description="" query="SELECT id, shortname FROM #__tracker_licenses WHERE state = 1" key_field="id" value_field="shortname" />
 
-		<field name="uploader_anonymous" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_TORRENT_ANONYMOUS" description="">
+ 		<field name="uploader_anonymous" type="list" default="0" label="COM_TRACKER_TORRENT_ANONYMOUS" >
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="image_file" type="file" size="60" class="inputbox" label="COM_TRACKER_TORRENT_IMAGE_FILE" description="" filter="safehtml" required="false" />
+		<field name="image_file" type="file" size="80" class="inputbox" label="COM_TRACKER_TORRENT_IMAGE_FILE" description="" filter="safehtml" required="false" />
 
-		<field name="image_link" type="text" size="60" class="inputbox" label="COM_TRACKER_TORRENT_IMAGE_LINK" description="" filter="safehtml" required="false" />
+		<field name="image_link" type="text" size="80" class="inputbox" label="COM_TRACKER_TORRENT_IMAGE_LINK" description="" filter="safehtml" required="false" />
 
 		<field name="image_type" type="list" label="image_type" >
 			<option value="0">COM_TRACKER_TORRENT_IMAGE_CHOOSE_OPTION</option>
@@ -35,6 +35,8 @@
 		<field name="info_post" type="text" size="20" class="inputbox" label="COM_TRACKER_TORRENT_INFO_POST" description="" filter="safehtml" required="true"/>
 
 		<field name="tags" type="text" size="60" class="input-xxlarge" label="COM_TRACKER_TORRENT_TAGS" description="" filter="safehtml" />
+
+		<field name="nfo_file" type="text" size="40" class="input-xxlarge" label="COM_TRACKER_TORRENT_NFO_FILE" description="" required="false" filter="safehtml" />
 
 		<field name="state" type="hidden" default="1" />
 	</fieldset>

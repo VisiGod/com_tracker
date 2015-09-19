@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		3.3.1-dev
+ * @version		3.3.2-dev
  * @package		Joomla
  * @subpackage	com_tracker
- * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ class com_trackerInstallerScript {
 		$this->release = $parent->get( "manifest" )->version;
 
 		// First changes in database model since version 3.3.1-dev 
-		if ($this->release < '3.3.1-dev') { 
+		if ($this->release < '3.3.1-dev') {
 			// Added Tags
 			$db = JFactory::getDbo();
 			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `tags` VARCHAR(16380) NOT NULL AFTER `image_file`');
@@ -56,7 +56,16 @@ class com_trackerInstallerScript {
 			$query	= $db->getQuery(true);
 			$db->setQuery('ALTER TABLE #__tracker_users ADD `hash` VARCHAR(32) NOT NULL AFTER `upload_multiplier`');
 			$db->execute();
-		}		
+		}
+
+		// First changes in database model since version 3.3.2-dev
+		if ($this->release < '3.3.2-dev') {
+
+			// Added nfo file support
+			$db = JFactory::getDbo();
+			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `nfo_file` VARCHAR(255) AFTER `tags`');
+			$db->execute();
+		}
 	}
 	
 	public function postflight($type, $parent) {
@@ -64,13 +73,13 @@ class com_trackerInstallerScript {
 			$db = JFactory::getDBO();
 			$app = JFactory::getApplication();
 			$query	= $db->getQuery(true);
-			
+
 			// Update the component parameters with the default ones
 			$defaults  = '{';
 			$defaults .= '"torrent_multiplier":"1",';
 			$defaults .= '"peer_banning":"1",';
 			$defaults .= '"host_banning":"1",';
-			$defaults .= '"peer_speed":"0",';
+			$defaults .= '"peer_speed":"1",';
 			$defaults .= '"enable_donations":"1",';
 			$defaults .= '"enable_countries":"1",';
 			$defaults .= '"enable_licenses":"1",';
@@ -82,61 +91,61 @@ class com_trackerInstallerScript {
 			$defaults .= '"freeleech":"0",';
 			$defaults .= '"enable_torrent_type":"1",';
 			$defaults .= '"enable_torrent_type_new":"1",';
-			$defaults .= '"torrent_type_new_image":"images/tracker/torrenttype/new.png",';
+			$defaults .= '"torrent_type_new_image":"images\/tracker\/torrenttype\/new.png",';
 			$defaults .= '"torrent_type_new_text":"The torrent was uploaded in the last %s hours",';
-			$defaults .= '"torrent_type_new_value":"24",';
+			$defaults .= '"torrent_type_new_value":24,';
 			$defaults .= '"enable_torrent_type_top":"1",';
-			$defaults .= '"torrent_type_top_image":"images/tracker/torrenttype/top.png",';
+			$defaults .= '"torrent_type_top_image":"images\/tracker\/torrenttype\/top.png",';
 			$defaults .= '"torrent_type_top_text":"The torrent has %s or more seeders",';
-			$defaults .= '"torrent_type_top_value":"3",';
+			$defaults .= '"torrent_type_top_value":3,';
 			$defaults .= '"enable_torrent_type_hot":"1",';
-			$defaults .= '"torrent_type_hot_image":"images/tracker/torrenttype/hot.png",';
+			$defaults .= '"torrent_type_hot_image":"images\/tracker\/torrenttype\/hot.png",';
 			$defaults .= '"torrent_type_hot_text":"The torrent has %s or more seeders",';
-			$defaults .= '"torrent_type_hot_value":"5",';
+			$defaults .= '"torrent_type_hot_value":5,';
 			$defaults .= '"enable_torrent_type_semifree":"1",';
-			$defaults .= '"torrent_type_semifree_image":"images/tracker/torrenttype/semifree.png",';
+			$defaults .= '"torrent_type_semifree_image":"images\/tracker\/torrenttype\/semifree.png",';
 			$defaults .= '"torrent_type_semifree_text":"The torrent is in semi free leech mode",';
 			$defaults .= '"torrent_type_semifree_value":"0.5",';
 			$defaults .= '"enable_torrent_type_free":"1",';
-			$defaults .= '"torrent_type_free_image":"images/tracker/torrenttype/free.png",';
+			$defaults .= '"torrent_type_free_image":"images\/tracker\/torrenttype\/free.png",';
 			$defaults .= '"torrent_type_free_text":"The torrent is in free leech mode",';
-			$defaults .= '"allow_guest":"0",';
-			$defaults .= '"guest_user":"",';
-			$defaults .= '"torrent_user":"332",';
+			$defaults .= '"allow_guest":"1",';
+			$defaults .= '"guest_user":"340",';
+			$defaults .= '"torrent_user":"328",';
 			$defaults .= '"use_image_file":"1",';
-			$defaults .= '"image_width":"150",';
-			$defaults .= '"default_image_file":"images/tracker/torrent_image/torrent.png",';
+			$defaults .= '"image_width":150,';
+			$defaults .= '"default_image_file":"images\/tracker\/torrent_image\/torrent.png",';
 			$defaults .= '"image_type":"0",';
-			$defaults .= '"torrent_tags":"0",';
+			$defaults .= '"torrent_tags":"1",';
+			$defaults .= '"tag_in_torrent":"1",';
+			$defaults .= '"use_nfo_files":"1",';
+			$defaults .= '"nfo_background_color":"#000000",';
 			$defaults .= '"allow_upload_anonymous":"1",';
 			$defaults .= '"make_private":"1",';
-			$defaults .= '"tag_in_torrent":"1",';
-			$defaults .= '"welcome_gigs":"0",';
-			$defaults .= '"category_image_size":"36",';
+			$defaults .= '"welcome_gigs":0,';
+			$defaults .= '"category_image_size":36,';
 			$defaults .= '"trackers_address":"",';
 			$defaults .= '"donation_ratio":"2.5",';
-			$defaults .= '"torrent_dir":"torrents",';
-			$defaults .= '"max_torrent_size":"1048576",';
-			$defaults .= '"progress_bar_size":"50",';
+			$defaults .= '"torrent_dir":"torrents\/",';
+			$defaults .= '"max_torrent_size":1048576,';
+			$defaults .= '"progress_bar_size":50,';
+			$defaults .= '"user_in_torrent_details":"0",';
 			$defaults .= '"base_group":"1",';
 			$defaults .= '"defaultcountry":"170",';
-			$defaults .= '"forum_post_id":"1",';
-			$defaults .= '"forum_post_url":"http://forum.site.com/index.php?showtopic":"",';
-			$defaults .= '"torrent_information":"1",';
+			$defaults .= '"forum_post_id":"0",';
+			$defaults .= '"forum_post_url":"http:\/\/forum.site.com\/index.php?showtopic=",';
+			$defaults .= '"torrent_information":"0",';
 			$defaults .= '"info_post_description":"Torrent Information",';
-			$defaults .= '"info_post_url":"http://www.site.com/index.php?info":"",';
-			$defaults .= '"import_source_folder":"",';
-			$defaults .= '"import_filename":"",';
-			$defaults .= '"field_separator":";",';
-			$defaults .= '"jquery_url":"http://code.jquery.com/jquery-latest.js",';
-			$defaults .= '"jquery_ui_url":"http://code.jquery.com/ui/1.10.2/jquery-ui.js",';
-			$defaults .= '"jquery_smoothness_theme_url":"http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css",';
+			$defaults .= '"info_post_url":"http:\/\/www.site.com\/index.php?info=",';
+			$defaults .= '"jquery_url":"http:\/\/code.jquery.com\/jquery-latest.js",';
+			$defaults .= '"jquery_ui_url":"http:\/\/code.jquery.com\/ui\/1.10.2\/jquery-ui.js",';
+			$defaults .= '"jquery_smoothness_theme_url":"http:\/\/code.jquery.com\/ui\/1.10.2\/themes\/smoothness\/jquery-ui.css",';
 			$defaults .= '"enable_comments":"0",';
 			$defaults .= '"comment_system":"jcomments",';
-			$defaults .= '"comment_only_leecher":"1",';
+			$defaults .= '"comment_only_leecher":"0",';
 			$defaults .= '"forum_integration":"0",';
 			$defaults .= '"forum_db_server":"localhost",';
-			$defaults .= '"forum_db_port":"3306",';
+			$defaults .= '"forum_db_port":3306,';
 			$defaults .= '"forum_database":"forum_database",';
 			$defaults .= '"forum_db_user":"forum_user",';
 			$defaults .= '"forum_db_password":"forum_pass",';

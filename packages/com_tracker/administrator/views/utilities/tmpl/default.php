@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,12 +22,10 @@ function changeFolder(folder) {
 }
 </script>
 
-<div class="row-fluid">
-	<div id="sidebar" class="span2">
-		<div class="sidebar-nav">
-			<?php echo $this->sidebar; ?>
-		</div>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
 	</div>
+	<div id="j-main-container" class="span10">
 
 	<div class="span10">
 		<div class="row-fluid">

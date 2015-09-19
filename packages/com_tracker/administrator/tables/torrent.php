@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,15 +148,4 @@ class TrackerTableTorrent extends JTable {
 		}
 		return $assetParentId;
 	}
-	
-	public function delete($pk = null) {
-		$this->load($pk);
-		$result = parent::delete($pk);
-		if ($result) {
-			/* DO SOMETHING HERE */
-			// TODO: Change the torrent flag when "deleting" a torrent
-		}
-		return $result;
-	}
-
 }

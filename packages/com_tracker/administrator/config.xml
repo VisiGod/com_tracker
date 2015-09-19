@@ -116,16 +116,22 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+		<field name="tag_in_torrent" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_TAG_IN_TORRENT" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 		<field type="spacer" name="spacer5" hr="true" />
+		<field name="use_nfo_files" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_USE_NFO_FILES" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="nfo_background_color" type="color" default="#000" label="COM_TRACKER_OPTIONS_COMPONENT_NFO_BACKGROUND_COLOR" />
+		<field type="spacer" name="spacer5a" hr="true" />
 		<field name="allow_upload_anonymous" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_UPLOAD_ANONYMOUS" >
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 		<field name="make_private" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_MAKE_PRIVATE" >
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-		<field name="tag_in_torrent" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_TAG_IN_TORRENT" >
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>

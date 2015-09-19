@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,15 +25,18 @@ class TrackerModelUtilities extends JModelList {
 		$db->setQuery((string)$query);
 		$row = $db->loadResultArray();
 
-		$query->clear();
-		$query->delete();
-		$query->from('#__tracker_announce_log');
-		$query->where('id NOT IN (\'' . implode('\',\'', $row) . '\')');
-		$db->setQuery($query);
-		if(!$db->query()) {
-			$this->setError(JText::_( 'COM_TRACKER_UTILITY_OPTIMIZE_TABLES_ANNOUNCE_LOG_NOT_OPTIMIZED'));
-			return false;
-		} else return true;
+		if ($row) {
+			$query->clear();
+			$query->delete();
+			$query->from('#__tracker_announce_log');
+			$query->where('id NOT IN (\'' . implode('\',\'', $row) . '\')');
+			$db->setQuery($query);
+			if(!$db->query()) {
+				$this->setError(JText::_( 'COM_TRACKER_UTILITY_OPTIMIZE_TABLES_ANNOUNCE_LOG_NOT_OPTIMIZED'));
+				return false;
+			} else return true;
+		}
+		return true;
 	}
 
 	public function optimizetables() {

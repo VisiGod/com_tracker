@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -417,11 +417,7 @@ defined('_JEXEC') or die;
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -465,11 +461,7 @@ defined('_JEXEC') or die;
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -513,11 +505,7 @@ defined('_JEXEC') or die;
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -561,11 +549,7 @@ defined('_JEXEC') or die;
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -611,11 +595,7 @@ defined('_JEXEC') or die;
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -691,11 +671,7 @@ elseif ($this->params->get('worst_completed_torrents') && count($this->item->wor
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -739,11 +715,7 @@ elseif ($this->params->get('worst_completed_torrents') && count($this->item->wor
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -787,11 +759,7 @@ elseif ($this->params->get('worst_completed_torrents') && count($this->item->wor
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -835,11 +803,7 @@ elseif ($this->params->get('worst_completed_torrents') && count($this->item->wor
 									$category_params->loadString($item->cat_params);
 								?>
 								<td style="white-space:nowrap; text-align:center;">
-									<?php if (@is_array(getimagesize(JUri::root(false).DIRECTORY_SEPARATOR.$category_params->get('image')))) : ?>
-										 <img id="image<?php echo $item->fid; ?>" alt="<?php echo $item->cat_title; ?>" src="<?php echo JUri::root(true).DIRECTORY_SEPARATOR.$category_params->get('image'); ?>" width="<?php echo $this->params->get('category_image_size'); ?>" />
-									<?php else : ?>
-										<?php echo $item->cat_title; ?>
-									<?php endif; ?>
+									<?php echo JHtml::_('image',JUri::root(false).'/'.$category_params->get('image'), $item->cat_title); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>

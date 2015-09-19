@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		3.3.1-dev
+ * @version		3.3.2-dev
  * @package		Joomla
  * @subpackage	com_tracker
- * @copyright	Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class TrackerModelTorrents extends JModelList {
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.uploader');
 
 		// Join the torrent category
-		$query->select('c.title AS category');
+		$query->select('c.title AS category, c.params AS category_params');
 		$query->join('LEFT', '`#__categories` AS c ON c.id = a.categoryID');
 
 		if ($params->get('enable_licenses')) {

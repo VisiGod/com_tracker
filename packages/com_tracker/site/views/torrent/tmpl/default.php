@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ if ($this->user->get('id') == 0) $this->item->groupID = 0;
 								<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>"><?php echo $this->item->name;?></a>
 								&nbsp;&nbsp;
 								<a href="<?php echo JRoute::_('index.php?option=com_tracker&task=torrent.download&id='.$this->item->fid); ?>">
-									<?php echo TrackerHelper::downloadArrowType($torrent->seeders, $torrent->leechers); ?>
+									<?php echo TrackerHelper::downloadArrowType($this->item->seeders, $this->item->leechers); ?>
 								</a>
 							</dd>
 						<?php else : ?>

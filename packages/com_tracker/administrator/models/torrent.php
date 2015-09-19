@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,6 +93,19 @@ class TrackerModelTorrent extends JModelAdmin {
 				$image_file = $db->loadResult();
 				if (is_file(JPATH_SITE.'/images/tracker/torrent_image/'.$image_file)) {
 					@unlink (JPATH_SITE.'/images/tracker/torrent_image/'.$image_file);
+				}
+			}
+
+			// Delete the nfo file
+			if ($params->get('use_nfo_files')) {
+				$query = $db->getQuery(true);
+				$query->select($db->quoteName('nfo_file'));
+				$query->from($db->quoteName('#__tracker_torrents'));
+				$query->where($db->quoteName('fid') . ' = ' . (int) $itemId );
+				$db->setQuery($query);
+				$nfo_files = $db->loadResult();
+				if (is_file(JPATH_SITE.'/images/tracker/nfofiles/'.$nfo_files)) {
+					@unlink (JPATH_SITE.'/images/tracker/nfofiles/'.$nfo_files);
 				}
 			}
 
@@ -238,11 +251,14 @@ class TrackerModelTorrent extends JModelAdmin {
 		} else {
 			$data['image_file'] = "";
 		}
-		
+
+		if ($params->get('use_nfo_files') == 1) {
+//		$nfo_files
+		}
+
 		// Rename the filename if we've changed it
 		if ($data['filename'] <> $_POST['old_filename']) {
 			$pre_file = JPATH_SITE.DIRECTORY_SEPARATOR.$params->get('torrent_dir').$data['fid'].'_';
-
 			rename($pre_file.$_POST['old_filename'].'.torrent', $pre_file.$data['filename'].'.torrent');
 		}
 		

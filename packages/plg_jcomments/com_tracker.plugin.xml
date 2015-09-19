@@ -3,11 +3,11 @@
 	<name>Content - JComments - XBT Tracker Frontend Plugin</name>
 	<author>Hugo Carvalho</author>
 	<creationDate>August 2014</creationDate>
-	<copyright>Copyright (C) 2007 - 20124 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
+	<copyright>Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>visigod@visigod.com</authorEmail>
 	<authorUrl>http://www.visigod.com</authorUrl>
-	<version>3.3.1-dev</version>
+	<version>3.3.2-dev</version>
 	<description>A plugin to enable JComments on XBT Tracker Frontend</description>
 	<files>
 		<filename plugin="jcomments">com_tracker.plugin.php</filename>

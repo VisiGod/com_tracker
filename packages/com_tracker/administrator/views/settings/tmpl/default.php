@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,14 +19,11 @@ if (!isset($this->items['table_deny_from_clients'])) $this->items['table_deny_fr
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=settings'); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
-	<?php echo $this->sidebar; ?>
+		<?php echo $this->sidebar; ?>
 	</div>
+
 	<div id="j-main-container" class="span10">
-	<?php else : ?>
-	<div id="j-main-container">
-	<?php endif;?>
 		<div class="clearfix"></div>
 
 		<table class="table">

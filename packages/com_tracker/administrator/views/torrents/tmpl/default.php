@@ -1,9 +1,9 @@
 <?php
 /**
- * @version			3.3.1-dev
+ * @version			3.3.2-dev
  * @package			Joomla
  * @subpackage	com_tracker
- * @copyright		Copyright (C) 2007 - 2012 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license			GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,14 +46,11 @@ $sortFields = $this->getSortFields();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_tracker&view=torrents'); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
-	<?php echo $this->sidebar; ?>
+		<?php echo $this->sidebar; ?>
 	</div>
+
 	<div id="j-main-container" class="span10">
-	<?php else : ?>
-	<div id="j-main-container">
-	<?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER');?></label>
@@ -96,7 +93,7 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('grid.sort',  'JGLOBAL_FIELD_ID_LABEL', 'a.fid', $listDirn, $listOrder); ?>
 				</th>
 				
-				<th width="10%" class="nowrap">
+				<th width="70%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'COM_TRACKER_TORRENT_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 
@@ -133,7 +130,7 @@ $sortFields = $this->getSortFields();
 					</th>
 				<?php } ?>						
 
-				<th width="10%" class="nowrap">
+				<th width="10%" class="center nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_UPLOADER', 'a.uploader', $listDirn, $listOrder); ?>
 				</th>
 
@@ -187,12 +184,11 @@ $sortFields = $this->getSortFields();
 				</td>
 				
 				<td class="center nowrap has-context">
-				<?php
-					if(@is_array(getimagesize(JUri::root(false).'/'.$category_params->get('image')))) { 
-						echo '<img id="image'.$item->fid.'" alt="'.$item->category.'" src="'.JUri::root(true).'/'.$category_params->get('image').'" width="'.$params->get('category_image_size').'" />';
-					}
-					else echo $item->category;
-				?>
+					<?php 
+						$category = json_decode($item->category_params, true);
+						if ($category['image']) echo JHtml::_('image',JUri::root(false).'/'.$category['image'], $item->category);
+						else echo $item->category;
+					?>
 				</td>
 
 				<td class="nowrap">

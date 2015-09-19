@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		3.3.1-dev
+ * @version		3.3.2-dev
  * @package		Joomla
  * @subpackage	com_tracker
- * @copyright	Copyright (C) 2007 - 2013 Hugo Carvalho (www.visigod.com). All rights reserved.
+ * @copyright	Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
