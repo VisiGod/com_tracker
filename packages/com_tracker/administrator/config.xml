@@ -53,6 +53,10 @@
 			<option value="1">JYES</option>
 		</field>
 		<field name="freeleech" type="hidden" default="0" />
+		<field name="enable_download_images_legend" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_DOWNLOAD_IMAGES_LEGEND" >
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 		<field type="spacer" name="spacer1" hr="true" />
 		<field name="enable_torrent_type" class="btn-group btn-group-yesno" type="radio" default="1" label="COM_TRACKER_OPTIONS_COMPONENT_ENABLE_TORRENT_TYPE" >
 			<option value="0">JNO</option>
@@ -125,6 +129,7 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+		<field name="nfo_text_color" type="color" default="#fff" label="COM_TRACKER_OPTIONS_COMPONENT_NFO_TEXT_COLOR" />
 		<field name="nfo_background_color" type="color" default="#000" label="COM_TRACKER_OPTIONS_COMPONENT_NFO_BACKGROUND_COLOR" />
 		<field type="spacer" name="spacer5a" hr="true" />
 		<field name="allow_upload_anonymous" class="btn-group btn-group-yesno" type="radio" default="0" label="COM_TRACKER_OPTIONS_COMPONENT_ALLOW_UPLOAD_ANONYMOUS" >

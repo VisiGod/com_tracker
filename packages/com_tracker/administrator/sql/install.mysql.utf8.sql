@@ -129,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `#__tracker_torrents` (
 `upload_multiplier` FLOAT(11,2) NOT NULL DEFAULT '1',
 `licenseID` INT(11) NOT NULL,
 `image_file` VARCHAR(255) NOT NULL,
+`nfo_file` VARCHAR(255) NOT NULL,
 `tags` VARCHAR(16380) NOT NULL,
 `nfo_file` VARCHAR(255) NOT NULL,
 `ordering` INT(11) NOT NULL,

@@ -11,6 +11,9 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.modal', 'a.modalpopup');
 
+$doc = JFactory::getDocument();
+$doc->addStyleSheet('components/com_tracker/assets/css/template.css');
+
 if ($this->user->get('id') == 0) $this->item->groupID = 0;
 ?>
 	<div class="text-center"><b><?php echo str_replace("_", " ", $this->item->name);?></b></div>

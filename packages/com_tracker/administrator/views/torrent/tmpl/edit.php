@@ -98,7 +98,7 @@ Joomla.submitbutton = function(task) {
 		<?php echo JHtml::_('bootstrap.addTab', 'trackerTorrent', 'extra_info', JText::_('COM_TRACKER_TORRENT_EXTRA_INFO', true)); ?>
 
 			<div class="row-fluid">
-				<div class="span4">
+				<div class="span6">
 		
 			<?php if ($params->get('forum_post_id') == 1) { ?>
 				<div class="control-group">
@@ -150,7 +150,7 @@ Joomla.submitbutton = function(task) {
 
 				<span id="image_file_field" class="hide">
 					<div class="control-group">
-						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_IMAGE_FILE' ); ?></div>
+						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_NEW_IMAGE_FILE' ); ?></div>
 						<div class="controls"><input type="file" name="image_file" id="image_file" value="" class="inputbox" size="50" /></div>
 					</div>
 				</span>
@@ -181,7 +181,7 @@ Joomla.submitbutton = function(task) {
 
 				<span id="nfo_file_field" class="hide">
 					<div class="control-group">
-						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_NFO_FILE' ); ?></div>
+						<div class="control-label"><?php echo JText::_( 'COM_TRACKER_TORRENT_NEW_NFO_FILE' ); ?></div>
 						<div class="controls"><input type="file" name="nfo_file" id="nfo_file" value="" class="inputbox" size="50" /></div>
 					</div>
 				</span>
@@ -198,7 +198,7 @@ Joomla.submitbutton = function(task) {
 			</div>
 
 			<?php if ($params->get('use_image_file')) : ?>
-				<div class="span4 text-center">
+				<div class="span3 text-center">
 					<?php 
 						$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
 						$image_file_display = $this->form->getValue('image_file');
@@ -219,22 +219,28 @@ Joomla.submitbutton = function(task) {
 			<?php endif; ?>
 
 			<?php if ($params->get('use_nfo_files')) : ?>
-				<div class="span4 text-center">
+				<div class="span3 text-center">
 					<?php
 						$nfo_file = $this->form->getValue('nfo_file');
 						$nfo_image_file = $this->item->fid.'_'.$nfo_file.'.png';
 
 						if (file_exists($_SERVER['DOCUMENT_ROOT'].JURI::root(true).'/images/tracker/nfofiles/'.$nfo_image_file) && !empty($nfo_file)) :
 							$nfo_image_display = JURI::root().'images/tracker/nfofiles/'.$nfo_image_file;
+							?>
+								<a class="modalpopup" href="<?php echo $nfo_image_display; ?>" >
+									<img style="width: <?php echo $params->get('image_width')*2; ?>px;" class="img-polaroid" src="<?php echo $nfo_image_display; ?>" />
+								</a>
+							<?php 
 						elseif (!file_exists($_SERVER['DOCUMENT_ROOT'].JURI::root(true).'/images/tracker/nfofiles/'.$nfo_image_file) && !empty($nfo_file)) :
 							$nfo_image_display = TrackerHelper::createNFO($this->item->fid.'_'.$nfo_file.'.nfo', $nfo_image_file);
-						else :
-							$nfo_image_display = JURI::root().$params->get('default_image_file');
+							?>
+								<a class="modalpopup" href="<?php echo $nfo_image_display; ?>" >
+									<img style="width: <?php echo $params->get('image_width')*2; ?>px;" class="img-polaroid" src="<?php echo $nfo_image_display; ?>" />
+								</a>
+							<?php
 						endif;
 					?>
-					<a class="modalpopup" href="<?php echo $nfo_image_display; ?>" >
-						<img style="width: <?php echo $params->get('image_width'); ?>px;" class="img-polaroid" src="<?php echo $nfo_image_display; ?>" />
-					</a>
+					
 				</div>
 			<?php endif; ?>
 			
@@ -268,6 +274,7 @@ Joomla.submitbutton = function(task) {
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="old_filename" value="<?php echo $this->form->getValue('filename'); ?>" />
+	<input type="hidden" name="old_nfofile" value="<?php echo $this->form->getValue('nfo_file'); ?>" />
 	<input type="hidden" name="fid" value="<?php echo $this->form->getValue('fid'); ?>" />
 	<input type="hidden" name="info_hash" value="<?php echo bin2hex($this->form->getValue('info_hash')); ?>" />
 	<?php echo JHtml::_('form.token'); ?>

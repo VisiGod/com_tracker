@@ -146,14 +146,14 @@ $torrentType = array(
 					<?php endif; ?>
 					<?php if ($params->get('tl_size')) : ?>
 						<th id="torrentlist_header_size" class="nowrap">
-							<div class="text-center middle">
+							<div class="text-right">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_SIZE', 't.size', $listDirn, $listOrder); ?>
 							</div>
 						</th>
 					<?php endif; ?>
 					<?php if ($params->get('tl_created_time')) : ?>
 						<th id="torrentlist_header_created_time">
-							<div class="text-center middle">
+							<div class="text-right">
 								<?php echo JHtml::_('grid.sort', 'COM_TRACKER_TORRENT_CREATED_TIME', 't.created_time', $listDirn, $listOrder); ?>
 							</div>
 						</th>
@@ -395,46 +395,75 @@ $torrentType = array(
 
 		<?php 
 			if ($params->get('enable_torrent_type') && ( $params->get('enable_torrent_type_new') || $params->get('enable_torrent_type_top') ||
-				$params->get('enable_torrent_type_hot') || $params->get('enable_torrent_type_semifree') || $params->get('enable_torrent_type_free'))) : ?>
-		<div>
-			<div><h2><?php echo JText::_( 'COM_TRACKER_LEGEND' );?>:</h2></div>
-			<br />
-			<?php if ($params->get('enable_torrent_type_new')) : ?>
-			<div>
-				<img src="<?php echo JURI::base().$params->get('torrent_type_new_image');?>" border="0" />
-				&nbsp;-&nbsp;
-				<?php echo JText::sprintf($params->get('torrent_type_new_text'), $params->get('torrent_type_new_value')); ?>
-			</div>
-			<?php endif; ?>
-			<?php if ($params->get('enable_torrent_type_top')) : ?>
-			<div>
-				<img src="<?php echo JURI::base().$params->get('torrent_type_top_image');?>" border="0" />
-				&nbsp;-&nbsp;
-				<?php echo JText::sprintf($params->get('torrent_type_top_text'), $params->get('torrent_type_top_value')); ?>
-			</div>
-			<?php endif; ?>
-			<?php if ($params->get('enable_torrent_type_hot')) : ?>
-			<div>
-				<img src="<?php echo JURI::base().$params->get('torrent_type_hot_image');?>" border="0" />
-				&nbsp;-&nbsp;
-				<?php echo JText::sprintf($params->get('torrent_type_hot_text'), $params->get('torrent_type_hot_value')); ?>
-			</div>
-			<?php endif; ?>
-			<?php if ($params->get('enable_torrent_type_semifree')) : ?>
-			<div>
-				<img src="<?php echo JURI::base().$params->get('torrent_type_semifree_image');?>" border="0" />
-				&nbsp;-&nbsp;
-				<?php echo JText::sprintf($params->get('torrent_type_semifree_text'), $params->get('torrent_type_semifree_value')); ?>
-			</div>
-			<?php endif; ?>
-			<?php if ($params->get('enable_torrent_type_free')) : ?>
-			<div>
-				<img src="<?php echo JURI::base().$params->get('torrent_type_free_image');?>" border="0" />
-				&nbsp;-&nbsp;
-				<?php echo $params->get('torrent_type_free_text');?>
-			</div>
-			<?php endif; ?>
-		</div>
+				$params->get('enable_torrent_type_hot') || $params->get('enable_torrent_type_semifree') || $params->get('enable_torrent_type_free') ||
+				$params->get('enable_download_images_legend'))) : ?>
+
+			<table class="category table">
+					<tr>
+						<td><h2><?php echo JText::_( 'COM_TRACKER_LEGEND' );?>:</h2></td>
+					</tr>
+					<tr>
+						<?php if ($params->get('enable_torrent_type') && ( $params->get('enable_torrent_type_new') || $params->get('enable_torrent_type_top') ||
+								  $params->get('enable_torrent_type_hot') || $params->get('enable_torrent_type_semifree') || $params->get('enable_torrent_type_free'))) : ?>
+							<td>
+								<?php if ($params->get('enable_torrent_type_new')) : ?>
+								<div>
+									<img src="<?php echo JURI::base().$params->get('torrent_type_new_image');?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo JText::sprintf($params->get('torrent_type_new_text'), $params->get('torrent_type_new_value')); ?>
+								</div>
+								<?php endif; ?>
+								<?php if ($params->get('enable_torrent_type_top')) : ?>
+								<div>
+									<img src="<?php echo JURI::base().$params->get('torrent_type_top_image');?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo JText::sprintf($params->get('torrent_type_top_text'), $params->get('torrent_type_top_value')); ?>
+								</div>
+								<?php endif; ?>
+								<?php if ($params->get('enable_torrent_type_hot')) : ?>
+								<div>
+									<img src="<?php echo JURI::base().$params->get('torrent_type_hot_image');?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo JText::sprintf($params->get('torrent_type_hot_text'), $params->get('torrent_type_hot_value')); ?>
+								</div>
+								<?php endif; ?>
+								<?php if ($params->get('enable_torrent_type_semifree')) : ?>
+								<div>
+									<img src="<?php echo JURI::base().$params->get('torrent_type_semifree_image');?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo JText::sprintf($params->get('torrent_type_semifree_text'), $params->get('torrent_type_semifree_value')); ?>
+								</div>
+								<?php endif; ?>
+								<?php if ($params->get('enable_torrent_type_free')) : ?>
+								<div>
+									<img src="<?php echo JURI::base().$params->get('torrent_type_free_image');?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo $params->get('torrent_type_free_text');?>
+								</div>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
+						<?php if ($params->get('enable_download_images_legend')) : ?>
+							<td>
+								<div>
+									<img src="<?php echo JURI::base().'components/com_tracker/assets/images/download_good.png';?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_GOOD' );?>
+								</div>
+								<div>
+									<img src="<?php echo JURI::base().'components/com_tracker/assets/images/download_medium.png';?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_MEDIUM' );?>
+								</div>
+								<div>
+									<img src="<?php echo JURI::base().'components/com_tracker/assets/images/download_bad.png';?>" border="0" />
+									&nbsp;-&nbsp;
+									<?php echo JText::_( 'COM_TRACKER_TORRENT_DOWNLOAD_BAD' );?>
+								</div>
+							</td>
+						<?php endif; ?>
+					</tr>
+			</table>
 		<?php endif; ?>
 
 		<div>
@@ -450,4 +479,4 @@ $torrentType = array(
 		</div>
 
 	</form>
-<?php endif; ?>
+<?php endif;

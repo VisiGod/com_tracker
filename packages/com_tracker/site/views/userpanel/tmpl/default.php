@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 // First we need to know if we chose to display the user 'username' or the user 'name'
 if ($this->params->get('user_in_torrent_details') == 1) $display_user = 'name'; //the name
 else $display_user = 'username'; //the username
+
+$doc = JFactory::getDocument();
+$doc->addStyleSheet('components/com_tracker/assets/css/template.css');
 ?>
 	<div style="font-size: medium; margin-left:35px; wrap:nowrap;">
 		<span style="display:inline-block; vertical-align:middle"><b><?php echo JText::_( 'COM_TRACKER_DETAILS_FOR' ); ?>:</b>&nbsp;<i><?php echo $this->item->$display_user;?></i>&nbsp;&nbsp;&nbsp;</span>

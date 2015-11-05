@@ -30,7 +30,7 @@ $params = JComponentHelper::getParams('com_tracker');
 				<div><?php echo JText::_('COM_TRACKER_CONTROL_PANEL_ICONS');?>:&nbsp;<a href="http://www.deleket.com/" target="_blank">Jojo</a></div>
 				<div><?php echo JText::_('COM_TRACKER_CONTROL_PANEL_GITHUB');?>:&nbsp;<a href="https://github.com/VisiGod/com_tracker" target="_blank">GitHub</a></div>
 				<div><?php echo JText::_('COM_TRACKER_CONTROL_PANEL_TRANSIFEX');?>:&nbsp;<a href="https://www.transifex.com/projects/p/com_tracker/" target="_blank">Transifex</a></div>
-				</div>
+			</div>
 			<div class="span9">
 				<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_tracker&amp;view=torrents', 'torrent-48x48.png', JText::_( 'COM_TRACKER_TORRENTS' ) );?></div>
 				<div class="span2" style="display: block;margin:0 auto;"><?php TrackerHelper::quickiconButton( 'index.php?option=com_categories&amp;extension=com_tracker', 'category-48x48.png', JText::_( 'JCATEGORIES' ) );?></div>
@@ -75,4 +75,3 @@ $params = JComponentHelper::getParams('com_tracker');
 
 		</div>
 	</div>
-</div>

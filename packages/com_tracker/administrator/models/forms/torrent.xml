@@ -32,7 +32,9 @@
 
 		<field name="licenseID" type="sql" default="10" label="COM_TRACKER_TORRENT_LICENSE" description="" query="SELECT id, shortname FROM #__tracker_licenses WHERE state = 1" key_field="id" value_field="shortname" />
 
-		<field name="image_file" type="media" label="COM_TRACKER_TORRENT_IMAGE_FILE" directory="tracker/torrent_image" preview="true" size="60"/>
+		<field name="image_file" type="media" class="input-xlarge" label="COM_TRACKER_TORRENT_IMAGE_FILE" directory="tracker/torrent_image" preview="true" size="60"/>
+
+		<field name="nfo_file" type="media" class="input-xlarge" label="COM_TRACKER_TORRENT_NFO_FILE" directory="tracker/nfofiles" preview="false" size="60"/>
 
 		<field name="tags" type="textarea" required="false" label="COM_TRACKER_TORRENT_TAGS" rows="3" cols="50" filter="raw" />
 

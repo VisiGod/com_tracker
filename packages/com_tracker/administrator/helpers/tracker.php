@@ -891,22 +891,23 @@ class TrackerHelper extends JHelperContent {
 
 		$image = ImageCreate ($width, $height);
 
-		$white = ImageColorAllocate ($image, 255,255,255);
-		imagecolortransparent ($image, $white);
+		// Define the background color
+		$original_background_color = ltrim ($params->get('nfo_background_color'), '#');
+		$rgb_background = str_split($original_background_color, 2);
+		$background_color = ImageColorAllocate ($image, hexdec($rgb_background[0]), hexdec($rgb_background[1]), hexdec($rgb_background[2]));
+		//imagecolortransparent ($image, $background_color);
+		imagefill($image, 0, 0, $background_color);
 
-		//nfo_background_color
-		//list($bk_red, $bk_green, $bk_blue) = split('[/.-]', $date);
-
-		$black = ImageColorAllocate ($image, 0, 0, 0);
-
+		// Define the text color
+		$original_text_color = ltrim($params->get('nfo_text_color'), '#');
+		$rgb_text = str_split($original_text_color, 2);
+		$text_color = ImageColorAllocate ($image, hexdec($rgb_text[0]), hexdec($rgb_text[1]), hexdec($rgb_text[2]));
 		$i = $fontheight;
 		foreach ( $nfolines as $line ) {
-			ImageString ($image, $font , $fontwidth, $i, $line, $black);
+			ImageString ($image, $font , $fontwidth, $i, $line, $text_color);
 			$i += $fontheight;
 		}
-
-		ImageString ($image, $font , $width, $i, '', $black);
-
+		ImageString ($image, $font , $width, $i, '', $text_color);
 		ImageAlphaBlending($image, true);
 
 		$nfo_image_file_new = JPATH_SITE.DIRECTORY_SEPARATOR.'images/tracker/nfofiles/'.$nfo_image_file;
