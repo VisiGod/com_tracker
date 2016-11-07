@@ -74,6 +74,7 @@ class TrackerModelStatistics extends JModelItem {
 				  ->join('LEFT', '`#__users` AS u ON u.id = tu.id')
 				  ->join('LEFT', '`#__tracker_groups` AS tg ON tg.id = tu.groupID')
 				  ->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID')
+				  ->having('tu.downloaded > 1')
 				  ->order('tu.downloaded DESC LIMIT 0,'.$params->get('number_top_downloaders', 5));
 			$db->setQuery($query);
 			$total_torrents->top_downloaders = $db->loadObjectList();
@@ -88,6 +89,7 @@ class TrackerModelStatistics extends JModelItem {
 				  ->join('LEFT', '`#__tracker_users` AS tu ON tu.id = u.id')
 				  ->join('LEFT', '`#__tracker_groups` AS tg ON tg.id = tu.groupID')
 				  ->join('LEFT', '`#__tracker_countries` AS c on c.id = tu.countryID')
+				  ->having('tu.uploaded > 1')
 				  ->order('tu.uploaded DESC LIMIT 0,'.$params->get('number_top_uploaders', 5));
 			$db->setQuery($query);
 			$total_torrents->top_uploaders = $db->loadObjectList();    

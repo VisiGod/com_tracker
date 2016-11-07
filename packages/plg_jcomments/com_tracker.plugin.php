@@ -2,34 +2,19 @@
 defined('_JEXEC') or die;
 
 class jc_com_tracker extends JCommentsPlugin {
+	function getObjectInfo($id, $language = null) {
+		$info = new JCommentsObjectInfo();
 
-	public function getObjectTitle( $id ) {
-		// Data load from database by given id 
-		$db		= JFactory::getDBO();
-		$query  = $db->getQuery(true);
-		$query->select('name')
-			  ->from('`#__tracker_torrents`')
-			  ->where('fid = '.(int) $id);
-		$db->setQuery($query);
-		return $db->loadResult();
-	}
+		$db = JFactory::getDBO();
+		$db->setQuery('SELECT name, uploader, categoryID FROM #__tracker_torrents WHERE fid =' . $id);
+		$row = $db->loadObject();
 
-	public function getObjectLink( $id ) {
-		// Itemid meaning of our component
-		$_Itemid = JCommentsPlugin::getItemid( 'com_tracker' );
+		$info->title = $row->name;
+		$info->userid = $row->uploader;
+		$info->category_id = $row->categoryID;
 
-		// url link creation for given object by id 
-		$link = JRoute::_( 'index.php?option=com_tracker&view=torrent&id='. $id . '&Itemid=' . $_Itemid );
-		return $link;
-	}
+		$info->link = JRoute::_('index.php?option=com_tracker&view=torrent&id=' . $id);
 
-	public function getObjectOwner( $id ) {
-		$db		= JFactory::getDBO();
-		$query  = $db->getQuery(true);
-		$query->select('uploader, fid')
-			  ->from('`#__tracker_torrents`')
-			  ->where('fid = '.(int) $id);
-		$db->setQuery($query);
-		return $db->loadResult();
+	return $info;
 	}
 }

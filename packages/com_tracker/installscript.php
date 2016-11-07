@@ -14,7 +14,7 @@ class com_trackerInstallerScript {
 
 	function update( $parent ) {
 		$jversion = new JVersion();
-		
+
 		// Installing component manifest file version
 		$this->release = $parent->get( "manifest" )->version;
 
@@ -30,7 +30,7 @@ class com_trackerInstallerScript {
 			$db->setQuery('ALTER TABLE #__tracker_files_users ADD `seeding_time` INT NOT NULL AFTER `up_rate`');
 			$db->execute();
 		}
-		
+
 		// Release 3.3.1-dev - The introduction of RSS
 		if ($this->release < '3.3.1-dev') {
 			$db = JFactory::getDbo();
@@ -66,9 +66,17 @@ class com_trackerInstallerScript {
 			$db->setQuery('ALTER TABLE #__tracker_torrents ADD `nfo_file` VARCHAR(255) AFTER `tags`');
 			$db->execute();
 		}
+
+		if ($this->release < '3.3.3-dev') {
+		
+			// Added nfo file support
+			$db = JFactory::getDbo();
+			//$db->setQuery('ALTER TABLE #__tracker_torrents ADD `nfo_file` VARCHAR(255) AFTER `tags`');
+			$db->execute();
+		}
 	}
 	
-	public function postflight($type, $parent) {
+	function postflight($type, $parent) {
 		if ($type == 'install') {
 			$db = JFactory::getDBO();
 			$app = JFactory::getApplication();
@@ -374,4 +382,5 @@ class com_trackerInstallerScript {
 		while($nc-->0) $r.=$a{mt_rand(0,$l)};
 		return $r;
 	}
+
 }

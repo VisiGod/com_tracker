@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.0" method="upgrade">
-	<name>COM_TRACKER</name>
-	<creationDate>2015-02-21</creationDate>
+	<name>com_tracker</name>
+	<creationDate>February 2015</creationDate>
 	<copyright>Copyright (C) 2007 - 2015 Hugo Carvalho (www.visigod.com). All rights reserved.</copyright>
 	<license>GNU General Public License version 3 or later; see http://www.gnu.org/licenses/gpl-3.0.html</license>
 	<author>Hugo Carvalho</author>
